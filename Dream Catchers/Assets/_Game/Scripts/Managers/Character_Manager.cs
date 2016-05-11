@@ -12,6 +12,11 @@ public class Character_Manager : MonoBehaviour {
     public Vector3 position;
     public bool invincible = false;
 
+    public int totalMemoryFragmentsCollected;
+    public int totalOtherCollectsCollected;
+
+
+
 
     //may not be needed depends what game object this is on or if it just referes to a specific script
     public GameObject Character;
