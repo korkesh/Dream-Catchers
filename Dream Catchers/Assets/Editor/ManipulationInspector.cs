@@ -8,6 +8,13 @@ public class ManipulationInspector : Editor {
 
     AnimBool m_ShowAppearenceFields;
     bool appearenceBtn = false;
+
+    AnimBool m_ShowPhysicsFields;
+    bool physicsBtn = false;
+
+    bool isPlatform = false;
+
+
     ManipulationScript manipScript;
 
     void OnEnable()
@@ -16,13 +23,21 @@ public class ManipulationInspector : Editor {
 
         m_ShowAppearenceFields = new AnimBool(false);
         m_ShowAppearenceFields.valueChanged.AddListener(Repaint);
+
+        m_ShowPhysicsFields = new AnimBool(false);
+        m_ShowPhysicsFields.valueChanged.AddListener(Repaint);
+
+        if (manipScript.objectChangeType == ManipulationScript.CHANGE_TYPE.PLATFORM) isPlatform = true;
+
     }
 
     public override void OnInspectorGUI()
     {
 
-        EditorGUILayout.LabelField ("Current State:     " + manipScript.currentObjectState.ToString());
+        EditorGUILayout.LabelField ("Current State:     " + manipScript.currentObjectState.ToString(), EditorStyles.boldLabel);
+        EditorGUILayout.LabelField(" ");
 
+        // Appearence Changes
         appearenceBtn = EditorGUILayout.Toggle("Appearence Change", appearenceBtn);
         if (appearenceBtn)
         {
@@ -38,16 +53,17 @@ public class ManipulationInspector : Editor {
 
             EditorGUI.indentLevel++;
 
-            EditorGUILayout.PrefixLabel("Texture");
+            EditorGUILayout.LabelField("Texture", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
-            manipScript.dreamTexture = (Texture)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Dream", manipScript.dreamTexture, typeof(Texture), false);
-            manipScript.nightmareTexture = (Texture)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Nightmare", manipScript.nightmareTexture, typeof(Texture), false);
+            manipScript.dreamTexture = (Texture)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Dream", manipScript.dreamTexture, typeof(Texture), true);
+            manipScript.nightmareTexture = (Texture)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Nightmare", manipScript.nightmareTexture, typeof(Texture), true);
             EditorGUI.indentLevel--;
 
-            EditorGUILayout.PrefixLabel("Mesh");
+            EditorGUILayout.LabelField(" ");
+            EditorGUILayout.LabelField("Mesh", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
-            manipScript.dreamMesh = (Mesh)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Dream", manipScript.dreamMesh, typeof(Mesh), false);
-            manipScript.nightmareMesh = (Mesh)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Nightmare", manipScript.nightmareMesh, typeof(Mesh), false);
+            manipScript.dreamMesh = (Mesh)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Dream", manipScript.dreamMesh, typeof(Mesh), true);
+            manipScript.nightmareMesh = (Mesh)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Nightmare", manipScript.nightmareMesh, typeof(Mesh), true);
             EditorGUI.indentLevel--;
 
 
@@ -56,7 +72,50 @@ public class ManipulationInspector : Editor {
 
         EditorGUILayout.EndFadeGroup();
 
-        DrawDefaultInspector();
+        // Physics Changes
+        EditorGUILayout.LabelField(" ");
+        physicsBtn = EditorGUILayout.Toggle("Physics Change", physicsBtn);
+        if (physicsBtn)
+        {
+            m_ShowPhysicsFields.value = true;
+        }
+        else
+        {
+            m_ShowPhysicsFields.value = false;
+        }
+
+        if (EditorGUILayout.BeginFadeGroup(m_ShowPhysicsFields.faded))
+        {
+
+            EditorGUI.indentLevel++;
+
+            EditorGUILayout.LabelField("Colliders", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
+            manipScript.dreamCollider = (Collider)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Dream", manipScript.dreamCollider, typeof(Collider), true);
+            manipScript.nightmareCollider = (Collider)EditorGUI.ObjectField(GUILayoutUtility.GetRect(15, 15, "TextField"), "Nightmare", manipScript.nightmareCollider, typeof(Collider), true);
+            EditorGUI.indentLevel--;
+        }
+
+        EditorGUILayout.EndFadeGroup();
+
+        // Misc Properties
+        EditorGUILayout.LabelField(" ");
+        EditorGUILayout.LabelField("Misc. Properties", EditorStyles.boldLabel);
+
+        GUIContent platformLabel = new GUIContent("Make Platform", "Requires Dream Mesh and Dream Collider");
+        isPlatform = EditorGUILayout.Toggle(platformLabel, isPlatform);
+        if (isPlatform)
+        {
+            manipScript.objectChangeType = ManipulationScript.CHANGE_TYPE.PLATFORM;
+        }
+        else 
+        {
+            manipScript.objectChangeType = ManipulationScript.CHANGE_TYPE.NONE;
+        }
+
+
+
+        //DrawDefaultInspector();
 
 
     }
