@@ -10,4 +10,22 @@ public class TempSwitchScene : MonoBehaviour {
     {
         SceneManager.LoadScene(NextScene);
     }
+
+    public void newGame()
+    {
+        Game_Manager.instance.NewGame();
+        SceneManager.LoadScene(NextScene);
+    }
+
+    public void load()
+    {
+        if(PlayerPrefs.HasKey("CurrentHealth"))
+        {
+            SceneManager.LoadScene(NextScene);
+        }
+        else
+        {
+            newGame();
+        }
+    }
 }

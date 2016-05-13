@@ -1,12 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Xml;
+
 
 public class Level_Manager : MonoBehaviour {
 
     public static Level_Manager instance = null;
     public Game_Manager.State currentState;
     public string SceneName;
+    public Levels LevelName;
+
+    public enum Levels
+    {
+        CLOWNDREAM
+    }
+
+    public Levels newGameLevel;
+    public string newGameScene;
+
+    public int totalNumMemoryFrag;
+    public int totalNumCollectibles;
+
+    public int collectedMemoryFrag;
+    public int collectedCollectibles;
 
     void Awake()
     {
@@ -39,15 +54,14 @@ public class Level_Manager : MonoBehaviour {
 	
 	}
 
-    //load info
-    public void Load(XmlElement node)
+
+    public void NewGamePlayerPrefs()
     {
-
+        PlayerPrefs.SetString("CurrentLevel", newGameLevel.ToString());
+        PlayerPrefs.SetString("CurrentScene", newGameScene);
+        PlayerPrefs.SetInt("TotalNumMemoryFrag", totalNumMemoryFrag);
+        PlayerPrefs.SetInt("TotalNumCollectibles", totalNumCollectibles);
+        
     }
-
-    //save info
-    public void Save(XmlElement node)
-    {
-
-    }
+   
 }

@@ -57,17 +57,12 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_Game\Scripts\Collectible\Items.cs" />
     <Compile Include="Assets\_Game\Scripts\Managers\AI_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\Managers\Audio_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\Managers\Character_Manager.cs" />
@@ -75,6 +70,7 @@
     <Compile Include="Assets\_Game\Scripts\Managers\Game_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\Managers\Input_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\Managers\Level_Manager.cs" />
+    <Compile Include="Assets\_Game\Scripts\Managers\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\Managers\UI_Manager.cs" />
     <Compile Include="Assets\_Game\UISprites\Animations\TempSwitchScene.cs" />
   </ItemGroup>

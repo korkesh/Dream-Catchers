@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Xml;
+
 
 public class Game_Manager : MonoBehaviour {
 
@@ -69,15 +69,12 @@ public class Game_Manager : MonoBehaviour {
 	
 	}
 
-    //load info
-    public void Load(string address)
+    public void NewGame()
     {
-
+        PlayerPrefs.DeleteAll();
+        Level_Manager.instance.NewGamePlayerPrefs();
+        Character_Manager.instance.NewGamePlayerPrefs();
     }
 
-    //save info
-    public void Save(string address)
-    {
 
-    }
 }

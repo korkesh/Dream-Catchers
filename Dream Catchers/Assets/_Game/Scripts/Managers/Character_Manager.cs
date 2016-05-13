@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Xml;
+
 
 public class Character_Manager : MonoBehaviour {
 
@@ -15,8 +15,8 @@ public class Character_Manager : MonoBehaviour {
     public int totalMemoryFragmentsCollected;
     public int totalOtherCollectsCollected;
 
-
-
+    public int newGameHealth = 5;
+    public Vector3 newGamePosition;
 
     //may not be needed depends what game object this is on or if it just referes to a specific script
     public GameObject Character;
@@ -86,15 +86,29 @@ public class Character_Manager : MonoBehaviour {
 	}
 
 
-    //load info
-    public void Load(XmlElement node)
+    public void NewGamePlayerPrefs()
     {
-
+        PlayerPrefs.SetInt("CurrentHealth", newGameHealth);
+        PlayerPrefs.SetInt("MaxHealth", newGameHealth);
+        PlayerPrefs.SetFloat("xPos", newGamePosition.x);
+        PlayerPrefs.SetFloat("yPos", newGamePosition.y);
+        PlayerPrefs.SetFloat("zPos", newGamePosition.z);
+        PlayerPrefs.SetInt("TotalMemoryFragsCollected", 0);
+        PlayerPrefs.SetInt("TotalOtherCollectiblesCollected", 0);
+        totalMemoryFragmentsCollected = 0;
+        totalOtherCollectsCollected = 0;
     }
 
-    //save info
-    public void Save(XmlElement node)
-    {
 
+    public void CollectMemoryFrag()
+    {
+        totalMemoryFragmentsCollected++;
+        PlayerPrefs.SetInt("TotalMemoryFragsCollected", totalMemoryFragmentsCollected);
+    }
+
+    public void CollectOtherCollectible()
+    {
+        totalOtherCollectsCollected++;
+        PlayerPrefs.SetInt("TotalOtherCollectiblesCollected", totalOtherCollectsCollected);
     }
 }
