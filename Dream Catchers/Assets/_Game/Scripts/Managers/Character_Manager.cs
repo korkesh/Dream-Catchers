@@ -6,6 +6,7 @@ public class Character_Manager : MonoBehaviour {
 
     public static Character_Manager instance = null;
 
+    //all 
     public int currentHealth = 5;
     public int maxHealth = 5;
     public Game_Manager.State state  = Game_Manager.State.NORMAL;
@@ -53,6 +54,8 @@ public class Character_Manager : MonoBehaviour {
         {
             currentHealth -= damage;
         }
+
+        PlayerPrefs.SetInt("CurrentHealth", currentHealth);
     }
 
     //heal
@@ -67,12 +70,17 @@ public class Character_Manager : MonoBehaviour {
         {
             currentHealth += health;
         }
+
+        PlayerPrefs.SetInt("CurrentHealth", currentHealth);
     }
 
+    //increase characters maxhealth
     public void increaseMaxHealth(int addedHealth)
     {
         maxHealth += addedHealth;
         currentHealth += addedHealth;
+        PlayerPrefs.SetInt("MaxHealth", maxHealth);
+        PlayerPrefs.SetInt("CurrentHealth", currentHealth);
     }
 
 	// Use this for initialization
@@ -86,6 +94,7 @@ public class Character_Manager : MonoBehaviour {
 	}
 
 
+    //creates new keys for player for a new game and sets all to default values
     public void NewGamePlayerPrefs()
     {
         PlayerPrefs.SetInt("CurrentHealth", newGameHealth);
@@ -97,15 +106,19 @@ public class Character_Manager : MonoBehaviour {
         PlayerPrefs.SetInt("TotalOtherCollectiblesCollected", 0);
         totalMemoryFragmentsCollected = 0;
         totalOtherCollectsCollected = 0;
+        currentHealth = newGameHealth;
+        maxHealth = newGameHealth;
     }
 
 
+    //records collecting memory fragment
     public void CollectMemoryFrag()
     {
         totalMemoryFragmentsCollected++;
         PlayerPrefs.SetInt("TotalMemoryFragsCollected", totalMemoryFragmentsCollected);
     }
 
+    //recordscollecting other stuff
     public void CollectOtherCollectible()
     {
         totalOtherCollectsCollected++;

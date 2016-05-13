@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+
+//temp script for changing the scene should be taken out later
 public class TempSwitchScene : MonoBehaviour {
 
     public string NextScene;
@@ -17,6 +19,8 @@ public class TempSwitchScene : MonoBehaviour {
         SceneManager.LoadScene(NextScene);
     }
 
+
+    //check if theres a game to load if not then it starts a new game
     public void load()
     {
         if(PlayerPrefs.HasKey("CurrentHealth"))

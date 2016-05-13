@@ -20,6 +20,8 @@ public class Items : MonoBehaviour {
 	// Use this for initialization
     void Awake()
     {
+
+        //if the key exists in player prefsit checks to see if it is a 1 (meaning its been picked up), if so the object is deleted
 	        key = Level.ToString() + Scene + name;
             if(PlayerPrefs.HasKey(key))
             {
@@ -31,6 +33,7 @@ public class Items : MonoBehaviour {
             }
             else
             {
+                //object isnt in player prefs .. it is now added
                 PlayerPrefs.SetInt(key, 0);
             }
 	}
@@ -40,6 +43,7 @@ public class Items : MonoBehaviour {
 	
 	}
 
+    //temp trigger stuff to pick up items and modify PlayerPrefs
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.name == "Player")

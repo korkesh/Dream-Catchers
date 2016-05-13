@@ -69,6 +69,8 @@ public class Game_Manager : MonoBehaviour {
 	
 	}
 
+
+    // new game deletes all previous playerprefs and gets level manager and character manager to add new ones with default values
     public void NewGame()
     {
         PlayerPrefs.DeleteAll();

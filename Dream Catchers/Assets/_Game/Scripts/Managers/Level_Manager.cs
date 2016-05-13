@@ -55,6 +55,7 @@ public class Level_Manager : MonoBehaviour {
 	}
 
 
+    //creates new game in player prefs
     public void NewGamePlayerPrefs()
     {
         PlayerPrefs.SetString("CurrentLevel", newGameLevel.ToString());

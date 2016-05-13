@@ -17,9 +17,10 @@ public class TempGUi : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Health.text = Character_Manager.instance.currentHealth.ToString();
-        MemoryFrags.text = Character_Manager.instance.totalMemoryFragmentsCollected.ToString();
-        OtherCollectibles.text = Character_Manager.instance.totalOtherCollectsCollected.ToString();
+        //simple ui test for generic info
+        Health.text = " Health: " + Character_Manager.instance.currentHealth.ToString();
+        MemoryFrags.text = " MemoryFragments: " + Character_Manager.instance.totalMemoryFragmentsCollected.ToString();
+        OtherCollectibles.text = " Other: " + Character_Manager.instance.totalOtherCollectsCollected.ToString();
 
         if(Input.GetKeyDown(KeyCode.M))
         {
