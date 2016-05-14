@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectible\Items.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\Temp\TempSwitchScene.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\_Temp\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\AI_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Audio_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Character_Manager.cs" />
@@ -76,8 +76,8 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Input_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Level_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Singleton.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Temp\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\UI_Manager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\_Temp\TempSwitchScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
