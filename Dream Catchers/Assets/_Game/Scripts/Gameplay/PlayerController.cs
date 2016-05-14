@@ -3,124 +3,198 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum PlayerState
+    {
+        idle,
+        walk,
+        run,
+        jump,
+        fall
+    }
+
     //===================================
     // Fields
     //===================================
 
+    public PlayerState state;
+
     public Vector3 pOrigin; // center of collider
 
+    public Vector3 velocity; // movement vector (distance/second)
+
     public Vector3 camForward; // forward vector relative to camera
+    public Vector3 camRight; // right vector relative to camera
 
     public float hAxis;
     public float vAxis;
 
     public CapsuleCollider pCollider;
-   
 
-	// Use this for initialization
-	void Start ()
+    public float jumpTimer; // controls position over time
+    public bool doubleJump = true; // todo
+
+
+    //===================================
+    // Editor Fields
+    //===================================
+
+    public float moveSpeed; // walk/run speed
+    public float maxSpeed; // max run speed
+    public float gravity; // force of gravity
+    public float maxFallSpeed;
+
+    public float runThreshold; // at what speed walk transitions to run
+
+    //===================================
+    // Functions
+    //===================================
+
+    void Start()
     {
         pCollider = GetComponent<CapsuleCollider>();
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        pOrigin = transform.position + pCollider.center;
+
+        state = PlayerState.fall; // temp
+    }
+
+    void Update()
     {
         CheckInput();
 
-        camForward = Camera.main.transform.forward;
-        camForward.y = 0;
-        camForward.Normalize();
-	}
+        UpdateState();
 
+        Movement();
+    }
 
     public void CheckInput()
     {
+        // get input axes
         hAxis = Input.GetAxis("Horizontal");
         vAxis = Input.GetAxis("Vertical");
-    }
 
-
-    //==================================
-    // Collisions
-    //==================================
-    // TODO: move to a physics workspace
-
-    public void AABB_AABB_Intersect()
-    {
-        GameObject[] floors = GameObject.FindGameObjectsWithTag("floor");
-        BoxCollider playerCollider = GetComponent<BoxCollider>();
-
-        foreach (GameObject floor in floors)
+        // check button events and update states
+        if (Input.GetAxis("Fire1") == 1) // is input.getaxis the best approach to button checks?
         {
-            BoxCollider collider = floor.GetComponent<BoxCollider>();
-
-            Vector3 oOrigin = collider.transform.position + collider.center;
-
-            // AABB / AABB collision condition
-            if ((pOrigin.x - playerCollider.bounds.extents.x) <= (oOrigin.x + collider.bounds.extents.x) &&
-                (pOrigin.x + playerCollider.bounds.extents.x) >= (oOrigin.x - collider.bounds.extents.x) &&
-                (pOrigin.y - playerCollider.bounds.extents.y) <= (oOrigin.y + collider.bounds.extents.y) &&
-                (pOrigin.y + playerCollider.bounds.extents.y) >= (oOrigin.y - collider.bounds.extents.y) &&
-                (pOrigin.z - playerCollider.bounds.extents.z) <= (oOrigin.z + collider.bounds.extents.z) &&
-                (pOrigin.z + playerCollider.bounds.extents.z) >= (oOrigin.z - collider.bounds.extents.z))
+            // jump
+            if (state == PlayerState.idle || state == PlayerState.walk || state == PlayerState.run)
             {
-                Collide(collider);
+                state = PlayerState.jump;
+                jumpTimer = 0;
+            }
+            else if (state == PlayerState.jump && doubleJump)
+            {
+                // todo: doublejump
             }
         }
     }
 
-
-    public bool Point_Sphere_Intersect(Vector3 point, SphereCollider sphere)
+    // checks state-change conditions at the beginning of the frame
+    public void UpdateState()
     {
-        float distance = Mathf.Sqrt((point.x - sphere.center.x) * (point.x - sphere.center.x) +
-                                    (point.y - sphere.center.y) * (point.y - sphere.center.y) +
-                                    (point.z - sphere.center.z) * (point.z - sphere.center.z));
-
-        return distance < sphere.radius;
+        // transition to falling state
+        if (state == PlayerState.idle || state == PlayerState.run || state == PlayerState.walk)
+        {
+            // ground check (TODO implement optimal solution)
+        }
     }
 
-
-    // SPHERE/SPHERE COLLISION:
-    public bool Sphere_Sphere_Intersect(SphereCollider sphere, SphereCollider other)
+    public void Movement()
     {
-        float distance = Mathf.Sqrt((sphere.center.x - other.center.x) * (sphere.center.x + other.center.x) +
-                                    (sphere.center.y - other.center.y) * (sphere.center.y - other.center.y) +
-                                    (sphere.center.z - other.center.z) * (sphere.center.z - other.center.z));
+        // movement is relative to camera so get relative direction vectors
+        camForward = Camera.main.transform.forward;
+        camForward.y = 0; // ignore x axis rotation
+        camForward.Normalize();
 
-        return distance < (sphere.radius + other.radius);
+        camRight = Camera.main.transform.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+        //=================================
+        // Movement States
+        //=================================
+
+        // in walking/idle states, directional input is movement vector
+        if (state == PlayerState.idle || state == PlayerState.walk)
+        {
+            if (velocity.magnitude >= runThreshold)
+            {
+                state = PlayerState.run;
+            }
+            else
+            {
+                Vector3 vInput = ((camRight * moveSpeed * hAxis * Time.deltaTime) + (camForward * moveSpeed * vAxis * Time.deltaTime));
+                velocity = Vector3.ClampMagnitude(vInput, maxSpeed);
+            }
+        }
+
+        if (state == PlayerState.run)
+        {
+            if (velocity.magnitude < runThreshold)
+            {
+                state = PlayerState.walk;
+            }
+            else
+            {
+                // check previous input against this frame's input. if angle is too wide, slide/turnaround
+                // temp: copy walk
+                Vector3 vInput = ((camRight * moveSpeed * hAxis * Time.deltaTime) + (camForward * moveSpeed * vAxis * Time.deltaTime));
+                velocity = Vector3.ClampMagnitude(vInput, maxSpeed);
+            }
+        }
+
+        // JUMPING:
+        if (state == PlayerState.jump)
+        {
+            jumpTimer += Time.deltaTime;
+        }
+
+        // FALLING:
+        if (state == PlayerState.fall)
+        {
+            velocity.y -= gravity * Time.deltaTime; //Mathf.Min(velocity.y + (gravity * Time.deltaTime), maxFallSpeed);
+        }
+
+        pOrigin += velocity;
+
+        transform.position = pOrigin - pCollider.center;
     }
 
-
-    // SPHERE / AABB COLLISION:
-    public bool Sphere_AABB_Intersect(SphereCollider sphere, BoxCollider box)
+    void OnTriggerEnter(Collider other)
     {
-        // get point nearest to sphere
-        float x = Mathf.Max(box.center.x - box.bounds.extents.x, Mathf.Min(sphere.center.x, box.center.x + box.bounds.extents.x));
-        float y = Mathf.Max(box.center.y - box.bounds.extents.y, Mathf.Min(sphere.center.y, box.center.y + box.bounds.extents.y));
-        float z = Mathf.Max(box.center.z - box.bounds.extents.z, Mathf.Min(sphere.center.z, box.center.z + box.bounds.extents.z));
+        Debug.Log("triggeRed");
+        Vector3 oOrigin = other.transform.position + other.bounds.center;
 
-        // now have a point and a sphere, call PointSphereIntersect
-        return Point_Sphere_Intersect(new Vector3(x, y, z), sphere);
+        // hit the floor from above (landing) TODO: account for ceiling case (temp logic)
+        if (pOrigin.y - pCollider.bounds.extents.y < oOrigin.y + other.bounds.extents.y)
+        {
+            // transition states
+            float speed = velocity.x + velocity.z;
+
+            if (speed == 0)
+            {
+                state = PlayerState.idle;
+            }
+            else if (speed < maxSpeed * 0.5f)
+            {
+                state = PlayerState.walk;
+            }
+            else
+            {
+                state = PlayerState.run;
+            }
+
+            //velocity.y = 0;
+
+            //align bottom of character box with top of floor box
+            pOrigin.y = (oOrigin.y + other.bounds.extents.y) + GetComponent<BoxCollider>().bounds.extents.y;
+        }
+
+        // hit the floor from the side
+        //else if (pOrigin.x < oOrigin.x - other.bounds.extents.x || pOrigin.x > oOrigin.x + other.bounds.extents.x)
+        //{
+
+        //}
+
     }
 
-
-    // TODO: FIX
-    // CAPSULE / AABB COLLISION:
-    public bool Capsule_AABB_Intersect(CapsuleCollider capsule, BoxCollider box)
-    {
-        // get point on AABB nearest to capsule
-        float x = Mathf.Max(box.center.x - box.bounds.extents.x, Mathf.Min(capsule.center.x, box.center.x + box.bounds.extents.x));
-        float y = Mathf.Max(box.center.y - box.bounds.extents.y, Mathf.Min(capsule.center.y, box.center.y + box.bounds.extents.y));
-        float z = Mathf.Max(box.center.z - box.bounds.extents.z, Mathf.Min(capsule.center.z, box.center.z + box.bounds.extents.z));
-
-        //return Point_Capsule_Intersect(new Vector3(x, y, z), capsule);
-        return false;
-    }
-
-
-    public void Collide(Collider other)
-    {
-        
-    }
 }
