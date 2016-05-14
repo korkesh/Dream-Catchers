@@ -49,12 +49,12 @@ public class Items : MonoBehaviour {
         {
             if(itemType == 0)
             {
-                Character_Manager.Instance.CollectOtherCollectible();
+                Character_Manager.instance.CollectOtherCollectible();
                 
             }
             else
             {
-                Character_Manager.Instance.CollectMemoryFrag();
+                Character_Manager.instance.CollectMemoryFrag();
 
             }
             PlayerPrefs.SetInt(key, 1);

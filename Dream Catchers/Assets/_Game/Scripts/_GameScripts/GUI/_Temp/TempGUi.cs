@@ -18,9 +18,9 @@ public class TempGUi : MonoBehaviour {
 	void Update () {
 
         //simple ui test for generic info
-        Health.text = " Health: " + Character_Manager.Instance.currentHealth.ToString();
-        MemoryFrags.text = " MemoryFragments: " + Character_Manager.Instance.totalMemoryFragmentsCollected.ToString();
-        OtherCollectibles.text = " Other: " + Character_Manager.Instance.totalCollectibles.ToString();
+        Health.text = " Health: " + Character_Manager.instance.currentHealth.ToString();
+        MemoryFrags.text = " MemoryFragments: " + Character_Manager.instance.totalMemoryFragmentsCollected.ToString();
+        OtherCollectibles.text = " Other: " + Character_Manager.instance.totalCollectibles.ToString();
 
         if(Input.GetKeyDown(KeyCode.M))
         {

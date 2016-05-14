@@ -15,7 +15,7 @@ public class TempSwitchScene : MonoBehaviour {
 
     public void newGame()
     {
-        Game_Manager.Instance.NewGame();
+        Game_Manager.instance.NewGame();
         SceneManager.LoadScene(NextScene);
     }
 

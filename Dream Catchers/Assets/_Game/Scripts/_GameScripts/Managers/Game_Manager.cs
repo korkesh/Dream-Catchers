@@ -2,7 +2,9 @@
 using System.Collections;
 
 
-public class Game_Manager : Singleton<Game_Manager> {
+public class Game_Manager : MonoBehaviour {
+
+    public static Game_Manager instance = null;
 
     //================================
     // Variables
@@ -45,7 +47,23 @@ public class Game_Manager : Singleton<Game_Manager> {
 
     /// Initialize Game States
     void Awake()
-    {  
+    {
+        //Check if instance already exists
+        if (instance == null)
+        {
+            //if not, set instance to this
+            instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+        }
+
+        //Sets this to not be destroyed when reloading scene
+        DontDestroyOnLoad(gameObject);
+
         currentGameState = GameState.INTRO;
         currentLevelState = WorldState.NORMAL;
     }
@@ -57,8 +75,8 @@ public class Game_Manager : Singleton<Game_Manager> {
     public void NewGame()
     {
         PlayerPrefs.DeleteAll();
-        Level_Manager.Instance.NewGamePlayerPrefs();
-        Character_Manager.Instance.NewGamePlayerPrefs();
+        Level_Manager.instance.NewGamePlayerPrefs();
+        Character_Manager.instance.NewGamePlayerPrefs();
     }
 
     //-----------------
