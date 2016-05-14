@@ -5,11 +5,10 @@ using System.Collections;
 //temp class for testing dealing with items
 public class Items : MonoBehaviour {
 
-    public string name;
+    public string itemName;
     
     //for now 0 is memory frag and 1 is other
-
-    public int Type;
+    public int itemType;
 
     public string Scene;
 
@@ -22,7 +21,7 @@ public class Items : MonoBehaviour {
     {
 
         //if the key exists in player prefsit checks to see if it is a 1 (meaning its been picked up), if so the object is deleted
-	        key = Level.ToString() + Scene + name;
+	        key = Level.ToString() + Scene + itemName;
             if(PlayerPrefs.HasKey(key))
             {
                 int pickedup = PlayerPrefs.GetInt(key);
@@ -48,14 +47,14 @@ public class Items : MonoBehaviour {
     {
         if(other.gameObject.name == "Player")
         {
-            if(Type == 0)
+            if(itemType == 0)
             {
-                Character_Manager.instance.CollectOtherCollectible();
+                Character_Manager.Instance.CollectOtherCollectible();
                 
             }
             else
             {
-                Character_Manager.instance.CollectMemoryFrag();
+                Character_Manager.Instance.CollectMemoryFrag();
 
             }
             PlayerPrefs.SetInt(key, 1);
