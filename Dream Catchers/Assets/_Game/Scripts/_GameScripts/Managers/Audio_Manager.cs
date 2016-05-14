@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Audio_Manager : MonoBehaviour
-{
+public class Audio_Manager : MonoBehaviour {
 
     public static Audio_Manager instance = null;
 
@@ -27,15 +26,13 @@ public class Audio_Manager : MonoBehaviour
 
 
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	// Use this for initialization
+	void Start () {
+	
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
 }

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Input_Manager : MonoBehaviour
-{
+public class Input_Manager : MonoBehaviour {
 
     public static Input_Manager instance = null;
 
@@ -25,10 +24,9 @@ public class Input_Manager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
 }

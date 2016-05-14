@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AI_Manager : MonoBehaviour
-{
+public class AI_Manager : MonoBehaviour {
 
     public static AI_Manager instance = null;
 
@@ -24,10 +23,9 @@ public class AI_Manager : MonoBehaviour
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
 }
