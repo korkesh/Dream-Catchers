@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
@@ -115,8 +115,8 @@ public class ManipulationInspector : Editor {
 
 
 
-        //DrawDefaultInspector();
+        DrawDefaultInspector();
 
 
     }
-}
+}*/

@@ -10,7 +10,9 @@ public class ManipulationScript : MonoBehaviour
         TEXTURE = 1,
         MESH = 2,
         ANIMATION = 3,
-        PLATFORM = 4
+        PLATFORM = 4,
+        MODEL = 5,
+        MATERIAL = 6
     }
 
     // Objects state and change type
@@ -20,6 +22,10 @@ public class ManipulationScript : MonoBehaviour
     // Textures
     public Texture dreamTexture;
     public Texture nightmareTexture;
+
+    // Materials
+    public Material dreamMaterial;
+    public Material nightmareMaterial;
 
     // Meshs
     public Mesh dreamMesh;
@@ -34,6 +40,13 @@ public class ManipulationScript : MonoBehaviour
     public bool toggleAnimationWithMesh;
     public AnimatorOverrideController dreamOverride;
     public AnimatorOverrideController nightmareOveride;
+
+    // Models
+    public GameObject dreamModel;
+    public GameObject nightmareModel;
+
+    public bool nightmarePlatform; 
+
 
     // Use this for initialization
     void Start()
@@ -91,14 +104,58 @@ public class ManipulationScript : MonoBehaviour
                 {
                     if (state == ManipulationManager.WORLD_STATE.DREAM)
                     {
-                        dreamCollider.enabled = true;
-                        gameObject.GetComponent<MeshFilter>().mesh = dreamMesh;
-
+                        if(nightmarePlatform)
+                        {
+                            nightmareCollider.enabled = false;
+                            gameObject.GetComponent<MeshFilter>().mesh = null;
+                        }
+                        else
+                        {
+                            dreamCollider.enabled = true;
+                            gameObject.GetComponent<MeshFilter>().mesh = dreamMesh;
+                        }
                     }
                     else
                     {
-                        dreamCollider.enabled = false;
-                        gameObject.GetComponent<MeshFilter>().mesh = null;
+                        if (nightmarePlatform)
+                        {
+                            nightmareCollider.enabled = true;
+                            gameObject.GetComponent<MeshFilter>().mesh = nightmareMesh;
+                        }
+                        else
+                        {
+                            dreamCollider.enabled = false;
+                            gameObject.GetComponent<MeshFilter>().mesh = null;
+                        }
+                        
+                    }
+
+                    break;
+                }
+            case CHANGE_TYPE.MODEL:
+                {
+                    if (state == ManipulationManager.WORLD_STATE.DREAM)
+                    {
+                        dreamModel.SetActive(true);
+                        nightmareModel.SetActive(false);
+                    }
+                    else
+                    {
+                        dreamModel.SetActive(false);
+                        nightmareModel.SetActive(true);
+                    }
+
+                    break;
+                }
+            case CHANGE_TYPE.MATERIAL:
+                {
+                    if (state == ManipulationManager.WORLD_STATE.DREAM)
+                    {
+                        gameObject.GetComponent<Renderer>().material = dreamMaterial;
+                    }
+                    else
+                    {
+                        gameObject.GetComponent<Renderer>().material = nightmareMaterial;
                     }
 
                     break;
