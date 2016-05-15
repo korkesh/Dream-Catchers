@@ -43,10 +43,10 @@ public class Items : MonoBehaviour {
 	
 	}
 
-    //temp trigger stuff to pick up items and modify PlayerPrefs
+    // temp trigger stuff to pick up items and modify PlayerPrefs
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "Player")
+        if(other.gameObject.tag == "Player")
         {
             if(Type == 0)
             {

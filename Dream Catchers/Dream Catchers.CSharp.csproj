@@ -66,6 +66,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\SuperCharacterController\Core\BSPTree.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\BruteForceMesh.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\Misc\Gravity.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\Misc\PlayerCamera.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\Misc\PlayerInputController.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\Misc\PlayerMachine.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\Misc\PlayerMachineDebug.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\Misc\SimpleStateMachine.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\RPGController\RPGMesh.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\RPGController\RPGTriangleTree.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\SuperCharacterController.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\SuperCollider.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\SuperCollisionType.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\SuperMath.cs" />
+    <Compile Include="Assets\SuperCharacterController\Core\SuperStateMachine.cs" />
+    <Compile Include="Assets\SuperCharacterController\DebugDraw.cs" />
+    <Compile Include="Assets\SuperCharacterController\Math3d.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
@@ -77,6 +94,9 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Input_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Level_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\UI_Manager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\SuperCharacterController\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
