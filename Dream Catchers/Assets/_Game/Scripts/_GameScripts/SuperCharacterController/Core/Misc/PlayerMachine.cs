@@ -17,7 +17,7 @@ public class PlayerMachine : SuperStateMachine {
     public float Gravity = 25.0f;
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle, Walk, Jump, Fall }
+    enum PlayerStates { Idle, Walk, Jump, DoubleJump, Fall }
 
     private SuperCharacterController controller;
 
@@ -46,7 +46,7 @@ public class PlayerMachine : SuperStateMachine {
     protected override void EarlyGlobalSuperUpdate()
     {
 		// Rotate out facing direction horizontally based on mouse input
-        lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
+        //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
         // Put any code in here you want to run BEFORE the state's update function.
         // This is run regardless of what state you're in
     }
@@ -60,7 +60,16 @@ public class PlayerMachine : SuperStateMachine {
         transform.position += moveDirection * Time.deltaTime;
 
         // Rotate our mesh to face where we are "looking"
-        AnimatedMesh.rotation = Quaternion.LookRotation(lookDirection, controller.up);
+        Vector3 dir = moveDirection.normalized;
+        dir.y = 0;
+        dir.Normalize();
+
+        if (dir.magnitude != 0)
+        {
+            AnimatedMesh.rotation = Quaternion.LookRotation(dir/*lookDirection*/, controller.up);
+        }
+
+        //AnimatedMesh.rotation = Quaternion.LookRotation(dir/*lookDirection*/, controller.up);
     }
 
     private bool AcquiringGround()
@@ -176,6 +185,7 @@ public class PlayerMachine : SuperStateMachine {
         if (input.Current.MoveInput != Vector3.zero)
         {
             moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed, WalkAcceleration * Time.deltaTime);
+            //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
         }
         else
         {
@@ -196,11 +206,18 @@ public class PlayerMachine : SuperStateMachine {
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
+        moveDirection.y = 0;
         moveDirection += controller.up * CalculateJumpSpeed(JumpHeight, Gravity);
     }
 
     void Jump_SuperUpdate()
     {
+        if (input.Current.JumpInput)
+        {
+            currentState = PlayerStates.DoubleJump;
+            return;
+        }
+
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
@@ -222,6 +239,25 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
     }
 
+    void DoubleJump_EnterState()
+    {
+        controller.DisableClamping();
+        controller.DisableSlopeLimit();
+
+        moveDirection.y = 0;
+        moveDirection += controller.up * CalculateJumpSpeed(JumpHeight, Gravity);
+    }
+
+    void DoubleJump_SuperUpdate()
+    {
+        Jump_SuperUpdate();
+    }
+
+    void DoubleJump_ExitState()
+    {
+
+    }
+
     void Fall_EnterState()
     {
         controller.DisableClamping();
@@ -232,6 +268,12 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_SuperUpdate()
     {
+        if (input.Current.JumpInput)
+        {
+            currentState = PlayerStates.DoubleJump;
+            return;
+        }
+
         if (AcquiringGround())
         {
             moveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);

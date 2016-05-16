@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class Character_Manager : MonoBehaviour
+public class Character_Manager : Singleton<Character_Manager>
 {
     public static Character_Manager instance = null;
 
