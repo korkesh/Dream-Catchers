@@ -20,12 +20,13 @@ public class PlayerCamera : MonoBehaviour
     public float DistanceL = 4.5f;
     public float HeightL = 1.75f;
 
+    public float rotateSpeed = 75;
+
     public GameObject PlayerTarget;    
 
     private PlayerInputController input;
     private Transform target;
     private PlayerMachine machine;
-    private float yRotation;
 
     private SuperCharacterController controller;
 
@@ -42,7 +43,7 @@ public class PlayerCamera : MonoBehaviour
 	void LateUpdate ()
     {
         // toggle mode temp test
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (input.Current.LTrigger)
         {
             if (mode == PlayerCamMode.high)
             {
@@ -55,15 +56,12 @@ public class PlayerCamera : MonoBehaviour
         }
 
         // temp rotation test
-        if (Input.GetKey(KeyCode.Z))
+        if (input.Current.Joy2Input.x != 0)
         {
-            transform.RotateAround(target.position, Vector3.up, Time.deltaTime * 40);
-        }
-        else if (Input.GetKey(KeyCode.C))
-        {
-            transform.RotateAround(target.position, Vector3.up, Time.deltaTime * -40);
+            transform.RotateAround(target.position, Vector3.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
         }
 
+        // temp height/distance set
         if (mode == PlayerCamMode.high || mode == PlayerCamMode.low)
         {
             if (mode == PlayerCamMode.high)
@@ -81,8 +79,10 @@ public class PlayerCamera : MonoBehaviour
 
             Vector3 left = Vector3.Cross(machine.lookDirection, controller.up);
 
+            //horizontal rotation
             //transform.rotation = Quaternion.LookRotation(machine.lookDirection, controller.up);
-            //transform.rotation = Quaternion.AngleAxis(yRotation, left) * transform.rotation;
+
+            //todo: y rotation transform.rotation = Quaternion.AngleAxis(yRotation, left) * transform.rotation;
 
             transform.position -= transform.forward * Distance;
             transform.position += controller.up * Height;

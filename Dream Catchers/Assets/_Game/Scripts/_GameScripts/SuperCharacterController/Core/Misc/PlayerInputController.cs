@@ -16,17 +16,18 @@ public class PlayerInputController : MonoBehaviour {
         // Retrieve our current WASD or Arrow Key input
         // Using GetAxisRaw removes any kind of gravity or filtering being applied to the input
         // Ensuring that we are getting either -1, 0 or 1
-        Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-
-        Vector2 mouseInput = new Vector2(Input.GetAxis("Joystick X"), Input.GetAxis("Joystick Y"));
+        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 joy2Input = new Vector3(Input.GetAxis("Horizontal2"), 0, Input.GetAxis("Vertical2"));
 
         bool jumpInput = Input.GetButtonDown("Jump");
+        bool lTrigger = Input.GetButtonDown("L");
 
         Current = new PlayerInput()
         {
             MoveInput = moveInput,
-            MouseInput = mouseInput,
-            JumpInput = jumpInput
+            JumpInput = jumpInput,
+            Joy2Input = joy2Input,
+            LTrigger = lTrigger
         };
 	}
 }
@@ -34,6 +35,7 @@ public class PlayerInputController : MonoBehaviour {
 public struct PlayerInput
 {
     public Vector3 MoveInput;
-    public Vector2 MouseInput;
+    public Vector3 Joy2Input;
     public bool JumpInput;
+    public bool LTrigger;
 }

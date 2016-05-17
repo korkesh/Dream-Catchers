@@ -23,13 +23,19 @@ public class PlayerMachine : SuperStateMachine {
 
     // current velocity
     private Vector3 moveDirection;
-    // current direction our character's art is facing
+
+    // current direction camera is facing
     public Vector3 lookDirection { get; private set; }
+
+    // current direction our character's art is facing
+    public Vector3 facing { get; private set; }
+
+    public float xRotation { get; private set; }
 
     private PlayerInputController input;
 
-	void Start () {
-	    // Put any code here you want to run ONCE, when the object is initialized
+	void Start ()
+    {
 
         input = gameObject.GetComponent<PlayerInputController>();
 
@@ -38,6 +44,7 @@ public class PlayerMachine : SuperStateMachine {
 		
 		// Our character's current facing direction, planar to the ground
         lookDirection = transform.forward;
+        facing = transform.forward;
 
         // Set our currentState to idle on startup
         currentState = PlayerStates.Idle;
@@ -45,8 +52,14 @@ public class PlayerMachine : SuperStateMachine {
 
     protected override void EarlyGlobalSuperUpdate()
     {
-		// Rotate out facing direction horizontally based on mouse input
+        // Rotate out facing direction horizontally based on mouse input
         //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
+        Vector3 fwd = Camera.main.transform.forward;
+        fwd.y = 0;
+        fwd.Normalize();
+
+        lookDirection = fwd;
+
         // Put any code in here you want to run BEFORE the state's update function.
         // This is run regardless of what state you're in
     }
@@ -59,17 +72,12 @@ public class PlayerMachine : SuperStateMachine {
         // Move the player by our velocity every frame
         transform.position += moveDirection * Time.deltaTime;
 
-        // Rotate our mesh to face where we are "looking"
-        Vector3 dir = moveDirection.normalized;
+        // Rotate mesh to movement dir (temp)
+        Vector3 dir = moveDirection;
         dir.y = 0;
         dir.Normalize();
 
-        if (dir.magnitude != 0)
-        {
-            AnimatedMesh.rotation = Quaternion.LookRotation(dir/*lookDirection*/, controller.up);
-        }
-
-        //AnimatedMesh.rotation = Quaternion.LookRotation(dir/*lookDirection*/, controller.up);
+        AnimatedMesh.rotation = Quaternion.LookRotation(dir, controller.up); // temp; not always facing same dir as camera
     }
 
     private bool AcquiringGround()
@@ -250,7 +258,20 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_SuperUpdate()
     {
-        Jump_SuperUpdate();
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
+        if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
+        {
+            moveDirection = planarMoveDirection;
+            currentState = PlayerStates.Idle;
+            return;
+        }
+
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * WalkSpeed, JumpAcceleration * Time.deltaTime);
+        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+
+        moveDirection = planarMoveDirection + verticalMoveDirection;
     }
 
     void DoubleJump_ExitState()
