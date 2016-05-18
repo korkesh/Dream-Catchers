@@ -6,6 +6,11 @@ public class ManipulationScale : ManipulationScript {
 
     public Transform objectTransform;
 
+    public Vector3 scaleDream;
+    public Vector3 scaleNightmare;
+
+    public float scaleDuration;
+
     // Use this for initialization
     void Start () {
         // Set the default world state
@@ -16,7 +21,14 @@ public class ManipulationScale : ManipulationScript {
     {
         currentObjectState = state;
 
-        objectTransform.DOScale(new Vector3(2.0f, 1.0f, 1.0f), 1.0f);
+        if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM)
+        {
+            objectTransform.DOScale(scaleDream, scaleDuration);
+        }
+        else
+        {
+            objectTransform.DOScale(scaleNightmare, scaleDuration);
+        }
     }
 
 }
