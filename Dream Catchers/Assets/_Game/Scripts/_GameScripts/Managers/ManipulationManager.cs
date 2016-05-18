@@ -29,7 +29,7 @@ public class ManipulationManager : Singleton<ManipulationManager>
     void Update()
     {
         // Toggles the World State upon player input
-        if (Input.GetKeyDown(KeyCode.Joystick1Button2))
+        if (Input.GetKeyDown(KeyCode.Joystick1Button2) || Input.GetKeyDown(KeyCode.Space))
         {
             currentWorldState = (currentWorldState == WORLD_STATE.DREAM) ? WORLD_STATE.NIGHTMARE : WORLD_STATE.DREAM;
         }

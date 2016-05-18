@@ -80,10 +80,6 @@
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
-    <Compile Include="Assets\_Game\Scripts\Managers\ManipulationManager.cs" />
-    <Compile Include="Assets\_Game\Scripts\Managers\Singleton.cs" />
-    <Compile Include="Assets\_Game\Scripts\WorldManipulation\ManipulationPopIn.cs" />
-    <Compile Include="Assets\_Game\Scripts\WorldManipulation\ManipulationScale.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
@@ -94,6 +90,8 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Game_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Input_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Level_Manager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\ManipulationManager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Singleton.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\UI_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BSPTree.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BruteForceMesh.cs" />
@@ -112,7 +110,11 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\SuperStateMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\DebugDraw.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Math3d.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationPopIn.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationRotate.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScale.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScript.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationTranslate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
