@@ -67,14 +67,14 @@
     <Reference Include="DOTween">
       <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
+    </Reference>
     <Reference Include="DOTween46">
       <HintPath>Assets\Demigiant\DOTween\DOTween46.dll</HintPath>
     </Reference>
     <Reference Include="DOTween50">
       <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween43">
-      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +110,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\SuperStateMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\DebugDraw.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Math3d.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationBouncePad.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationPopIn.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationRotate.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScale.cs" />

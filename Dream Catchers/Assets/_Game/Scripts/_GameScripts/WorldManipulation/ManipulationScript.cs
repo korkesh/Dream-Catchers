@@ -14,7 +14,7 @@ public class ManipulationScript : MonoBehaviour
 
     // Objects state and change type
     public ManipulationManager.WORLD_STATE currentObjectState;
-    public MANIPULATION_TYPE currentManipType;
+    protected MANIPULATION_TYPE currentManipType;
 
     // Use this for initialization
     void Start()
