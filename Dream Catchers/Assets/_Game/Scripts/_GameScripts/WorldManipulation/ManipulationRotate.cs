@@ -17,12 +17,15 @@ public class ManipulationRotate : ManipulationScript
     {
         // Set the default world state
         currentManipType = MANIPULATION_TYPE.ROTATE;
+
+        objectTransform = gameObject.transform; // By default grabs the transform of the attached object
     }
 
     public override void changeState(ManipulationManager.WORLD_STATE state)
     {
         currentObjectState = state;
 
+        // Rotate object to the given position over the given time duration
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM)
         {
             objectTransform.DORotate(rotateDream, Duration);

@@ -15,12 +15,15 @@ public class ManipulationScale : ManipulationScript {
     void Start () {
         // Set the default world state
         currentManipType = MANIPULATION_TYPE.SCALE;
+
+        objectTransform = gameObject.transform; // By default grabs the transform of the attached object
     }
 
     public override void changeState(ManipulationManager.WORLD_STATE state)
     {
         currentObjectState = state;
 
+        // Scale object to the given position over the given time duration
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM)
         {
             objectTransform.DOScale(scaleDream, scaleDuration);

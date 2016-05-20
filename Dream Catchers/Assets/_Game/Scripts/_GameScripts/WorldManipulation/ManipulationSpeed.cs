@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(Collider))]
 public class ManipulationSpeed : ManipulationScript
 {
-    public GameObject player;
+    public GameObject player; // The player to act upon
 
     public float slowSpeed;
     public float increaseSpeed;
@@ -32,6 +32,7 @@ public class ManipulationSpeed : ManipulationScript
         currentObjectState = state;
     }
 
+    // Use of trigger volumes to reduce and increase speed
     public void OnTriggerStay(Collider other)
     {
         if (other.gameObject == player && 
@@ -55,6 +56,7 @@ public class ManipulationSpeed : ManipulationScript
         }
     }
 
+    // Upon exit reset speed
     public void OnTriggerExit(Collider other)
     {
         if (other.gameObject == player)

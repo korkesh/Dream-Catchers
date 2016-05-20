@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(Collider))]
 public class ManipulationBouncePad : ManipulationScript
 {
-    public GameObject player;
+    public GameObject player; // The player to act upon
 
     public bool bounceInDream;
     public bool bounceInNightmare;
