@@ -116,6 +116,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationRotate.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScale.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScript.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationSpeed.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationTranslate.cs" />
   </ItemGroup>
   <ItemGroup>
