@@ -10,29 +10,45 @@ public class PlayerMachine : SuperStateMachine {
 
     public Transform AnimatedMesh;
 
-    public float WalkSpeed = 4.0f;
+    //==============================================
+    // Editor Fields
+    //==============================================
+
+    public float RunSpeed = 4.0f;
     public float WalkAcceleration = 30.0f;
     public float JumpAcceleration = 5.0f;
-    public float JumpHeight = 3.0f;
+    public float MinJumpHeight = 1.75f;
+    public float MaxJumpHeight = 3.0f;
+    public float DoubleJumpHeight = 2.0f;
     public float Gravity = 25.0f;
+    public float GroundFriction = 10.0f;
+    public float RunThreshold = 0.5f; // % of max run speed required to transition between run/walk
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle, Walk, Jump, DoubleJump, Fall }
+    enum PlayerStates { Idle, Walk, Run, Jump, DoubleJump, Fall, Attack }
 
     private SuperCharacterController controller;
 
     // current velocity
-    private Vector3 moveDirection;
+    private Vector3 moveDirection; // player movement direction vector
+
+    private Vector3 facing; // direction player is facing
 
     // current direction camera is facing
     public Vector3 lookDirection { get; private set; }
 
-    // current direction our character's art is facing
-    public Vector3 facing { get; private set; }
-
     public float xRotation { get; private set; }
 
     private PlayerInputController input;
+
+    private bool jumpHold = false; // controls variable jump heights by holding jump button
+    public float jumpTravelled = 0; // keeps track of 
+
+    //============================================
+    // Debug Inspector Fields:
+    //============================================
+
+    public float moveSpeed;
 
 	void Start ()
     {
@@ -44,7 +60,6 @@ public class PlayerMachine : SuperStateMachine {
 		
 		// Our character's current facing direction, planar to the ground
         lookDirection = transform.forward;
-        facing = transform.forward;
 
         // Set our currentState to idle on startup
         currentState = PlayerStates.Idle;
@@ -54,11 +69,7 @@ public class PlayerMachine : SuperStateMachine {
     {
         // Rotate out facing direction horizontally based on mouse input
         //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
-        Vector3 fwd = Camera.main.transform.forward;
-        fwd.y = 0;
-        fwd.Normalize();
-
-        lookDirection = fwd;
+        lookDirection = Math3d.ProjectVectorOnPlane(controller.up, Camera.main.transform.forward);
 
         // Put any code in here you want to run BEFORE the state's update function.
         // This is run regardless of what state you're in
@@ -72,12 +83,8 @@ public class PlayerMachine : SuperStateMachine {
         // Move the player by our velocity every frame
         transform.position += moveDirection * Time.deltaTime;
 
-        // Rotate mesh to movement dir (temp)
-        Vector3 dir = moveDirection;
-        dir.y = 0;
-        dir.Normalize();
-
-        AnimatedMesh.rotation = Quaternion.LookRotation(dir, controller.up); // temp; not always facing same dir as camera
+        // Rotate mesh to face correct direction (temp if implementing min turn radius)
+        AnimatedMesh.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
     }
 
     private bool AcquiringGround()
@@ -163,7 +170,7 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // Apply friction to slow us to a halt
-        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, 10.0f * Time.deltaTime);
+        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
     }
 
     void Idle_ExitState()
@@ -173,7 +180,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Walk_EnterState()
     {
-        gameObject.GetComponent<Animator>().SetBool("Running", true);
+        gameObject.GetComponent<Animator>().SetBool("Walking", true);
     }
 
     void Walk_SuperUpdate()
@@ -192,34 +199,118 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed, WalkAcceleration * Time.deltaTime);
+            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed * input.Current.MoveInput.magnitude, WalkAcceleration * Time.deltaTime);
             //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
+            facing = input.Current.MoveInput; // when walking always facing in direction moving
+
+            if (moveDirection.magnitude > RunSpeed * RunThreshold)
+            {
+                currentState = PlayerStates.Run;
+                return;
+            }
         }
-        else
+        else 
         {
-            currentState = PlayerStates.Idle;
-            return;
+            if (moveDirection.magnitude == 0)
+            {
+                currentState = PlayerStates.Idle;
+                return;
+            }
+
+            moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
         }
     }
 
     void Walk_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Walking", false);
+    }
+
+    // todo: > 180 degree turn case
+    void Run_EnterState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Running", true);
+    }
+
+    void Run_SuperUpdate()
+    {
+        if (input.Current.JumpInput)
+        {
+            currentState = PlayerStates.Jump;
+            return;
+        }
+
+        if (!MaintainingGround())
+        {
+            currentState = PlayerStates.Fall;
+            return;
+        }
+
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed * input.Current.MoveInput.magnitude, WalkAcceleration * Time.deltaTime);
+            //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
+            if (input.Current.MoveInput.magnitude > 0.1f)
+            {
+                facing = input.Current.MoveInput;
+            }
+
+            if (moveDirection.magnitude <= RunSpeed * RunThreshold)
+            {
+                currentState = PlayerStates.Walk;
+                return;
+            }
+        }
+        else
+        {
+            currentState = PlayerStates.Walk;
+            return;
+        }
+    }
+
+    void Run_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Running", false);
     }
 
     void Jump_EnterState()
     {
+        jumpHold = true;
+
         gameObject.GetComponent<Animator>().SetBool("Jumping", true);
 
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
-        moveDirection.y = 0;
-        moveDirection += controller.up * CalculateJumpSpeed(JumpHeight, Gravity);
+        if (moveDirection.y < 0)
+        {
+            moveDirection.y = 0;
+        }
+
+        jumpTravelled = 0;
+
+        moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
+
+        //jumpTravelled = (moveDirection - initialJumpVelocity).magnitude;       
     }
 
     void Jump_SuperUpdate()
     {
+        // if holding jump button and not at max jump height, raise movement vector
+        if (!input.Current.JumpHold)
+        {
+            jumpHold = false;
+        }
+
+        if (jumpHold && jumpTravelled < MaxJumpHeight)
+        {
+            Vector3 initialV = moveDirection;
+            moveDirection += controller.up * Time.deltaTime * 50;
+
+            jumpTravelled += (moveDirection - initialV).magnitude;//Math3d.ProjectVectorOnPlane(controller.up, (moveDirection - initialV)).magnitude;
+        }
+
+        // transition to double jump
         if (input.Current.JumpInput)
         {
             currentState = PlayerStates.DoubleJump;
@@ -236,7 +327,7 @@ public class PlayerMachine : SuperStateMachine {
             return;            
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * WalkSpeed, JumpAcceleration * Time.deltaTime);
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * RunSpeed, JumpAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
@@ -245,15 +336,18 @@ public class PlayerMachine : SuperStateMachine {
     void Jump_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
+        jumpHold = false;
     }
 
     void DoubleJump_EnterState()
     {
+        gameObject.GetComponent<Animator>().SetBool("DoubleJumping", true);
+
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
         moveDirection.y = 0;
-        moveDirection += controller.up * CalculateJumpSpeed(JumpHeight, Gravity);
+        moveDirection += controller.up * CalculateJumpSpeed(DoubleJumpHeight, Gravity);
     }
 
     void DoubleJump_SuperUpdate()
@@ -268,7 +362,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * WalkSpeed, JumpAcceleration * Time.deltaTime);
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * RunSpeed, JumpAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
@@ -276,7 +370,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_ExitState()
     {
-
+        gameObject.GetComponent<Animator>().SetBool("DoubleJumping", false);
     }
 
     void Fall_EnterState()
@@ -303,5 +397,21 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         moveDirection -= controller.up * Gravity * Time.deltaTime;
+    }
+
+    // todo: spawn detection triangle mesh, check for link into second attack during last bit of anim, if not transition to idle on anim finish
+    void Attack_EnterState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Attack1", true);
+    }
+
+    void Attack_SuperUpdate()
+    {
+
+    }
+
+    void Attack_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Attack1", false);
     }
 }

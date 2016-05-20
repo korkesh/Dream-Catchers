@@ -20,12 +20,14 @@ public class PlayerInputController : MonoBehaviour {
         Vector3 joy2Input = new Vector3(Input.GetAxis("Horizontal2"), 0, Input.GetAxis("Vertical2"));
 
         bool jumpInput = Input.GetButtonDown("Jump");
+        bool jumpHold = Input.GetButton("Jump");
         bool lTrigger = Input.GetButtonDown("L");
 
         Current = new PlayerInput()
         {
             MoveInput = moveInput,
             JumpInput = jumpInput,
+            JumpHold = jumpHold,
             Joy2Input = joy2Input,
             LTrigger = lTrigger
         };
@@ -37,5 +39,6 @@ public struct PlayerInput
     public Vector3 MoveInput;
     public Vector3 Joy2Input;
     public bool JumpInput;
+    public bool JumpHold;
     public bool LTrigger;
 }
