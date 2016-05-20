@@ -89,6 +89,13 @@ public class PlayerMachine : SuperStateMachine {
 
     private bool AcquiringGround()
     {
+        bool ground = controller.currentGround.IsGrounded(false, 0.01f);
+
+        if (ground)
+        {
+            Camera.main.GetComponent<PlayerCamera>().setLastGround = transform.position.y;
+        }
+
         return controller.currentGround.IsGrounded(false, 0.01f);
     }
 

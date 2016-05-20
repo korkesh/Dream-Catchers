@@ -1,24 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+// default camera
 public class PlayerCamera : MonoBehaviour
 {
-    public enum PlayerCamMode
-    {
-        high,
-        low,
-        vantage
-    }
-
-    PlayerCamMode mode = PlayerCamMode.high;
-
-    private float Distance;
-    private float Height;
-
-    public float DistanceH = 9.0f;
-    public float HeightH = 4.0f;
-    public float DistanceL = 4.5f;
-    public float HeightL = 1.75f;
+    public float Distance = 9.0f;
+    public float Height = 5.0f;
 
     public float rotateSpeed = 75;
 
@@ -30,6 +18,12 @@ public class PlayerCamera : MonoBehaviour
 
     private SuperCharacterController controller;
 
+    private float yOffset; // offset from default pos by player input
+
+    public float lastGround { get; private set; } // y value of last ground player was on
+    public float setLastGround { set { lastGround = value; } }
+
+
 	// Use this for initialization
 	void Start ()
     {
@@ -37,23 +31,13 @@ public class PlayerCamera : MonoBehaviour
         machine = PlayerTarget.GetComponent<PlayerMachine>();
         controller = PlayerTarget.GetComponent<SuperCharacterController>();
         target = PlayerTarget.transform;
+
+        lastGround = machine.transform.position.y;
 	}
 	
 	// Update is called once per frame
 	void LateUpdate ()
     {
-        // toggle mode temp test
-        if (input.Current.LTrigger)
-        {
-            if (mode == PlayerCamMode.high)
-            {
-                mode = PlayerCamMode.low;
-            }
-            else
-            {
-                mode = PlayerCamMode.high;
-            }
-        }
 
         // temp rotation test
         if (input.Current.Joy2Input.x != 0)
@@ -61,31 +45,20 @@ public class PlayerCamera : MonoBehaviour
             transform.RotateAround(target.position, Vector3.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
         }
 
-        // temp height/distance set
-        if (mode == PlayerCamMode.high || mode == PlayerCamMode.low)
-        {
-            if (mode == PlayerCamMode.high)
-            {
-                Distance = DistanceH;
-                Height = HeightH;
-            }
-            else
-            {
-                Distance = DistanceL;
-                Height = HeightL;
-            }
+        Vector3 targetPos = target.position;
+        targetPos.y = lastGround;
 
-            transform.position = target.position;
+        transform.position = targetPos; // target.position;
 
-            Vector3 left = Vector3.Cross(machine.lookDirection, controller.up);
+        Vector3 left = Vector3.Cross(machine.lookDirection, controller.up);
 
-            //horizontal rotation
-            //transform.rotation = Quaternion.LookRotation(machine.lookDirection, controller.up);
+        //horizontal rotation
+        //transform.rotation = Quaternion.LookRotation(machine.lookDirection, controller.up);
 
-            //todo: y rotation transform.rotation = Quaternion.AngleAxis(yRotation, left) * transform.rotation;
+        //todo: y rotation transform.rotation = Quaternion.AngleAxis(yRotation, left) * transform.rotation;
 
-            transform.position -= transform.forward * Distance;
-            transform.position += controller.up * Height;
-        }
-	}
+        transform.position -= transform.forward * Distance;
+        transform.position += controller.up * Height;
+    }
+
 }
