@@ -95,7 +95,6 @@ public class Character_Manager : MonoBehaviour
     // Update
     //-----------------
 
-    // Update is called once per frame
     void Update()
     {
 

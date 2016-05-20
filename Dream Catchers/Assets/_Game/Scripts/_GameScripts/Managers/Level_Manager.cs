@@ -84,5 +84,5 @@ public class Level_Manager : MonoBehaviour {
         PlayerPrefs.SetInt("TotalNumCollectibles", totalNumCollectibles);
         
     }
-   
+
 }
