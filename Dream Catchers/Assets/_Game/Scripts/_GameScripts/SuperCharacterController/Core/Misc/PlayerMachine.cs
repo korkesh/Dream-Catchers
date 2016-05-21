@@ -220,6 +220,7 @@ public class PlayerMachine : SuperStateMachine {
     void Jump_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
+        input.toggleJump = false;
     }
 
     void Fall_EnterState()

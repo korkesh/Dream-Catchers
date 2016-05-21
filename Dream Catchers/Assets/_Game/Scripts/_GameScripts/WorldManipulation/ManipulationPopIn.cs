@@ -42,6 +42,8 @@ public class ManipulationPopIn : ManipulationScript {
         changeTexture();
         changeMesh();
         changeCollider();
+        changeMaterial();
+        changeModel();
 
         togglePlatform();
     }

@@ -47,8 +47,8 @@ public class ManipulationBouncePad : ManipulationScript
     {
         if(bounceObject && other.gameObject == player)
         {
-            PlayerInputController inputScript = player.GetComponent<PlayerInputController>();
-            inputScript.Current.JumpInput = true;
+            PlayerInputController inputScript = other.gameObject.GetComponent<PlayerInputController>();
+            inputScript.toggleJump = true;
         }
     }
 

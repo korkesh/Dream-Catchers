@@ -20,6 +20,8 @@ public class ManipulationGravity : ManipulationScript {
     public bool floatInDream;
     public bool floatInNightmare;
 
+    public bool isPushBlock;
+
     // Use this for initialization
     void Start()
     {
@@ -52,7 +54,7 @@ public class ManipulationGravity : ManipulationScript {
 
         Physics.Raycast(transform.position, dir, out hit, layerMask); // The Raycast to calculate distance from floor
 
-        if (hit.distance < maxDist && hit.distance > 0 && !DOTween.IsTweening(transform)) 
+        if (hit.distance < maxDist && hit.distance >= minDist && !DOTween.IsTweening(transform)) 
         {
             // Move by offset distance
             Vector3 toMove = new Vector3(transform.position.x, transform.position.y + (maxDist - hit.distance), transform.position.z);
@@ -83,6 +85,8 @@ public class ManipulationGravity : ManipulationScript {
     public override void changeState(ManipulationManager.WORLD_STATE state)
     {
         currentObjectState = state;
+
+        DOTween.Kill(transform);
 
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM && floatInDream)
         {

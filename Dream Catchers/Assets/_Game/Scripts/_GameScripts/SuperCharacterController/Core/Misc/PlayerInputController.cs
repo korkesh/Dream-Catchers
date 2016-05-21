@@ -5,6 +5,8 @@ public class PlayerInputController : MonoBehaviour {
 
     public PlayerInput Current;
 
+    public bool toggleJump;
+
 	// Use this for initialization
 	void Start () {
         Current = new PlayerInput();
@@ -20,7 +22,7 @@ public class PlayerInputController : MonoBehaviour {
 
         Vector2 mouseInput = new Vector2(Input.GetAxis("Joystick X"), Input.GetAxis("Joystick Y"));
 
-        bool jumpInput = Input.GetButtonDown("Jump");
+        bool jumpInput = Input.GetButtonDown("Jump") || toggleJump;
 
         Current = new PlayerInput()
         {
