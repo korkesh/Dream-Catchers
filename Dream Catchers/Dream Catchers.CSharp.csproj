@@ -93,6 +93,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\ManipulationManager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Singleton.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\UI_Manager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\PuzzleMechanics\PushBlock.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BSPTree.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BruteForceMesh.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\Gravity.cs" />

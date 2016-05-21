@@ -22,7 +22,7 @@ public class PlayerMachine : SuperStateMachine {
     private SuperCharacterController controller;
 
     // current velocity
-    private Vector3 moveDirection;
+    public Vector3 moveDirection { get; private set; }
     // current direction our character's art is facing
     public Vector3 lookDirection { get; private set; }
 
