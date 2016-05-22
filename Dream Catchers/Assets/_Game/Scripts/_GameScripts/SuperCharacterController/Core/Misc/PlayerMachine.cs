@@ -19,7 +19,7 @@ public class PlayerMachine : SuperStateMachine {
     public float Gravity = 25.0f;
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle, Walk, Run, Jump, Fall }
+    enum PlayerStates { Idle, Walk, Run, Jump, DoubleJump, Fall }
 
     private SuperCharacterController controller;
 
@@ -261,6 +261,12 @@ public class PlayerMachine : SuperStateMachine {
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
+        if (input.Current.JumpInput && input.toggleJump != true)
+        {
+            currentState = PlayerStates.DoubleJump;
+            return;
+        }
+
         if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
         {
             moveDirection = planarMoveDirection;
@@ -277,6 +283,40 @@ public class PlayerMachine : SuperStateMachine {
     void Jump_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
+        input.toggleJump = false;
+    }
+
+    void DoubleJump_EnterState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("DoubleJump", true);
+
+        controller.DisableClamping();
+        controller.DisableSlopeLimit();
+
+        moveDirection += controller.up * CalculateJumpSpeed(JumpHeight/4, Gravity);
+    }
+
+    void DoubleJump_SuperUpdate()
+    {
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
+        if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
+        {
+            moveDirection = planarMoveDirection;
+            currentState = PlayerStates.Idle;
+            return;
+        }
+
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * WalkSpeed, JumpAcceleration * Time.deltaTime);
+        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+
+        moveDirection = planarMoveDirection + verticalMoveDirection;
+    }
+
+    void DoubleJump_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
         input.toggleJump = false;
     }
 
