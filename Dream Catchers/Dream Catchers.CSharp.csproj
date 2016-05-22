@@ -80,7 +80,16 @@
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BallonPatrol_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAttack_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonFloatToStart_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonWaitForPlayer_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BaseState.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\DamageDealer.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\FSM.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\InGameStats.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\Menu.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\AI_Manager.cs" />
@@ -92,6 +101,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Level_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\ManipulationManager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Singleton.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Temp_Exit.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\UI_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\PuzzleMechanics\PushBlock.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BSPTree.cs" />

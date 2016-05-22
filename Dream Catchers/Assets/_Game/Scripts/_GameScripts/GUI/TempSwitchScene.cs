@@ -3,14 +3,26 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-//temp script for changing the scene should be taken out later
+//temp script only text in into scene uses it right now
 public class TempSwitchScene : MonoBehaviour {
 
+    //================================
+    // Variables
+    //================================
+
     public string NextScene;
+    public Menu MainMenu;
+
+
+    //================================
+    // Methods
+    //================================
 
 	public void loadNext()
     {
         SceneManager.LoadScene(NextScene);
+        Game_Manager.instance.currentGameState = Game_Manager.GameState.MENU;
+        UI_Manager.instance.ShowMenu(MainMenu);
     }
 
     public void newGame()
@@ -32,4 +44,10 @@ public class TempSwitchScene : MonoBehaviour {
             newGame();
         }
     }
+
+    public void newMenu(Menu menu)
+    {
+        UI_Manager.instance.ShowMenu(menu);
+    }
+
 }

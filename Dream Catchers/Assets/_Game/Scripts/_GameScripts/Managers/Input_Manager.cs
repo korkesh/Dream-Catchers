@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Input_Manager : MonoBehaviour {
 
+    //================================
+    // Variables
+    //================================
+
     public static Input_Manager instance = null;
 
     void Awake()

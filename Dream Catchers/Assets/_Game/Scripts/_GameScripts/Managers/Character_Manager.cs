@@ -95,7 +95,6 @@ public class Character_Manager : MonoBehaviour
     // Update
     //-----------------
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -113,10 +112,13 @@ public class Character_Manager : MonoBehaviour
         currentHealth -= damage;
 
         // Restrict to Lower Bound of 0
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             //TODO: Handle Death state
+            Level_Manager.instance.Death();
+            heal(100);
+            
         }
 
         PlayerPrefs.SetInt("CurrentHealth", currentHealth);
