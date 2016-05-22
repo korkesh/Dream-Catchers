@@ -15,7 +15,8 @@ public class ManipulationSpeed : ManipulationScript
     public bool quickenInNightmare;
     public bool quickenInDream;
 
-    private float playerOriginalSpeed;
+    private float playerOriginalWalkSpeed;
+    private float playerOriginalRunSpeed;
 
     // Use this for initialization
     void Start()
@@ -23,7 +24,9 @@ public class ManipulationSpeed : ManipulationScript
         currentManipType = MANIPULATION_TYPE.OTHER;
 
         PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-        playerOriginalSpeed = controllerScript.WalkSpeed;
+        playerOriginalWalkSpeed = controllerScript.WalkSpeed;
+        playerOriginalRunSpeed = controllerScript.RunSpeed;
+
 
     }
 
@@ -41,6 +44,8 @@ public class ManipulationSpeed : ManipulationScript
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
             controllerScript.WalkSpeed = slowSpeed;
+            controllerScript.RunSpeed = slowSpeed;
+
         }
         else if (other.gameObject == player &&
             ((quickenInNightmare && currentObjectState == ManipulationManager.WORLD_STATE.NIGHTMARE)
@@ -48,11 +53,15 @@ public class ManipulationSpeed : ManipulationScript
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
             controllerScript.WalkSpeed = increaseSpeed;
+            controllerScript.RunSpeed = increaseSpeed;
+
         }
         else
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-            controllerScript.WalkSpeed = playerOriginalSpeed;
+            controllerScript.WalkSpeed = playerOriginalWalkSpeed;
+            controllerScript.RunSpeed = playerOriginalRunSpeed;
+
         }
     }
 
@@ -62,7 +71,8 @@ public class ManipulationSpeed : ManipulationScript
         if (other.gameObject == player)
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-            controllerScript.WalkSpeed = playerOriginalSpeed;
+            controllerScript.WalkSpeed = playerOriginalWalkSpeed;
+            controllerScript.RunSpeed = playerOriginalRunSpeed;
         }
     }
 }
