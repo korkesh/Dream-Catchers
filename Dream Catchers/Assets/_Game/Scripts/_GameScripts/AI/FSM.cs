@@ -32,7 +32,7 @@ public class FSM : MonoBehaviour
 
         }
         
-        if(ManipulationManager.Instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
+        if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
         {
             _currentState = (BaseState)states[startStateDream];
 

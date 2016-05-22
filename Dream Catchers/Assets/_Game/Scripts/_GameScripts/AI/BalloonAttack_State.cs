@@ -38,7 +38,7 @@ public class BalloonAttack_State : BaseState {
 
     public override void Execute()
     {
-        if (ManipulationManager.Instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
+        if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
         {
             fsm.changeState("FloatToStart");
 

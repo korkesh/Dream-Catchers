@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public class ManipulationManager : Singleton<ManipulationManager>
+public class ManipulationManager : MonoBehaviour
 {
     // Will live in Game Director
     public enum WORLD_STATE
@@ -13,6 +13,27 @@ public class ManipulationManager : Singleton<ManipulationManager>
      
     // The current game state the world is in
     public WORLD_STATE currentWorldState;
+
+    public static ManipulationManager instance = null;
+
+    void Awake()
+    {
+        //Check if instance already exists
+        if (instance == null)
+        {
+            //if not, set instance to this
+            instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+        }
+
+        //Sets this to not be destroyed when reloading scene
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Use this for initialization
     void Start()

@@ -29,7 +29,7 @@ public class BalloonWaitForPlayer_State : BaseState {
     public override void Execute()
     {
         Vector3 playerPos = Player.transform.position;
-        if (ManipulationManager.Instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
+        if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
         {
             fsm.changeState("FloatToStart");
 

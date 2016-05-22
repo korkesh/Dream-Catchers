@@ -26,7 +26,7 @@ public class BalloonFloatToStart_State : BaseState {
     {
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, StartPos, step);
-        if (ManipulationManager.Instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+        if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
             fsm.changeState("WaitForPlayer");
 
