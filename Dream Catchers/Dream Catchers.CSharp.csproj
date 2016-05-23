@@ -123,6 +123,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Math3d.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationBouncePad.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationGravity.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationLight.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationPopIn.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationRotate.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScale.cs" />
