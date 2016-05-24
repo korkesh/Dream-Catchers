@@ -32,7 +32,7 @@ public class PlayerMachine : SuperStateMachine {
     // current velocity
     private Vector3 moveDirection; // player movement direction vector
 
-    private Vector3 facing; // direction player is facing
+    public Vector3 facing; // direction player is facing
 
     // current direction camera is facing
     public Vector3 lookDirection { get; private set; }
@@ -96,7 +96,7 @@ public class PlayerMachine : SuperStateMachine {
             Camera.main.GetComponent<PlayerCamera>().setLastGround = transform.position.y;
         }
 
-        return controller.currentGround.IsGrounded(false, 0.01f);
+        return ground;//controller.currentGround.IsGrounded(false, 0.01f);
     }
 
     private bool MaintainingGround()
@@ -208,7 +208,7 @@ public class PlayerMachine : SuperStateMachine {
         {
             moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed * input.Current.MoveInput.magnitude, WalkAcceleration * Time.deltaTime);
             //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
-            facing = input.Current.MoveInput; // when walking always facing in direction moving
+            facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
 
             if (moveDirection.magnitude > RunSpeed * RunThreshold)
             {
@@ -259,7 +259,7 @@ public class PlayerMachine : SuperStateMachine {
             //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
             if (input.Current.MoveInput.magnitude > 0.1f)
             {
-                facing = input.Current.MoveInput;
+                facing = LocalMovement();
             }
 
             if (moveDirection.magnitude <= RunSpeed * RunThreshold)
