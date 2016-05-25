@@ -2,22 +2,28 @@
 using System.Collections;
 
 
-//temp class for testing dealing with items
+
 public class Items : MonoBehaviour {
 
+
+    //================================
+    // Variables
+    //================================
+
     public string name;
-    
     //for now 0 is memory frag and 1 is other
-
     public int Type;
-
     public string Scene;
-
     public Level_Manager.Levels Level;
-
     string key;
 
-	// Use this for initialization
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
     void Awake()
     {
 
@@ -37,11 +43,20 @@ public class Items : MonoBehaviour {
                 PlayerPrefs.SetInt(key, 0);
             }
 	}
-	
-	// Update is called once per frame
+
+    //-----------------
+    // Updates
+    //-----------------
+
 	void Update () {
 	
 	}
+
+
+    //-----------------
+    // Trigger calls
+    //-----------------
+
 
     // temp trigger stuff to pick up items and modify PlayerPrefs
     void OnTriggerEnter(Collider other)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public class Game_Manager : MonoBehaviour {
@@ -105,4 +106,25 @@ public class Game_Manager : MonoBehaviour {
         currentLevelState = s;
     }
 
+    //change state to play
+    public void PlayGame()
+    {
+        changeGameState(GameState.PLAY);
+    }
+
+
+    //-----------------
+    // Scene change
+    //-----------------
+
+    public void ChangeScene(string scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+
+
+    public void quitGame()
+    {
+        Application.Quit();
+    }
 }

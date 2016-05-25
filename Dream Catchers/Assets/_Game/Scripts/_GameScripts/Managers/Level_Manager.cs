@@ -84,5 +84,10 @@ public class Level_Manager : MonoBehaviour {
         PlayerPrefs.SetInt("TotalNumCollectibles", totalNumCollectibles);
         
     }
-   
+
+    //TODO: when checkpoints are added change this
+    public void Death()
+    {
+        Game_Manager.instance.ChangeScene(defaultGameScene);
+    }
 }

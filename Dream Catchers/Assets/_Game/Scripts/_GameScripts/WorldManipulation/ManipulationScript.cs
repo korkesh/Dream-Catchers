@@ -27,9 +27,9 @@ public class ManipulationScript : MonoBehaviour
     void Update()
     {
         // If the world state changes update object state and apply changes
-        if (ManipulationManager.Instance.currentWorldState != currentObjectState)
+        if (ManipulationManager.instance.currentWorldState != currentObjectState)
         {
-            changeState(ManipulationManager.Instance.currentWorldState);
+            changeState(ManipulationManager.instance.currentWorldState);
         }
     }
 

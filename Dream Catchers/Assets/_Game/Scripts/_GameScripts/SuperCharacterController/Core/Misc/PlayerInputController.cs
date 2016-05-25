@@ -30,6 +30,7 @@ public class PlayerInputController : MonoBehaviour {
             MouseInput = mouseInput,
             JumpInput = jumpInput
         };
+
 	}
 }
 
