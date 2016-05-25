@@ -1,0 +1,96 @@
+Initialize engine version: 5.3.4f1 (fdbb5133b820)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 970 (ID=0x13c2)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween.dll into Unity Child Domain
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween43.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween43.dll into Unity Child Domain
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween46.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween46.dll into Unity Child Domain
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween50.dll (this message is harmless)
+Loading D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\DOTween50.dll into Unity Child Domain
+- Completed reload, in  0.197 seconds
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\DreamCatchers\Dream Catchers\Week_1_Build_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.496721 ms
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 17cc -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.174314 ms
+
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 435.
+Total: 0.317023 ms (FindLiveObjects: 0.018248 ms CreateObjectMapping: 0.014536 ms MarkObjects: 0.250525 ms  DeleteObjects: 0.033094 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.225473 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 927.
+Total: 0.479400 ms (FindLiveObjects: 0.032784 ms CreateObjectMapping: 0.022268 ms MarkObjects: 0.415686 ms  DeleteObjects: 0.008041 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.494556 ms
+
+Unloading 65 unused Assets to reduce memory usage. Loaded Objects now: 446.
+Total: 0.453729 ms (FindLiveObjects: 0.018248 ms CreateObjectMapping: 0.013299 ms MarkObjects: 0.262587 ms  DeleteObjects: 0.158975 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.233514 ms
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 374)
+
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 814.
+Total: 1.353147 ms (FindLiveObjects: 0.086601 ms CreateObjectMapping: 0.055981 ms MarkObjects: 1.192006 ms  DeleteObjects: 0.018248 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.411356 ms
+
+Unloading 58 unused Assets to reduce memory usage. Loaded Objects now: 446.
+Total: 0.574662 ms (FindLiveObjects: 0.027217 ms CreateObjectMapping: 0.013299 ms MarkObjects: 0.337126 ms  DeleteObjects: 0.195781 ms)
+
