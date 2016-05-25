@@ -19,7 +19,7 @@ public class PlayerMachine : SuperStateMachine {
     public float Gravity = 25.0f;
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle, Walk, Run, Jump, DoubleJump, Fall }
+    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5 }
 
     private SuperCharacterController controller;
 
@@ -51,6 +51,11 @@ public class PlayerMachine : SuperStateMachine {
         lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
         // Put any code in here you want to run BEFORE the state's update function.
         // This is run regardless of what state you're in
+
+        if(input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump))
+        {
+            gameObject.GetComponent<PlayerCombat>().BeginAttack();
+        }
     }
 
     protected override void LateGlobalSuperUpdate()
@@ -244,7 +249,6 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Running", false);
     }
-
 
     void Jump_EnterState()
     {
