@@ -8,6 +8,10 @@ public class UI_Manager : MonoBehaviour {
     Menu PreviousMenu;
     public Menu Pause;
     public Menu Stats;
+    public Menu LevelComplete;
+    public Menu GameOverScreen;
+    public float timePlaceHolder;
+
 
     void Awake()
     {
@@ -71,20 +75,45 @@ public class UI_Manager : MonoBehaviour {
             CurrentMenu.IsOpen = true;
         }
     }
-	
+
 	// Update is called once per frame
 	void Update () {
 	
-        if(Input.GetKeyDown(KeyCode.P) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
+        
+
+        if(Input.GetKeyDown(KeyCode.JoystickButton7) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen)
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PAUSE);
             UI_Manager.instance.ShowMenu(Pause);
+            timePlaceHolder = Time.timeScale;
+            Time.timeScale = 0;
 
-        }else if((Input.GetKeyDown(KeyCode.P) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE))
+
+        }
+        else if ((Input.GetKeyDown(KeyCode.JoystickButton7) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen))
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
             UI_Manager.instance.ShowMenu(Stats);
+            Time.timeScale = timePlaceHolder;
+            
         }
 
+        if(Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
+        {
+            if(Level_Manager.instance.LevelComplete())
+            {
+                Game_Manager.instance.currentGameState = Game_Manager.GameState.MENU;
+                ShowMenu(LevelComplete);
+            }
+        }
 	}
+
+    public void GameOver()
+    {
+        Character_Manager.instance.heal(100);
+        ShowMenu(GameOverScreen);
+    }
+
+
+   
 }

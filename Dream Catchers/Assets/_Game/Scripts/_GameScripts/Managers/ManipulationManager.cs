@@ -50,7 +50,7 @@ public class ManipulationManager : MonoBehaviour
     void Update()
     {
         // Toggles the World State upon player input
-        if (Input.GetButtonDown("Fire1") || Input.GetKeyDown(KeyCode.Space))
+        if ((Input.GetButtonDown("Fire3") || Input.GetKeyDown(KeyCode.Space)) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
         {
             currentWorldState = (currentWorldState == WORLD_STATE.DREAM) ? WORLD_STATE.NIGHTMARE : WORLD_STATE.DREAM;
         }

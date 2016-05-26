@@ -12,6 +12,7 @@ public class TempSwitchScene : MonoBehaviour {
 
     public string NextScene;
     public Menu MainMenu;
+    public Menu InGameUI;
 
 
     //================================
@@ -50,4 +51,9 @@ public class TempSwitchScene : MonoBehaviour {
         UI_Manager.instance.ShowMenu(menu);
     }
 
+
+    public void InGameStats()
+    {
+        UI_Manager.instance.ShowMenu(InGameUI);
+    }
 }
