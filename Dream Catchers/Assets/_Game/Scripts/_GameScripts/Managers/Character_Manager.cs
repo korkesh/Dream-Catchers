@@ -67,7 +67,8 @@ public class Character_Manager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        totalMemoryFragmentsCollected = PlayerPrefs.GetInt("TotalMemoryFragsCollected");
+        totalCollectibles = PlayerPrefs.GetInt("TotalOtherCollectiblesCollected"); ;
     }
 
     /// <summary>
