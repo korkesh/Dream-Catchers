@@ -25,9 +25,11 @@ public class PlayerMachine : SuperStateMachine {
     public float RunThreshold = 0.5f; // % of max run speed required to transition between run/walk
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle, Walk, Run, Jump, DoubleJump, Fall, Attack }
+    public enum PlayerStates { Idle, Walk, Run, Jump, DoubleJump, Fall, Attack }
 
     private SuperCharacterController controller;
+
+    public float idleTimer { get; private set; } // how long the player has been idling
 
     // current velocity
     private Vector3 moveDirection; // player movement direction vector
@@ -38,6 +40,9 @@ public class PlayerMachine : SuperStateMachine {
     public Vector3 lookDirection { get; private set; }
 
     public float xRotation { get; private set; }
+
+
+    private PlayerCamera cam;
 
     private PlayerInputController input;
 
@@ -52,6 +57,7 @@ public class PlayerMachine : SuperStateMachine {
 
 	void Start ()
     {
+        cam = Camera.main.GetComponent<PlayerCamera>();
 
         input = gameObject.GetComponent<PlayerInputController>();
 
@@ -93,7 +99,7 @@ public class PlayerMachine : SuperStateMachine {
 
         if (ground)
         {
-            Camera.main.GetComponent<PlayerCamera>().setLastGround = transform.position.y;
+            cam.setLastGround = transform.position.y;
         }
 
         return ground;//controller.currentGround.IsGrounded(false, 0.01f);
@@ -152,10 +158,15 @@ public class PlayerMachine : SuperStateMachine {
     {
         controller.EnableSlopeLimit();
         controller.EnableClamping();
+
+        // update camera target in case landing from the air
+        cam.targetPos = cam.targetPosHigh;
     }
 
     void Idle_SuperUpdate()
     {
+        idleTimer += Time.deltaTime;
+
         // Run every frame we are in the idle state
 
         if (input.Current.JumpInput)
@@ -178,10 +189,17 @@ public class PlayerMachine : SuperStateMachine {
 
         // Apply friction to slow us to a halt
         moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+
+        // check camera for obstructions
+        if (idleTimer > 0.6f)
+        {
+            cam.CheckOcclusion();
+        }
     }
 
     void Idle_ExitState()
     {
+        idleTimer = 0;
         // Run once when we exit the idle state
     }
 
@@ -298,7 +316,8 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
 
-        //jumpTravelled = (moveDirection - initialJumpVelocity).magnitude;       
+        // update camera target to middle
+        cam.targetPos = new Vector3(0, (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f, 0);     
     }
 
     void Jump_SuperUpdate()
@@ -314,7 +333,7 @@ public class PlayerMachine : SuperStateMachine {
             Vector3 initialV = moveDirection;
             moveDirection += controller.up * Time.deltaTime * 50;
 
-            jumpTravelled += (moveDirection - initialV).magnitude;//Math3d.ProjectVectorOnPlane(controller.up, (moveDirection - initialV)).magnitude;
+            jumpTravelled += (moveDirection - initialV).magnitude; //Math3d.ProjectVectorOnPlane(controller.up, (moveDirection - initialV)).magnitude;
         }
 
         // transition to double jump
@@ -338,6 +357,12 @@ public class PlayerMachine : SuperStateMachine {
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
+
+        // update camera target
+        if (moveDirection.y < -0.2f)
+        {
+            cam.targetPos = cam.targetPosLow; // move target to lowest height when falling downward
+        }
     }
 
     void Jump_ExitState()
@@ -355,6 +380,9 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection.y = 0;
         moveDirection += controller.up * CalculateJumpSpeed(DoubleJumpHeight, Gravity);
+
+        // update camera target
+        cam.targetPos = new Vector3(0, (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f, 0);
     }
 
     void DoubleJump_SuperUpdate()
@@ -373,6 +401,12 @@ public class PlayerMachine : SuperStateMachine {
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
+
+        // update camera target
+        if (moveDirection.y < -0.2f)
+        {
+            cam.targetPos = cam.targetPosLow; // move target to lowest height when falling downward
+        }
     }
 
     void DoubleJump_ExitState()
