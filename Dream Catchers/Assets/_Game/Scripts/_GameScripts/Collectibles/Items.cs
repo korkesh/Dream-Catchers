@@ -10,9 +10,14 @@ public class Items : MonoBehaviour {
     // Variables
     //================================
 
-    public string name;
+    //public string name;
     //for now 0 is memory frag and 1 is other
-    public int Type;
+    public enum Type
+    {
+        FRAGEMENT,
+        COLLECTIBLE
+    }
+    public Type type;
     public string Scene;
     public Level_Manager.Levels Level;
     string key;
@@ -28,7 +33,7 @@ public class Items : MonoBehaviour {
     {
 
         //if the key exists in player prefsit checks to see if it is a 1 (meaning its been picked up), if so the object is deleted
-	        key = Level.ToString() + Scene + name;
+	        key = Level.ToString() + Scene + gameObject.name.ToString();
             if(PlayerPrefs.HasKey(key))
             {
                 int pickedup = PlayerPrefs.GetInt(key);
@@ -63,7 +68,7 @@ public class Items : MonoBehaviour {
     {
         if(other.gameObject.tag == "Player")
         {
-            if(Type == 0)
+            if(type == Type.COLLECTIBLE)
             {
                 Character_Manager.instance.CollectOtherCollectible();
                 
