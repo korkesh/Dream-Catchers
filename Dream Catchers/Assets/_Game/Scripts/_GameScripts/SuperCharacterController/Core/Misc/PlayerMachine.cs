@@ -14,15 +14,25 @@ public class PlayerMachine : SuperStateMachine {
     // Editor Fields
     //==============================================
 
-    public float RunSpeed = 4.0f;
     public float WalkAcceleration = 30.0f;
+    public float RunAcceleration = 40.0f;
     public float JumpAcceleration = 5.0f;
+    public float JumpHoldAcceleration = 10.0f;
+    public float JumpHoldTime = 0.5f; // amount of time holding jump button extends height after initial press
     public float MinJumpHeight = 1.75f;
     public float MaxJumpHeight = 3.0f;
     public float DoubleJumpHeight = 2.0f;
     public float Gravity = 25.0f;
     public float GroundFriction = 10.0f;
-    public float RunThreshold = 0.5f; // % of max run speed required to transition between run/walk
+    public float Walk1Speed = 0.15f;
+    public float Walk2Speed = 0.3f;
+    public float Walk3Speed = 0.5f;
+    public float RunSpeed = 0.65f;
+    public float MaxRunSpeed = 6.0f;
+
+    private float WalkSpeed = 0.1f;
+
+    public float JumpTimer = 0;
 
     // Add more states by comma separating them
     public enum PlayerStates { Idle, Walk, Run, Jump, DoubleJump, Fall, Attack }
@@ -54,6 +64,9 @@ public class PlayerMachine : SuperStateMachine {
     //============================================
 
     public float moveSpeed;
+    public float hAxis;
+    public float vAxis;
+    public float inputMagnitude;
 
 	void Start ()
     {
@@ -69,10 +82,17 @@ public class PlayerMachine : SuperStateMachine {
 
         // Set our currentState to idle on startup
         currentState = PlayerStates.Idle;
-	}
+
+        
+    }
 
     protected override void EarlyGlobalSuperUpdate()
     {
+        // DEBUG:
+        hAxis = input.Current.MoveInput.x;
+        vAxis = input.Current.MoveInput.z;
+        inputMagnitude = input.Current.MoveInput.magnitude;
+
         // Rotate out facing direction horizontally based on mouse input
         //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
         lookDirection = Math3d.ProjectVectorOnPlane(controller.up, Camera.main.transform.forward);
@@ -205,7 +225,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Walk_EnterState()
     {
-        gameObject.GetComponent<Animator>().SetBool("Walking", true);
+        gameObject.GetComponent<Animator>().SetBool("Walking", true);       
     }
 
     void Walk_SuperUpdate()
@@ -224,11 +244,25 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed * input.Current.MoveInput.magnitude, WalkAcceleration * Time.deltaTime);
+            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed * MaxRunSpeed, WalkAcceleration * Time.deltaTime);
             //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
             facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
 
-            if (moveDirection.magnitude > RunSpeed * RunThreshold)
+            // SPEEDS: todo: set animation speed parameters?
+
+            if (input.Current.MoveInput.magnitude < Walk1Speed)
+            {
+                WalkSpeed = 0.1f;
+            }
+            else if (input.Current.MoveInput.magnitude < Walk2Speed)
+            {
+                WalkSpeed = 0.25f;
+            }
+            else if (input.Current.MoveInput.magnitude < Walk3Speed)
+            {
+                WalkSpeed = 0.5f;
+            }
+            else
             {
                 currentState = PlayerStates.Run;
                 return;
@@ -273,14 +307,14 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed * input.Current.MoveInput.magnitude, WalkAcceleration * Time.deltaTime);
-            //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
+            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * MaxRunSpeed, RunAcceleration * Time.deltaTime);
+
             if (input.Current.MoveInput.magnitude > 0.1f)
             {
                 facing = LocalMovement();
             }
 
-            if (moveDirection.magnitude <= RunSpeed * RunThreshold)
+            if (input.Current.MoveInput.magnitude < RunSpeed)
             {
                 currentState = PlayerStates.Walk;
                 return;
@@ -301,6 +335,7 @@ public class PlayerMachine : SuperStateMachine {
     void Jump_EnterState()
     {
         jumpHold = true;
+        JumpTimer = 0;
 
         gameObject.GetComponent<Animator>().SetBool("Jumping", true);
 
@@ -328,12 +363,24 @@ public class PlayerMachine : SuperStateMachine {
             jumpHold = false;
         }
 
-        if (jumpHold && jumpTravelled < MaxJumpHeight)
+        if (jumpHold)
         {
-            Vector3 initialV = moveDirection;
-            moveDirection += controller.up * Time.deltaTime * 50;
+            if (JumpTimer + Time.deltaTime < JumpHoldTime)
+            {
+                moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+                JumpTimer += Time.deltaTime;
+            }
+            else if (JumpTimer < JumpHoldTime)
+            {
+                moveDirection += controller.up * (JumpHoldTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+                JumpTimer = JumpHoldTime;
+            }
 
-            jumpTravelled += (moveDirection - initialV).magnitude; //Math3d.ProjectVectorOnPlane(controller.up, (moveDirection - initialV)).magnitude;
+            //Vector3 initialV = moveDirection;
+            //moveDirection += controller.up * Time.deltaTime * 50;
+
+            //jumpTravelled += (moveDirection - initialV).magnitude; 
+            //Math3d.ProjectVectorOnPlane(controller.up, (moveDirection - initialV)).magnitude;
         }
 
         // transition to double jump
@@ -353,7 +400,7 @@ public class PlayerMachine : SuperStateMachine {
             return;            
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * RunSpeed, JumpAcceleration * Time.deltaTime);
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, JumpAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
@@ -397,7 +444,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * RunSpeed, JumpAcceleration * Time.deltaTime);
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, JumpAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
