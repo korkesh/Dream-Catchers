@@ -15,7 +15,7 @@ public class PlayerMachine : SuperStateMachine {
     //==============================================
 
     public float WalkAcceleration = 30.0f;
-    public float RunAcceleration = 40.0f;
+    public float RunAcceleration = 10.0f;
     public float JumpAcceleration = 5.0f;
     public float JumpHoldAcceleration = 10.0f;
     public float JumpHoldTime = 0.5f; // amount of time holding jump button extends height after initial press
@@ -29,6 +29,7 @@ public class PlayerMachine : SuperStateMachine {
     public float Walk3Speed = 0.5f;
     public float RunSpeed = 0.65f;
     public float MaxRunSpeed = 6.0f;
+    public float RunTurnSpeed = 4.0f;
 
     private float WalkSpeed = 0.1f;
 
@@ -67,6 +68,7 @@ public class PlayerMachine : SuperStateMachine {
     public float hAxis;
     public float vAxis;
     public float inputMagnitude;
+    public float inputPlayerCross;
 
 	void Start ()
     {
@@ -110,7 +112,7 @@ public class PlayerMachine : SuperStateMachine {
         transform.position += moveDirection * Time.deltaTime;
 
         // Rotate mesh to face correct direction (temp if implementing min turn radius)
-        AnimatedMesh.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
+        transform.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
     }
 
     private bool AcquiringGround()
@@ -307,18 +309,34 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * MaxRunSpeed, RunAcceleration * Time.deltaTime);
+            // run speed is constant in forward direction, directional inputs only affect forward vector's angle
 
-            if (input.Current.MoveInput.magnitude > 0.1f)
+            Vector3 local = LocalMovement();
+
+            inputPlayerCross = Vector3.Cross(local, transform.forward).magnitude;
+
+            if (inputPlayerCross > 0.08f)
             {
-                facing = LocalMovement();
+                transform.forward = Quaternion.AngleAxis(RunTurnSpeed * Time.deltaTime * Mathf.Sign(Vector3.Cross(local, transform.forward).y) * -1, controller.up) * transform.forward;
+                //transform.rotation = Quaternion.LookRotation( += new Vector3(0, Time.deltaTime * Mathf.Sign(inputPlayerCross), 0); // = Vector3.MoveTowards(transform.forward, local, Time.deltaTime * RunTurnSpeed);
+                facing = transform.forward;
             }
 
-            if (input.Current.MoveInput.magnitude < RunSpeed)
-            {
-                currentState = PlayerStates.Walk;
-                return;
-            }
+
+            moveDirection = transform.forward * MaxRunSpeed;
+
+            //moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * MaxRunSpeed, RunAcceleration * Time.deltaTime);
+
+            //if (input.Current.MoveInput.magnitude > 0.1f)
+            //{
+            //    facing = LocalMovement();
+            //}
+
+            //if (input.Current.MoveInput.magnitude < RunSpeed)
+            //{
+            //    currentState = PlayerStates.Walk;
+            //    return;
+            //}
         }
         else
         {
