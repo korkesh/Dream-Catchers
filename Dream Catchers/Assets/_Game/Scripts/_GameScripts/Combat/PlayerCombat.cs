@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerCombat : MonoBehaviour
 {
     public Collider weaponCollider;
+    public GameObject weaponParentObject;
     public bool attacking;
 
 	// Use this for initialization
@@ -21,6 +22,7 @@ public class PlayerCombat : MonoBehaviour
     {
         Debug.Log("attack");
 
+        weaponParentObject.SetActive(true);
         gameObject.GetComponent<Animator>().SetBool("StandAttack", true);
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 1);
         attacking = true;
@@ -31,6 +33,7 @@ public class PlayerCombat : MonoBehaviour
     {
         Debug.Log("attack end");
 
+        weaponParentObject.SetActive(false);
         attacking = false;
         weaponCollider.enabled = false;
         gameObject.GetComponent<Animator>().SetBool("StandAttack", false);

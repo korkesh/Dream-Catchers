@@ -4,6 +4,7 @@ using System.Collections;
 public class HammerAttack : MonoBehaviour {
 
     public PlayerCombat combatScript;
+    public int hammerDamage;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +20,7 @@ public class HammerAttack : MonoBehaviour {
     {
         if (other.tag == "Enemy" && combatScript.attacking)
         {
-            Destroy(other.gameObject);
+            other.BroadcastMessage("TakeDamage", hammerDamage);
         }
     }
 }
