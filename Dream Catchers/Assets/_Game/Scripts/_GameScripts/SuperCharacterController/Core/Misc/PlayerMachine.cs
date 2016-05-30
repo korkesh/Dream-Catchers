@@ -11,10 +11,10 @@ public class PlayerMachine : SuperStateMachine {
     public Transform AnimatedMesh;
 
     public float WalkSpeed = 2.0f;
-    public float WalkAcceleration = 15.0f;
+    public float WalkAcceleration = 100;
     public float RunSpeed = 4.0f;
-    public float RunAcceleration = 30.0f;
-    public float JumpAcceleration = 5.0f;
+    public float RunAcceleration = 100;
+    public float JumpAcceleration = 100f;
     public float JumpHeight = 3.0f;
     public float Gravity = 25.0f;
 
@@ -148,7 +148,7 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            if (Mathf.Abs(input.Current.MoveInput.x + input.Current.MoveInput.z) >= 0.5f)
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= 0.5f)
             {
                 currentState = PlayerStates.Run;
                 return;
@@ -190,7 +190,7 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            if (Mathf.Abs(input.Current.MoveInput.x + input.Current.MoveInput.z) >= 0.5f)
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= 0.5f)
             {
                 currentState = PlayerStates.Run;
                 return;
@@ -231,7 +231,7 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            if(Mathf.Abs(input.Current.MoveInput.x + input.Current.MoveInput.z) < 0.5f)
+            if(Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < 0.5f)
             {
                 currentState = PlayerStates.Walk;
                 return;
@@ -278,7 +278,7 @@ public class PlayerMachine : SuperStateMachine {
             return;            
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * WalkSpeed, JumpAcceleration * Time.deltaTime);
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * RunSpeed, JumpAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
@@ -312,7 +312,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * WalkSpeed, JumpAcceleration * Time.deltaTime);
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * RunSpeed, JumpAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
