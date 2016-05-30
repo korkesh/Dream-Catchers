@@ -18,7 +18,6 @@
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
     <RootNamespace></RootNamespace>
-    <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,15 +63,6 @@
     <Reference Include="DOTween">
       <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween43">
-      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween46">
-      <HintPath>Assets\Demigiant\DOTween\DOTween46.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween50">
-      <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
@@ -92,6 +82,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\Menu.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TimePause.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\AI_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Audio_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Character_Manager.cs" />
@@ -129,6 +120,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScale.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationScript.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationSpeed.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationText.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\WorldManipulation\ManipulationTranslate.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -140,5 +132,5 @@
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
     <None Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\README.txt" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

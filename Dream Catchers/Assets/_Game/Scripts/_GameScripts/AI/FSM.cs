@@ -47,8 +47,11 @@ public class FSM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        _currentState.Execute();
+        if (Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
+        {
+            _currentState.Execute();
+        }
+       
     }
 
     //changes the state
