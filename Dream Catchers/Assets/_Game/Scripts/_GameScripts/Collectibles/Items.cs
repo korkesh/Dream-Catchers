@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
 public class Items : MonoBehaviour {
-
 
     //================================
     // Variables
@@ -15,7 +12,8 @@ public class Items : MonoBehaviour {
     public enum Type
     {
         FRAGEMENT,
-        COLLECTIBLE
+        COLLECTIBLE,
+        HEALTH_PICKUP
     }
     public Type type;
     public string Scene;
@@ -62,7 +60,6 @@ public class Items : MonoBehaviour {
     // Trigger calls
     //-----------------
 
-
     // temp trigger stuff to pick up items and modify PlayerPrefs
     void OnTriggerEnter(Collider other)
     {
@@ -72,6 +69,10 @@ public class Items : MonoBehaviour {
             {
                 Character_Manager.instance.CollectOtherCollectible();
                 
+            }
+            else if(type == Type.HEALTH_PICKUP)
+            {
+                Character_Manager.instance.heal(1);
             }
             else
             {
