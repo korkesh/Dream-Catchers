@@ -24,10 +24,13 @@ public class PlayerInputController : MonoBehaviour {
 
         bool jumpInput = Input.GetButtonDown("Jump") || toggleJump;
 
+        bool attackInput = Input.GetButtonDown("Attack");
+
         Current = new PlayerInput()
         {
             MoveInput = moveInput,
             MouseInput = mouseInput,
+            AttackInput = attackInput,
             JumpInput = jumpInput
         };
 
@@ -38,5 +41,6 @@ public struct PlayerInput
 {
     public Vector3 MoveInput;
     public Vector2 MouseInput;
+    public bool AttackInput;
     public bool JumpInput;
 }
