@@ -5,6 +5,14 @@ using System.Collections;
 // default camera
 public class PlayerCamera : MonoBehaviour
 {
+    public enum CameraMode
+    {
+        Field,
+        Look
+    }
+
+    public CameraMode currentMode;
+
     public float MaxDistance = 11.0f;
     public float MinDistance = 9.0f;
     public float Height = 4.5f; // height offset from player
@@ -13,13 +21,20 @@ public class PlayerCamera : MonoBehaviour
     public float rotateSpeed = 100;
 
     public GameObject PlayerTarget;
+    public GameObject LookUp;
+    public GameObject LookDown;
 
     public float idleTimer; // counts how long in seconds the camera transform has been idling
     private Vector3 prevPos;
 
     private PlayerInputController input;
-    private Transform target;
     private PlayerMachine machine;
+
+    private Transform target;
+    private Transform lookUpTarget;
+    private Transform lookDownTarget;
+
+    private float CamY = 0; // amount of y manipulation camera has applied to it
 
     // Target:
     private SteeringBehaviourComponent steering;
@@ -49,12 +64,16 @@ public class PlayerCamera : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        currentMode = CameraMode.Field;
+
         input = PlayerTarget.transform.parent.GetComponent<PlayerInputController>();
         machine = PlayerTarget.transform.parent.GetComponent<PlayerMachine>();
         controller = PlayerTarget.transform.parent.GetComponent<SuperCharacterController>();
 
         steering = gameObject.GetComponent<SteeringBehaviourComponent>();
         target = PlayerTarget.transform;
+        lookUpTarget = LookUp.transform;
+        lookDownTarget = LookDown.transform;
 
         lastGround = machine.transform.position.y;
 
@@ -78,11 +97,13 @@ public class PlayerCamera : MonoBehaviour
 
 
         // temp rotation test
-        if (input.Current.Joy2Input.x != 0)
+        if (currentMode == CameraMode.Field)
         {
-            transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
+            if (input.Current.Joy2Input.x != 0)
+            {
+                transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
+            }
         }
-
         if (transform.position == prevPos)
         {
             idleTimer += Time.deltaTime;
@@ -116,6 +137,20 @@ public class PlayerCamera : MonoBehaviour
 
         // TEMPORARY MOVEMENT
         // move target up
+        if (PlayerTarget.transform.localPosition != targetPos)
+        {
+            Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, 0.1f);
+
+            if (!Mathf.Approximately(lerp.x, targetPos.x) || !Mathf.Approximately(lerp.y, targetPos.y) || !Mathf.Approximately(lerp.z, targetPos.z))
+            {
+                PlayerTarget.transform.localPosition = lerp;
+            }
+            else
+            {
+                PlayerTarget.transform.localPosition = targetPos;
+            }
+        }
+
         //if (PlayerTarget.transform.localPosition.y < targetPos.y)
         //{
 
@@ -123,7 +158,6 @@ public class PlayerCamera : MonoBehaviour
 
         //    if (lerp.y < targetPosHigh.y)
         //    {
-
         //        PlayerTarget.transform.localPosition = lerp;
         //    }
         //    else
@@ -145,8 +179,14 @@ public class PlayerCamera : MonoBehaviour
         //        PlayerTarget.transform.localPosition = targetPosLow;
         //    }
         //}
+         
+        //// move target forward/back
+        //if (PlayerTarget.transform.localPosition.z < targetPos.z)
+        //{
+        //    Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, 0.1f);
+        //}
 
-        
+
 
 
         // move target "in front" of player to give forward vantage
@@ -162,27 +202,30 @@ public class PlayerCamera : MonoBehaviour
                 // player is facing to one of two sides, rotate (move??????) cam appropriately
                 Vector3 planarCamRight = Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized;
 
-                targetPos = targetPosHigh + (planarCamRight * Mathf.Sign(playerCamCross.y) * -10);
+                //targetPos = targetPosHigh + (planarCamRight * Mathf.Sign(playerCamCross.y) * -10);
             }
         }
 
 
-        steering.Target = transform.parent.position + targetPos;
+        //steering.Target = transform.parent.position + targetPos;
     }
 
 
     public void FollowPlayer()
     {
         // min/max distance
-        Vector3 displacement = Math3d.ProjectVectorOnPlane(controller.up, PlayerTarget.transform.position - transform.position);
+        if (currentMode == CameraMode.Field)
+        {
+            Vector3 displacement = Math3d.ProjectVectorOnPlane(controller.up, PlayerTarget.transform.position - transform.position);
 
-        if (displacement.magnitude > MaxDistance)
-        {
-            transform.position += (displacement.magnitude - MaxDistance) * displacement.normalized; 
-        }
-        else if (displacement.magnitude < MinDistance)
-        {
-            transform.position -= (MinDistance - displacement.magnitude) * displacement.normalized;
+            if (displacement.magnitude > MaxDistance)
+            {
+                transform.position += (displacement.magnitude - MaxDistance) * displacement.normalized;
+            }
+            else if (displacement.magnitude < MinDistance)
+            {
+                transform.position -= (MinDistance - displacement.magnitude) * displacement.normalized;
+            }
         }
 
 
@@ -200,10 +243,41 @@ public class PlayerCamera : MonoBehaviour
             transform.forward += Vector3.Slerp(transform.forward, PlayerTarget.transform.position - transform.position, 0.025f) * Time.deltaTime * rotateSpeed;
         }
 
+
         // y rotation
+        if (input.Current.Joy2Input.z < 0) // look up
+        {
+            currentMode = CameraMode.Look;
 
+            targetPos.y = targetPosHigh.y;
+
+            // move toward upward vantage point
+            if ((transform.position - lookUpTarget.position).magnitude > 0.05f)
+            {
+                transform.position = Vector3.Lerp(transform.position, lookUpTarget.position, Mathf.Abs(input.Current.Joy2Input.z) * Time.deltaTime);
+            }
+            
+        }
+        // look down
+        else if (input.Current.Joy2Input.z > 0)
+        {
+            currentMode = CameraMode.Look;
+
+            targetPos.y = targetPosLow.y;
+            targetPos.z = 4;
+
+            if ((transform.position - lookDownTarget.position).magnitude > 0.05f)
+            {
+                transform.position = Vector3.Lerp(transform.position, lookDownTarget.position, input.Current.Joy2Input.z * Time.deltaTime);
+            }
+        }
+        else
+        { // TODO: store old field cam coords for seamless reversion
+            targetPos.y = targetPosHigh.y;
+            targetPos.z = 0;
+            currentMode = CameraMode.Field;
+        }
         
-
         // up/down movement
         if (!Mathf.Approximately(transform.position.y, lastGround + Height))
         {
