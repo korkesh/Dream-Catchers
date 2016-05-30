@@ -78,10 +78,10 @@ public class UI_Manager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
-        
 
-        if(Input.GetKeyDown(KeyCode.JoystickButton7) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen)
+
+
+        if ((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen)
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PAUSE);
             UI_Manager.instance.ShowMenu(Pause);
@@ -90,7 +90,7 @@ public class UI_Manager : MonoBehaviour {
 
 
         }
-        else if ((Input.GetKeyDown(KeyCode.JoystickButton7) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen))
+        else if (((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen))
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
             UI_Manager.instance.ShowMenu(Stats);
@@ -110,7 +110,7 @@ public class UI_Manager : MonoBehaviour {
 
     public void GameOver()
     {
-        Character_Manager.instance.heal(100);
+        //Character_Manager.instance.heal(100);
         ShowMenu(GameOverScreen);
     }
 

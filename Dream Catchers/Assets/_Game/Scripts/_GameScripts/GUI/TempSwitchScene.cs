@@ -56,4 +56,9 @@ public class TempSwitchScene : MonoBehaviour {
     {
         UI_Manager.instance.ShowMenu(InGameUI);
     }
+
+    public void GMchangeGameState(Game_Manager.GameState gs)
+    {
+        Game_Manager.instance.changeGameState(gs);
+    }
 }
