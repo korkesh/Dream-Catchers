@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -82,6 +76,10 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Input_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Level_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\UI_Manager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Steering Behaviours\ArriveSteeringBehaviour.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Steering Behaviours\SeekSteeringBehaviour.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Steering Behaviours\SteeringBehaviourBase.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Steering Behaviours\SteeringBehaviourComponent.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BSPTree.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BruteForceMesh.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\Gravity.cs" />

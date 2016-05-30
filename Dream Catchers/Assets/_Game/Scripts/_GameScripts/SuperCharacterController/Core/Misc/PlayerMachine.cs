@@ -264,7 +264,7 @@ public class PlayerMachine : SuperStateMachine {
             {
                 WalkSpeed = 0.5f;
             }
-            else
+            else if (input.Current.MoveInput.magnitude >= RunSpeed)
             {
                 currentState = PlayerStates.Run;
                 return;
@@ -309,6 +309,13 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
+            // transition to walk condition
+            if (input.Current.MoveInput.magnitude < RunSpeed)
+            {
+                currentState = PlayerStates.Walk;
+                return;
+            }
+
             // run speed is constant in forward direction, directional inputs only affect forward vector's angle
 
             Vector3 local = LocalMovement();
@@ -320,6 +327,20 @@ public class PlayerMachine : SuperStateMachine {
                 transform.forward = Quaternion.AngleAxis(RunTurnSpeed * Time.deltaTime * Mathf.Sign(Vector3.Cross(local, transform.forward).y) * -1, controller.up) * transform.forward;
                 //transform.rotation = Quaternion.LookRotation( += new Vector3(0, Time.deltaTime * Mathf.Sign(inputPlayerCross), 0); // = Vector3.MoveTowards(transform.forward, local, Time.deltaTime * RunTurnSpeed);
                 facing = transform.forward;
+
+                // tell camera to align w/ forward vector if holding straight up
+                if (input.Current.MoveInput.z > 0)
+                {
+                    cam.aligning = true;
+                }
+                else
+                {
+                    cam.aligning = false;
+                }
+            }
+            else
+            {
+                cam.aligning = false;
             }
 
 
@@ -370,7 +391,7 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
 
         // update camera target to middle
-        cam.targetPos = new Vector3(0, (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f, 0);     
+        cam.targetPos.y = (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f;     
     }
 
     void Jump_SuperUpdate()
@@ -426,7 +447,7 @@ public class PlayerMachine : SuperStateMachine {
         // update camera target
         if (moveDirection.y < -0.2f)
         {
-            cam.targetPos = cam.targetPosLow; // move target to lowest height when falling downward
+            cam.targetPos.y = cam.targetPosLow.y; // move target to lowest height when falling downward
         }
     }
 
@@ -447,7 +468,7 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection += controller.up * CalculateJumpSpeed(DoubleJumpHeight, Gravity);
 
         // update camera target
-        cam.targetPos = new Vector3(0, (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f, 0);
+        cam.targetPos.y = (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f;
     }
 
     void DoubleJump_SuperUpdate()
@@ -470,7 +491,7 @@ public class PlayerMachine : SuperStateMachine {
         // update camera target
         if (moveDirection.y < -0.2f)
         {
-            cam.targetPos = cam.targetPosLow; // move target to lowest height when falling downward
+            cam.targetPos.y = cam.targetPosLow.y; // move target to lowest height when falling downward
         }
     }
 

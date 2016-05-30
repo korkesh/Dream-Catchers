@@ -7,7 +7,7 @@ public class PlayerCamera : MonoBehaviour
 {
     public float MaxDistance = 11.0f;
     public float MinDistance = 9.0f;
-    public float Height = 4.5f;
+    public float Height = 4.5f; // height offset from player
 
     public float moveSpeed = 10.0f;
     public float rotateSpeed = 100;
@@ -22,11 +22,17 @@ public class PlayerCamera : MonoBehaviour
     private PlayerMachine machine;
 
     // Target:
+    private SteeringBehaviourComponent steering;
+
     public Vector3 targetPosHigh; // above character (standard)
     public Vector3 targetPosLow; // below character (for falling)
     public Vector3 targetPos; // the current desired height
 
     private SuperCharacterController controller;
+
+    public bool aligning = false; // controls timer for camera align
+    private float alignTimer;
+    public float alignTime = 1.5f;
 
     private float yOffset; // offset from default pos by player input
 
@@ -46,6 +52,8 @@ public class PlayerCamera : MonoBehaviour
         input = PlayerTarget.transform.parent.GetComponent<PlayerInputController>();
         machine = PlayerTarget.transform.parent.GetComponent<PlayerMachine>();
         controller = PlayerTarget.transform.parent.GetComponent<SuperCharacterController>();
+
+        steering = gameObject.GetComponent<SteeringBehaviourComponent>();
         target = PlayerTarget.transform;
 
         lastGround = machine.transform.position.y;
@@ -66,6 +74,8 @@ public class PlayerCamera : MonoBehaviour
         UpdateTarget();
 
         FollowPlayer();
+
+
 
         // temp rotation test
         if (input.Current.Joy2Input.x != 0)
@@ -102,35 +112,62 @@ public class PlayerCamera : MonoBehaviour
     // moves the player child that the camera follows
     public void UpdateTarget()
     {
+        //PlayerTarget.GetComponent<SteeringBehaviourComponent>().Target = targetPos;
+
+        // TEMPORARY MOVEMENT
         // move target up
-        if (PlayerTarget.transform.localPosition.y < targetPos.y)
-        {
+        //if (PlayerTarget.transform.localPosition.y < targetPos.y)
+        //{
 
-            Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPosHigh, 0.1f);
+        //    Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPosHigh, 0.1f);
 
-            if (lerp.y < targetPosHigh.y)
+        //    if (lerp.y < targetPosHigh.y)
+        //    {
+
+        //        PlayerTarget.transform.localPosition = lerp;
+        //    }
+        //    else
+        //    {
+        //        PlayerTarget.transform.localPosition = targetPosHigh;
+        //    }
+        //}
+        //// move target down
+        //else if (PlayerTarget.transform.localPosition.y > targetPos.y)
+        //{
+        //    Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPosLow, 0.1f);
+
+        //    if (lerp.y > targetPosLow.y)
+        //    {
+        //        PlayerTarget.transform.localPosition = lerp;
+        //    }
+        //    else
+        //    {
+        //        PlayerTarget.transform.localPosition = targetPosLow;
+        //    }
+        //}
+
+        
+
+
+        // move target "in front" of player to give forward vantage
+        Vector3 planarCam = Math3d.ProjectVectorOnPlane(controller.up, transform.forward).normalized;
+        Vector3 planarPlayer = Math3d.ProjectVectorOnPlane(controller.up, controller.transform.forward).normalized;
+
+        if (Vector2.Dot(new Vector2(planarCam.x, planarCam.z), new Vector2(planarPlayer.x, planarPlayer.z)) > -0.15f)
+        { // only applies if input is 90 degrees or less from forward
+            Vector3 playerCamCross = Vector3.Cross(planarPlayer, planarCam);
+
+            if (playerCamCross.magnitude > 0.035f)
             {
-                PlayerTarget.transform.localPosition = lerp;
-            }
-            else
-            {
-                PlayerTarget.transform.localPosition = targetPosHigh;
+                // player is facing to one of two sides, rotate (move??????) cam appropriately
+                Vector3 planarCamRight = Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized;
+
+                targetPos = targetPosHigh + (planarCamRight * Mathf.Sign(playerCamCross.y) * -10);
             }
         }
-        // move target down
-        else if (PlayerTarget.transform.localPosition.y > targetPos.y)
-        {
-            Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPosLow, 0.1f);
 
-            if (lerp.y > targetPosLow.y)
-            {
-                PlayerTarget.transform.localPosition = lerp;
-            }
-            else
-            {
-                PlayerTarget.transform.localPosition = targetPosLow;
-            }
-        }
+
+        steering.Target = transform.parent.position + targetPos;
     }
 
 
@@ -141,7 +178,6 @@ public class PlayerCamera : MonoBehaviour
 
         if (displacement.magnitude > MaxDistance)
         {
-
             transform.position += (displacement.magnitude - MaxDistance) * displacement.normalized; 
         }
         else if (displacement.magnitude < MinDistance)
@@ -159,9 +195,9 @@ public class PlayerCamera : MonoBehaviour
 
         crossLength = cross.magnitude; // DEBUG
 
-        if (cross.magnitude > 0.1f)
+        if (cross.magnitude > 0.04f)
         {
-            transform.forward += Vector3.Slerp(transform.forward, PlayerTarget.transform.position - transform.position, 0.05f) * Time.deltaTime * rotateSpeed;
+            transform.forward += Vector3.Slerp(transform.forward, PlayerTarget.transform.position - transform.position, 0.025f) * Time.deltaTime * rotateSpeed;
         }
 
         // y rotation
@@ -169,7 +205,26 @@ public class PlayerCamera : MonoBehaviour
         
 
         // up/down movement
+        if (!Mathf.Approximately(transform.position.y, lastGround + Height))
+        {
+            steering.Target = new Vector3(transform.position.x, lastGround + Height, transform.position.z);
+        }
 
+
+        // align with player forward if holding straight up or idle(?)
+        if (aligning)
+        {
+            alignTimer += Time.deltaTime;
+
+            if (alignTimer >= alignTime)
+            {
+
+            }
+        }
+        else
+        {
+            alignTimer = 0;
+        }
     }
 
     // if something is obstructing the character from camera view, rotate until visible
