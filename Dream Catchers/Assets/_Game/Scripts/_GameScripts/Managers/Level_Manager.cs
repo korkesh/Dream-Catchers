@@ -89,11 +89,11 @@ public class Level_Manager : MonoBehaviour {
     }
 
     //TODO: when checkpoints are added change this
-    public void Death()
-    {
-        UI_Manager.instance.GameOver();
-        //Game_Manager.instance.ChangeScene(defaultGameScene);
-    }
+    //public void Death()
+    //{
+    //    UI_Manager.instance.GameOver();
+    //    //Game_Manager.instance.ChangeScene(defaultGameScene);
+    //}
 
     public bool LevelComplete()
     {

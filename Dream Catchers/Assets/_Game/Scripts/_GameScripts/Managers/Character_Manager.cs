@@ -117,8 +117,11 @@ public class Character_Manager : MonoBehaviour
         {
             currentHealth = 0;
             //TODO: Handle Death state
-            Level_Manager.instance.Death();
+            //Level_Manager.instance.Death();
+            //Game_Manager.instance.changeGameState(Game_Manager.GameState.GAMEOVER);
+            UI_Manager.instance.GameOver();
             heal(100);
+            ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
             
         }
 

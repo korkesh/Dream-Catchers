@@ -30,7 +30,8 @@ public class Game_Manager : MonoBehaviour {
         MENU,
         PLAY,
         PAUSE,
-        GAMEOVER
+        GAMEOVER,
+        LEVELCOMPLETE
     }
     
     // Current States
