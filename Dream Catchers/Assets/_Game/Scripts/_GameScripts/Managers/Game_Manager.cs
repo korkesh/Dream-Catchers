@@ -113,6 +113,11 @@ public class Game_Manager : MonoBehaviour {
         changeGameState(GameState.PLAY);
     }
 
+    // check if paused
+    public bool isPaused()
+    {
+        return currentGameState == GameState.PAUSE;
+    }
 
     //-----------------
     // Scene change

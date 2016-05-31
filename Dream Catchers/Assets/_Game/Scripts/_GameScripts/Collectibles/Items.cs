@@ -67,7 +67,7 @@ public class Items : MonoBehaviour {
         {
             if(type == Type.COLLECTIBLE)
             {
-                Character_Manager.instance.CollectOtherCollectible();
+                Character_Manager.Instance.CollectOtherCollectible();
                 
             }
             else if(type == Type.HEALTH_PICKUP)
@@ -76,7 +76,7 @@ public class Items : MonoBehaviour {
             }
             else
             {
-                Character_Manager.instance.CollectMemoryFrag();
+                Character_Manager.Instance.CollectMemoryFrag();
 
             }
             PlayerPrefs.SetInt(key, 1);
