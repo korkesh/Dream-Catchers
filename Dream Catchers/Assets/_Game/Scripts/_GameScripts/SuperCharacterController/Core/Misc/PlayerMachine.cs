@@ -8,8 +8,6 @@ using System.Collections;
 [RequireComponent(typeof(PlayerInputController))]
 public class PlayerMachine : SuperStateMachine {
 
-    public Transform AnimatedMesh;
-
     //==============================================
     // Controllers and States
     //==============================================
@@ -271,39 +269,42 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed * MaxRunSpeed, WalkAcceleration * Time.deltaTime);
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkSpeedThreshold3)
+            {
+                currentState = PlayerStates.Run;
+                return;
+            }
+            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed, WalkAcceleration * Time.deltaTime);
+            facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
+
+            /*(moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed * MaxRunSpeed, WalkAcceleration * Time.deltaTime);
             //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
             facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
 
             // SPEEDS: todo: set animation speed parameters?
 
-            if (input.Current.MoveInput.magnitude < WalkSpeedThreshold1)
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold1)
             {
                 WalkSpeed = 0.1f;
             }
-            else if (input.Current.MoveInput.magnitude < WalkSpeedThreshold2)
+            else if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold2)
             {
                 WalkSpeed = 0.25f;
             }
-            else if (input.Current.MoveInput.magnitude < WalkSpeedThreshold3)
+            else if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold3)
             {
                 WalkSpeed = 0.5f;
             }
-            else if (input.Current.MoveInput.magnitude >= RunSpeed)
+            else if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkSpeedThreshold3)
             {
                 currentState = PlayerStates.Run;
                 return;
-            }
+            }*/
         }
         else 
         {
-            if (moveDirection.magnitude == 0)
-            {
-                currentState = PlayerStates.Idle;
-                return;
-            }
-
-            moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+            currentState = PlayerStates.Idle;
+            return; 
         }
     }
 
@@ -335,12 +336,16 @@ public class PlayerMachine : SuperStateMachine {
         if (input.Current.MoveInput != Vector3.zero)
         {
             // transition to walk condition
-            if (input.Current.MoveInput.magnitude < RunSpeed)
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold3)
             {
                 currentState = PlayerStates.Walk;
                 return;
             }
 
+            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed, RunAcceleration * Time.deltaTime);
+            facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
+
+            /*
             // run speed is constant in forward direction, directional inputs only affect forward vector's angle
 
             Vector3 local = LocalMovement();
@@ -354,18 +359,25 @@ public class PlayerMachine : SuperStateMachine {
                 facing = transform.forward;
 
                 // tell camera to align w/ forward vector if holding straight up
-                if (input.Current.MoveInput.z > 0)
+                if(cam != null)
                 {
-                    cam.aligning = true;
+                    if (input.Current.MoveInput.z > 0)
+                    {
+                        cam.aligning = true;
+                    }
+                    else
+                    {
+                        cam.aligning = false;
+                    }
                 }
-                else
-                {
-                    cam.aligning = false;
-                }
+                
             }
             else
             {
-                cam.aligning = false;
+                if (cam != null)
+                {
+                    cam.aligning = false;
+                }
             }
 
 
@@ -382,11 +394,11 @@ public class PlayerMachine : SuperStateMachine {
             //{
             //    currentState = PlayerStates.Walk;
             //    return;
-            //}
+            //}*/
         }
         else
         {
-            currentState = PlayerStates.Walk;
+            currentState = PlayerStates.Idle;
             return;
         }
     }
