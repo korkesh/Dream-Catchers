@@ -463,7 +463,7 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // transition to double jump
-        if (input.Current.JumpInput)
+        if (input.Current.JumpInput && input.toggleJump != true)
         {
             currentState = PlayerStates.DoubleJump;
             return;
@@ -471,12 +471,6 @@ public class PlayerMachine : SuperStateMachine {
 
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
-
-        if (input.Current.JumpInput && input.toggleJump != true)
-        {
-            currentState = PlayerStates.DoubleJump;
-            return;
-        }
 
         if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
         {
