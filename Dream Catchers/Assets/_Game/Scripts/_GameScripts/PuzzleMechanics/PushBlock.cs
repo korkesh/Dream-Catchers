@@ -4,7 +4,6 @@ using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PushBlock : MonoBehaviour {
-
     public float pushPower = 2.0f;
     public float pushTime = 0.5f;
 
