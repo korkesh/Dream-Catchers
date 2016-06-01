@@ -69,8 +69,13 @@
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BallonPatrol_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAttack_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonChase_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonDrop_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonFloatToStart_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonOneAttack_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonReturnSpot_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonWaitForPlayer_State.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonWait_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BaseState.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\DamageDealer.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\FSM.cs" />
