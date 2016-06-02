@@ -342,10 +342,10 @@ public class PlayerMachine : SuperStateMachine {
                 return;
             }
 
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed, RunAcceleration * Time.deltaTime);
-            facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
+            //moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed, RunAcceleration * Time.deltaTime);
+            //facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
 
-            /*
+            
             // run speed is constant in forward direction, directional inputs only affect forward vector's angle
 
             Vector3 local = LocalMovement();
@@ -394,7 +394,7 @@ public class PlayerMachine : SuperStateMachine {
             //{
             //    currentState = PlayerStates.Walk;
             //    return;
-            //}*/
+            //}
         }
         else
         {

@@ -8,10 +8,13 @@ public class PlayerCamera : MonoBehaviour
     public enum CameraMode
     {
         Field,
+        Close,
         Look
     }
 
     public CameraMode currentMode;
+
+    public GameObject Player; // player GO reference
 
     public float MaxDistance = 11.0f;
     public float MinDistance = 9.0f;
@@ -42,6 +45,8 @@ public class PlayerCamera : MonoBehaviour
     public Vector3 targetPosHigh; // above character (standard)
     public Vector3 targetPosLow; // below character (for falling)
     public Vector3 targetPos; // the current desired height
+    private Vector3 lookOffset; // the vector that moves the target to "look ahead" of the player
+    public float lookDistance = 2.5f; // controls how far along cam right the target will move when the player is facing that direction
 
     private SuperCharacterController controller;
 
@@ -51,12 +56,8 @@ public class PlayerCamera : MonoBehaviour
 
     private float yOffset; // offset from default pos by player input
 
-    public float lastGround { get; private set; } // y value of last ground player was on
+    public float lastGround;// { get; private set; } // y value of last ground player was on
     public float setLastGround { set { lastGround = value; } }
-
-    // Collision checks:
-    public GameObject occlusionCheckL;
-    public GameObject occlusionCheckR;
 
     // EDITOR DEBUG:
     public float crossLength;
@@ -66,9 +67,9 @@ public class PlayerCamera : MonoBehaviour
     {
         currentMode = CameraMode.Field;
 
-        input = PlayerTarget.transform.parent.GetComponent<PlayerInputController>();
-        machine = PlayerTarget.transform.parent.GetComponent<PlayerMachine>();
-        controller = PlayerTarget.transform.parent.GetComponent<SuperCharacterController>();
+        input = Player.GetComponent<PlayerInputController>();
+        machine = Player.GetComponent<PlayerMachine>();
+        controller = Player.GetComponent<SuperCharacterController>();
 
         steering = gameObject.GetComponent<SteeringBehaviourComponent>();
         target = PlayerTarget.transform;
@@ -77,7 +78,7 @@ public class PlayerCamera : MonoBehaviour
 
         lastGround = machine.transform.position.y;
 
-        targetPosHigh = new Vector3(0, 3, 0);
+        targetPosHigh = new Vector3(0, 1.25f, 0);
         targetPosLow = new Vector3(0, -0.5f, 0);
 
         targetPos = targetPosHigh;
@@ -88,22 +89,19 @@ public class PlayerCamera : MonoBehaviour
     {
         prevPos = transform.position;
 
-        Debug.DrawLine(transform.position, PlayerTarget.transform.parent.position - (PlayerTarget.transform.parent.position - transform.position).normalized);
+        //Debug.DrawLine(transform.position, PlayerTarget.transform.parent.position - (PlayerTarget.transform.parent.position - transform.position).normalized);
 
         UpdateTarget();
 
         FollowPlayer();
 
 
-
         // temp rotation test
-        if (currentMode == CameraMode.Field)
+        if (input.Current.Joy2Input.x != 0)
         {
-            if (input.Current.Joy2Input.x != 0)
-            {
-                transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
-            }
+            transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
         }
+        
         if (transform.position == prevPos)
         {
             idleTimer += Time.deltaTime;
@@ -137,77 +135,34 @@ public class PlayerCamera : MonoBehaviour
 
         // TEMPORARY MOVEMENT
         // move target up
-        if (PlayerTarget.transform.localPosition != targetPos)
-        {
-            Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, 0.1f);
-
-            if (!Mathf.Approximately(lerp.x, targetPos.x) || !Mathf.Approximately(lerp.y, targetPos.y) || !Mathf.Approximately(lerp.z, targetPos.z))
-            {
-                PlayerTarget.transform.localPosition = lerp;
-            }
-            else
-            {
-                PlayerTarget.transform.localPosition = targetPos;
-            }
-        }
-
-        //if (PlayerTarget.transform.localPosition.y < targetPos.y)
-        //{
-
-        //    Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPosHigh, 0.1f);
-
-        //    if (lerp.y < targetPosHigh.y)
-        //    {
-        //        PlayerTarget.transform.localPosition = lerp;
-        //    }
-        //    else
-        //    {
-        //        PlayerTarget.transform.localPosition = targetPosHigh;
-        //    }
-        //}
-        //// move target down
-        //else if (PlayerTarget.transform.localPosition.y > targetPos.y)
-        //{
-        //    Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPosLow, 0.1f);
-
-        //    if (lerp.y > targetPosLow.y)
-        //    {
-        //        PlayerTarget.transform.localPosition = lerp;
-        //    }
-        //    else
-        //    {
-        //        PlayerTarget.transform.localPosition = targetPosLow;
-        //    }
-        //}
-         
-        //// move target forward/back
-        //if (PlayerTarget.transform.localPosition.z < targetPos.z)
+        
+        //if (PlayerTarget.transform.localPosition != targetPos)
         //{
         //    Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, 0.1f);
+
+        //    if (!Mathf.Approximately(lerp.x, targetPos.x) || !Mathf.Approximately(lerp.y, targetPos.y) || !Mathf.Approximately(lerp.z, targetPos.z))
+        //    {
+        //        PlayerTarget.transform.localPosition = lerp;
+        //    }
+        //    else
+        //    {
+        //        PlayerTarget.transform.localPosition = targetPos;
+        //    }
         //}
-
-
 
 
         // move target "in front" of player to give forward vantage
-        Vector3 planarCam = Math3d.ProjectVectorOnPlane(controller.up, transform.forward).normalized;
-        Vector3 planarPlayer = Math3d.ProjectVectorOnPlane(controller.up, controller.transform.forward).normalized;
+        Vector3 planarPlayerForward = Math3d.ProjectVectorOnPlane(controller.up, controller.transform.forward).normalized;
+        Vector3 planarCamForward = Math3d.ProjectVectorOnPlane(controller.up, transform.forward).normalized;
 
-        if (Vector2.Dot(new Vector2(planarCam.x, planarCam.z), new Vector2(planarPlayer.x, planarPlayer.z)) > -0.15f)
-        { // only applies if input is 90 degrees or less from forward
-            Vector3 playerCamCross = Vector3.Cross(planarPlayer, planarCam);
+        Vector3 playerCamCross = Vector3.Cross(transform.right, planarPlayerForward);
 
-            if (playerCamCross.magnitude > 0.035f)
-            {
-                // player is facing to one of two sides, rotate (move??????) cam appropriately
-                Vector3 planarCamRight = Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized;
+        // closer to 0 means close to looking straight left/right, close to 1 means looking almost straight ahead
+        lookOffset = transform.right * (1 - playerCamCross.magnitude) * Mathf.Sign(Vector3.Cross(planarCamForward, planarPlayerForward).y) * lookDistance;
+        
 
-                //targetPos = targetPosHigh + (planarCamRight * Mathf.Sign(playerCamCross.y) * -10);
-            }
-        }
-
-
-        //steering.Target = transform.parent.position + targetPos;
+        // set target's steering destination
+        PlayerTarget.GetComponent<SteeringBehaviourComponent>().Target = Player.transform.position + targetPos + lookOffset;
     }
 
 
@@ -230,8 +185,6 @@ public class PlayerCamera : MonoBehaviour
 
 
         // rotation
-        //Vector3 angle = (Math3d.ProjectVectorOnPlane(controller.up, PlayerTarget.transform.position - transform.position)).normalized;
-
         Vector3 angle = (PlayerTarget.transform.position - transform.position).normalized;
 
         Vector3 cross = Vector3.Cross(transform.forward, angle);
@@ -245,38 +198,38 @@ public class PlayerCamera : MonoBehaviour
 
 
         // y rotation
-        if (input.Current.Joy2Input.z < 0) // look up
-        {
-            currentMode = CameraMode.Look;
+        //if (input.Current.Joy2Input.z < 0) // look up
+        //{
+        //    currentMode = CameraMode.Look;
 
-            targetPos.y = targetPosHigh.y;
+        //    targetPos.y = targetPosHigh.y;
 
-            // move toward upward vantage point
-            if ((transform.position - lookUpTarget.position).magnitude > 0.05f)
-            {
-                transform.position = Vector3.Lerp(transform.position, lookUpTarget.position, Mathf.Abs(input.Current.Joy2Input.z) * Time.deltaTime);
-            }
+        //    // move toward upward vantage point
+        //    if ((transform.position - lookUpTarget.position).magnitude > 0.05f)
+        //    {
+        //        transform.position = Vector3.Lerp(transform.position, lookUpTarget.position, Mathf.Abs(input.Current.Joy2Input.z) * Time.deltaTime);
+        //    }
             
-        }
-        // look down
-        else if (input.Current.Joy2Input.z > 0)
-        {
-            currentMode = CameraMode.Look;
+        //}
+        //// look down
+        //else if (input.Current.Joy2Input.z > 0)
+        //{
+        //    currentMode = CameraMode.Look;
 
-            targetPos.y = targetPosLow.y;
-            targetPos.z = 4;
+        //    targetPos.y = targetPosLow.y;
+        //    targetPos.z = 4;
 
-            if ((transform.position - lookDownTarget.position).magnitude > 0.05f)
-            {
-                transform.position = Vector3.Lerp(transform.position, lookDownTarget.position, input.Current.Joy2Input.z * Time.deltaTime);
-            }
-        }
-        else
-        { // TODO: store old field cam coords for seamless reversion
-            targetPos.y = targetPosHigh.y;
-            targetPos.z = 0;
-            currentMode = CameraMode.Field;
-        }
+        //    if ((transform.position - lookDownTarget.position).magnitude > 0.05f)
+        //    {
+        //        transform.position = Vector3.Lerp(transform.position, lookDownTarget.position, input.Current.Joy2Input.z * Time.deltaTime);
+        //    }
+        //}
+        //else
+        //{ // TODO: store old field cam coords for seamless reversion
+        //    targetPos.y = targetPosHigh.y;
+        //    targetPos.z = 0;
+        //    currentMode = CameraMode.Field;
+        //}
         
         // up/down movement
         if (!Mathf.Approximately(transform.position.y, lastGround + Height))
@@ -301,62 +254,62 @@ public class PlayerCamera : MonoBehaviour
         }
     }
 
-    // if something is obstructing the character from camera view, rotate until visible
+    // if something is obstructing the character from camera view, rotate until visible todo: alpha
     public void CheckOcclusion()
     {
-        if (idleTimer < 0.6f)
-        {
-            return; // must be stationary for at least one second to apply automated occlusion rotation
-        }
+        //if (idleTimer < 0.6f)
+        //{
+        //    return; // must be stationary for at least one second to apply automated occlusion rotation
+        //}
 
-        if (Physics.Raycast(transform.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
-        {
-            // find out which side to rotate
-            Transform left = occlusionCheckL.transform;
-            Transform right = occlusionCheckL.transform;
+        //if (Physics.Raycast(transform.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
+        //{
+        //    // find out which side to rotate
+        //    Transform left = occlusionCheckL.transform;
+        //    Transform right = occlusionCheckL.transform;
 
-            left.position = transform.position;
-            right.position = transform.position;
+        //    left.position = transform.position;
+        //    right.position = transform.position;
 
-            bool r = true; // default dir is right
+        //    bool r = true; // default dir is right
 
-            float distance = 0; // counts how much distance much be travelled to avoid obstruction
+        //    float distance = 0; // counts how much distance much be travelled to avoid obstruction
 
-            while (true)
-            {
-                distance += 0.2f;
+        //    while (true)
+        //    {
+        //        distance += 0.2f;
 
-                left.position = transform.position;
-                right.position = transform.position;
+        //        left.position = transform.position;
+        //        right.position = transform.position;
 
-                left.RotateAround(PlayerTarget.transform.position, controller.up, -distance);
-                right.RotateAround(PlayerTarget.transform.position, controller.up, distance);
+        //        left.RotateAround(PlayerTarget.transform.position, controller.up, -distance);
+        //        right.RotateAround(PlayerTarget.transform.position, controller.up, distance);
 
-                if (!Physics.Raycast(left.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
-                {
-                    r = false;
-                    break;
-                }
-                else if (!Physics.Raycast(right.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
-                {
-                    r = true;
-                    break; // r is true by default
-                }
+        //        if (!Physics.Raycast(left.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
+        //        {
+        //            r = false;
+        //            break;
+        //        }
+        //        else if (!Physics.Raycast(right.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
+        //        {
+        //            r = true;
+        //            break; // r is true by default
+        //        }
 
-                if (distance > 20)
-                {
-                    Debug.Log("escape");
-                    break; // safety net escape (large geometry not dealt with yet anyway)
-                }
-            }
+        //        if (distance > 20)
+        //        {
+        //            Debug.Log("escape");
+        //            break; // safety net escape (large geometry not dealt with yet anyway)
+        //        }
+        //    }
 
-            // rotate camera away from obstruction
-            if (!r)
-            {
-                distance *= -1;
-            }
+        //    // rotate camera away from obstruction
+        //    if (!r)
+        //    {
+        //        distance *= -1;
+        //    }
 
-            transform.RotateAround(PlayerTarget.transform.position, controller.up, Time.deltaTime * distance * 0.3f);
-        }
+            //transform.RotateAround(PlayerTarget.transform.position, controller.up, Time.deltaTime * distance * 0.3f);
+        //}
     }
 }
