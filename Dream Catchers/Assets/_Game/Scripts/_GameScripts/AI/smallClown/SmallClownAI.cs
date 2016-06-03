@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class SmallClownAI : MonoBehaviour {
 
     public List<GameObject> path;
+    public GameObject LaunchPoint;
+    public GameObject Ball;
     public float JumpAngle;
     public float LuanchAngle;
     GameObject Player;
@@ -18,6 +20,8 @@ public class SmallClownAI : MonoBehaviour {
     public float attackRadius;
     public bool loop;
     bool reverse;
+    GameObject currentAttack;
+    public float speedOfRotation;
 
 
 
@@ -40,6 +44,7 @@ public class SmallClownAI : MonoBehaviour {
         {
             
             rigidB.useGravity = true;
+            WatchPlayer();
             if (readyingAttack == true)
             {
                 if (rigidB.velocity.y == 0)
@@ -70,6 +75,7 @@ public class SmallClownAI : MonoBehaviour {
         }
         else
         {
+
             if(rigidB.detectCollisions == true && rigidB.velocity.y == 0)
             {
                 rigidB.useGravity = false;
@@ -89,7 +95,20 @@ public class SmallClownAI : MonoBehaviour {
 
     void Attack()
     {
+        GameObject rocket = (GameObject)Instantiate(Ball, LaunchPoint.transform.position, LaunchPoint.transform.rotation);
+        currentAttack = rocket;
+        ClownAttack cA = rocket.GetComponent<ClownAttack>();
+        cA.clown = this.gameObject;
+        Rigidbody rocketClone = rocket.GetComponent<Rigidbody>();
+        rocketClone.velocity = Jump(Player.transform.position, LuanchAngle,LaunchPoint.transform);
+    }
 
+    void RemoveAttack()
+    {
+        if(currentAttack != null)
+        {
+            Destroy(currentAttack.gameObject);
+        }
     }
 
     void move()
@@ -125,13 +144,13 @@ public class SmallClownAI : MonoBehaviour {
                 }
             }
 
-            rigidB.velocity = Jump(path[index].transform, JumpAngle);
+            rigidB.velocity = Jump(path[index].transform.position, JumpAngle, this.transform);
         }
     }
 
-    Vector3 Jump(Transform target, float angle)
+   public Vector3 Jump(Vector3 target, float angle, Transform current)
     {
-        Vector3 dir = target.position - transform.position;  // get target direction
+        Vector3 dir = target - current.position;  // get target direction
         float h = dir.y;  // get height difference
         dir.y = 0;  // retain only the horizontal direction
         float dist = dir.magnitude;  // get horizontal distance
@@ -143,5 +162,15 @@ public class SmallClownAI : MonoBehaviour {
         float div = dist * Physics.gravity.magnitude / sin;
         float vel = Mathf.Sqrt(div);
         return vel * dir.normalized;
+    }
+
+    void WatchPlayer()
+    {
+        Vector3 lookDir = Player.transform.position;
+        lookDir.y = transform.position.y;
+        Vector3 targetDir = lookDir- transform.position;
+        float step = speedOfRotation * Time.deltaTime;
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+        transform.rotation = Quaternion.LookRotation(newDir);
     }
 }
