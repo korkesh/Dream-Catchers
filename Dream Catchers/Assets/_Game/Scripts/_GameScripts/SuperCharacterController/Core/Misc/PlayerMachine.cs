@@ -13,7 +13,7 @@ public class PlayerMachine : SuperStateMachine {
     //==============================================
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5 }
+    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Dead = 6 }
 
     private SuperCharacterController controller;
     private PlayerCamera cam; // Main Player Follow Camera
@@ -108,6 +108,12 @@ public class PlayerMachine : SuperStateMachine {
         if(input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump))
         {
             gameObject.GetComponent<PlayerCombat>().BeginAttack();
+        }
+
+        // Prevent all movement once dead
+        if((Character_Manager.instance != null && Character_Manager.instance.isDead))
+        {
+            currentState = PlayerStates.Dead;
         }
     }
 
@@ -493,5 +499,24 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         moveDirection -= controller.up * Gravity * Time.deltaTime;
+    }
+
+    void Dead_EnterState()
+    {
+        controller.EnableSlopeLimit();
+        controller.EnableClamping();
+
+        gameObject.GetComponent<Animator>().SetBool("Dead", true);
+    }
+
+    void Dead_SuperUpdate()
+    {
+        // Apply friction to slow us to a halt
+        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+    }
+
+    void Dead_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Dead", false);
     }
 }

@@ -40,4 +40,13 @@ public class PlayerCombat : MonoBehaviour
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 0);
 
     }
+
+    public void GameOver()
+    {
+        if (UI_Manager.instance != null && Character_Manager.instance != null)
+        {
+            UI_Manager.instance.GameOver();
+            Character_Manager.instance.revivePlayer();
+        }
+    }
 }

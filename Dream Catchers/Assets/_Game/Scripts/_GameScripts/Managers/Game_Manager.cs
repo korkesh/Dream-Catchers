@@ -15,14 +15,6 @@ public class Game_Manager : MonoBehaviour {
     // State Variables
     //-----------------
 
-    // World state enums 
-    public enum WorldState 
-    {
-        DREAM,
-        NIGHTMARE,
-        NORMAL
-    }
-
     // Game Flow states enums
     public enum GameState
     {
@@ -36,8 +28,6 @@ public class Game_Manager : MonoBehaviour {
     
     // Current States
     public GameState currentGameState;
-    public WorldState currentLevelState;
-
 
     //================================
     // Methods
@@ -67,7 +57,6 @@ public class Game_Manager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         currentGameState = GameState.INTRO;
-        currentLevelState = WorldState.NORMAL;
     }
 
     /// <summary>
@@ -99,12 +88,19 @@ public class Game_Manager : MonoBehaviour {
     public void changeGameState(GameState gs)
     {
         currentGameState = gs;
-    }
 
-    /// change level state
-    public void changeWorldState(WorldState s)
-    {
-        currentLevelState = s;
+        switch (currentGameState)
+        {
+            case GameState.PLAY:
+                {
+                    break;
+                }
+            case GameState.GAMEOVER:
+                {
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+                    break;
+                }
+        }
     }
 
     //change state to play
@@ -117,6 +113,18 @@ public class Game_Manager : MonoBehaviour {
     public bool isPaused()
     {
         return currentGameState == GameState.PAUSE;
+    }
+
+    // check if playing
+    public bool isPlaying()
+    {
+        return currentGameState == GameState.PLAY;
+    }
+
+    // check if in menus
+    public bool inMenu()
+    {
+        return currentGameState == GameState.MENU;
     }
 
     //-----------------

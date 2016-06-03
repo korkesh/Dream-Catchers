@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\TestDamage.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BallonPatrol_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAttack_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonFloatToStart_State.cs" />

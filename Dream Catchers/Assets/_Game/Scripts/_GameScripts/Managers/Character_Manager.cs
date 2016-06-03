@@ -21,6 +21,7 @@ public class Character_Manager : Singleton<Character_Manager>
     public int maxHealth = 5;
     public int totalMemoryFragmentsCollected;
     public int totalCollectibles;
+    public bool isDead = false;
 
     //-----------------
     // Defaults 
@@ -34,8 +35,6 @@ public class Character_Manager : Singleton<Character_Manager>
     //-----------------
 
     public bool invincible = false;
-
-
 
     //================================
     // Methods
@@ -116,13 +115,9 @@ public class Character_Manager : Singleton<Character_Manager>
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            //TODO: Handle Death state
-            //Level_Manager.instance.Death();
-            //Game_Manager.instance.changeGameState(Game_Manager.GameState.GAMEOVER);
-            UI_Manager.instance.GameOver();
-            heal(100);
-            ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
-            
+            isDead = true;
+
+            Game_Manager.instance.changeGameState(Game_Manager.GameState.GAMEOVER);
         }
 
         PlayerPrefs.SetInt("CurrentHealth", currentHealth);
@@ -155,6 +150,18 @@ public class Character_Manager : Singleton<Character_Manager>
 
         PlayerPrefs.SetInt("MaxHealth", maxHealth);
         PlayerPrefs.SetInt("CurrentHealth", currentHealth);
+    }
+
+    /// <summary>
+    /// Revives player from dead state
+    /// </summary>
+    public void revivePlayer()
+    {
+        if (isDead)
+        {
+            heal(maxHealth);
+            isDead = false;
+        }
     }
 
     //-----------------
