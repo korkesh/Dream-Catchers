@@ -13,7 +13,7 @@ public class PlayerMachine : SuperStateMachine {
     //==============================================
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Dead = 6 }
+    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7 }
 
     private SuperCharacterController controller;
     private PlayerCamera cam; // Main Player Follow Camera
@@ -114,6 +114,12 @@ public class PlayerMachine : SuperStateMachine {
         if((Character_Manager.instance != null && Character_Manager.instance.isDead))
         {
             currentState = PlayerStates.Dead;
+        }
+
+        // Taking Damage from enemy
+        if ((Character_Manager.instance != null && Character_Manager.instance.invincible) && !currentState.Equals(PlayerStates.Damage))
+        {
+            currentState = PlayerStates.Damage;
         }
     }
 
@@ -499,6 +505,34 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         moveDirection -= controller.up * Gravity * Time.deltaTime;
+    }
+
+    void Damage_EnterState()
+    {
+        controller.EnableSlopeLimit();
+        controller.EnableClamping();
+
+        gameObject.GetComponent<Animator>().SetBool("Damage", true);
+        gameObject.GetComponent<Animator>().applyRootMotion = true;
+
+    }
+
+    void Damage_SuperUpdate()
+    {
+        if(Character_Manager.instance != null && !Character_Manager.instance.invincible)
+        {
+            currentState = PlayerStates.Idle;
+            return;
+        }
+
+        // Apply friction to slow us to a halt
+        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+    }
+
+    void Damage_ExitState()
+    {
+        gameObject.GetComponent<Animator>().applyRootMotion = false;
+        gameObject.GetComponent<Animator>().SetBool("Damage", false);
     }
 
     void Dead_EnterState()

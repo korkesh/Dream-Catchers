@@ -49,4 +49,19 @@ public class PlayerCombat : MonoBehaviour
             Character_Manager.instance.revivePlayer();
         }
     }
+
+    public void DamageBegin()
+    {
+        gameObject.GetComponent<Collider>().enabled = false;
+    }
+
+    public void DamageEnd()
+    {
+        gameObject.GetComponent<Collider>().enabled = true;
+
+        if (Character_Manager.instance != null)
+        {
+            Character_Manager.instance.invincible = false;
+        }
+    }
 }

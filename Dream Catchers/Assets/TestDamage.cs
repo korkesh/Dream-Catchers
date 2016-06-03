@@ -7,7 +7,7 @@ public class TestDamage : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
-            Character_Manager.instance.takeDamage(10);
+            Character_Manager.instance.takeDamage(1);
 
         }
     }

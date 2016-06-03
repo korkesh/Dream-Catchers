@@ -109,7 +109,13 @@ public class Character_Manager : Singleton<Character_Manager>
     /// </summary>
     public void takeDamage(int damage)
     {
+        if (invincible)
+        {
+            return;
+        }
+
         currentHealth -= damage;
+        invincible = true;
 
         // Restrict to Lower Bound of 0
         if (currentHealth <= 0)
