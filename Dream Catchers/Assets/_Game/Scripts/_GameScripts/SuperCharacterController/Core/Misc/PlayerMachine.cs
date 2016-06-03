@@ -28,9 +28,7 @@ public class PlayerMachine : SuperStateMachine {
     public float RunAcceleration = 10.0f;
 
     public float WalkSpeed = 0.1f;
-    public float WalkSpeedThreshold1 = 0.15f;
-    public float WalkSpeedThreshold2 = 0.3f;
-    public float WalkSpeedThreshold3 = 0.5f;
+    public float WalkspeedThreshold = 0.5f;
 
     public float RunSpeed = 0.65f;
     public float MaxRunSpeed = 6.0f;
@@ -70,11 +68,11 @@ public class PlayerMachine : SuperStateMachine {
     // Debug Inspector Fields:
     //============================================
 
-    public float moveSpeed;
+    /*public float moveSpeed;
     public float hAxis;
     public float vAxis;
     public float inputMagnitude;
-    public float inputPlayerCross;
+    public float inputPlayerCross;*/
 
 	void Start ()
     {
@@ -95,9 +93,9 @@ public class PlayerMachine : SuperStateMachine {
     protected override void EarlyGlobalSuperUpdate()
     {
         // DEBUG:
-        hAxis = input.Current.MoveInput.x;
+        /*hAxis = input.Current.MoveInput.x;
         vAxis = input.Current.MoveInput.z;
-        inputMagnitude = input.Current.MoveInput.magnitude;
+        inputMagnitude = input.Current.MoveInput.magnitude;*/
 
         // Rotate out facing direction horizontally based on mouse input
         //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
@@ -220,7 +218,7 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkSpeedThreshold3)
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkspeedThreshold)
             {
                 currentState = PlayerStates.Run;
                 return;
@@ -269,37 +267,13 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkSpeedThreshold3)
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkspeedThreshold)
             {
                 currentState = PlayerStates.Run;
                 return;
             }
             moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed, WalkAcceleration * Time.deltaTime);
             facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
-
-            /*(moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed * MaxRunSpeed, WalkAcceleration * Time.deltaTime);
-            //transform.rotation = Quaternion.LookRotation(moveDirection.normalized);
-            facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
-
-            // SPEEDS: todo: set animation speed parameters?
-
-            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold1)
-            {
-                WalkSpeed = 0.1f;
-            }
-            else if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold2)
-            {
-                WalkSpeed = 0.25f;
-            }
-            else if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold3)
-            {
-                WalkSpeed = 0.5f;
-            }
-            else if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkSpeedThreshold3)
-            {
-                currentState = PlayerStates.Run;
-                return;
-            }*/
         }
         else 
         {
@@ -336,7 +310,7 @@ public class PlayerMachine : SuperStateMachine {
         if (input.Current.MoveInput != Vector3.zero)
         {
             // transition to walk condition
-            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkSpeedThreshold3)
+            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkspeedThreshold)
             {
                 currentState = PlayerStates.Walk;
                 return;
@@ -344,57 +318,6 @@ public class PlayerMachine : SuperStateMachine {
 
             moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed, RunAcceleration * Time.deltaTime);
             facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
-
-            /*
-            // run speed is constant in forward direction, directional inputs only affect forward vector's angle
-
-            Vector3 local = LocalMovement();
-
-            inputPlayerCross = Vector3.Cross(local, transform.forward).magnitude;
-
-            if (inputPlayerCross > 0.08f) // TODO: Magic Number
-            {
-                transform.forward = Quaternion.AngleAxis(RunTurnSpeed * Time.deltaTime * Mathf.Sign(Vector3.Cross(local, transform.forward).y) * -1, controller.up) * transform.forward;
-                //transform.rotation = Quaternion.LookRotation( += new Vector3(0, Time.deltaTime * Mathf.Sign(inputPlayerCross), 0); // = Vector3.MoveTowards(transform.forward, local, Time.deltaTime * RunTurnSpeed);
-                facing = transform.forward;
-
-                // tell camera to align w/ forward vector if holding straight up
-                if(cam != null)
-                {
-                    if (input.Current.MoveInput.z > 0)
-                    {
-                        cam.aligning = true;
-                    }
-                    else
-                    {
-                        cam.aligning = false;
-                    }
-                }
-                
-            }
-            else
-            {
-                if (cam != null)
-                {
-                    cam.aligning = false;
-                }
-            }
-
-
-            moveDirection = transform.forward * MaxRunSpeed;
-
-            //moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * MaxRunSpeed, RunAcceleration * Time.deltaTime);
-
-            //if (input.Current.MoveInput.magnitude > 0.1f)
-            //{
-            //    facing = LocalMovement();
-            //}
-
-            //if (input.Current.MoveInput.magnitude < RunSpeed)
-            //{
-            //    currentState = PlayerStates.Walk;
-            //    return;
-            //}*/
         }
         else
         {

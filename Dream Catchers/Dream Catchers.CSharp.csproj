@@ -88,6 +88,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\DamageDealer.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\FSM.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\RotateCollectible.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HammerAttack.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HealthManager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />
