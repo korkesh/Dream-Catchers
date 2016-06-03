@@ -250,11 +250,17 @@ public class PlayerMachine : SuperStateMachine {
         {
             cam.CheckOcclusion();
         }
+
+        if(idleTimer >= 5)
+        {
+            gameObject.GetComponent<Animator>().SetBool("IdleTimeOut", true);
+        }
     }
 
     void Idle_ExitState()
     {
         idleTimer = 0;
+        gameObject.GetComponent<Animator>().SetBool("IdleTimeOut", false);
         // Run once when we exit the idle state
     }
 
