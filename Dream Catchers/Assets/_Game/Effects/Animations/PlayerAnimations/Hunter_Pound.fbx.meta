@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a40cb39b954c39e43bfcb86c1e564bc9
-timeCreated: 1463335784
+guid: 619ba1919a9597049b82e2710354279a
+timeCreated: 1464990191
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -133,7 +133,7 @@ ModelImporter:
     400122: Boy:Spine1
     400124: Boy:Spine2
     400126: //RootNode
-    7400000: jump
+    7400000: Pound
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -160,29 +160,37 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: jump
+      name: Pound
       takeName: mixamo.com
-      firstFrame: 0
-      lastFrame: 30
+      firstFrame: 35
+      lastFrame: 110
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.897281
+        functionName: EndPound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 24227e94bacf1f44d9585e92c6776657,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1

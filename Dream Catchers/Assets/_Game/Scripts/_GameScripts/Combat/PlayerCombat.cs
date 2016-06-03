@@ -41,6 +41,28 @@ public class PlayerCombat : MonoBehaviour
 
     }
 
+    public void BeginPound()
+    {
+        Debug.Log("pound");
+
+        weaponParentObject.SetActive(true);
+        //gameObject.GetComponent<Animator>().applyRootMotion = true;
+        gameObject.GetComponent<Animator>().SetBool("GroundPound", true);
+        attacking = true;
+        weaponCollider.enabled = true;
+    }
+
+    public void EndPound()
+    {
+        Debug.Log("pound end");
+
+        weaponParentObject.SetActive(false);
+        attacking = false;
+        weaponCollider.enabled = false;
+        gameObject.GetComponent<Animator>().SetBool("GroundPound", false);
+        //gameObject.GetComponent<Animator>().applyRootMotion = false;
+    }
+
     public void GameOver()
     {
         if (UI_Manager.instance != null && Character_Manager.instance != null)

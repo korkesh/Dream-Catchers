@@ -13,7 +13,7 @@ public class PlayerMachine : SuperStateMachine {
     //==============================================
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7 }
+    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, GroundPound = 8 }
 
     private SuperCharacterController controller;
     private PlayerCamera cam; // Main Player Follow Camera
@@ -42,6 +42,8 @@ public class PlayerMachine : SuperStateMachine {
     public float MaxJumpHeight = 3.0f;
     public float DoubleJumpHeight = 2.0f;
     public float JumpTimer = 0;
+
+    public float PoundGravity = 150.0f;
 
     // Physics
     public float Gravity = 25.0f;
@@ -105,7 +107,7 @@ public class PlayerMachine : SuperStateMachine {
         // This is run regardless of what state you're in
 
         // Allow Attacks only when on ground and upon attack input
-        if(input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump))
+        if(input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump) && !currentState.Equals(PlayerStates.DoubleJump) && !currentState.Equals(PlayerStates.Fall))
         {
             gameObject.GetComponent<PlayerCombat>().BeginAttack();
         }
@@ -410,6 +412,13 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
+        // Allow ground pound only after a double jump
+        /*if (input.Current.AttackInput)
+        {
+            currentState = PlayerStates.GroundPound;
+            return;
+        }*/
+
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
@@ -459,6 +468,12 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_SuperUpdate()
     {
+        if (input.Current.AttackInput)
+        {
+            currentState = PlayerStates.GroundPound;
+            return;
+        }
+
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
@@ -501,6 +516,12 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_SuperUpdate()
     {
+        if (input.Current.AttackInput)
+        {
+            currentState = PlayerStates.GroundPound;
+            return;
+        }
+
         if (input.Current.JumpInput)
         {
             currentState = PlayerStates.DoubleJump;
@@ -521,6 +542,33 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Falling", false);
 
+    }
+
+    void GroundPound_EnterState()
+    {
+        Debug.Log("Entering Pound State");
+
+        gameObject.GetComponent<PlayerCombat>().BeginPound();
+    }
+
+    void GroundPound_SuperUpdate()
+    {
+        if (AcquiringGround())
+        {
+            moveDirection = Math3d.ProjectVectorOnPlane(controller.up, Vector3.zero);
+            if(!gameObject.GetComponent<Animator>().GetBool("GroundPound"))
+            {
+                currentState = PlayerStates.Idle;
+            }
+            return;
+        }
+
+        moveDirection -= controller.up * PoundGravity * Time.deltaTime;
+    }
+
+    void GroundPound_ExitState()
+    {
+        Debug.Log("Leaving Pound State");
     }
 
     void Damage_EnterState()
