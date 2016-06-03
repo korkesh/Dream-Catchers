@@ -483,6 +483,10 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_EnterState()
     {
+        gameObject.GetComponent<Animator>().SetBool("Falling", true);
+
+        Debug.Log("Entering Fall State");
+
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
@@ -505,6 +509,12 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         moveDirection -= controller.up * Gravity * Time.deltaTime;
+    }
+
+    void Fall_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Falling", false);
+
     }
 
     void Damage_EnterState()
@@ -533,6 +543,7 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().applyRootMotion = false;
         gameObject.GetComponent<Animator>().SetBool("Damage", false);
+        gameObject.GetComponent<Collider>().enabled = true;
     }
 
     void Dead_EnterState()

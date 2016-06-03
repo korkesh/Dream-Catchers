@@ -115,7 +115,6 @@ public class Character_Manager : Singleton<Character_Manager>
         }
 
         currentHealth -= damage;
-        invincible = true;
 
         // Restrict to Lower Bound of 0
         if (currentHealth <= 0)
@@ -125,6 +124,11 @@ public class Character_Manager : Singleton<Character_Manager>
 
             Game_Manager.instance.changeGameState(Game_Manager.GameState.GAMEOVER);
         }
+        else
+        {
+            invincible = true;
+        }
+
 
         PlayerPrefs.SetInt("CurrentHealth", currentHealth);
     }

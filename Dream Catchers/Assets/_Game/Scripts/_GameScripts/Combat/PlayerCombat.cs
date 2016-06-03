@@ -57,8 +57,6 @@ public class PlayerCombat : MonoBehaviour
 
     public void DamageEnd()
     {
-        gameObject.GetComponent<Collider>().enabled = true;
-
         if (Character_Manager.instance != null)
         {
             Character_Manager.instance.invincible = false;
