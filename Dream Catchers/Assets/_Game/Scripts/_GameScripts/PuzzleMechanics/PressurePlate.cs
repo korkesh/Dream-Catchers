@@ -12,6 +12,9 @@ public class PressurePlate : MonoBehaviour {
     public GameObject PressurePlateObject;
     public float animationSpeed;
 
+    public bool allowDeactivate;
+    public bool activated = false;
+
     Vector3 originalPos;
     Vector3 destinationPos;
     float timer;
@@ -43,7 +46,7 @@ public class PressurePlate : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.tag == WeightedObjectTag)
+        if(other.tag == WeightedObjectTag && !activated)
         {
             Debug.Log("Player on plate");
 
@@ -51,13 +54,14 @@ public class PressurePlate : MonoBehaviour {
             originalPos = PressurePlateObject.transform.position;
             destinationPos.y = -destinationPos.y;
 
+            activated = true;
             ObjectToTrigger.SendMessage(TriggerFunctionCall);
         }
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.tag == WeightedObjectTag)
+        if (other.tag == WeightedObjectTag && allowDeactivate)
         {
             Debug.Log("Player no longer on plate");
 
@@ -65,6 +69,7 @@ public class PressurePlate : MonoBehaviour {
             originalPos = PressurePlateObject.transform.position;
             destinationPos.y = -destinationPos.y;
 
+            activated = false;
             ObjectToTrigger.SendMessage(TriggerFunctionCall);
         }
     }

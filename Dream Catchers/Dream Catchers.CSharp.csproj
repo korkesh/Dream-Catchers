@@ -110,6 +110,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Temp_Exit.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\UI_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\PuzzleMechanics\LowerDoor.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\PuzzleMechanics\MultiplePlatesController.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\PuzzleMechanics\PressurePlate.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\PuzzleMechanics\PushBlock.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Steering Behaviours\ArriveSteeringBehaviour.cs" />
