@@ -79,21 +79,19 @@ public class UI_Manager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
-
-        if ((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen)
+        if ((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.isPlaying() && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen)
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PAUSE);
-            UI_Manager.instance.ShowMenu(Pause);
+            ShowMenu(Pause);
             timePlaceHolder = Time.timeScale;
             Time.timeScale = 0;
 
 
         }
-        else if (((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen))
+        else if (((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.isPaused() && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen))
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
-            UI_Manager.instance.ShowMenu(Stats);
+            ShowMenu(Stats);
             Time.timeScale = timePlaceHolder;
             
         }
@@ -110,10 +108,6 @@ public class UI_Manager : MonoBehaviour {
 
     public void GameOver()
     {
-        //Character_Manager.instance.heal(100);
         ShowMenu(GameOverScreen);
     }
-
-
-   
 }

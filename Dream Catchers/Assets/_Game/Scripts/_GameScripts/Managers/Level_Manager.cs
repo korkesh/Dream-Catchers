@@ -15,7 +15,6 @@ public class Level_Manager : MonoBehaviour {
         CLOWNDREAM
     }
 
-    public Game_Manager.WorldState currentState;
     public string SceneName;
     public Levels LevelName;
 
@@ -70,8 +69,6 @@ public class Level_Manager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-        
 
 	}
 

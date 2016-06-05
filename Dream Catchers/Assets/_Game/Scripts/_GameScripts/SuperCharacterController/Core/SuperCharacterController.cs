@@ -144,6 +144,7 @@ public class SuperCharacterController : MonoBehaviour
         currentGround = new SuperGround(Walkable, this);
 
 		gameObject.SendMessage("SuperStart", SendMessageOptions.DontRequireReceiver);
+
     }
 
     void Update()
@@ -663,12 +664,12 @@ public class SuperCharacterController : MonoBehaviour
                 // it is connected to at it's base, if there exists any
                 if (Vector3.Angle(nearHit.normal, up) > superColType.StandAngle || nearHit.distance > Tolerance)
                 {
-                    var col = nearHit.collider.gameObject.GetComponent<SuperCollisionType>();
+                    //var col = nearHit.collider.gameObject.GetComponent<SuperCollisionType>();
 
-                    if (col == null)
+                    /*if (col == null)
                     {
                         col = defaultCollisionType;
-                    }
+                    }*/
 
                     // We contacted the wall of the ledge, rather than the landing. Raycast down
                     // the wall to retrieve the proper landing
@@ -718,7 +719,11 @@ public class SuperCharacterController : MonoBehaviour
             }
             else
             {
-                Debug.LogError("[SuperCharacterComponent]: No ground was found below the player; player has escaped level");
+                //Debug.Log("[SuperCharacterComponent]: No ground was found below the player; player has escaped level");
+                if (Character_Manager.instance != null)
+                {
+                    Character_Manager.instance.takeDamage(Character_Manager.instance.maxHealth);
+                }
             }
         }
 

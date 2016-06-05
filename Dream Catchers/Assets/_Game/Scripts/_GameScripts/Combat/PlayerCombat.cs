@@ -20,24 +20,69 @@ public class PlayerCombat : MonoBehaviour
 
     public void BeginAttack()
     {
-        Debug.Log("attack");
+        weaponParentObject.SetActive(true); // Turn hammer on
 
-        weaponParentObject.SetActive(true);
+        // Attack animation
         gameObject.GetComponent<Animator>().SetBool("StandAttack", true);
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 1);
+
+        // Allow attacks to register damage
         attacking = true;
         weaponCollider.enabled = true;
     }
 
     public void EndAttack()
     {
-        Debug.Log("attack end");
+        weaponParentObject.SetActive(false); // Turn hammer off
 
-        weaponParentObject.SetActive(false);
+        // DisAllow attacks to register damage
         attacking = false;
         weaponCollider.enabled = false;
+
+        // Attack animation End
         gameObject.GetComponent<Animator>().SetBool("StandAttack", false);
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 0);
 
+    }
+
+    public void BeginPound()
+    {
+        weaponParentObject.SetActive(true);
+        gameObject.GetComponent<Animator>().SetBool("GroundPound", true);
+        attacking = true;
+        weaponCollider.enabled = true;
+    }
+
+    public void EndPound()
+    {
+        weaponParentObject.SetActive(false);
+        attacking = false;
+        weaponCollider.enabled = false;
+        gameObject.GetComponent<Animator>().SetBool("GroundPound", false);
+    }
+
+    // Turn on invincibilty
+    public void DamageBegin()
+    {
+        gameObject.GetComponent<Collider>().enabled = false;
+    }
+
+    // Turn off invincibility
+    public void DamageEnd()
+    {
+        if (Character_Manager.instance != null)
+        {
+            Character_Manager.instance.invincible = false;
+        }
+    }
+
+    // Handle Death state
+    public void GameOver()
+    {
+        if (UI_Manager.instance != null && Character_Manager.instance != null)
+        {
+            UI_Manager.instance.GameOver();
+            Character_Manager.instance.revivePlayer();
+        }
     }
 }

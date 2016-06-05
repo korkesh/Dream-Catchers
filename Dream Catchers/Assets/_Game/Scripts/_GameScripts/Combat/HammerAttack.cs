@@ -22,5 +22,9 @@ public class HammerAttack : MonoBehaviour {
         {
             other.BroadcastMessage("TakeDamage", hammerDamage);
         }
+        if (other.tag == "PushBlock")
+        {
+            other.BroadcastMessage("Push");
+        }
     }
 }
