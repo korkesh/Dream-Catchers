@@ -22,22 +22,21 @@ public class LowerDoor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        // From position1 to position2 with increasing t 
+        // Smooth learp animation from original pos to destination pos
         transform.position = Vector3.Lerp(originalPos, destinationPos, animationSpeed * timer);
 
         // Increase or decrease the constant lerp timer 
         if (destinationPos == originalPos)
         {
-            // Go to position1 t = 0.0f
             timer = Mathf.Clamp(timer - Time.deltaTime, 0.0f, 1.0f / animationSpeed);
         }
         else
         {
-            // Go to position2 t = 1.0f
             timer = Mathf.Clamp(timer + Time.deltaTime, 0.0f, 1.0f / animationSpeed);
         }
     }
 
+    // Toggle close and open of door
     public void ActivateDoor()
     {
         open = !open;

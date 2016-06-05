@@ -109,6 +109,7 @@ public class Character_Manager : Singleton<Character_Manager>
     /// </summary>
     public void takeDamage(int damage)
     {
+        // No damage if invincible
         if (invincible)
         {
             return;
@@ -126,7 +127,7 @@ public class Character_Manager : Singleton<Character_Manager>
         }
         else
         {
-            invincible = true;
+            invincible = true; // Allows for invincibility frames; is reset upon damage animation end
         }
 
 

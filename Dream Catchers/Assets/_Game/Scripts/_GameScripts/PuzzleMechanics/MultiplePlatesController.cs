@@ -23,6 +23,7 @@ public class MultiplePlatesController : MonoBehaviour {
 	
 	}
 
+    // Only activate if all switches toggled
     public void CheckSwitches()
     {
         foreach (GameObject go in PressurePlateSwitches)

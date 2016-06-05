@@ -20,22 +20,26 @@ public class PlayerCombat : MonoBehaviour
 
     public void BeginAttack()
     {
-        Debug.Log("attack");
+        weaponParentObject.SetActive(true); // Turn hammer on
 
-        weaponParentObject.SetActive(true);
+        // Attack animation
         gameObject.GetComponent<Animator>().SetBool("StandAttack", true);
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 1);
+
+        // Allow attacks to register damage
         attacking = true;
         weaponCollider.enabled = true;
     }
 
     public void EndAttack()
     {
-        Debug.Log("attack end");
+        weaponParentObject.SetActive(false); // Turn hammer off
 
-        weaponParentObject.SetActive(false);
+        // DisAllow attacks to register damage
         attacking = false;
         weaponCollider.enabled = false;
+
+        // Attack animation End
         gameObject.GetComponent<Animator>().SetBool("StandAttack", false);
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 0);
 
@@ -43,10 +47,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void BeginPound()
     {
-        Debug.Log("pound");
-
         weaponParentObject.SetActive(true);
-        //gameObject.GetComponent<Animator>().applyRootMotion = true;
         gameObject.GetComponent<Animator>().SetBool("GroundPound", true);
         attacking = true;
         weaponCollider.enabled = true;
@@ -54,34 +55,34 @@ public class PlayerCombat : MonoBehaviour
 
     public void EndPound()
     {
-        Debug.Log("pound end");
-
         weaponParentObject.SetActive(false);
         attacking = false;
         weaponCollider.enabled = false;
         gameObject.GetComponent<Animator>().SetBool("GroundPound", false);
-        //gameObject.GetComponent<Animator>().applyRootMotion = false;
     }
 
+    // Turn on invincibilty
+    public void DamageBegin()
+    {
+        gameObject.GetComponent<Collider>().enabled = false;
+    }
+
+    // Turn off invincibility
+    public void DamageEnd()
+    {
+        if (Character_Manager.instance != null)
+        {
+            Character_Manager.instance.invincible = false;
+        }
+    }
+
+    // Handle Death state
     public void GameOver()
     {
         if (UI_Manager.instance != null && Character_Manager.instance != null)
         {
             UI_Manager.instance.GameOver();
             Character_Manager.instance.revivePlayer();
-        }
-    }
-
-    public void DamageBegin()
-    {
-        gameObject.GetComponent<Collider>().enabled = false;
-    }
-
-    public void DamageEnd()
-    {
-        if (Character_Manager.instance != null)
-        {
-            Character_Manager.instance.invincible = false;
         }
     }
 }
