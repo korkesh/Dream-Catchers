@@ -44,7 +44,7 @@ public class BallonPatrol_State : BaseState {
 
         if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
-            fsm.changeState("WaitForPlayer");
+            fsm.changeState("Drop");
         }
 
        

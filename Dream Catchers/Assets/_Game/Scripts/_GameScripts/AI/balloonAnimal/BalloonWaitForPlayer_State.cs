@@ -35,7 +35,10 @@ public class BalloonWaitForPlayer_State : BaseState {
 
         }else if(Vector3.Distance(this.transform.position,playerPos) <= attackRadius)
         {
-            fsm.changeState("Attack");
+            if(rigidB.velocity.y == 0)
+            {
+                fsm.changeState("Attack");
+            }
         }
     }
 

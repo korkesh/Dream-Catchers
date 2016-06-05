@@ -28,7 +28,7 @@ public class BalloonFloatToStart_State : BaseState {
         transform.position = Vector3.MoveTowards(transform.position, StartPos, step);
         if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
-            fsm.changeState("WaitForPlayer");
+            fsm.changeState("Drop");
 
         }else if(Vector3.Distance(transform.position,StartPos) <= 0.09)
         {
