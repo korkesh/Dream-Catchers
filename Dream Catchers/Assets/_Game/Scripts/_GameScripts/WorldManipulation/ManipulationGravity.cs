@@ -36,7 +36,7 @@ public class ManipulationGravity : ManipulationScript {
         {
             FloatDown();
         }
-        else
+        else if (currentFloat == FLOAT_STATE.UP)
         {
             FloatUp();
         }
@@ -91,16 +91,27 @@ public class ManipulationGravity : ManipulationScript {
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM && floatInDream)
         {
             currentFloat = FLOAT_STATE.UP;
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
         }
         else if (currentObjectState == ManipulationManager.WORLD_STATE.NIGHTMARE && floatInNightmare)
         {
             currentFloat = FLOAT_STATE.UP;
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
         }
         else
         {
             currentFloat = FLOAT_STATE.DOWN;
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
         }
 
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+            return;
+        currentFloat = FLOAT_STATE.NEUTRAL;
+            DOTween.Kill(transform);
     }
 
 }
