@@ -93,11 +93,12 @@ public class Game_Manager : MonoBehaviour {
         {
             case GameState.PLAY:
                 {
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+
                     break;
                 }
             case GameState.GAMEOVER:
                 {
-                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
                     break;
                 }
         }

@@ -1,0 +1,10 @@
+diff a/Dream Catchers/Assets/_Game/Scripts/_GameScripts/PuzzleMechanics/PushBlock.cs b/Dream Catchers/Assets/_Game/Scripts/_GameScripts/PuzzleMechanics/PushBlock.cs	(rejected hunks)
+@@ -30,6 +30,8 @@
+ 
+             // The push animation
+             transform.DOMove(pushTo, pushTime);
++
+         }
++
+     }
+ }
