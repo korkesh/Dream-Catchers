@@ -160,6 +160,10 @@ public class SmallClownAI : MonoBehaviour {
         // calculate the velocity magnitude
         float sin = Mathf.Sin(2 * a);
         float div = dist * Physics.gravity.magnitude / sin;
+       if (sin == 0 || div < 0)
+       {
+           return current.transform.forward * 2;
+       }
         float vel = Mathf.Sqrt(div);
         return vel * dir.normalized;
     }
