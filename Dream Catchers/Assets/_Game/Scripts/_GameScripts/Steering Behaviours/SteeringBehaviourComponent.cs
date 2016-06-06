@@ -2,193 +2,194 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class SteeringBehaviourComponent : MonoBehaviour 
+public class SteeringBehaviourComponent : MonoBehaviour
 {
-	public enum ESummingMethod
-	{
-		WeightedAverage,
-		Prioritized,
-		Dithered,
-	};
+    public enum ESummingMethod
+    {
+        WeightedAverage,
+        Prioritized,
+        Dithered,
+    };
 
-	public ESummingMethod SummingMethod = ESummingMethod.WeightedAverage;
-	public float Mass = 1.0f;
-	public float MaxSpeed = 1.0f;
-	public float MaxForce = 10.0f;
-	public float SlowRadius = 25.0f;
-	public Vector3 Velocity = Vector3.zero;
-	public Vector3 Target = Vector3.zero;
-	private Vector3 Heading = Vector3.zero;
-	private Vector3 Side = Vector3.zero;
-	public float BoundingRadius = 25.0f;
+    public ESummingMethod SummingMethod = ESummingMethod.WeightedAverage;
+    public float Mass = 1.0f;
+    public float MaxSpeed = 1.0f;
+    public float MaxForce = 10.0f;
+    public float SlowRadius = 25.0f;
+    public Vector3 Velocity = Vector3.zero;
+    public Vector3 Target = Vector3.zero;
+    private Vector3 Heading = Vector3.zero;
+    private Vector3 Side = Vector3.zero;
+    public float BoundingRadius = 25.0f;
 
-	private float stopDistance = 0.01f;
+    private float stopDistance = 0.01f;
 
-	public bool UseMouseInput = false;
-	public bool ChangeRotation = false;
-	public bool CheckScreenWrap = false;
+    public bool UseMouseInput = false;
+    public bool ChangeRotation = false;
+    public bool CheckScreenWrap = false;
 
-	private List<SteeringBehaviourBase> SteeringBehaviours = new List<SteeringBehaviourBase>();
-	private Vector3 SteeringForce;
+    private List<SteeringBehaviourBase> SteeringBehaviours = new List<SteeringBehaviourBase>();
+    private Vector3 SteeringForce;
 
-	// Use this for initialization
-	void Start () 
-	{
-		SteeringBehaviours.AddRange(GetComponentsInParent<SteeringBehaviourBase>());
-		foreach (SteeringBehaviourBase behaviour in SteeringBehaviours)
-		{
-			behaviour.steeringComponent = this;
-		}
-	}
-	
+    // Use this for initialization
+    void Start()
+    {
+        SteeringBehaviours.AddRange(GetComponentsInParent<SteeringBehaviourBase>());
+        foreach (SteeringBehaviourBase behaviour in SteeringBehaviours)
+        {
+            behaviour.steeringComponent = this;
+        }
+    }
 
-	// Update is called once per frame
-	void Update () 
-	{
-		checkMouseInput();
 
-		// Calculate Steering Force
-		SteeringForce = calculateSteeringForce();
+    // Update is called once per frame
+    void Update()
+    {
+        checkMouseInput();
 
-		//// Remove this code if we want to keep a velocity from before!
-		//// calculate the distance to the target position
-		Vector3 toTarget = Target - gameObject.transform.position;
-		float distToTarget = toTarget.magnitude;
+        // Calculate Steering Force
+        SteeringForce = calculateSteeringForce();
 
-		if (distToTarget < stopDistance)
-		{
-			Velocity = Vector3.zero;
-		}
-		else
-		{
-			// Get acceleration
-			Vector3 acceleration = SteeringForce * (1.0f / Mass);
+        //// Remove this code if we want to keep a velocity from before!
+        //// calculate the distance to the target position
+        Vector3 toTarget = Target - gameObject.transform.position;
+        float distToTarget = toTarget.magnitude;
 
-			////update velocity
-			Velocity = Velocity + (acceleration * Time.deltaTime);
+        if (distToTarget < stopDistance)
+        {
+            Velocity = Vector3.zero;
+        }
+        else
+        {
+            // Get acceleration
+            Vector3 acceleration = SteeringForce * (1.0f / Mass);
 
-			// Ensure Velocity does not exceed max speed
-			Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed);
+            ////update velocity
+            Velocity = Velocity + (acceleration * Time.deltaTime);
 
-			// Update Position
-			Vector3 _location = gameObject.transform.position + (Velocity * Time.deltaTime);
-			gameObject.transform.position = _location;
-		}
+            // Ensure Velocity does not exceed max speed
+            Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed);
 
-		if (Velocity.magnitude > 0 && ChangeRotation == true)
-		{
-			var angle = Mathf.Atan2(Velocity.y, Velocity.x) * Mathf.Rad2Deg;
-			gameObject.transform.rotation = Quaternion.Euler(0, 0, angle);
-		}
+            // Update Position
+            Vector3 _location = gameObject.transform.position + (Velocity * Time.deltaTime);
+            gameObject.transform.position = _location;
+        }
 
-		if (CheckScreenWrap == true)
-		{
-			ScreenWrap();
-		}
-	}
+        if (Velocity.magnitude > 0 && ChangeRotation == true)
+        {
+            var angle = Mathf.Atan2(Velocity.y, Velocity.x) * Mathf.Rad2Deg;
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
 
-	private Vector3 calculateSteeringForce()
-	{
-		Vector3 totalForce = Vector3.zero;
+        if (CheckScreenWrap == true)
+        {
+            ScreenWrap();
+        }
+    }
 
-		foreach (SteeringBehaviourBase behaviour in SteeringBehaviours)
-		{
-			if (behaviour.Enabled == true)
-			{
-				switch (SummingMethod)
-				{
-					case ESummingMethod.WeightedAverage:
-						{
-							totalForce = totalForce + (behaviour.calculateForce() * behaviour.Weight);
-							totalForce = Vector3.ClampMagnitude(totalForce, MaxForce);
-							break;
-						}
+    private Vector3 calculateSteeringForce()
+    {
+        Vector3 totalForce = Vector3.zero;
 
-					case ESummingMethod.Prioritized:
-						{
-							Vector3 steeringForce = (behaviour.calculateForce() * behaviour.Weight);
-							if (!AccumulateForce(totalForce, steeringForce))
-							{
-								return totalForce;
-							}
-							break;
-						}
+        foreach (SteeringBehaviourBase behaviour in SteeringBehaviours)
+        {
+            if (behaviour.Enabled == true)
+            {
+                switch (SummingMethod)
+                {
+                    case ESummingMethod.WeightedAverage:
+                        {
+                            totalForce = totalForce + (behaviour.calculateForce() * behaviour.Weight);
+                            totalForce = Vector3.ClampMagnitude(totalForce, MaxForce);
+                            
+                            break;
+                        }
 
-					case ESummingMethod.Dithered:
-						// Uses a Random number to determine if it should use this. Not going to implement
-						// But cover in class
-						break;
-				}
-			}
-		}
+                    case ESummingMethod.Prioritized:
+                        {
+                            Vector3 steeringForce = (behaviour.calculateForce() * behaviour.Weight);
+                            if (!AccumulateForce(totalForce, steeringForce))
+                            {
+                                return totalForce;
+                            }
+                            break;
+                        }
 
-		return totalForce;
-	}
+                    case ESummingMethod.Dithered:
+                        // Uses a Random number to determine if it should use this. Not going to implement
+                        // But cover in class
+                        break;
+                }
+            }
+        }
 
-	bool AccumulateForce(Vector3 RunningTot, Vector3 ForceToAdd)
-	{
-		//calculate how much steering force the vehicle has used so far
-		float MagnitudeSoFar = RunningTot.magnitude;
+        return totalForce;     
+    }
 
-		//calculate how much steering force remains to be used by this vehicle
-		float MagnitudeRemaining = MaxForce - MagnitudeSoFar;
+    bool AccumulateForce(Vector3 RunningTot, Vector3 ForceToAdd)
+    {
+        //calculate how much steering force the vehicle has used so far
+        float MagnitudeSoFar = RunningTot.magnitude;
 
-		//return false if there is no more force left to use
-		if (MagnitudeRemaining <= 0.0)
-		{
-			return false;
-		}
+        //calculate how much steering force remains to be used by this vehicle
+        float MagnitudeRemaining = MaxForce - MagnitudeSoFar;
 
-		//calculate the magnitude of the force we want to add
-		float MagnitudeToAdd = ForceToAdd.magnitude;
-  
-		//if the magnitude of the sum of ForceToAdd and the running total
-		//does not exceed the maximum force available to this vehicle, just
-		//add together. Otherwise add as much of the ForceToAdd vector is
-		//possible without going over the max.
-		if (MagnitudeToAdd < MagnitudeRemaining)
-		{
-			RunningTot = RunningTot + ForceToAdd;
-		}
-		else
-		{
-			//add it to the steering force
-			RunningTot = RunningTot + (ForceToAdd.normalized * MagnitudeRemaining); 
-		}
+        //return false if there is no more force left to use
+        if (MagnitudeRemaining <= 0.0)
+        {
+            return false;
+        }
 
-		return true;
-	}
+        //calculate the magnitude of the force we want to add
+        float MagnitudeToAdd = ForceToAdd.magnitude;
 
-	private void checkMouseInput()
-	{
-		if (Input.GetMouseButtonDown(0) && UseMouseInput == true)
-		{
-			Target = Input.mousePosition;
-			Target = Camera.main.ScreenToWorldPoint(Target);
-			Target.z = 0.0f;
-		}
-	}
+        //if the magnitude of the sum of ForceToAdd and the running total
+        //does not exceed the maximum force available to this vehicle, just
+        //add together. Otherwise add as much of the ForceToAdd vector is
+        //possible without going over the max.
+        if (MagnitudeToAdd < MagnitudeRemaining)
+        {
+            RunningTot = RunningTot + ForceToAdd;
+        }
+        else
+        {
+            //add it to the steering force
+            RunningTot = RunningTot + (ForceToAdd.normalized * MagnitudeRemaining);
+        }
 
-	private void ScreenWrap()
-	{
-		bool isWrappingX = false;
-		bool isWrappingY = false;
+        return true;
+    }
 
-		var viewportPosition = Camera.main.WorldToViewportPoint(gameObject.transform.position);
-		var newPosition = transform.position;
+    private void checkMouseInput()
+    {
+        if (Input.GetMouseButtonDown(0) && UseMouseInput == true)
+        {
+            Target = Input.mousePosition;
+            Target = Camera.main.ScreenToWorldPoint(Target);
+            Target.z = 0.0f;
+        }
+    }
 
-		if (!isWrappingX && (viewportPosition.x > 1 || viewportPosition.x < 0))
-		{
-			newPosition.x = -newPosition.x;
-			isWrappingX = true;
-		}
+    private void ScreenWrap()
+    {
+        bool isWrappingX = false;
+        bool isWrappingY = false;
 
-		if (!isWrappingY && (viewportPosition.y > 1 || viewportPosition.y < 0))
-		{
-			newPosition.y = -newPosition.y;
-			isWrappingY = true;
-		}
+        var viewportPosition = Camera.main.WorldToViewportPoint(gameObject.transform.position);
+        var newPosition = transform.position;
 
-		gameObject.transform.position = newPosition;
-	}
+        if (!isWrappingX && (viewportPosition.x > 1 || viewportPosition.x < 0))
+        {
+            newPosition.x = -newPosition.x;
+            isWrappingX = true;
+        }
+
+        if (!isWrappingY && (viewportPosition.y > 1 || viewportPosition.y < 0))
+        {
+            newPosition.y = -newPosition.y;
+            isWrappingY = true;
+        }
+
+        gameObject.transform.position = newPosition;
+    }
 }

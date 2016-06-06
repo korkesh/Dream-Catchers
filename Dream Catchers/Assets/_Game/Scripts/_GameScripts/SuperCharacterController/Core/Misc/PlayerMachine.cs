@@ -17,10 +17,10 @@ public class PlayerMachine : SuperStateMachine {
     //----------------------------------------------
 
     // Add more states by comma separating them
-    enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, GroundPound = 8 }
+    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, GroundPound = 8 };
 
     private SuperCharacterController controller;
-    private PlayerCamera cam; // Main Player Follow Camera
+    private RootCamera cam; // Main Player Follow Camera
     private PlayerInputController input; // Input Controller
 
     //----------------------------------------------
@@ -92,7 +92,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Start ()
     {
-        cam = Camera.main.GetComponent<PlayerCamera>();
+        cam = Camera.main.GetComponent<RootCamera>();
 
         input = gameObject.GetComponent<PlayerInputController>();
 
@@ -114,7 +114,7 @@ public class PlayerMachine : SuperStateMachine {
     {
         bool ground = controller.currentGround.IsGrounded(false, 0.01f);
 
-        if (ground && cam != null)
+        if (ground && cam)
         {
             cam.setLastGround = transform.position.y;
         }
@@ -241,12 +241,6 @@ public class PlayerMachine : SuperStateMachine {
     {
         controller.EnableSlopeLimit();
         controller.EnableClamping();
-
-        // update camera target in case landing from the air
-        if(cam != null)
-        {
-            cam.targetPos = cam.targetPosHigh;
-        }
     }
 
     void Idle_SuperUpdate()
@@ -423,12 +417,6 @@ public class PlayerMachine : SuperStateMachine {
         jumpTravelled = 0;
 
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
-
-        // update camera target to middle
-        if(cam != null)
-        {
-            cam.targetPos.y = (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f;
-        }
     }
 
     void Jump_SuperUpdate()
@@ -451,12 +439,6 @@ public class PlayerMachine : SuperStateMachine {
                 moveDirection += controller.up * (JumpHoldTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
                 JumpTimer = JumpHoldTime;
             }
-
-            //Vector3 initialV = moveDirection;
-            //moveDirection += controller.up * Time.deltaTime * 50;
-
-            //jumpTravelled += (moveDirection - initialV).magnitude; 
-            //Math3d.ProjectVectorOnPlane(controller.up, (moveDirection - initialV)).magnitude;
         }
 
         // transition to double jump
@@ -487,12 +469,6 @@ public class PlayerMachine : SuperStateMachine {
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
-
-        // update camera target
-        if (moveDirection.y < -0.2f && cam != null)
-        {
-            cam.targetPos.y = cam.targetPosLow.y; // move target to lowest height when falling downward
-        }
     }
 
     void Jump_ExitState()
@@ -516,12 +492,6 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
         moveDirection += controller.up * CalculateJumpSpeed(DoubleJumpHeight, Gravity);
-
-        // update camera target
-        if(cam != null)
-        {
-            cam.targetPos.y = (cam.targetPosHigh.y + cam.targetPosLow.y) * 0.5f;
-        }
     }
 
     void DoubleJump_SuperUpdate()
@@ -546,12 +516,6 @@ public class PlayerMachine : SuperStateMachine {
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
         moveDirection = planarMoveDirection + verticalMoveDirection;
-
-        // update camera target
-        if (moveDirection.y < -0.2f && cam != null)
-        {
-            cam.targetPos.y = cam.targetPosLow.y; // move target to lowest height when falling downward
-        }
     }
 
     void DoubleJump_ExitState()

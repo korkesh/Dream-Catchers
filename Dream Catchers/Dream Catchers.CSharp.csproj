@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\RealCamera.cs" />
     <Compile Include="Assets\TestDamage.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonAttack_State.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\ClownAttack.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\LaunchMovement.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\CollectibleSpawner.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\RotateCollectible.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HammerAttack.cs" />
@@ -129,10 +131,10 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\BruteForceMesh.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\Gravity.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\LegacyCamera.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\PlayerCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\PlayerInputController.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\PlayerMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\PlayerMachineDebug.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\RootCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\SimpleStateMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\Misc\TestCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\SuperCharacterController\Core\RPGController\RPGMesh.cs" />
