@@ -11,6 +11,7 @@ public class ClownAttack : MonoBehaviour {
     public bool hitBack;
     public float sightRadius;
     public GameObject clown;
+    public float timer;
 
     void Awake()
     {
@@ -37,6 +38,12 @@ public class ClownAttack : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+
         if( currentState != ManipulationManager.instance.currentWorldState)
         {
             if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
@@ -49,6 +56,7 @@ public class ClownAttack : MonoBehaviour {
             }
 
             currentState = ManipulationManager.instance.currentWorldState;
+
         }
 	
 	}
@@ -102,7 +110,7 @@ public class ClownAttack : MonoBehaviour {
             }
             else if (collision.gameObject.tag == "Player" && hitBack == false) 
             {
-                Debug.Log("hit player");
+                
                 Animator anim = collision.gameObject.GetComponent<Animator>();
                 if(anim != null)
                 {
@@ -111,14 +119,14 @@ public class ClownAttack : MonoBehaviour {
                         if(EnemyInCone() == true)
                         {
                             hitBack = true;
-                            Debug.Log("lob");
                             rigidB.velocity = clown.GetComponent<SmallClownAI>().Jump(clown.transform.position + Vector3.up, clown.GetComponent<SmallClownAI>().LuanchAngle, transform);
                         }
                         else
                         {
-                            GameObject player = GameObject.FindGameObjectWithTag("Player");
-                            Vector3 inFrontofPlayer = player.transform.position + player.transform.forward*5;
-                            rigidB.velocity = clown.GetComponent<SmallClownAI>().Jump(inFrontofPlayer, clown.GetComponent<SmallClownAI>().LuanchAngle, transform);
+                            //GameObject player = GameObject.FindGameObjectWithTag("Player");
+                            //Vector3 inFrontofPlayer = player.transform.position + player.transform.forward*5;
+                            //rigidB.velocity = clown.GetComponent<SmallClownAI>().Jump(inFrontofPlayer, clown.GetComponent<SmallClownAI>().LuanchAngle, transform);
+                            Destroy(this.gameObject);
                         }
                     }
                 }
