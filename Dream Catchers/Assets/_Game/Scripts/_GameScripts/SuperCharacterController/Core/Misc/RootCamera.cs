@@ -2,8 +2,9 @@
 using System.Collections;
 
 
-// default camera
-public class PlayerCamera : MonoBehaviour
+// This is the "invisible" camera that keeps track of the base forward vector
+// The "real" camera uses this as a reference for look ahead rotations so it does not affect calculations
+public class RootCamera : MonoBehaviour
 {
     public enum CameraMode
     {
@@ -40,11 +41,16 @@ public class PlayerCamera : MonoBehaviour
     private float CamY = 0; // amount of y manipulation camera has applied to it
 
     // Target:
-    private SteeringBehaviourComponent steering;
+    public SteeringBehaviourComponent steering;
 
-    public Vector3 targetPosHigh; // above character (standard)
-    public Vector3 targetPosLow; // below character (for falling)
-    public Vector3 targetPos; // the current desired height
+    public Vector3 playerCamCross;
+
+    public float targetHeightHigh = 1.5f; // above character (standard)
+    public float targetHeightLow = -0.5f; // below character (for falling)
+    public float targetHeight; // current target height
+
+    public Vector3 targetPos; // actual target coords in world space    
+
     private Vector3 lookOffset; // the vector that moves the target to "look ahead" of the player
     public float lookDistance = 2.5f; // controls how far along cam right the target will move when the player is facing that direction
 
@@ -78,29 +84,20 @@ public class PlayerCamera : MonoBehaviour
 
         lastGround = machine.transform.position.y;
 
-        targetPosHigh = new Vector3(0, 1.25f, 0);
-        targetPosLow = new Vector3(0, -0.5f, 0);
-
-        targetPos = targetPosHigh;
+        targetHeight = targetHeightHigh;
+        targetPos = Player.transform.position;
+        targetPos.y += targetHeight;
 	}
 	
 	// Update is called once per frame
 	void LateUpdate ()
     {
         prevPos = transform.position;
-
-        //Debug.DrawLine(transform.position, PlayerTarget.transform.parent.position - (PlayerTarget.transform.parent.position - transform.position).normalized);
+        lastGround = controller.lastGroundPosition.y;
 
         UpdateTarget();
 
         FollowPlayer();
-
-
-        // temp rotation test
-        if (input.Current.Joy2Input.x != 0)
-        {
-            transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
-        }
         
         if (transform.position == prevPos)
         {
@@ -131,38 +128,57 @@ public class PlayerCamera : MonoBehaviour
     // moves the player child that the camera follows
     public void UpdateTarget()
     {
-        //PlayerTarget.GetComponent<SteeringBehaviourComponent>().Target = targetPos;
+        // process target height
+        if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Idle ||
+            (PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Walk ||
+            (PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Run)
+        {
+            targetHeight = targetHeightHigh;
+        }
+        else
+        {
+            if (machine.moveDirection.y < -0.35f)
+            {
+                targetHeight = targetHeightLow;
+            }
+            else
+            {
+                targetHeight = (targetHeightHigh + targetHeightLow) * 0.5f;
+            }
+        }
 
-        // TEMPORARY MOVEMENT
-        // move target up
-        
-        //if (PlayerTarget.transform.localPosition != targetPos)
-        //{
-        //    Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, 0.1f);
-
-        //    if (!Mathf.Approximately(lerp.x, targetPos.x) || !Mathf.Approximately(lerp.y, targetPos.y) || !Mathf.Approximately(lerp.z, targetPos.z))
-        //    {
-        //        PlayerTarget.transform.localPosition = lerp;
-        //    }
-        //    else
-        //    {
-        //        PlayerTarget.transform.localPosition = targetPos;
-        //    }
-        //}
-
-
+        // process cam right offset for look ahead
         // move target "in front" of player to give forward vantage
         Vector3 planarPlayerForward = Math3d.ProjectVectorOnPlane(controller.up, controller.transform.forward).normalized;
         Vector3 planarCamForward = Math3d.ProjectVectorOnPlane(controller.up, transform.forward).normalized;
 
-        Vector3 playerCamCross = Vector3.Cross(transform.right, planarPlayerForward);
+        playerCamCross = Vector3.Cross(transform.right, planarPlayerForward);
 
         // closer to 0 means close to looking straight left/right, close to 1 means looking almost straight ahead
         lookOffset = transform.right * (1 - playerCamCross.magnitude) * Mathf.Sign(Vector3.Cross(planarCamForward, planarPlayerForward).y) * lookDistance;
-        
 
-        // set target's steering destination
-        PlayerTarget.GetComponent<SteeringBehaviourComponent>().Target = Player.transform.position + targetPos + lookOffset;
+
+        // set target position in world coords
+        targetPos = Player.transform.position;
+        targetPos.y += targetHeight;
+
+        // TEMPORARY MOVEMENT
+        if (PlayerTarget.transform.position != targetPos)
+        {
+            Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, 0.2f);
+
+            if (!Mathf.Approximately(lerp.x, targetPos.x) || !Mathf.Approximately(lerp.y, targetPos.y) || !Mathf.Approximately(lerp.z, targetPos.z))
+            {
+                PlayerTarget.transform.localPosition = lerp;
+            }
+            else
+            {
+                PlayerTarget.transform.localPosition = targetPos;
+            }
+        }
+
+
+        
     }
 
 
@@ -197,6 +213,27 @@ public class PlayerCamera : MonoBehaviour
         }
 
 
+        // ROTATE AROUND PLAYER AS PIVOT POINT:
+        // temp rotation test
+        if (input.Current.Joy2Input.x != 0)
+        {
+            transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
+        }
+
+        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Idle)
+        {
+            Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
+
+            if (playerCamCross.magnitude > 0.02f && machine.idleTimer > 0.5f)
+            {
+                float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
+                transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.25f * turnDirection);
+            }
+        }
+            
+        
+
+
         // y rotation
         //if (input.Current.Joy2Input.z < 0) // look up
         //{
@@ -209,7 +246,7 @@ public class PlayerCamera : MonoBehaviour
         //    {
         //        transform.position = Vector3.Lerp(transform.position, lookUpTarget.position, Mathf.Abs(input.Current.Joy2Input.z) * Time.deltaTime);
         //    }
-            
+
         //}
         //// look down
         //else if (input.Current.Joy2Input.z > 0)
@@ -230,7 +267,7 @@ public class PlayerCamera : MonoBehaviour
         //    targetPos.z = 0;
         //    currentMode = CameraMode.Field;
         //}
-        
+
         // up/down movement
         if (!Mathf.Approximately(transform.position.y, lastGround + Height))
         {

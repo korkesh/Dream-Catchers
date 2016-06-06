@@ -89,7 +89,7 @@ public class SuperCharacterController : MonoBehaviour
 
     private Vector3 initialPosition;
     private Vector3 groundOffset;
-    private Vector3 lastGroundPosition;
+    public Vector3 lastGroundPosition { get; private set; }
     private bool clamping = true;
     private bool slopeLimiting = true;
 
