@@ -4,19 +4,22 @@ using System.Collections;
 public class PlayerCombat : MonoBehaviour
 {
     public Collider weaponCollider;
+    public Collider groundPoundCollider;
     public GameObject weaponParentObject;
     public bool attacking;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         attacking = false;
         weaponCollider.enabled = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void BeginAttack()
     {
@@ -50,14 +53,14 @@ public class PlayerCombat : MonoBehaviour
         weaponParentObject.SetActive(true);
         gameObject.GetComponent<Animator>().SetBool("GroundPound", true);
         attacking = true;
-        weaponCollider.enabled = true;
+        groundPoundCollider.enabled = true;
     }
 
     public void EndPound()
     {
         weaponParentObject.SetActive(false);
         attacking = false;
-        weaponCollider.enabled = false;
+        groundPoundCollider.enabled = false;
         gameObject.GetComponent<Animator>().SetBool("GroundPound", false);
     }
 

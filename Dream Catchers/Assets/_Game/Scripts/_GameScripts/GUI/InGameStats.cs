@@ -64,8 +64,8 @@ public class InGameStats : MonoBehaviour {
                 displayed = true;
             }
 
-            MemFragNum.text = Character_Manager.instance.totalMemoryFragmentsCollected + " / " + Level_Manager.instance.totalNumMemoryFrag;
-            CollectibleNum.text = Character_Manager.instance.totalCollectibles + " / " + Level_Manager.instance.totalNumCollectibles;
+            //MemFragNum.text = Character_Manager.instance.totalMemoryFragmentsCollected + " / " + Level_Manager.instance.totalNumMemoryFrag;
+            CollectibleNum.text = Character_Manager.instance.totalCollectibles.ToString();
 
         }else
         {

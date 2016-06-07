@@ -29,6 +29,9 @@ public class Game_Manager : MonoBehaviour {
     // Current States
     public GameState currentGameState;
 
+    // temp
+    public bool enableSmartCam = false;
+
     //================================
     // Methods
     //================================
@@ -77,7 +80,18 @@ public class Game_Manager : MonoBehaviour {
     /// Update is called once per frame
     void Update()
     {
+        if (GameObject.FindGameObjectWithTag("SmartCam"))
+        {
+            if (enableSmartCam)
+            {
+                GameObject.FindGameObjectWithTag("SmartCam").SetActive(true);
+            }
+            else
+            {
+                GameObject.FindGameObjectWithTag("SmartCam").SetActive(false);
 
+            }
+        }
     }
 
     //-----------------
@@ -93,11 +107,12 @@ public class Game_Manager : MonoBehaviour {
         {
             case GameState.PLAY:
                 {
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+
                     break;
                 }
             case GameState.GAMEOVER:
                 {
-                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
                     break;
                 }
         }

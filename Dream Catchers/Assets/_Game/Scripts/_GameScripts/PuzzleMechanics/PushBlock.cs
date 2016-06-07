@@ -10,7 +10,8 @@ public class PushBlock : MonoBehaviour {
 
     public bool playerPush;
 
-    
+    public GameObject Player;
+
     void OnCollisionEnter(Collision collision)
     {
         // Only allow push from player and when not animating
@@ -30,7 +31,7 @@ public class PushBlock : MonoBehaviour {
         if (!DOTween.IsTweening(transform))
         {
             // The direction the character is facing when colliding with the box
-            Vector3 pushDir = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMachine>().facing.normalized;
+            Vector3 pushDir = Player.GetComponent<PlayerMachine>().facing.normalized;
 
             // If the character is not head on do not push
             if (Mathf.Round(pushDir.x) != 0 && Mathf.Round(pushDir.z) != 0)
