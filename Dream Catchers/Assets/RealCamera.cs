@@ -7,7 +7,6 @@ public class RealCamera : MonoBehaviour
     public RootCamera RootCam;
     public GameObject PlayerTarget;
     public GameObject Player;
-    public float MaxLookTurn = 300;
     public float lookDistance = 10;
 
 	// Use this for initialization
@@ -42,6 +41,7 @@ public class RealCamera : MonoBehaviour
     {
         PlayerTarget.transform.position = RootCam.PlayerTarget.transform.position;
 
+        Debug.Log((1 - RootCam.playerCamCross.magnitude) * Mathf.Sign(Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, RootCam.transform.forward).normalized, Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward).normalized).y) * lookDistance);
         // apply look offset
         PlayerTarget.transform.position += transform.right * (1 - RootCam.playerCamCross.magnitude) * Mathf.Sign(Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, RootCam.transform.forward).normalized, Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward).normalized).y) * lookDistance;
     }

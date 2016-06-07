@@ -224,10 +224,21 @@ public class RootCamera : MonoBehaviour
         {
             Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
 
-            if (playerCamCross.magnitude > 0.02f && machine.idleTimer > 0.5f)
+            if (machine.idleTimer > 1)
             {
-                float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
-                transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.25f * turnDirection);
+                if (playerCamCross.magnitude > 0.02f)
+                {
+                    float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
+                    transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.25f * turnDirection);
+                }
+                // facing straight toward camera is a special case
+                else
+                {
+                    if (Vector3.Cross(transform.right, controller.transform.forward).y > 0.97)
+                    {
+                        transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.25f);
+                    }
+                }
             }
         }
             

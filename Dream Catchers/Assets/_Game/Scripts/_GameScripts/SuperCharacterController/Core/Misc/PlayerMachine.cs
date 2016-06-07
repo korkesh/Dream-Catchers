@@ -35,6 +35,7 @@ public class PlayerMachine : SuperStateMachine {
     public float WalkspeedThreshold = 0.5f;
 
     public float RunSpeed = 0.65f;
+    public float RunTurnSpeed = 400;
     public float MaxRunSpeed = 6.0f;
     public float TurnRadius = 4.0f;
 
@@ -374,8 +375,17 @@ public class PlayerMachine : SuperStateMachine {
                 return;
             }
 
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed, RunAcceleration * Time.deltaTime);
-            facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
+            // run speed is constant in forward direction, directional inputs only affect forward vector's angle
+            Vector3 local = LocalMovement();
+            float inputPlayerCross = Vector3.Cross(local, transform.forward).magnitude;
+
+            if (inputPlayerCross > 0.08f)
+            {
+                transform.forward = Quaternion.AngleAxis(RunTurnSpeed * Time.deltaTime * Mathf.Sign(Vector3.Cross(local, transform.forward).y) * -1, controller.up) * transform.forward;
+                facing = transform.forward;
+            }
+
+            moveDirection = transform.forward * MaxRunSpeed;
         }
         else
         {
