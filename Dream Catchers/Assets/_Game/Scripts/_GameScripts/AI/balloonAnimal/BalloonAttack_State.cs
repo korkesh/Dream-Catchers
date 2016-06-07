@@ -3,6 +3,10 @@ using System.Collections;
 
 public class BalloonAttack_State : BaseState {
 
+    //================================
+    // Variables
+    //================================
+
     public float radiusTolaunchAttack;
     public bool IsAttacking;
     bool IsJumping;
@@ -21,6 +25,15 @@ public class BalloonAttack_State : BaseState {
     public Rigidbody rigidB;
     public float shootAngle;
 
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
+
     void Awake()
     {
         //get fsm
@@ -35,6 +48,10 @@ public class BalloonAttack_State : BaseState {
         rigidB = GetComponent<Rigidbody>();
     }
 
+
+    //-----------------
+    // FSM Methods
+    //-----------------
 
     public override void Enter()
     {

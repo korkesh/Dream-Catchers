@@ -3,6 +3,11 @@ using System.Collections;
 
 public class BallonPatrol_State : BaseState {
 
+
+    //================================
+    // Variables
+    //================================
+
     public Vector3 StartPos;
     public Vector3 StartPosForCalc;
    // public float startHeight;
@@ -12,6 +17,14 @@ public class BallonPatrol_State : BaseState {
     public float speedHorizontal;
     float timeCounterVertical;
     float timeCounterHorizontal;
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
 
 
     void Awake()
@@ -25,6 +38,10 @@ public class BallonPatrol_State : BaseState {
     }
 
 
+    //-----------------
+    // FSM Methods
+    //-----------------
+
     public override void Enter()
     {
 
@@ -32,6 +49,7 @@ public class BallonPatrol_State : BaseState {
 
     public override void Execute()
     {
+        //calculates postition in air patrol
         timeCounterHorizontal += Time.deltaTime * speedHorizontal;
         timeCounterVertical += Time.deltaTime * speedVertical;
 
@@ -53,6 +71,7 @@ public class BallonPatrol_State : BaseState {
 
     public override void Exit()
     {
+        //reset
         timeCounterVertical = 0;
         timeCounterHorizontal = 0;
     }
