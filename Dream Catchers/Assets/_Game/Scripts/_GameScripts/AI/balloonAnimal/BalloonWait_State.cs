@@ -4,7 +4,8 @@ using System.Collections;
 public class BalloonWait_State : BaseState {
 
     GameObject Player;
-    public float waitTime;
+    public float shortwaitTime;
+    public float longWaitTime;
     float wait;
 
     void Awake()
@@ -12,12 +13,15 @@ public class BalloonWait_State : BaseState {
         //get fsm
         fsm = this.gameObject.GetComponent<FSM>();
         Player = GameObject.FindGameObjectWithTag("Player");
-        wait = waitTime;
+        wait = shortwaitTime;
     }
 
     public override void Enter()
     {
-       
+       if(Character_Manager.instance.invincible == true)
+       {
+           wait = longWaitTime;
+       }
     }
 
     public override void Execute()
@@ -27,7 +31,7 @@ public class BalloonWait_State : BaseState {
         {
             fsm.changeState("FloatToStart");
 
-        }else if(wait <=  0)
+        }else if(wait <=  0 && Character_Manager.instance.invincible == false)
         {
             fsm.changeState("Chase");
         }
@@ -37,7 +41,7 @@ public class BalloonWait_State : BaseState {
 
     public override void Exit()
     {
-        wait = waitTime;
+        wait = shortwaitTime;
     }
 
 }
