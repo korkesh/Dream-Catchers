@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class UI_Manager : MonoBehaviour {
     public Menu GameOverScreen;
     public float timePlaceHolder;
 
+    public GameObject rechargeTimer;
 
     void Awake()
     {
@@ -109,5 +111,11 @@ public class UI_Manager : MonoBehaviour {
     public void GameOver()
     {
         ShowMenu(GameOverScreen);
+    }
+
+    // Animates the recharge UI graphic for the manipulation swap
+    public void AnimateRecharge(float time)
+    {
+        rechargeTimer.SendMessage("StartRecharge", time);
     }
 }
