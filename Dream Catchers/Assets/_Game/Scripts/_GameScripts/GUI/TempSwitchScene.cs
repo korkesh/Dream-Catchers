@@ -61,4 +61,9 @@ public class TempSwitchScene : MonoBehaviour {
     {
         Game_Manager.instance.changeGameState(gs);
     }
+
+    public void spawn()
+    {
+        Character_Manager.instance.GoTocheckPoint();
+    }
 }

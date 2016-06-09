@@ -67,9 +67,7 @@ public class Level_Manager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        CheckPointPos.x = PlayerPrefs.GetFloat("CheckPointX");
-        CheckPointPos.y = PlayerPrefs.GetFloat("CheckPointY");
-        CheckPointPos.z = PlayerPrefs.GetFloat("CheckPointZ");
+        ContinueLevel();
 
 	}
 	
@@ -122,5 +120,18 @@ public class Level_Manager : MonoBehaviour {
         PlayerPrefs.SetFloat("CheckPointZ", CheckPointPos.z);
     }
 
+    public void ContinueLevel()
+    {
+        CheckPointPos.x = PlayerPrefs.GetFloat("CheckPointX");
+        CheckPointPos.y = PlayerPrefs.GetFloat("CheckPointY");
+        CheckPointPos.z = PlayerPrefs.GetFloat("CheckPointZ");
 
+        if(CheckPointPos == Vector3.zero)
+        {
+            PlayerPrefs.SetFloat("CheckPointX", defaultCheckPoint.x);
+            PlayerPrefs.SetFloat("CheckPointY", defaultCheckPoint.y);
+            PlayerPrefs.SetFloat("CheckPointZ", defaultCheckPoint.z);
+            CheckPointPos = defaultCheckPoint;
+        }
+    }
 }
