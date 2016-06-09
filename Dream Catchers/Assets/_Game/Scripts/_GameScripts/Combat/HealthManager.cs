@@ -5,6 +5,8 @@ public class HealthManager : MonoBehaviour {
 
     public int maxHealth;
     public int currentHealth;
+    public bool spawns;
+    public GameObject spawnObject;
 
      bool isVulnerable = true;
 	
@@ -14,6 +16,10 @@ public class HealthManager : MonoBehaviour {
         if(currentHealth <= 0)
         {
             //TODO: Kill Animation
+            if (spawns)
+            {
+                Instantiate(spawnObject, gameObject.transform.position, Quaternion.identity);
+            }
             Destroy(gameObject);
         }
 	}

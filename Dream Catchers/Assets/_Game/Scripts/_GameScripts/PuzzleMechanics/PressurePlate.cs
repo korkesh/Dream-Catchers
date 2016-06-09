@@ -43,7 +43,7 @@ public class PressurePlate : MonoBehaviour {
     // Lower Plate; Trigger Switch
     public void OnTriggerEnter(Collider other)
     {
-        if(other.tag == WeightedObjectTag && !activated)
+        if((other.tag == WeightedObjectTag || other.tag == "PushBlock") && !activated)
         {
             timer = Time.deltaTime;
             originalPos = PressurePlateObject.transform.position;
@@ -57,7 +57,7 @@ public class PressurePlate : MonoBehaviour {
     // Raise Plate; un-Trigger Switch (if allowed)
     public void OnTriggerExit(Collider other)
     {
-        if (other.tag == WeightedObjectTag && allowDeactivate)
+        if ((other.tag == WeightedObjectTag || other.tag == "PushBlock") && allowDeactivate)
         {
             timer = Time.deltaTime;
             originalPos = PressurePlateObject.transform.position;
