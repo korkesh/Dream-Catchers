@@ -17,6 +17,7 @@ public class Level_Manager : MonoBehaviour {
 
     public string SceneName;
     public Levels LevelName;
+    public Vector3 CheckPointPos;
 
     //-----------------
     // Defaults 
@@ -24,6 +25,7 @@ public class Level_Manager : MonoBehaviour {
 
     public Levels defaultLevel;
     public string defaultGameScene;
+    public Vector3 defaultCheckPoint;
 
     //-----------------
     // Collectibles 
@@ -59,12 +61,16 @@ public class Level_Manager : MonoBehaviour {
         }
 
         //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);
+       // DontDestroyOnLoad(gameObject);
     }
 
     // Use this for initialization
     void Start () {
-	
+
+        CheckPointPos.x = PlayerPrefs.GetFloat("CheckPointX");
+        CheckPointPos.y = PlayerPrefs.GetFloat("CheckPointY");
+        CheckPointPos.z = PlayerPrefs.GetFloat("CheckPointZ");
+
 	}
 	
 	// Update is called once per frame
@@ -82,7 +88,10 @@ public class Level_Manager : MonoBehaviour {
         PlayerPrefs.SetInt("TotalNumMemoryFrag", totalNumMemoryFrag);
         PlayerPrefs.SetInt("TotalNumCollectibles", totalNumCollectibles);
         PlayerPrefs.SetInt("LevelComplete", 0);
-        
+        PlayerPrefs.SetFloat("CheckPointX", defaultCheckPoint.x);
+        PlayerPrefs.SetFloat("CheckPointY", defaultCheckPoint.y);
+        PlayerPrefs.SetFloat("CheckPointZ", defaultCheckPoint.z);
+        CheckPointPos = defaultCheckPoint;
     }
 
     //TODO: when checkpoints are added change this
@@ -104,4 +113,14 @@ public class Level_Manager : MonoBehaviour {
         }
         return false;
     }
+
+    public void newCheckPoint(Vector3 pos)
+    {
+        CheckPointPos = pos;
+        PlayerPrefs.SetFloat("CheckPointX", CheckPointPos.x);
+        PlayerPrefs.SetFloat("CheckPointY", CheckPointPos.y);
+        PlayerPrefs.SetFloat("CheckPointZ", CheckPointPos.z);
+    }
+
+
 }

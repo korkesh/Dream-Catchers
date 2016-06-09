@@ -12,9 +12,16 @@ public class ClownAttack : MonoBehaviour {
     public float sightRadius;
     public GameObject clown;
     public float timer;
+    bool exploded;
+    public float wait;
+    public GameObject DreamBall;
+    public GameObject NightmareBall;
+    public GameObject particles;
 
     void Awake()
     {
+
+        exploded = false;
         if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
         {
             spCollider.material = physMat;
@@ -63,6 +70,15 @@ public class ClownAttack : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
+        if(exploded == true)
+        {
+            wait -= Time.deltaTime;
+            if(wait <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
         if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && collision.gameObject.name != "Launch")
         {
             if(collision.gameObject.tag == "Player")
@@ -82,7 +98,14 @@ public class ClownAttack : MonoBehaviour {
                 }
             }
 
-            Destroy(this.gameObject);
+            spCollider.enabled = false;
+            rigidB.useGravity = false;
+            exploded = true;
+            Destroy(NightmareBall);
+            Destroy(DreamBall);
+            GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
+            ex.transform.parent = this.transform;
+            ex.SetActive(true);
 
         }
         else if (currentState == ManipulationManager.WORLD_STATE.DREAM)
@@ -156,9 +179,17 @@ public class ClownAttack : MonoBehaviour {
 
     void OnCollisionStay(Collision collisionInfo)
     {
-        if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+        if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && exploded == false)
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+            spCollider.enabled = false;
+            rigidB.useGravity = false;
+            exploded = true;
+            Destroy(NightmareBall);
+            Destroy(DreamBall);
+            GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
+            ex.transform.parent = this.transform;
+            ex.SetActive(true);
         }
     }
 

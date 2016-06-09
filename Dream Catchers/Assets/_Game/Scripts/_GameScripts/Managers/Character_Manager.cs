@@ -60,7 +60,7 @@ public class Character_Manager : Singleton<Character_Manager>
         }
 
         //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Use this for initialization
@@ -195,5 +195,11 @@ public class Character_Manager : Singleton<Character_Manager>
     {
         totalCollectibles += 1;
         PlayerPrefs.SetInt("TotalOtherCollectiblesCollected", totalCollectibles);
+    }
+
+
+    public void GoTocheckPoint()
+    {
+        Character.transform.position = Level_Manager.instance.CheckPointPos;
     }
 }
