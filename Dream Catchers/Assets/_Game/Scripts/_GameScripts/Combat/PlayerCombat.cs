@@ -84,7 +84,6 @@ public class PlayerCombat : MonoBehaviour
     {
         if (UI_Manager.instance != null && Character_Manager.instance != null)
         {
-            UI_Manager.instance.GameOver();
             Character_Manager.instance.revivePlayer();
         }
     }

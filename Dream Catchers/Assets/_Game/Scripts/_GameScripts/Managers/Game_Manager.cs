@@ -108,11 +108,13 @@ public class Game_Manager : MonoBehaviour {
             case GameState.PLAY:
                 {
                     ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+                    Character_Manager.instance.invincible = false;
 
                     break;
                 }
             case GameState.GAMEOVER:
                 {
+
                     break;
                 }
         }
