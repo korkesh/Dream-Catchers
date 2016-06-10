@@ -18,6 +18,11 @@ public class ManipulationManager : MonoBehaviour
     public float manipulationCooldown;
     bool onCooldown;
 
+    // Skybox controls
+    GameObject mainCamera;
+    public Material skyboxDream;
+    public Material skyboxNightmare;
+
     public static ManipulationManager instance = null;
 
     void Awake()
@@ -43,11 +48,11 @@ public class ManipulationManager : MonoBehaviour
     void Start()
     {
         // Set default world state to dream
-        // NOTE: Will not be set here by default, game director or level manager should handle this initialization
         currentWorldState = WORLD_STATE.DREAM;
 
         // Initialize DOTween
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+
     }
 
     // Update is called once per frame
@@ -60,6 +65,17 @@ public class ManipulationManager : MonoBehaviour
             StartCoroutine(toggleCooldown());
             UI_Manager.instance.AnimateRecharge(manipulationCooldown);
             currentWorldState = (currentWorldState == WORLD_STATE.DREAM) ? WORLD_STATE.NIGHTMARE : WORLD_STATE.DREAM;
+
+            mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+
+            if (currentWorldState == WORLD_STATE.DREAM)
+            {
+                mainCamera.GetComponent<Skybox>().material = skyboxDream;
+            }
+            else
+            {
+                mainCamera.GetComponent<Skybox>().material = skyboxNightmare;
+            }
         }
 
     }
