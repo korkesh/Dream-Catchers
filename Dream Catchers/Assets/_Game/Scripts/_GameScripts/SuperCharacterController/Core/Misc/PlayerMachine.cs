@@ -253,7 +253,8 @@ public class PlayerMachine : SuperStateMachine {
         idleTimer += Time.deltaTime;
 
         // Run every frame we are in the idle state
-        if (input.Current.JumpInput)
+        // Dont allow attack and then jump
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
             currentState = PlayerStates.Jump;
             return;
@@ -312,7 +313,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Walk_SuperUpdate()
     {
-        if (input.Current.JumpInput)
+        // Dont allow attack and then jump
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
             currentState = PlayerStates.Jump;
             return;
@@ -358,7 +360,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Run_SuperUpdate()
     {
-        if (input.Current.JumpInput)
+        // Dont allow attack and then jump
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
             currentState = PlayerStates.Jump;
             return;
