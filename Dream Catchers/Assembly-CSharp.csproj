@@ -51,6 +51,9 @@
      <Compile Include="Assets\RealCamera.cs" />
      <Compile Include="Assets\TestDamage.cs" />
      <Compile Include="Assets\_Game\Scenes\_TestScenes\Weekly Builds\Week4 - PreAlpha\TempCameraSwap.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ScneScript.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonAttack_State.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonChase_State.cs" />
@@ -74,6 +77,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\InGameStats.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\Menu.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\RechargeAnimation.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TimePause.cs" />

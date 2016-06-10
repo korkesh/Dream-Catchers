@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class RechargeAnimation : MonoBehaviour {
 
     public Image rechargeGraphic;
-    public float timer = 60;
+    float timer = 60;
 
     void Start()
     {

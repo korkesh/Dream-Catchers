@@ -20,6 +20,7 @@ public class BalloonFloatToStart_State : BaseState {
     public override void Enter()
     {
         rigidB.useGravity = false;
+        rigidB.velocity = Vector3.zero;
     }
 
     public override void Execute()
