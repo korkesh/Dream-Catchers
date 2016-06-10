@@ -14,6 +14,10 @@ public class ManipulationManager : MonoBehaviour
     // The current game state the world is in
     public WORLD_STATE currentWorldState;
 
+    // Limit the ability to manipulate
+    public float manipulationCooldown;
+    bool onCooldown;
+
     public static ManipulationManager instance = null;
 
     void Awake()
@@ -50,11 +54,22 @@ public class ManipulationManager : MonoBehaviour
     void Update()
     {
         // Toggles the World State upon player input
-        if (Input.GetButtonDown("Fire3") && (Game_Manager.instance == null || Game_Manager.instance.isPlaying()))
+        if (Input.GetButtonDown("Fire3") && (Game_Manager.instance == null || Game_Manager.instance.isPlaying()) && !onCooldown)
         {
+            onCooldown = true;
+            StartCoroutine(toggleCooldown());
+            UI_Manager.instance.AnimateRecharge(manipulationCooldown);
             currentWorldState = (currentWorldState == WORLD_STATE.DREAM) ? WORLD_STATE.NIGHTMARE : WORLD_STATE.DREAM;
         }
 
+    }
+
+    IEnumerator toggleCooldown()
+    {
+        yield return new WaitForSeconds(manipulationCooldown);
+
+        // Code to execute after the delay
+        onCooldown = false;
     }
 
 }

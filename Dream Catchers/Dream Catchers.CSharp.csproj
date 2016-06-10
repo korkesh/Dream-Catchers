@@ -64,9 +64,6 @@
     <Reference Include="Mono.Cecil">
       <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
-    </Reference>
     <Reference Include="DOTween43">
       <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
     </Reference>
@@ -76,10 +73,14 @@
     <Reference Include="DOTween50">
       <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\Kill.cs" />
     <Compile Include="Assets\RealCamera.cs" />
     <Compile Include="Assets\TestDamage.cs" />
     <Compile Include="Assets\_Game\Scenes\_TestScenes\Weekly Builds\Week4 - PreAlpha\TempCameraSwap.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\InGameStats.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\Menu.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\RechargeAnimation.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TimePause.cs" />
