@@ -69,6 +69,7 @@ public class Items : MonoBehaviour {
             {
                 Character_Manager.Instance.CollectOtherCollectible();
                 
+                
             }
             else if(type == Type.HEALTH_PICKUP)
             {

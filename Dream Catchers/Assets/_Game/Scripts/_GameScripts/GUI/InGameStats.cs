@@ -9,6 +9,9 @@ public class InGameStats : MonoBehaviour {
     //================================
 
     public Image[] HealthBars;
+    public float TimeofCollectibleUI;
+    float timeCollUI;
+
 
     //-----------------
     // UI 
@@ -20,6 +23,7 @@ public class InGameStats : MonoBehaviour {
     public Text MemFragNum;
     public Text CollectibleNum;
     public Sprite NUllImage;
+    public Animator CollectibleAnim;
 
     //-----------------
     // Stats 
@@ -47,6 +51,9 @@ public class InGameStats : MonoBehaviour {
 
         MaxHealth = Character_Manager.instance.maxHealth;
         CurrentHealth = Character_Manager.instance.currentHealth;
+        CollectibleAnim.SetBool("IsOpen", false);
+        timeCollUI = TimeofCollectibleUI;
+
 	}
 
     //-----------------
@@ -65,6 +72,10 @@ public class InGameStats : MonoBehaviour {
             }
 
             //MemFragNum.text = Character_Manager.instance.totalMemoryFragmentsCollected + " / " + Level_Manager.instance.totalNumMemoryFrag;
+            if (CollectibleNum.text != Character_Manager.instance.totalCollectibles.ToString())
+            {
+                ShowCollect();
+            }
             CollectibleNum.text = Character_Manager.instance.totalCollectibles.ToString();
 
         }else
@@ -72,6 +83,16 @@ public class InGameStats : MonoBehaviour {
             displayed = false;
         }
 	
+
+        if(CollectibleAnim.GetBool("IsOpen") == true)
+        {
+            timeCollUI -= Time.deltaTime;
+            if(timeCollUI <= 0)
+            {
+                CollectibleAnim.SetBool("IsOpen", false);
+                timeCollUI = TimeofCollectibleUI;
+            }
+        }
 	}
 
     //-----------------
@@ -99,5 +120,15 @@ public class InGameStats : MonoBehaviour {
             }
         }
 
+    }
+
+    public void ShowCollect()
+    {
+        if(CollectibleAnim.GetBool("IsOpen") == false)
+        {
+            CollectibleAnim.SetBool("IsOpen", true);
+        }
+
+        timeCollUI = TimeofCollectibleUI;
     }
 }

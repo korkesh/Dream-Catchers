@@ -84,6 +84,8 @@
     <Compile Include="Assets\RealCamera.cs" />
     <Compile Include="Assets\TestDamage.cs" />
     <Compile Include="Assets\_Game\Scenes\_TestScenes\Weekly Builds\Week4 - PreAlpha\TempCameraSwap.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ScneScript.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonAttack_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonChase_State.cs" />

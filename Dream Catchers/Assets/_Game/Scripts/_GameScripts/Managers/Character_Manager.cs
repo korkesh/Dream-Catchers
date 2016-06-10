@@ -200,6 +200,13 @@ public class Character_Manager : Singleton<Character_Manager>
 
     public void GoTocheckPoint()
     {
-        Character.transform.position = Level_Manager.instance.CheckPointPos;
+        Character = GameObject.FindGameObjectWithTag("Player");
+        if(Character != null)
+        {
+            Character.transform.position = Level_Manager.instance.CheckPointPos;
+        }
+        
     }
+
+    
 }
