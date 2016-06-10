@@ -62,6 +62,11 @@ public class InGameStats : MonoBehaviour {
 
 	void Update () {
 
+        if (Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE)
+        {
+            ShowCollect();
+        }
+
         //if the game is in play mode check to see if anyvalues have changed. if so update ui
         if(UI_Manager.instance.CurrentMenu == this.GetComponent<Menu>())
         {
@@ -82,9 +87,8 @@ public class InGameStats : MonoBehaviour {
         {
             displayed = false;
         }
-	
 
-        if(CollectibleAnim.GetBool("IsOpen") == true)
+        if (CollectibleAnim.GetBool("IsOpen") == true )
         {
             timeCollUI -= Time.deltaTime;
             if(timeCollUI <= 0)
