@@ -11,6 +11,11 @@ public class InGameStats : MonoBehaviour {
     public Image[] HealthBars;
     public float TimeofCollectibleUI;
     float timeCollUI;
+    public Image FragmentGear;
+    public Image FragmentKey;
+    public Image FragmentLocket;
+    public int numFrag;
+    Game_Manager.GameState state;
 
 
     //-----------------
@@ -24,6 +29,9 @@ public class InGameStats : MonoBehaviour {
     public Text CollectibleNum;
     public Sprite NUllImage;
     public Animator CollectibleAnim;
+    public Sprite FragmentGearPic;
+    public Sprite FragmentKeyPic;
+    public Sprite FragmentLocketPic;
 
     //-----------------
     // Stats 
@@ -49,11 +57,15 @@ public class InGameStats : MonoBehaviour {
             HealthBars[i].sprite = NUllImage;
         }
 
+     
         MaxHealth = Character_Manager.instance.maxHealth;
         CurrentHealth = Character_Manager.instance.currentHealth;
         CollectibleAnim.SetBool("IsOpen", false);
         timeCollUI = TimeofCollectibleUI;
-
+        //updateFragments();
+        state = Game_Manager.instance.currentGameState;
+        
+       
 	}
 
     //-----------------
@@ -65,6 +77,11 @@ public class InGameStats : MonoBehaviour {
         if (Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE)
         {
             ShowCollect();
+        }
+
+        if (state != Game_Manager.instance.currentGameState && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
+        {
+            updateFragments();
         }
 
         //if the game is in play mode check to see if anyvalues have changed. if so update ui
@@ -83,6 +100,11 @@ public class InGameStats : MonoBehaviour {
             }
             CollectibleNum.text = Character_Manager.instance.totalCollectibles.ToString();
 
+            if(numFrag != Character_Manager.instance.totalMemoryFragmentsCollected)
+            {
+                updateFragments();
+            }
+
         }else
         {
             displayed = false;
@@ -97,6 +119,8 @@ public class InGameStats : MonoBehaviour {
                 timeCollUI = TimeofCollectibleUI;
             }
         }
+
+        state = Game_Manager.instance.currentGameState;
 	}
 
     //-----------------
@@ -134,5 +158,35 @@ public class InGameStats : MonoBehaviour {
         }
 
         timeCollUI = TimeofCollectibleUI;
+    }
+
+
+    public void updateFragments()
+    {
+        if (PlayerPrefs.HasKey("Fragment Gear") == true)
+        {
+            if (PlayerPrefs.GetInt("Fragment Gear") == 1)
+            {
+                FragmentGear.sprite = FragmentGearPic;
+            }
+        }
+
+        if (PlayerPrefs.HasKey("Fragment Key") == true)
+        {
+            if (PlayerPrefs.GetInt("Fragment Key") == 1)
+            {
+                FragmentKey.sprite = FragmentKeyPic;
+            }
+        }
+
+        if (PlayerPrefs.HasKey("Fragment Locket") == true)
+        {
+            if (PlayerPrefs.GetInt("Fragment Locket") == 1)
+            {
+                FragmentLocket.sprite = FragmentLocketPic;
+            }
+        }
+
+        numFrag = Character_Manager.instance.totalMemoryFragmentsCollected;
     }
 }
