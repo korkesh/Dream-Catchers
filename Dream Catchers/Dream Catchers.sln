@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dream Catchers.CSharp.Plugins", "Dream Catchers.CSharp.Plugins.csproj", "{30D8B071-1D85-313D-BBD7-6ACBAAD50323}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dream Catchers.CSharp", "Dream Catchers.CSharp.csproj", "{F57F8737-735E-A435-DEFE-54CAA0600634}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dream Catchers.CSharp.Editor", "Dream Catchers.CSharp.Editor.csproj", "{6BE441DB-BF7B-2591-4098-F3BA61A42ECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30D8B071-1D85-313D-BBD7-6ACBAAD50323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D8B071-1D85-313D-BBD7-6ACBAAD50323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D8B071-1D85-313D-BBD7-6ACBAAD50323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D8B071-1D85-313D-BBD7-6ACBAAD50323}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F57F8737-735E-A435-DEFE-54CAA0600634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F57F8737-735E-A435-DEFE-54CAA0600634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F57F8737-735E-A435-DEFE-54CAA0600634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F57F8737-735E-A435-DEFE-54CAA0600634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BE441DB-BF7B-2591-4098-F3BA61A42ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BE441DB-BF7B-2591-4098-F3BA61A42ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BE441DB-BF7B-2591-4098-F3BA61A42ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BE441DB-BF7B-2591-4098-F3BA61A42ECB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

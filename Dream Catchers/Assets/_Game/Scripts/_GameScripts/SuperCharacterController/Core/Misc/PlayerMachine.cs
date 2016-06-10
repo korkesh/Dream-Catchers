@@ -537,8 +537,6 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Falling", true);
 
-        Debug.Log("Entering Fall State");
-
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
@@ -571,7 +569,6 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_ExitState()
     {
-        Debug.Log("Exiting Fall State");
 
         gameObject.GetComponent<Animator>().SetBool("Falling", false);
 
