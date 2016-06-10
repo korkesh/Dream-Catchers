@@ -571,6 +571,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_ExitState()
     {
+        Debug.Log("Exiting Fall State");
+
         gameObject.GetComponent<Animator>().SetBool("Falling", false);
 
     }
