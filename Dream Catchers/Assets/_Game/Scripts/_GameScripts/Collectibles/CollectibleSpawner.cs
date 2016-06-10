@@ -6,6 +6,7 @@ public class CollectibleSpawner : MonoBehaviour {
 
     public GameObject Prefabs;
     public float probabilityOfDrop;
+    HealthManager HM;
      GameObject spawns;
      //public string name;
 
@@ -17,14 +18,13 @@ public class CollectibleSpawner : MonoBehaviour {
             probabilityOfDrop = probabilityOfDrop / 100;
         }
 
-
         spawns = Instantiate(Prefabs);
         if(name != "" || name == null)
         {
             spawns.name = this.name;
         }
-        
-        
+
+        HM = GetComponent<HealthManager>();
 	}
 
     //Item drop when the object is destroyed
@@ -32,9 +32,13 @@ public class CollectibleSpawner : MonoBehaviour {
     {
         float rand;
         rand = Random.value;
-        if(rand < probabilityOfDrop)
+        if(rand < probabilityOfDrop && HM != null)
         {
-            Instantiate(spawns, this.transform.position, this.transform.rotation);
+            if(HM.spawns == true)
+            {
+                Instantiate(spawns, this.transform.position, this.transform.rotation);
+            }
+            
         }
            
         

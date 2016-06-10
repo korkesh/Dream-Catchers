@@ -6,20 +6,22 @@ public class HealthManager : MonoBehaviour {
     public int maxHealth;
     public int currentHealth;
     public bool spawns;
-    public GameObject spawnObject;
+    //public GameObject spawnObject;
 
      bool isVulnerable = true;
 	
+    void Start()
+     {
+         spawns = false;
+     }
+
 	// Update is called once per frame
 	void Update () {
 	
         if(currentHealth <= 0)
         {
             //TODO: Kill Animation
-            if (spawns)
-            {
-                Instantiate(spawnObject, gameObject.transform.position, Quaternion.identity);
-            }
+            spawns = true;
             Destroy(gameObject);
         }
 	}
