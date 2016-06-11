@@ -3,8 +3,8 @@ using System.Collections;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public Collider weaponCollider;
-    public Collider groundPoundCollider;
+    public GameObject weaponCollider;
+    public GameObject groundPoundCollider;
     public GameObject weaponParentObject;
     public bool attacking;
 
@@ -14,7 +14,9 @@ public class PlayerCombat : MonoBehaviour
     void Start()
     {
         attacking = false;
-        weaponCollider.enabled = false;
+        weaponCollider.SetActive(false);
+        groundPoundCollider.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -40,7 +42,7 @@ public class PlayerCombat : MonoBehaviour
 
         // Allow attacks to register damage
         attacking = true;
-        weaponCollider.enabled = true;
+        weaponCollider.SetActive(true);
 
         StartCoroutine(EndAttack());
 
@@ -56,7 +58,7 @@ public class PlayerCombat : MonoBehaviour
 
         // DisAllow attacks to register damage
         attacking = false;
-        weaponCollider.enabled = false;
+        weaponCollider.SetActive(false);
 
         // Attack animation End
         gameObject.GetComponent<Animator>().SetBool("StandAttack", false);
@@ -69,14 +71,14 @@ public class PlayerCombat : MonoBehaviour
         weaponParentObject.SetActive(true);
         gameObject.GetComponent<Animator>().SetBool("GroundPound", true);
         attacking = true;
-        groundPoundCollider.enabled = true;
+        groundPoundCollider.SetActive(true);
     }
 
     public void EndPound()
     {
         weaponParentObject.SetActive(false);
         attacking = false;
-        groundPoundCollider.enabled = false;
+        groundPoundCollider.SetActive(false);
         gameObject.GetComponent<Animator>().SetBool("GroundPound", false);
     }
 

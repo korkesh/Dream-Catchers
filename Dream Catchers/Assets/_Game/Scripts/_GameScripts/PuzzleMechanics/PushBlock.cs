@@ -19,10 +19,21 @@ public class PushBlock : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        // Only allow push from player and when not animating
-        if (collision.gameObject.tag == "Player" && !DOTween.IsTweening(transform) && playerPush)
+        if(gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
         {
-            Push();
+            return;
+        }
+        // Only allow push from player and when not animating
+        if (collision.gameObject.tag == "Player")
+        {
+            if(playerPush)
+            {
+                Push();
+            }
+            else
+            {
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
         }
 
     }
@@ -33,18 +44,21 @@ public class PushBlock : MonoBehaviour {
     /// </summary>
     public void Push()
     {
+        if (gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
+        {
+            return;
+        }
+
+        gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 
         // The direction the character is facing when colliding with the box
         Vector3 pushDir = Player.GetComponent<PlayerMachine>().facing.normalized;
-
-        Debug.Log(pushDir);
 
         // If the character is not head on do not push
         if (Mathf.Round(pushDir.x) != 0 && Mathf.Round(pushDir.z) != 0)
         {
             return;
         }
-
 
         // The position to push the box to
         Vector3 pushTo = transform.position + new Vector3(Mathf.Round(pushDir.x) * pushPower, 0, Mathf.Round(pushDir.z) * pushPower);
