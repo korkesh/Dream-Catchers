@@ -44,7 +44,7 @@ public class UI_Manager : MonoBehaviour {
        
 	}
 
-    //changes current ui menu?element
+    //changes current ui menu element
     public void ShowMenu(Menu menu)
     {
         if(menu != null)
@@ -116,6 +116,11 @@ public class UI_Manager : MonoBehaviour {
     // Animates the recharge UI graphic for the manipulation swap
     public void AnimateRecharge(float time)
     {
+        if(rechargeTimer == null)
+        {
+            Debug.LogError("Missing Recharge Timer");
+            return;
+        }
         rechargeTimer.SendMessage("StartRecharge", time);
     }
 }

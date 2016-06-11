@@ -52,5 +52,4 @@ public class Menu : MonoBehaviour
         get { return _animator.GetBool("IsOpen"); }
         set { _animator.SetBool("IsOpen", value); }
     }
-
 }

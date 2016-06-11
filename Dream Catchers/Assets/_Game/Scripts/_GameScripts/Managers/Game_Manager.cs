@@ -158,7 +158,7 @@ public class Game_Manager : MonoBehaviour {
     }
 
 
-    public void quitGame()
+    public void QuitGame()
     {
         Application.Quit();
     }
