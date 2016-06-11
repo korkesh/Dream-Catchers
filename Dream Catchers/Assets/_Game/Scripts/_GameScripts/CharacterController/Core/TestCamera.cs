@@ -16,6 +16,9 @@ public class TestCamera : MonoBehaviour {
 
     // Use this for initialization 
     void Start () {
+
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+
         Vector3 angles = transform.eulerAngles;
         x = angles.y; y = angles.x;
 
