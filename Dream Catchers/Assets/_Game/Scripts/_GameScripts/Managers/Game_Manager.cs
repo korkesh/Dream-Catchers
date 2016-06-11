@@ -59,7 +59,8 @@ public class Game_Manager : MonoBehaviour {
         //Sets this to not be destroyed when reloading scene
         //DontDestroyOnLoad(gameObject);
 
-        currentGameState = GameState.INTRO;
+        // currentGameState = GameState.INTRO;
+        NewGame(); // DEBUGGGGGG
     }
 
     /// <summary>
@@ -80,6 +81,8 @@ public class Game_Manager : MonoBehaviour {
     /// Update is called once per frame
     void Update()
     {
+        currentGameState = GameState.PLAY;// DEBUGGGGGG
+
         if (GameObject.FindGameObjectWithTag("SmartCam"))
         {
             if (enableSmartCam)
