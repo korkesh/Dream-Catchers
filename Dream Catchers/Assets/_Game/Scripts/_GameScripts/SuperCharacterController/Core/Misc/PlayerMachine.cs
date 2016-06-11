@@ -102,7 +102,8 @@ public class PlayerMachine : SuperStateMachine {
 		// Our character's current facing direction, planar to the ground
         lookDirection = transform.forward;
 
-        // Set our currentState to idle on startup
+        // Set our currentState to idle on startup unless gameover is set
+        gameObject.GetComponent<Animator>().SetBool("Dead", false);
         currentState = PlayerStates.Idle;
     }
 
@@ -197,13 +198,17 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // Prevent all movement once dead
-        if((Character_Manager.instance != null && Character_Manager.instance.isDead))
+        if ((Character_Manager.instance != null && Character_Manager.instance.isDead) 
+            && (Game_Manager.instance != null && Game_Manager.instance.currentGameState == Game_Manager.GameState.GAMEOVER)
+            && !currentState.Equals(PlayerStates.Dead))
         {
             currentState = PlayerStates.Dead;
         }
 
         // Taking Damage from enemy
-        if ((Character_Manager.instance != null && Character_Manager.instance.invincible) && !currentState.Equals(PlayerStates.Damage))
+        if ((Character_Manager.instance != null && Character_Manager.instance.invincible && !Character_Manager.instance.isDead)
+            && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER)
+            && !currentState.Equals(PlayerStates.Damage))
         {
             currentState = PlayerStates.Damage;
         }
@@ -248,7 +253,8 @@ public class PlayerMachine : SuperStateMachine {
         idleTimer += Time.deltaTime;
 
         // Run every frame we are in the idle state
-        if (input.Current.JumpInput)
+        // Dont allow attack and then jump
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
             currentState = PlayerStates.Jump;
             return;
@@ -307,7 +313,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Walk_SuperUpdate()
     {
-        if (input.Current.JumpInput)
+        // Dont allow attack and then jump
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
             currentState = PlayerStates.Jump;
             return;
@@ -353,7 +360,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Run_SuperUpdate()
     {
-        if (input.Current.JumpInput)
+        // Dont allow attack and then jump
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
             currentState = PlayerStates.Jump;
             return;
@@ -532,8 +540,6 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Falling", true);
 
-        Debug.Log("Entering Fall State");
-
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
@@ -566,6 +572,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_ExitState()
     {
+
         gameObject.GetComponent<Animator>().SetBool("Falling", false);
 
     }
@@ -650,10 +657,18 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
 
         gameObject.GetComponent<Animator>().SetBool("Dead", true);
+
     }
 
     void Dead_SuperUpdate()
     {
+        if(!Character_Manager.instance.isDead)
+        {
+            UI_Manager.instance.GameOver();
+            currentState = PlayerStates.Idle;
+            return;
+        }
+
         // Apply friction to slow us to a halt
         moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
     }

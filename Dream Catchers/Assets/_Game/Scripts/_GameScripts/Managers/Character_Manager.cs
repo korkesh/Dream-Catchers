@@ -110,7 +110,7 @@ public class Character_Manager : Singleton<Character_Manager>
     public void takeDamage(int damage)
     {
         // No damage if invincible
-        if (invincible)
+        if (invincible || isDead || Game_Manager.instance.currentGameState == Game_Manager.GameState.GAMEOVER)
         {
             return;
         }
@@ -122,6 +122,7 @@ public class Character_Manager : Singleton<Character_Manager>
         {
             currentHealth = 0;
             isDead = true;
+            invincible = true;
 
             Game_Manager.instance.changeGameState(Game_Manager.GameState.GAMEOVER);
         }

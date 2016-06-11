@@ -234,6 +234,11 @@ public class SuperCharacterController : MonoBehaviour
     /// <returns>True if the controller attemped to ascend a too steep slope and had their movement limited</returns>
     bool SlopeLimit()
     {
+        if(currentGround == null)
+        {
+            return false;
+        }
+
         Vector3 n = currentGround.PrimaryNormal();
         float a = Vector3.Angle(n, up);
 
@@ -821,6 +826,10 @@ public class SuperCharacterController : MonoBehaviour
 
         public Vector3 PrimaryNormal()
         {
+            if(primaryGround == null)
+            {
+                return Vector3.zero;
+            }
             return primaryGround.normal;
         }
 
@@ -838,6 +847,10 @@ public class SuperCharacterController : MonoBehaviour
 
         public float Distance()
         {
+            if(primaryGround == null)
+            {
+                return 0.0f;
+            }
             return primaryGround.distance;
         }
 
