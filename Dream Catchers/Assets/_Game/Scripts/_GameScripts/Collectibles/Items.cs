@@ -31,7 +31,12 @@ public class Items : MonoBehaviour {
     {
 
         //if the key exists in player prefsit checks to see if it is a 1 (meaning its been picked up), if so the object is deleted
-	        key = Level.ToString() + Scene + gameObject.name.ToString();
+	    key = Level.ToString() + Scene + gameObject.name.ToString();
+        if(type == Type.FRAGEMENT)
+        {
+            key = gameObject.name.ToString();
+            Debug.Log(gameObject.name.ToString());
+        }
             if(PlayerPrefs.HasKey(key))
             {
                 int pickedup = PlayerPrefs.GetInt(key);

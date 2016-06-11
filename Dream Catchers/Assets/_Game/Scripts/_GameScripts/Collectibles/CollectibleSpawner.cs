@@ -4,8 +4,11 @@ using System.Collections.Generic;
 
 public class CollectibleSpawner : MonoBehaviour {
 
-    public List<GameObject> Prefabs;
+    public GameObject Prefabs;
     public float probabilityOfDrop;
+    HealthManager HM;
+     GameObject spawns;
+     //public string name;
 
 	// Use this for initialization
 	void Start () {
@@ -14,20 +17,30 @@ public class CollectibleSpawner : MonoBehaviour {
         {
             probabilityOfDrop = probabilityOfDrop / 100;
         }
+
+        spawns = Instantiate(Prefabs);
+        if(name != "" || name == null)
+        {
+            spawns.name = this.name;
+        }
+
+        HM = GetComponent<HealthManager>();
 	}
 
     //Item drop when the object is destroyed
     void OnDestroy()
     {
         float rand;
-        for(int i = 0; i < Prefabs.Count; i++)
+        rand = Random.value;
+        if(rand < probabilityOfDrop && HM != null)
         {
-            rand = Random.value;
-            if(rand < probabilityOfDrop)
+            if(HM.spawns == true)
             {
-                Instantiate(Prefabs[i], this.transform.position, this.transform.rotation);
+                Instantiate(spawns, this.transform.position, this.transform.rotation);
             }
-           
+            
         }
+           
+        
     }
 }

@@ -101,14 +101,18 @@ public class Game_Manager : MonoBehaviour {
     /// change game state
     public void changeGameState(GameState gs)
     {
+        GameState prev = currentGameState;
         currentGameState = gs;
 
         switch (currentGameState)
         {
             case GameState.PLAY:
                 {
-                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
-
+                    if(prev != GameState.PAUSE)
+                    {
+                        ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+                    }
+                    
                     break;
                 }
             case GameState.GAMEOVER:
