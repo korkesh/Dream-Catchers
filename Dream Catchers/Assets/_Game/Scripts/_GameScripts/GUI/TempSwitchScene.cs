@@ -22,7 +22,7 @@ public class TempSwitchScene : MonoBehaviour {
 	public void loadNext()
     {
         SceneManager.LoadScene(NextScene);
-        Game_Manager.instance.currentGameState = Game_Manager.GameState.MENU;
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.MENU);
         UI_Manager.instance.ShowMenu(MainMenu);
     }
 

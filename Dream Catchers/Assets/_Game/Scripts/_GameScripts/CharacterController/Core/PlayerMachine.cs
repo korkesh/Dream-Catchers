@@ -80,8 +80,6 @@ public class PlayerMachine : SuperStateMachine {
     public float inputMagnitude;
     public float inputPlayerCross;*/
 
-
-
     //================================
     // Methods
     //================================

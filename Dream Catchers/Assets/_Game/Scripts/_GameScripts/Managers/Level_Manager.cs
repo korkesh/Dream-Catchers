@@ -122,6 +122,8 @@ public class Level_Manager : MonoBehaviour {
 
     public void ContinueLevel()
     {
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
+
         CheckPointPos.x = PlayerPrefs.GetFloat("CheckPointX");
         CheckPointPos.y = PlayerPrefs.GetFloat("CheckPointY");
         CheckPointPos.z = PlayerPrefs.GetFloat("CheckPointZ");

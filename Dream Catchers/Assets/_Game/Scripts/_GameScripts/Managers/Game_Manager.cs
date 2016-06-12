@@ -27,7 +27,7 @@ public class Game_Manager : MonoBehaviour {
     }
     
     // Current States
-    public GameState currentGameState;
+    public GameState currentGameState { get; private set; }
 
     // temp
     public bool enableSmartCam = false;
@@ -59,8 +59,8 @@ public class Game_Manager : MonoBehaviour {
         //Sets this to not be destroyed when reloading scene
         //DontDestroyOnLoad(gameObject);
 
-        // currentGameState = GameState.INTRO;
-        NewGame(); // DEBUGGGGGG
+         currentGameState = GameState.INTRO;
+        //NewGame(); // DEBUGGGGGG
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class Game_Manager : MonoBehaviour {
     /// Update is called once per frame
     void Update()
     {
-        currentGameState = GameState.PLAY;// DEBUGGGGGG
+        //currentGameState = GameState.PLAY;// DEBUGGGGGG
 
         if (GameObject.FindGameObjectWithTag("SmartCam"))
         {
@@ -104,23 +104,80 @@ public class Game_Manager : MonoBehaviour {
     /// change game state
     public void changeGameState(GameState gs)
     {
-        GameState prev = currentGameState;
-        currentGameState = gs;
-
+        
+        // Current State Exit
         switch (currentGameState)
         {
+            case GameState.INTRO:
+                {
+                    break;
+                }
+            case GameState.MENU:
+                {
+                    break;
+                }
+            case GameState.PAUSE:
+                {
+                    break;
+                }
             case GameState.PLAY:
                 {
-                    if(prev != GameState.PAUSE)
-                    {
-                        ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
-                    }
-		   
-                    Character_Manager.instance.invincible = false;
+                    break;
+                }
+            case GameState.LEVELCOMPLETE:
+                {
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+
                     break;
                 }
             case GameState.GAMEOVER:
                 {
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+                    break;
+                }
+        }
+
+        // State change
+        currentGameState = gs;
+
+        // New State Enter
+        switch (currentGameState)
+        {
+            case GameState.INTRO:
+                {
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+
+                    break;
+                }
+            case GameState.MENU:
+                {
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+
+                    break;
+                }
+            case GameState.PAUSE:
+                {
+
+                    break;
+                }
+            case GameState.PLAY:
+                {
+                    Debug.Log("Entering: Play");
+
+                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+                    Character_Manager.instance.invincible = false;
+
+                    break;
+                }
+            case GameState.LEVELCOMPLETE:
+                {
+                    Debug.Log("Entering: Level Complete");
+
+                    break;
+                }
+            case GameState.GAMEOVER:
+                {
+                    Debug.Log("Entering: Game Over");
 
                     break;
                 }

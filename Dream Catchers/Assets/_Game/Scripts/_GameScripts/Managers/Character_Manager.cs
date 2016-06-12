@@ -206,7 +206,7 @@ public class Character_Manager : Singleton<Character_Manager>
         {
             Character.transform.position = Level_Manager.instance.CheckPointPos;
         }
-        
+
     }
 
     
