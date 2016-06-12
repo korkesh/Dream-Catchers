@@ -67,13 +67,14 @@ public class MenuManager : MonoBehaviour {
     {
         Game_Manager.instance.ChangeScene("MainMenu");
         UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("MainMenu").GetComponent<Menu>());
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.MENU);
         UnPause();
     }
 
     public void ReturnToGame()
     {
+        UnPause();
         Game_Manager.instance.PlayGame();
         UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
-        UnPause();
     }
 }

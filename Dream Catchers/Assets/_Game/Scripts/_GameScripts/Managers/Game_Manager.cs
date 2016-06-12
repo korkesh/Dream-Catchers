@@ -141,7 +141,7 @@ public class Game_Manager : MonoBehaviour {
         currentGameState = gs;
 
         // New State Enter
-        switch (currentGameState)
+        switch (gs)
         {
             case GameState.INTRO:
                 {
@@ -157,6 +157,7 @@ public class Game_Manager : MonoBehaviour {
                 }
             case GameState.PAUSE:
                 {
+                    Debug.Log("Entering: Pause");
 
                     break;
                 }
