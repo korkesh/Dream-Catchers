@@ -66,6 +66,7 @@ public class PlayerCombat : MonoBehaviour
 
     }
 
+    /* [DISABLED]
     public void BeginPound()
     {
         weaponParentObject.SetActive(true);
@@ -81,6 +82,7 @@ public class PlayerCombat : MonoBehaviour
         groundPoundCollider.SetActive(false);
         gameObject.GetComponent<Animator>().SetBool("GroundPound", false);
     }
+    */
 
     // Turn on invincibilty
     public void DamageBegin()

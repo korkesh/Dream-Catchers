@@ -22,7 +22,7 @@ public class HammerAttack : MonoBehaviour {
         {
             other.BroadcastMessage("TakeDamage", hammerDamage);
         }
-        if (other.tag == "PushBlock")
+        if (other.tag == "PushBlock" && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
         {
             other.BroadcastMessage("Push");
         }
