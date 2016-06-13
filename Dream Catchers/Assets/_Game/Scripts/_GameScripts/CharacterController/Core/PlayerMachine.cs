@@ -17,7 +17,7 @@ public class PlayerMachine : SuperStateMachine {
     //----------------------------------------------
 
     // Add more states by comma separating them
-    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, GroundPound = 8 };
+    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7 };
 
     private SuperCharacterController controller;
     private RootCamera cam; // Main Player Follow Camera
@@ -46,8 +46,6 @@ public class PlayerMachine : SuperStateMachine {
     public float MaxJumpHeight = 3.0f;
     public float DoubleJumpHeight = 2.0f;
     public float JumpTimer = 0;
-
-    public float GroundPoundSpeed = 150.0f;
 
     // Physics
     public float Gravity = 25.0f;
@@ -502,11 +500,11 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_SuperUpdate()
     {
-        if (input.Current.AttackInput)
+        /*if (input.Current.AttackInput)
         {
             currentState = PlayerStates.GroundPound;
             return;
-        }
+        }*/
 
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
@@ -546,11 +544,11 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_SuperUpdate()
     {
-        if (input.Current.AttackInput)
+        /*if (input.Current.AttackInput)
         {
             currentState = PlayerStates.GroundPound;
             return;
-        }
+        }*/
 
         if (input.Current.JumpInput)
         {
@@ -582,10 +580,10 @@ public class PlayerMachine : SuperStateMachine {
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     //----------------------------------------------
-    // Ground Pound
+    // Ground Pound [DISABLED]
     //----------------------------------------------
 
-    void GroundPound_EnterState()
+    /*void GroundPound_EnterState()
     {
         Debug.Log("Entering Pound State");
 
@@ -610,7 +608,7 @@ public class PlayerMachine : SuperStateMachine {
     void GroundPound_ExitState()
     {
         Debug.Log("Leaving Pound State");
-    }
+    }*/
 
     //----------------------------------------------
     // Take Damage
