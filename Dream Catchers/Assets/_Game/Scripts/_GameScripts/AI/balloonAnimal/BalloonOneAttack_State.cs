@@ -75,7 +75,7 @@ public class BalloonOneAttack_State : BaseState {
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
             damage.DealDamage();
             fsm.changeState("Wait");
