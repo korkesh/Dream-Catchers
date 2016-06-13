@@ -47,8 +47,12 @@ public class Items : MonoBehaviour {
             }
             else
             {
-                //object isnt in player prefs .. it is now added
-                PlayerPrefs.SetInt(key, 0);
+                if(type != Type.HEALTH_PICKUP)
+                {
+                    //object isnt in player prefs .. it is now added
+                    PlayerPrefs.SetInt(key, 0);
+                }
+               
             }
 	}
 
@@ -85,7 +89,11 @@ public class Items : MonoBehaviour {
                 Character_Manager.Instance.CollectMemoryFrag();
 
             }
-            PlayerPrefs.SetInt(key, 1);
+            if(type != Type.HEALTH_PICKUP)
+            {
+                PlayerPrefs.SetInt(key, 1);
+            }
+            
             Destroy(gameObject);
         }
     }

@@ -61,6 +61,8 @@ public class BalloonOneAttack_State : BaseState {
             fsm.changeState("Wait");
         }
 
+        WatchPlayer();
+
     }
 
     public override void Exit()
@@ -96,5 +98,15 @@ public class BalloonOneAttack_State : BaseState {
         float div = dist * Physics.gravity.magnitude / sin;
         float vel = Mathf.Sqrt(div);
         return vel * dir.normalized;
+    }
+
+    void WatchPlayer()
+    {
+        Vector3 lookDir = Player.transform.position;
+        lookDir.y = transform.position.y;
+        Vector3 targetDir = lookDir - transform.position;
+        float step = 3 * Time.deltaTime;
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+        transform.rotation = Quaternion.LookRotation(newDir);
     }
 }

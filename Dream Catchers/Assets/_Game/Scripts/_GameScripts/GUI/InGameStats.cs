@@ -32,6 +32,9 @@ public class InGameStats : MonoBehaviour {
     public Sprite FragmentGearPic;
     public Sprite FragmentKeyPic;
     public Sprite FragmentLocketPic;
+    public Sprite DimFragmentGearPic;
+    public Sprite DimFragmentKeyPic;
+    public Sprite DimFragmentLocketPic;
 
     //-----------------
     // Stats 
@@ -169,6 +172,14 @@ public class InGameStats : MonoBehaviour {
             {
                 FragmentGear.sprite = FragmentGearPic;
             }
+            else
+            {
+                FragmentGear.sprite = DimFragmentGearPic;
+            }
+        }
+        else
+        {
+            FragmentGear.sprite = DimFragmentGearPic;
         }
 
         if (PlayerPrefs.HasKey("Fragment Key") == true)
@@ -177,6 +188,14 @@ public class InGameStats : MonoBehaviour {
             {
                 FragmentKey.sprite = FragmentKeyPic;
             }
+            else
+            {
+                FragmentKey.sprite = DimFragmentKeyPic;
+            }
+        }
+        else
+        {
+            FragmentKey.sprite = DimFragmentKeyPic;
         }
 
         if (PlayerPrefs.HasKey("Fragment Locket") == true)
@@ -185,6 +204,14 @@ public class InGameStats : MonoBehaviour {
             {
                 FragmentLocket.sprite = FragmentLocketPic;
             }
+            else
+            {
+                FragmentLocket.sprite = DimFragmentLocketPic;
+            }
+        }
+        else
+        {
+            FragmentLocket.sprite = DimFragmentLocketPic;
         }
 
         numFrag = Character_Manager.instance.totalMemoryFragmentsCollected;

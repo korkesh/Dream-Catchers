@@ -60,7 +60,7 @@ public class Game_Manager : MonoBehaviour {
         //DontDestroyOnLoad(gameObject);
 
          currentGameState = GameState.INTRO;
-        NewGame(); // DEBUGGGGGG
+       // NewGame(); // DEBUGGGGGG
     }
 
     /// <summary>

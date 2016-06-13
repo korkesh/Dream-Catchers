@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour {
         Game_Manager.instance.ChangeScene(sceneToLoad);
         UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
         Game_Manager.instance.NewGame();
+        GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
         Game_Manager.instance.PlayGame();
     }
 
@@ -26,8 +27,8 @@ public class MenuManager : MonoBehaviour {
         Game_Manager.instance.ChangeScene(sceneToLoad);
         UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
         Game_Manager.instance.PlayGame();
-        Game_Manager.instance.NewGame();
         Level_Manager.instance.ContinueLevel();
+        GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
     }
 
     /// <summary>

@@ -81,6 +81,7 @@ public class Level_Manager : MonoBehaviour {
     /// </summary>
     public void NewGamePlayerPrefs()
     {
+
         PlayerPrefs.SetString("CurrentLevel", defaultLevel.ToString());
         PlayerPrefs.SetString("CurrentScene", defaultGameScene);
         PlayerPrefs.SetInt("TotalNumMemoryFrag", totalNumMemoryFrag);
