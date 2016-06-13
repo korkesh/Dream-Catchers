@@ -137,9 +137,6 @@ public class Game_Manager : MonoBehaviour {
                 }
         }
 
-        // State change
-        currentGameState = gs;
-
         // New State Enter
         switch (gs)
         {
@@ -165,7 +162,10 @@ public class Game_Manager : MonoBehaviour {
                 {
                     Debug.Log("Entering: Play");
 
-                    ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+                    if(currentGameState != GameState.PAUSE)
+                    {
+                        ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
+                    }
                     Character_Manager.instance.invincible = false;
 
                     break;
@@ -183,6 +183,9 @@ public class Game_Manager : MonoBehaviour {
                     break;
                 }
         }
+
+        // State change
+        currentGameState = gs;
     }
 
     //change state to play
