@@ -19,10 +19,10 @@ public class CollectibleSpawner : MonoBehaviour {
         }
 
         spawns = Instantiate(Prefabs);
-        if(name != "" || name == null)
+        /*if(name != "" || name == null)
         {
             spawns.name = this.name;
-        }
+        }*/
 
         HM = GetComponent<HealthManager>();
 	}
@@ -36,11 +36,10 @@ public class CollectibleSpawner : MonoBehaviour {
         {
             if(HM.spawns == true)
             {
-                Instantiate(spawns, this.transform.position, this.transform.rotation);
+                Instantiate(spawns, this.transform.position, spawns.transform.rotation);
             }
             
         }
-           
-        
+          
     }
 }
