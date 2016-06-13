@@ -11,6 +11,7 @@ public class LowerDoor : MonoBehaviour {
     Vector3 destinationPos;
     float timer;
     bool open = false;
+    public bool isTrigger = false;
 
     // Use this for initialization
     void Start () {
