@@ -217,7 +217,7 @@ public class PlayerMachine : SuperStateMachine {
 
         // Move the player by our velocity every frame
         transform.position += moveDirection * Time.deltaTime;
-
+        //Debug.Log(moveDirection * Time.deltaTime);
         // Rotate mesh to face correct direction (temp if implementing min turn radius)
         if (Math3d.ProjectVectorOnPlane(controller.up, facing) != Vector3.zero)
         {
