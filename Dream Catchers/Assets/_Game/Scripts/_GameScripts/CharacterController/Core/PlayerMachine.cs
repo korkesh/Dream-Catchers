@@ -24,6 +24,11 @@ public class PlayerMachine : SuperStateMachine {
     private PlayerInputController input; // Input Controller
 
     //----------------------------------------------
+    // Components
+    //----------------------------------------------
+    private FixedJoint joint;
+
+    //----------------------------------------------
     // Editor Fields
     //----------------------------------------------
 
@@ -97,6 +102,8 @@ public class PlayerMachine : SuperStateMachine {
 
         // Grab the controller object from our object
         controller = gameObject.GetComponent<SuperCharacterController>();
+
+        joint = GetComponent<FixedJoint>();
 		
 		// Our character's current facing direction, planar to the ground
         lookDirection = transform.forward;
@@ -211,6 +218,14 @@ public class PlayerMachine : SuperStateMachine {
             && !currentState.Equals(PlayerStates.Damage))
         {
             currentState = PlayerStates.Damage;
+        }
+
+        
+        // Joint Logic
+        if (controller.currentGround.tag == "SwitchAnchor")
+        {
+            joint.connectedBody = controller.currentGround.go.GetComponent<Rigidbody>();
+            Debug.Log("sup");
         }
     }
 
@@ -395,7 +410,7 @@ public class PlayerMachine : SuperStateMachine {
             // skid if input is >90 degrees of current facing direction
             if (input.Current.MoveInput != Vector3.zero)
             {
-                if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.4f)
+                if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.5f)
                 {
                     currentState = PlayerStates.Skid;
                     transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement());
@@ -421,7 +436,7 @@ public class PlayerMachine : SuperStateMachine {
 
         // immediate slowing effect
         moveDirection.Normalize();
-        moveDirection *= 0.7f;
+        moveDirection *= 0.45f;
     }
 
     void Skid_SuperUpdate()
@@ -454,6 +469,7 @@ public class PlayerMachine : SuperStateMachine {
     {
 
     }
+
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     // 
