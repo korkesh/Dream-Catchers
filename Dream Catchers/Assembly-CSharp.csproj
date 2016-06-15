@@ -92,6 +92,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\CollectibleSpawner.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\RotateCollectible.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\CharacterCrush.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HammerAttack.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HealthManager.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />

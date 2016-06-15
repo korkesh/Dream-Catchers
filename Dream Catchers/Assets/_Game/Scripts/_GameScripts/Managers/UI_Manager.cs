@@ -118,7 +118,7 @@ public class UI_Manager : MonoBehaviour {
     {
         if(rechargeTimer == null)
         {
-            Debug.LogError("Missing Recharge Timer");
+            //Debug.LogError("Missing Recharge Timer");
             return;
         }
         rechargeTimer.SendMessage("StartRecharge", time);

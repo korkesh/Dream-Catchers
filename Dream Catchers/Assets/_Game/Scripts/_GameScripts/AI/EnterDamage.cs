@@ -4,19 +4,20 @@ using System.Collections;
 public class EnterDamage : MonoBehaviour {
 
     public DamageDealer d;
-    public float Timer;
-    float time;
+    public float Timer; //Invincibility Frames
+    public float time;
 
-    void Awake()
-    {
 
-        Debug.Log("FUCKING SHOW UP");
-    }
-    
+    //void OnTriggerEnter(Collider collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        time = 0;
+    //    }
+    //}
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Trigger");
         if (collision.gameObject.tag == "Player")
         {
             time -= Time.deltaTime;
