@@ -205,6 +205,7 @@ public class Character_Manager : Singleton<Character_Manager>
         if(Character != null)
         {
             Character.transform.position = Level_Manager.instance.CheckPointPos;
+            Character.transform.Rotate(Level_Manager.instance.Rot);
         }
 
     }
