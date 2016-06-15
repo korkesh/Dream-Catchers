@@ -154,13 +154,13 @@ public class Game_Manager : MonoBehaviour {
                 }
             case GameState.PAUSE:
                 {
-                    Debug.Log("Entering: Pause");
+                   // Debug.Log("Entering: Pause");
 
                     break;
                 }
             case GameState.PLAY:
                 {
-                    Debug.Log("Entering: Play");
+                   // Debug.Log("Entering: Play");
 
                     if(currentGameState != GameState.PAUSE)
                     {
@@ -172,13 +172,13 @@ public class Game_Manager : MonoBehaviour {
                 }
             case GameState.LEVELCOMPLETE:
                 {
-                    Debug.Log("Entering: Level Complete");
+                   // Debug.Log("Entering: Level Complete");
 
                     break;
                 }
             case GameState.GAMEOVER:
                 {
-                    Debug.Log("Entering: Game Over");
+                   // Debug.Log("Entering: Game Over");
 
                     break;
                 }

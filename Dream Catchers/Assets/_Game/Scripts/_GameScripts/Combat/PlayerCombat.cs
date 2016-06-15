@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerCombat : MonoBehaviour
 {
     public GameObject weaponCollider;
-    public GameObject groundPoundCollider;
+    //public GameObject groundPoundCollider;
     public GameObject weaponParentObject;
     public bool attacking;
 
@@ -15,7 +15,7 @@ public class PlayerCombat : MonoBehaviour
     {
         attacking = false;
         weaponCollider.SetActive(false);
-        groundPoundCollider.SetActive(false);
+        //groundPoundCollider.SetActive(false);
 
     }
 
@@ -33,6 +33,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         Debug.Log("Attacking");
+        StartCoroutine(EndAttack());
 
         weaponParentObject.SetActive(true); // Turn hammer on
 
@@ -43,9 +44,6 @@ public class PlayerCombat : MonoBehaviour
         // Allow attacks to register damage
         attacking = true;
         weaponCollider.SetActive(true);
-
-        StartCoroutine(EndAttack());
-
     }
 
     public IEnumerator EndAttack()
