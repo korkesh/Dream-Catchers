@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PressurePlate : MonoBehaviour {
 
-    public string WeightedObjectTag;
+    public List<string> WeightedObjectTag;
 
     public GameObject ObjectToTrigger;
     public string TriggerFunctionCall;
@@ -43,28 +44,34 @@ public class PressurePlate : MonoBehaviour {
     // Lower Plate; Trigger Switch
     public void OnTriggerEnter(Collider other)
     {
-        if((other.tag == WeightedObjectTag) && !activated)
+        foreach (string s in WeightedObjectTag)
         {
-            timer = Time.deltaTime;
-            originalPos = PressurePlateObject.transform.position;
-            destinationPos.y = -destinationPos.y;
+            if ((other.tag == s) && !activated)
+            {
+                timer = Time.deltaTime;
+                originalPos = PressurePlateObject.transform.position;
+                destinationPos.y = -destinationPos.y;
 
-            activated = true;
-            ObjectToTrigger.SendMessage(TriggerFunctionCall);
+                activated = true;
+                ObjectToTrigger.SendMessage(TriggerFunctionCall);
+            }
         }
     }
 
     // Raise Plate; un-Trigger Switch (if allowed)
     public void OnTriggerExit(Collider other)
     {
-        if ((other.tag == WeightedObjectTag) && allowDeactivate)
+        foreach (string s in WeightedObjectTag)
         {
-            timer = Time.deltaTime;
-            originalPos = PressurePlateObject.transform.position;
-            destinationPos.y = -destinationPos.y;
+            if ((other.tag == s) && allowDeactivate)
+            {
+                timer = Time.deltaTime;
+                originalPos = PressurePlateObject.transform.position;
+                destinationPos.y = -destinationPos.y;
 
-            activated = false;
-            ObjectToTrigger.SendMessage(TriggerFunctionCall);
+                activated = false;
+                ObjectToTrigger.SendMessage(TriggerFunctionCall);
+            }
         }
     }
 

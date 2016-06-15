@@ -5,16 +5,37 @@ using DG.Tweening;
 [RequireComponent(typeof(Rigidbody))]
 public class PushBlock : MonoBehaviour {
 
-    public float pushPower = 2.0f;
+    public enum BLOCK_FACE
+    {
+        FRONT = 0,
+        BACK,
+        LEFT,
+        RIGHT
+    }
+
+    public float pushDistance = 2.0f;
     public float pushTime = 0.5f;
 
     public bool playerPush;
 
     public GameObject Player;
 
+    Vector3 pushDir;
+    Vector3 pushTo;
+    float savedTime;
+
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
+        pushDir = Vector3.zero;
+        pushTo = Vector3.zero;
+    }
+
+    void FixedUpdate()
+    {
+        //gameObject.GetComponent<Rigidbody>().velocity = pushTo / Time.deltaTime;
+
+        //gameObject.GetComponent<Rigidbody>().MovePosition(pushTo * (Time.time - savedTime));
     }
 
     void OnCollisionEnter(Collision collision)
@@ -35,7 +56,10 @@ public class PushBlock : MonoBehaviour {
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
         }
+        else
+        {
 
+        }
     }
 
     /// <summary>
@@ -52,19 +76,26 @@ public class PushBlock : MonoBehaviour {
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 
         // The direction the character is facing when colliding with the box
-        Vector3 pushDir = Player.GetComponent<PlayerMachine>().facing.normalized;
+        pushDir = transform.position - Player.transform.position; //Player.GetComponent<PlayerMachine>().facing.normalized;
+        pushDir.y = 0;
 
         // If the character is not head on do not push
-        if (Mathf.Round(pushDir.x) != 0 && Mathf.Round(pushDir.z) != 0)
+        if (Mathf.Abs(pushDir.x) > Mathf.Abs(pushDir.z))
         {
-            return;
+            pushDir.z = 0;
+        }
+        else
+        {
+            pushDir.x = 0;
         }
 
-        // The position to push the box to
-        Vector3 pushTo = transform.position + new Vector3(Mathf.Round(pushDir.x) * pushPower, 0, Mathf.Round(pushDir.z) * pushPower);
+        pushDir.Normalize();
 
-        // The push animation
-        gameObject.GetComponent<Rigidbody>().velocity = pushDir * pushPower;
-        
+        // The position to push the box to
+        float savedTime = Time.time;
+        pushTo = new Vector3(pushDir.x * pushDistance, 0, pushDir.z * pushDistance);
+
+        gameObject.GetComponent<Rigidbody>().velocity = pushTo / pushTime;
+
     }
 }
