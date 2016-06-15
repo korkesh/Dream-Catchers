@@ -135,8 +135,10 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\MenuManager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\RechargeAnimation.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempMessageInto.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TimePause.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\UIText.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\AI_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Audio_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Character_Manager.cs" />

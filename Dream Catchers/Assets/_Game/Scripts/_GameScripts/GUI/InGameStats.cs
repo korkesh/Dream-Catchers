@@ -14,8 +14,13 @@ public class InGameStats : MonoBehaviour {
     public Image FragmentGear;
     public Image FragmentKey;
     public Image FragmentLocket;
+    public Image HammerIcon;
     public int numFrag;
     Game_Manager.GameState state;
+    ManipulationManager.WORLD_STATE Wstate;
+    public Text textbox;
+    bool showingText;
+    float textTimer;
 
 
     //-----------------
@@ -35,6 +40,8 @@ public class InGameStats : MonoBehaviour {
     public Sprite DimFragmentGearPic;
     public Sprite DimFragmentKeyPic;
     public Sprite DimFragmentLocketPic;
+    public Sprite DreamHammer;
+    public Sprite NightHammer;
 
     //-----------------
     // Stats 
@@ -77,6 +84,16 @@ public class InGameStats : MonoBehaviour {
 
 	void Update () {
 
+        if(showingText == true)
+        {
+            textTimer -= Time.deltaTime;
+            if(textTimer <= 0)
+            {
+                textbox.text = "";
+                showingText = false;
+            }
+        }
+
         if (Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE)
         {
             ShowCollect();
@@ -85,6 +102,11 @@ public class InGameStats : MonoBehaviour {
         if (state != Game_Manager.instance.currentGameState && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
         {
             updateFragments();
+        }
+
+        if(Wstate != ManipulationManager.instance.currentWorldState)
+        {
+            hammerChange();
         }
 
         //if the game is in play mode check to see if anyvalues have changed. if so update ui
@@ -124,6 +146,7 @@ public class InGameStats : MonoBehaviour {
         }
 
         state = Game_Manager.instance.currentGameState;
+        Wstate = ManipulationManager.instance.currentWorldState;
 	}
 
     //-----------------
@@ -215,5 +238,26 @@ public class InGameStats : MonoBehaviour {
         }
 
         numFrag = Character_Manager.instance.totalMemoryFragmentsCollected;
+    }
+
+    void hammerChange()
+    {
+        if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
+        {
+            HammerIcon.sprite = DreamHammer;
+
+        }
+        else
+        {
+            HammerIcon.sprite = NightHammer;
+        }
+    }
+
+
+    public void ShowTextInBox(string s, float time)
+    {
+        textbox.text = s;
+        textTimer = time;
+        showingText = true;
     }
 }
