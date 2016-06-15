@@ -71,10 +71,18 @@ public class ManipulationManager : MonoBehaviour
             if (currentWorldState == WORLD_STATE.DREAM)
             {
                 mainCamera.GetComponent<Skybox>().material = skyboxDream;
+
+                // BGM
+                Audio_Manager.Instance.NightmareBGM.mute = true;
+                Audio_Manager.Instance.DreamBGM.mute = false;
             }
             else
             {
                 mainCamera.GetComponent<Skybox>().material = skyboxNightmare;
+
+                // BGM
+                Audio_Manager.Instance.DreamBGM.mute = true;
+                Audio_Manager.Instance.NightmareBGM.mute = false;               
             }
         }
 

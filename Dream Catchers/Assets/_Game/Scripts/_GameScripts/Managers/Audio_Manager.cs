@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Audio_Manager : MonoBehaviour {
+public class Audio_Manager : Singleton<Audio_Manager>
+{
 
-    public static Audio_Manager instance = null;
+    //public static Audio_Manager instance = null;
+
+    public AudioSource DreamBGM;
+    public AudioSource NightmareBGM;
 
     void Awake()
     {
@@ -27,12 +31,14 @@ public class Audio_Manager : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }

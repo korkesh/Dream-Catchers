@@ -14,6 +14,14 @@ public class TestCamera : MonoBehaviour {
     private float x = 0.0f;
     private float y = 0.0f;
 
+    void Awake()
+    {
+        AudioSource[] bgm = GetComponents<AudioSource>();
+
+        Audio_Manager.Instance.DreamBGM = bgm[0];
+        Audio_Manager.Instance.NightmareBGM = bgm[1];
+    }
+
     // Use this for initialization 
     void Start () {
 
