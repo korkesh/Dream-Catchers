@@ -188,7 +188,8 @@ public class PlayerMachine : SuperStateMachine {
         // This is run regardless of what state you're in
 
         // Allow Attacks only when on ground and upon attack input
-        if(input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump) && !currentState.Equals(PlayerStates.DoubleJump) && !currentState.Equals(PlayerStates.Fall))
+        if(input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump) && !currentState.Equals(PlayerStates.DoubleJump) && !currentState.Equals(PlayerStates.Fall)
+            && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER))
         {
             gameObject.GetComponent<PlayerCombat>().BeginAttack();
         }

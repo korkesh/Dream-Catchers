@@ -5,14 +5,6 @@ using DG.Tweening;
 [RequireComponent(typeof(Rigidbody))]
 public class PushBlock : MonoBehaviour {
 
-    public enum BLOCK_FACE
-    {
-        FRONT = 0,
-        BACK,
-        LEFT,
-        RIGHT
-    }
-
     public float pushDistance = 2.0f;
     public float pushTime = 0.5f;
 
