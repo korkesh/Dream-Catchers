@@ -125,6 +125,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\CharacterCrush.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HammerAttack.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HealthManager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\KillFloor.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ControllerFocus.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\InGameStats.cs" />

@@ -8,7 +8,8 @@ public class PlayerCombat : MonoBehaviour
     public GameObject weaponParentObject;
     public bool attacking;
 
-    public float attackCooldown;
+    public float attackStart;
+    public float attackLength;
 
     // Use this for initialization
     void Start()
@@ -33,6 +34,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         Debug.Log("Attacking");
+        StartCoroutine(EnableCollider());
         StartCoroutine(EndAttack());
 
         weaponParentObject.SetActive(true); // Turn hammer on
@@ -40,15 +42,21 @@ public class PlayerCombat : MonoBehaviour
         // Attack animation
         gameObject.GetComponent<Animator>().SetBool("StandAttack", true);
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 1);
+    }
+
+    public IEnumerator EnableCollider()
+    {
+        yield return new WaitForSeconds(attackStart);
+
+        weaponCollider.SetActive(true);
 
         // Allow attacks to register damage
         attacking = true;
-        weaponCollider.SetActive(true);
     }
 
     public IEnumerator EndAttack()
     {
-        yield return new WaitForSeconds(attackCooldown);
+        yield return new WaitForSeconds(attackLength);
 
         Debug.Log("Attacking End");
 
