@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PressurePlate : MonoBehaviour {
 
     public List<string> WeightedObjectTag;
+    List<string> objectsOnSwitch;
 
     public GameObject ObjectToTrigger;
     public string TriggerFunctionCall;
@@ -25,6 +26,7 @@ public class PressurePlate : MonoBehaviour {
         originalPos = PressurePlateObject.transform.position;
         destinationPos = PressurePlateObject.transform.position;
         timer = Time.deltaTime;
+        objectsOnSwitch = new List<string>();
     }
 
     void Update()
@@ -54,6 +56,10 @@ public class PressurePlate : MonoBehaviour {
 
                 activated = true;
                 ObjectToTrigger.SendMessage(TriggerFunctionCall);
+                if(!objectsOnSwitch.Contains(other.tag))
+                {
+                    objectsOnSwitch.Add(other.tag);
+                }
             }
         }
     }
@@ -65,13 +71,21 @@ public class PressurePlate : MonoBehaviour {
         {
             if ((other.tag == s) && allowDeactivate)
             {
-                timer = Time.deltaTime;
-                originalPos = PressurePlateObject.transform.position;
-                destinationPos.y = -destinationPos.y;
-
-                activated = false;
-                ObjectToTrigger.SendMessage(TriggerFunctionCall);
+                if (objectsOnSwitch.Contains(other.tag))
+                {
+                    objectsOnSwitch.Remove(other.tag);
+                }
             }
+        }
+
+        if(objectsOnSwitch.Count == 0)
+        {
+            timer = Time.deltaTime;
+            originalPos = PressurePlateObject.transform.position;
+            destinationPos.y = -destinationPos.y;
+
+            activated = false;
+            ObjectToTrigger.SendMessage(TriggerFunctionCall);
         }
     }
 
