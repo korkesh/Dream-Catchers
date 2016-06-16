@@ -78,7 +78,7 @@ public class PressurePlate : MonoBehaviour {
             }
         }
 
-        if(objectsOnSwitch.Count == 0)
+        if(objectsOnSwitch.Count == 0 && allowDeactivate && activated)
         {
             timer = Time.deltaTime;
             originalPos = PressurePlateObject.transform.position;
