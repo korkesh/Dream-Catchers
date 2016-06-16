@@ -6,6 +6,7 @@ public class PlayerInputController : MonoBehaviour {
     public PlayerInput Current;
 
     public bool toggleJump;
+    public bool useBuffer;
 
     public float moveBufferTimer = 0;
 
@@ -45,25 +46,31 @@ public class PlayerInputController : MonoBehaviour {
             };
         }
 
-        // buffer movement for a few frames
-        if (Current.MoveInput != Vector3.zero)
+        if (useBuffer)
         {
-            Current.moveBuffer = true;
-            moveBufferTimer = 0;
-        }
-        else
-        {
-            if (moveBufferTimer > 0.1f)
+            // buffer movement for a few frames
+            if (Current.MoveInput != Vector3.zero)
             {
-                Current.moveBuffer = false; // let go of input long enough to count as no input
+                Current.moveBuffer = true;
+                moveBufferTimer = 0;
             }
             else
             {
-                moveBufferTimer += Time.deltaTime;
+                if (moveBufferTimer > 0.1f)
+                {
+                    Current.moveBuffer = false; // let go of input long enough to count as no input
+                }
+                else
+                {
+                    moveBufferTimer += Time.deltaTime;
+                }
             }
         }
-  
-	}
+        else
+        {
+            Current.moveBuffer = true;
+        }
+    }
 }
 
 public struct PlayerInput

@@ -192,7 +192,8 @@ public class PlayerMachine : SuperStateMachine {
         // This is run regardless of what state you're in
 
         // Allow Attacks only when on ground and upon attack input
-        if(input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump) && !currentState.Equals(PlayerStates.DoubleJump) && !currentState.Equals(PlayerStates.Fall))
+        if (input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump) && !currentState.Equals(PlayerStates.DoubleJump) && !currentState.Equals(PlayerStates.Fall)
+            && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER))
         {
             gameObject.GetComponent<PlayerCombat>().BeginAttack();
         }
@@ -373,7 +374,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        if (input.Current.moveBuffer)
+        if ((Input_Manager.instance.useBuffer && input.Current.moveBuffer) || (!Input_Manager.instance.useBuffer && input.Current.MoveInput != Vector3.zero))
         {
             // transition to walk condition
             if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkspeedThreshold)
@@ -382,24 +383,33 @@ public class PlayerMachine : SuperStateMachine {
                 return;
             }
 
-         
-            float new_ratio = 0.9f * Time.deltaTime * RunTurnSpeed;
-            float old_ratio = 1 - new_ratio;
-
-            transform.forward = ((moveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
-            facing = transform.forward;
-
-            moveDirection = transform.forward * MaxRunSpeed;
-
-
-            // skid if input is >90 degrees of current facing direction
-            if (input.Current.MoveInput != Vector3.zero)
+            if (!Input_Manager.instance.useBuffer)
             {
-                if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.4f)
+                moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed, RunAcceleration * Time.deltaTime);
+                facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
+            }
+            else
+            {
+                float new_ratio = 0.9f * Time.deltaTime * RunTurnSpeed;
+                float old_ratio = 1 - new_ratio;
+
+                transform.forward = ((moveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+                facing = transform.forward;
+
+                moveDirection = transform.forward * MaxRunSpeed;
+
+                if (Input_Manager.instance.useBuffer)
                 {
-                    currentState = PlayerStates.Skid;
-                    transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement());
-                    return;
+                    // skid if input is >90 degrees of current facing direction
+                    if (input.Current.MoveInput != Vector3.zero)
+                    {
+                        if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.4f)
+                        {
+                            currentState = PlayerStates.Skid;
+                            transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement());
+                            return;
+                        }
+                    }
                 }
             }
         }

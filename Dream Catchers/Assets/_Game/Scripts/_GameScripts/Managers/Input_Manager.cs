@@ -7,6 +7,9 @@ public class Input_Manager : MonoBehaviour {
     // Variables
     //================================
 
+    public bool useBuffer = false;
+    public bool invertCamera = false;
+
     public static Input_Manager instance = null;
 
     void Awake()
@@ -33,4 +36,14 @@ public class Input_Manager : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void toggleBuffer()
+    {
+        useBuffer = !useBuffer;
+    }
+
+    public void toggleInverted()
+    {
+        invertCamera = !invertCamera;
+    }
 }
