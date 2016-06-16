@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// The actual camera the player sees the game through
 public class RealCamera : MonoBehaviour
 {
     public RootCamera RootCam;

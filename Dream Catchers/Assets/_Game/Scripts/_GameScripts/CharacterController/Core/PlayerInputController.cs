@@ -6,6 +6,9 @@ public class PlayerInputController : MonoBehaviour {
     public PlayerInput Current;
 
     public bool toggleJump;
+    public bool useBuffer;
+
+    public float moveBufferTimer = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +18,7 @@ public class PlayerInputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
+
         // Retrieve our current WASD or Arrow Key input
         // Using GetAxisRaw removes any kind of gravity or filtering being applied to the input
         // Ensuring that we are getting either -1, 0 or 1
@@ -37,10 +41,36 @@ public class PlayerInputController : MonoBehaviour {
                 AttackInput = attackInput,
                 JumpInput = jumpInput,
                 JumpHold = jumpHold,
-                LTrigger = lTrigger
+                LTrigger = lTrigger,
+                moveBuffer = false          
             };
         }
-	}
+
+        if (useBuffer)
+        {
+            // buffer movement for a few frames
+            if (Current.MoveInput != Vector3.zero)
+            {
+                Current.moveBuffer = true;
+                moveBufferTimer = 0;
+            }
+            else
+            {
+                if (moveBufferTimer > 0.1f)
+                {
+                    Current.moveBuffer = false; // let go of input long enough to count as no input
+                }
+                else
+                {
+                    moveBufferTimer += Time.deltaTime;
+                }
+            }
+        }
+        else
+        {
+            Current.moveBuffer = true;
+        }
+    }
 }
 
 public struct PlayerInput
@@ -53,4 +83,6 @@ public struct PlayerInput
     public bool JumpInput; // Jump
     public bool JumpHold; // Jump Height
     public bool LTrigger; // Left Trigger?
+
+    public bool moveBuffer;
 }

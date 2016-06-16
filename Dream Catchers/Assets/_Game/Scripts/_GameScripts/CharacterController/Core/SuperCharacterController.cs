@@ -537,6 +537,9 @@ public class SuperCharacterController : MonoBehaviour
 
     public class SuperGround
     {
+        public GameObject go;
+        public string tag;
+
         public SuperGround(LayerMask walkable, SuperCharacterController controller)
         {
             this.walkable = walkable;
@@ -596,6 +599,9 @@ public class SuperCharacterController : MonoBehaviour
             if (Physics.SphereCast(o, smallerRadius, down, out hit, Mathf.Infinity, walkable))
             {
                 var superColType = hit.collider.gameObject.GetComponent<SuperCollisionType>();
+
+                go = hit.collider.gameObject;
+                tag = go.tag;
 
                 if (superColType == null)
                 {

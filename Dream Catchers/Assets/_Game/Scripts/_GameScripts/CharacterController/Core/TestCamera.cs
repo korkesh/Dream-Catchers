@@ -48,7 +48,7 @@ public class TestCamera : MonoBehaviour {
                     distance = 0;
                 }
                 x += Input.GetAxis("Horizontal2") * xSpeed * 0.02f;
-                y -= -Input.GetAxis("Vertical2") * ySpeed * 0.02f;
+                y -= (Input_Manager.instance.invertCamera) ? (-Input.GetAxis("Vertical2") * ySpeed * 0.02f) : (Input.GetAxis("Vertical2") * ySpeed * 0.02f);
                 y = ClampAngle(y, yMinLimit, yMaxLimit);
                 Quaternion rotation = Quaternion.Euler(y, x, 0);
                 Vector3 position = rotation * new Vector3(bufferright, 0.0f, -distance) + target.position + new Vector3(0.0f, bufferup, 0.0f);
