@@ -19,7 +19,6 @@ public class Items : MonoBehaviour {
     public string Scene;
     public Level_Manager.Levels Level;
     string key;
-
     //================================
     // Methods
     //================================
@@ -37,6 +36,8 @@ public class Items : MonoBehaviour {
             key = gameObject.name.ToString();
             Debug.Log(gameObject.name.ToString());
         }
+
+        
             if(PlayerPrefs.HasKey(key))
             {
                 int pickedup = PlayerPrefs.GetInt(key);

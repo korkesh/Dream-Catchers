@@ -18,7 +18,7 @@ public class CollectibleSpawner : MonoBehaviour {
             probabilityOfDrop = probabilityOfDrop / 100;
         }
 
-        spawns = Instantiate(Prefabs);
+       
         /*if(name != "" || name == null)
         {
             spawns.name = this.name;
@@ -36,7 +36,10 @@ public class CollectibleSpawner : MonoBehaviour {
         {
             if(HM.spawns == true)
             {
+                spawns = Instantiate(Prefabs);
+                spawns.name = spawns.name + this.name;
                 Instantiate(spawns, this.transform.position, spawns.transform.rotation);
+                Destroy(spawns);
             }
             
         }
