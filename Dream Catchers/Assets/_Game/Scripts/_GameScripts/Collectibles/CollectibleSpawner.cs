@@ -18,12 +18,6 @@ public class CollectibleSpawner : MonoBehaviour {
             probabilityOfDrop = probabilityOfDrop / 100;
         }
 
-       
-        /*if(name != "" || name == null)
-        {
-            spawns.name = this.name;
-        }*/
-
         HM = GetComponent<HealthManager>();
 	}
 
@@ -36,10 +30,14 @@ public class CollectibleSpawner : MonoBehaviour {
         {
             if(HM.spawns == true)
             {
-                spawns = Instantiate(Prefabs);
-                spawns.name = spawns.name + this.name;
-                Instantiate(spawns, this.transform.position, spawns.transform.rotation);
-                Destroy(spawns);
+                spawns = Prefabs;
+                //spawns = Instantiate(Prefabs);
+                //spawns.name = spawns.name + this.name;
+                GameObject t = (GameObject)Instantiate(spawns, this.transform.position, spawns.transform.rotation);
+                Items i = t.GetComponent<Items>();
+                i.key = i.key + this.gameObject.name;
+                i.checkIfCollected();
+                //Destroy(spawns);
             }
             
         }

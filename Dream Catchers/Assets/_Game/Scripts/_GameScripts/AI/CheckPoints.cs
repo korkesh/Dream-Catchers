@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  checkpoint for players. Save postion to playerPrefs
+//================================
+
+using UnityEngine;
 using System.Collections;
 
 public class CheckPoints : MonoBehaviour {
