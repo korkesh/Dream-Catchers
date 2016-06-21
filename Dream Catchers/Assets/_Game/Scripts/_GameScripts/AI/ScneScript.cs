@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  temp script for a scene load
+//================================
+
+using UnityEngine;
 using System.Collections;
 
 public class ScneScript : MonoBehaviour {

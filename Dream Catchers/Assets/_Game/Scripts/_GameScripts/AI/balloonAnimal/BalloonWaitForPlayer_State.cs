@@ -1,14 +1,28 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  wait for balloon animal
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class BalloonWaitForPlayer_State : BaseState {
+
+    //================================
+    // Variables
+    //================================
 
     Rigidbody rigidB;
     public float attackRadius;
     GameObject Player;
     public NavMeshAgent NavAgent;
 
+    //================================
+    // Methods
+    //================================
 
+    //-----------------
+    // Initialization
+    //-----------------
 
     void Awake()
     {
@@ -18,6 +32,10 @@ public class BalloonWaitForPlayer_State : BaseState {
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
+
+    //-----------------
+    // FSM methods
+    //-----------------
 
     public override void Enter()
     {

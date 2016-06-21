@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  items script. items delete themselves if they have been collected
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class Items : MonoBehaviour {

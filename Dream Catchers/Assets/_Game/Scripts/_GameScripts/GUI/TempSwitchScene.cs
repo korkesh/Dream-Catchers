@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  temp for switching scene in animation events and some buttons. still in use
+//================================
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 

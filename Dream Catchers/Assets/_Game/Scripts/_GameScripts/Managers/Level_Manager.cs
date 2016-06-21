@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Level Manager, deals with checkpoints and fragemnts
+//================================
+using UnityEngine;
 using System.Collections;
 
 

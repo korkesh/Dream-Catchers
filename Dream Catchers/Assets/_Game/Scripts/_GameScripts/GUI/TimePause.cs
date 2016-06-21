@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  temp script for pause.
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class TimePause : MonoBehaviour {

@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Deals Damage to character
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class DamageDealer : MonoBehaviour {

@@ -1,12 +1,33 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Wait state for ballooon animal
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class BalloonWait_State : BaseState {
+
+
+    //================================
+    // Variables
+    //================================
+
+    //-----------------
+    // State Variables
+    //-----------------
 
     GameObject Player;
     public float shortwaitTime;
     public float longWaitTime;
     float wait;
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
 
     void Awake()
     {
@@ -15,6 +36,10 @@ public class BalloonWait_State : BaseState {
         Player = GameObject.FindGameObjectWithTag("Player");
         wait = shortwaitTime;
     }
+
+    //-----------------
+    // FSM Methods
+    //-----------------
 
     public override void Enter()
     {

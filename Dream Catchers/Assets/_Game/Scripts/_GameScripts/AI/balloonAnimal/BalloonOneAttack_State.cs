@@ -1,7 +1,15 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Attack state for balloon does jump and charge
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class BalloonOneAttack_State : BaseState {
+
+    //================================
+    // Variables
+    //================================
 
     GameObject Player;
     public GameObject ReturnSpot;
@@ -16,6 +24,15 @@ public class BalloonOneAttack_State : BaseState {
     bool IsAttacking;
     public DamageDealer damage;
 
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
+
     void Awake()
     {
         //get fsm
@@ -27,6 +44,11 @@ public class BalloonOneAttack_State : BaseState {
         time = chargeTime;
         tempSpeed = NavAgent.speed;
     }
+
+
+    //-----------------
+    // FSM MEthods
+    //-----------------
 
     public override void Enter()
     {
@@ -42,11 +64,13 @@ public class BalloonOneAttack_State : BaseState {
         }
         else if (IsAttacking == false && Vector3.Distance(transform.position, Player.transform.position) >= ChargeAttackDist)
         {
+            // jump attack if in range
             rigidB.velocity = Jump(Player.transform, shootAngle);
             IsAttacking = true;
 
         }else if(IsAttacking == false)
         {
+            //charge if too close to jump
             NavAgent.enabled = true;
             NavAgent.speed = chargeSpeed;
             NavAgent.SetDestination(Player.transform.position);
@@ -61,6 +85,7 @@ public class BalloonOneAttack_State : BaseState {
             fsm.changeState("Wait");
         }
 
+        //look at player
         WatchPlayer();
 
     }
@@ -84,6 +109,7 @@ public class BalloonOneAttack_State : BaseState {
     }
 
 
+    //code for "jump/launch attack" .. math found online on unity answers for a cannonball
     Vector3 Jump(Transform target, float angle)
     {
         Vector3 dir = target.position - transform.position;  // get target direction
@@ -100,6 +126,8 @@ public class BalloonOneAttack_State : BaseState {
         return vel * dir.normalized;
     }
 
+
+    // looking at the player
     void WatchPlayer()
     {
         Vector3 lookDir = Player.transform.position;

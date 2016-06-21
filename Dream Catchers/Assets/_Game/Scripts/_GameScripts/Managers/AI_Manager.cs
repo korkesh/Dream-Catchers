@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Does nothing right now
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class AI_Manager : MonoBehaviour {

@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  first attack state for balloon. Not used anymore
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class BalloonAttack_State : BaseState {

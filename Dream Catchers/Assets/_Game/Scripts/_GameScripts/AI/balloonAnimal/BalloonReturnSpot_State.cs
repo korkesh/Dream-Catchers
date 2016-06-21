@@ -1,7 +1,15 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  return to a spot if gone too far for balloon animal
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class BalloonReturnSpot_State : BaseState {
+
+    //================================
+    // Variables
+    //================================
 
     GameObject Player;
     public GameObject ReturnSpot;
@@ -9,12 +17,26 @@ public class BalloonReturnSpot_State : BaseState {
     public float PlayerInRange;
     public float MaxAllowableDist;
 
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
+
     void Awake()
     {
         //get fsm
         fsm = this.gameObject.GetComponent<FSM>();
         Player = GameObject.FindGameObjectWithTag("Player");
     }
+
+
+    //-----------------
+    // FSM methods
+    //-----------------
 
     public override void Enter()
     {
@@ -30,6 +52,7 @@ public class BalloonReturnSpot_State : BaseState {
         }
         else if (Vector3.Distance(Player.transform.position, transform.position) <= PlayerInRange && Vector3.Distance(Player.transform.position,ReturnSpot.transform.position) <= MaxAllowableDist)
         {
+            //if player within range
             fsm.changeState("Chase");
 
         }
@@ -39,6 +62,7 @@ public class BalloonReturnSpot_State : BaseState {
         }
         else
         {
+            //go to return spot
             NavAgent.SetDestination(ReturnSpot.transform.position);
         }
        

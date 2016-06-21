@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  spawns collectibles when destroyed needs health
+//================================
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 

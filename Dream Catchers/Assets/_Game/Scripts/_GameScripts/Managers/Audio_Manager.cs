@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  for sound
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class Audio_Manager : Singleton<Audio_Manager>

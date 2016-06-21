@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Menu manager
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class MenuManager : MonoBehaviour {
