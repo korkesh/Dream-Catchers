@@ -22,6 +22,8 @@ public class Level_Manager : MonoBehaviour {
     public string SceneName;
     public Levels LevelName;
     public Vector3 CheckPointPos;
+    public Vector3 Rot;
+
 
     //-----------------
     // Defaults 
@@ -94,6 +96,8 @@ public class Level_Manager : MonoBehaviour {
         PlayerPrefs.SetFloat("CheckPointX", defaultCheckPoint.x);
         PlayerPrefs.SetFloat("CheckPointY", defaultCheckPoint.y);
         PlayerPrefs.SetFloat("CheckPointZ", defaultCheckPoint.z);
+        PlayerPrefs.SetFloat("RotationY", 0);
+        Rot = Vector3.zero;
         CheckPointPos = defaultCheckPoint;
     }
 
@@ -117,12 +121,14 @@ public class Level_Manager : MonoBehaviour {
         return false;
     }
 
-    public void newCheckPoint(Vector3 pos)
+    public void newCheckPoint(Vector3 pos, Vector3 Rotation)
     {
         CheckPointPos = pos;
+        Rot = Rotation;
         PlayerPrefs.SetFloat("CheckPointX", CheckPointPos.x);
         PlayerPrefs.SetFloat("CheckPointY", CheckPointPos.y);
         PlayerPrefs.SetFloat("CheckPointZ", CheckPointPos.z);
+        PlayerPrefs.SetFloat("RotationY", Rotation.y);
     }
 
     public void ContinueLevel()
@@ -132,6 +138,9 @@ public class Level_Manager : MonoBehaviour {
         CheckPointPos.x = PlayerPrefs.GetFloat("CheckPointX");
         CheckPointPos.y = PlayerPrefs.GetFloat("CheckPointY");
         CheckPointPos.z = PlayerPrefs.GetFloat("CheckPointZ");
+        Rot.x = 0;
+        Rot.y = PlayerPrefs.GetFloat("RotationY");
+        Rot.z = 0;
 
         if(CheckPointPos == Vector3.zero)
         {

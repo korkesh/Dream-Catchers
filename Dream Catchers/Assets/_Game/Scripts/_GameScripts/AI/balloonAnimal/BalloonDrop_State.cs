@@ -1,11 +1,30 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  balloon animal drop to ground. some hacks iin here to try and stop it from going through the ground
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class BalloonDrop_State : BaseState {
 
+
+
+    //================================
+    // Variables
+    //================================
+
     Rigidbody rigidB;
     NavMeshAgent Navmesh;
     bool hit;
+
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
 
  
     void Awake()
@@ -16,6 +35,9 @@ public class BalloonDrop_State : BaseState {
         Navmesh = this.GetComponent<NavMeshAgent>();
     }
 
+    //-----------------
+    // FSM methods
+    //-----------------
 
     public override void Enter()
     {
