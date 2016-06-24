@@ -526,10 +526,22 @@ public class PlayerMachine : SuperStateMachine {
             float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
             float old_ratio = 1.0f - new_ratio;
 
+            // hack: turn a tiny bit manually to avoid 180 degree lock
+            if (Vector3.Cross(transform.right, LocalMovement()).y > 0.988f)
+            {
+                transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+            }
+
             transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
             facing = transform.forward;
 
-            moveDirection = transform.forward * MaxRunSpeed;
+            // speed is a function of how aligned the input direction is with the player forward vector
+            float cross = Vector3.Cross(LocalMovement(), transform.right).y;
+
+            // normalize cross
+            float speedCoefficient = (cross - -1) / (1 - -1);
+
+            moveDirection = transform.forward * MaxRunSpeed;// * speedCoefficient;
         }
         else
         {
@@ -628,10 +640,22 @@ public class PlayerMachine : SuperStateMachine {
             float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
             float old_ratio = 1.0f - new_ratio;
 
+            // hack: turn a tiny bit manually to avoid 180 degree lock
+            if (Vector3.Cross(transform.right, LocalMovement()).y > 0.988f)
+            {
+                transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+            }
+
             transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
             facing = transform.forward;
 
-            moveDirection = transform.forward * MaxRunSpeed;
+            // speed is a function of how aligned the input direction is with the player forward vector
+            float cross = Vector3.Cross(LocalMovement(), transform.right).y;
+
+            // normalize cross
+            float speedCoefficient = (cross - -1) / (1 - -1);
+
+            moveDirection = transform.forward * MaxRunSpeed;// * speedCoefficient;
         }
         else
         {
@@ -690,10 +714,22 @@ public class PlayerMachine : SuperStateMachine {
             float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
             float old_ratio = 1.0f - new_ratio;
 
+            // hack: turn a tiny bit manually to avoid 180 degree lock
+            if (Vector3.Cross(transform.right, LocalMovement()).y > 0.988f)
+            {
+                transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+            }
+
             transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
             facing = transform.forward;
 
-            moveDirection = transform.forward * MaxRunSpeed;
+            // speed is a function of how aligned the input direction is with the player forward vector
+            float cross = Vector3.Cross(LocalMovement(), transform.right).y;
+
+            // normalize cross
+            float speedCoefficient = (cross - -1) / (1 - -1);
+
+            moveDirection = transform.forward * MaxRunSpeed;// * speedCoefficient;
         }
         else
         {
