@@ -23,6 +23,8 @@ public class PlayerMachine : SuperStateMachine {
     private RootCamera cam; // Main Player Follow Camera
     private PlayerInputController input; // Input Controller
 
+    public Vector3 prevPos;
+
     //----------------------------------------------
     // Editor Fields
     //----------------------------------------------
@@ -40,6 +42,7 @@ public class PlayerMachine : SuperStateMachine {
     public float TurnRadius = 4.0f;
 
     // Jumping
+    public float VerticalSpeedCap = 10.0f;
     public float AirAcceleration = 3.0f;
     public float JumpAcceleration = 5.0f;
     public float JumpHoldAcceleration = 10.0f;
@@ -228,6 +231,8 @@ public class PlayerMachine : SuperStateMachine {
         {
             transform.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
         }
+
+        prevPos = transform.position;
     }
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -544,9 +549,17 @@ public class PlayerMachine : SuperStateMachine {
             moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
         }
 
-        jumpTravelled = 0;
-
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
+
+        // calculate external vertical movement
+        float externalVerticalVelocity = ((transform.position - prevPos) / Time.deltaTime).y;
+        moveDirection += new Vector3(0, externalVerticalVelocity, 0);
+
+        // cap jump speed
+        if (moveDirection.y > VerticalSpeedCap)
+        {
+            moveDirection = new Vector3(moveDirection.x, VerticalSpeedCap, moveDirection.z);
+        }
     }
 
     void Jump_SuperUpdate()
