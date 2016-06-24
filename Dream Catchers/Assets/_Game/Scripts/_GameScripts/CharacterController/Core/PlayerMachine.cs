@@ -43,6 +43,7 @@ public class PlayerMachine : SuperStateMachine {
 
     // Jumping
     public float VerticalSpeedCap = 10.0f;
+    public float AirTurnSpeed = 10.0f;
     public float AirAcceleration = 3.0f;
     public float JumpAcceleration = 5.0f;
     public float JumpHoldAcceleration = 10.0f;
@@ -520,10 +521,24 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
+            float old_ratio = 1.0f - new_ratio;
+
+            transform.forward = ((planarMoveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+            facing = transform.forward;
+
+            moveDirection = transform.forward * MaxRunSpeed;
+        }
+        else
+        {
+            moveDirection = Vector3.zero; // todo: add slight buffer?
+        }
+
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
-        moveDirection = planarMoveDirection + verticalMoveDirection;
+        moveDirection += verticalMoveDirection;
     }
 
     void SkidJump_ExitState()
@@ -608,10 +623,25 @@ public class PlayerMachine : SuperStateMachine {
             return;            
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
+            float old_ratio = 1.0f - new_ratio;
+
+            transform.forward = ((planarMoveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+            facing = transform.forward;
+
+            moveDirection = transform.forward * MaxRunSpeed;
+        }
+        else
+        {
+            moveDirection = Vector3.zero; // todo: add slight buffer?
+        }
+
+        //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
-        moveDirection = planarMoveDirection + verticalMoveDirection;
+        moveDirection += verticalMoveDirection;
     }
 
     void Jump_ExitState()
@@ -655,10 +685,25 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
+            float old_ratio = 1.0f - new_ratio;
+
+            transform.forward = ((planarMoveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+            facing = transform.forward;
+
+            moveDirection = transform.forward * MaxRunSpeed;
+        }
+        else
+        {
+            moveDirection = Vector3.zero; // todo: add slight buffer?
+        }
+
+        //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
-        moveDirection = planarMoveDirection + verticalMoveDirection;
+        moveDirection += verticalMoveDirection;
     }
 
     void DoubleJump_ExitState()
