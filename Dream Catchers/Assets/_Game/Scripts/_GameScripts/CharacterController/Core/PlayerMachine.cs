@@ -526,7 +526,7 @@ public class PlayerMachine : SuperStateMachine {
             float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
             float old_ratio = 1.0f - new_ratio;
 
-            transform.forward = ((planarMoveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+            transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
             facing = transform.forward;
 
             moveDirection = transform.forward * MaxRunSpeed;
@@ -628,7 +628,7 @@ public class PlayerMachine : SuperStateMachine {
             float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
             float old_ratio = 1.0f - new_ratio;
 
-            transform.forward = ((planarMoveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+            transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
             facing = transform.forward;
 
             moveDirection = transform.forward * MaxRunSpeed;
@@ -690,7 +690,7 @@ public class PlayerMachine : SuperStateMachine {
             float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
             float old_ratio = 1.0f - new_ratio;
 
-            transform.forward = ((planarMoveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+            transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
             facing = transform.forward;
 
             moveDirection = transform.forward * MaxRunSpeed;
