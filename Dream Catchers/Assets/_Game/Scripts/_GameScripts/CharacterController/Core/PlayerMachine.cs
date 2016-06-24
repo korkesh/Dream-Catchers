@@ -431,7 +431,7 @@ public class PlayerMachine : SuperStateMachine {
 
         // immediate slowing effect
         moveDirection.Normalize();
-        moveDirection *= 0.7f;
+        moveDirection *= 0.4f;
     }
 
     void Skid_SuperUpdate()

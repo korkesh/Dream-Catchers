@@ -34,4 +34,6 @@ public class ManipulationScale : ManipulationScript {
         }
     }
 
+   
+
 }

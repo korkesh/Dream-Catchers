@@ -320,7 +320,7 @@ public class SuperCharacterController : MonoBehaviour
     {
         float groundAngle = Vector3.Angle(groundNormal, up) * Mathf.Deg2Rad;
 
-        Vector3 secondaryOrigin = transform.position + up * Tolerance;
+        Vector3 secondaryOrigin = transform.position + up * Tolerance * 8;
 
         if (!Mathf.Approximately(groundAngle, 0))
         {
@@ -337,7 +337,7 @@ public class SuperCharacterController : MonoBehaviour
         if (Physics.Raycast(secondaryOrigin, down, out hit, Mathf.Infinity, Walkable))
         {
             // Remove the tolerance from the distance travelled
-            hit.distance -= Tolerance;
+            hit.distance -= Tolerance * 8;
 
             return true;
         }
@@ -589,7 +589,7 @@ public class SuperCharacterController : MonoBehaviour
             Vector3 up = controller.up;
             Vector3 down = -up;
 
-            Vector3 o = origin + (up * Tolerance);
+            Vector3 o = origin + (up * Tolerance * 8);
 
             // Reduce our radius by Tolerance squared to avoid failing the SphereCast due to clipping with walls
             float smallerRadius = controller.radius - (Tolerance * Tolerance);
@@ -616,6 +616,7 @@ public class SuperCharacterController : MonoBehaviour
                 SimulateSphereCast(hit.normal, out hit);
 
                 primaryGround = new GroundHit(hit.point, hit.normal, hit.distance);
+                Debug.DrawLine(o, hit.point);
 
                 // If we are standing on a perfectly flat surface, we cannot be either on an edge,
                 // On a slope or stepping off a ledge
@@ -759,6 +760,7 @@ public class SuperCharacterController : MonoBehaviour
 
             if (primaryGround == null || primaryGround.distance > distance)
             {
+                Debug.Log("nope");
                 return false;
             }
 
@@ -892,7 +894,7 @@ public class SuperCharacterController : MonoBehaviour
         {
             float groundAngle = Vector3.Angle(groundNormal, controller.up) * Mathf.Deg2Rad;
 
-            Vector3 secondaryOrigin = controller.transform.position + controller.up * Tolerance;
+            Vector3 secondaryOrigin = controller.transform.position + controller.up * Tolerance * 8;
 
             if (!Mathf.Approximately(groundAngle, 0))
             {
@@ -909,7 +911,7 @@ public class SuperCharacterController : MonoBehaviour
             if (Physics.Raycast(secondaryOrigin, controller.down, out hit, Mathf.Infinity, walkable))
             {
                 // Remove the tolerance from the distance travelled
-                hit.distance -= Tolerance;
+                hit.distance -= Tolerance * 8;
 
                 return true;
             }
