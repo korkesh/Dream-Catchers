@@ -541,7 +541,7 @@ public class PlayerMachine : SuperStateMachine {
             // normalize cross
             float speedCoefficient = (cross - -1) / (1 - -1);
 
-            moveDirection = transform.forward * MaxRunSpeed;// * speedCoefficient;
+            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
         }
         else
         {
@@ -655,7 +655,7 @@ public class PlayerMachine : SuperStateMachine {
             // normalize cross
             float speedCoefficient = (cross - -1) / (1 - -1);
 
-            moveDirection = transform.forward * MaxRunSpeed;// * speedCoefficient;
+            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
         }
         else
         {
@@ -729,7 +729,7 @@ public class PlayerMachine : SuperStateMachine {
             // normalize cross
             float speedCoefficient = (cross - -1) / (1 - -1);
 
-            moveDirection = transform.forward * MaxRunSpeed;// * speedCoefficient;
+            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
         }
         else
         {
