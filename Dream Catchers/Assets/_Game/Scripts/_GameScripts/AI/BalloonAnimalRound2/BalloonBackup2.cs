@@ -59,13 +59,13 @@ public class BalloonBackup2 : BaseState {
         {
             fsm.changeState("FloatToStart");
 
-        }else if (Vector3.Distance(this.transform.position,newPOs) >= 0.05)
+        }else if (Vector3.Distance(this.transform.position,newPOs) >= 0.2)
         {
             float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, newPOs, step);
 
         }
-        else if (Vector3.Distance(this.transform.position, newPOs) < 0.05)
+        else if (Vector3.Distance(this.transform.position, newPOs) < 0.2)
         {
             fsm.changeState("Run");
         }
@@ -83,8 +83,10 @@ public class BalloonBackup2 : BaseState {
         Vector3 lookDir = Player.transform.position;
         lookDir.y = transform.position.y;
         Vector3 targetDir = lookDir - transform.position;
-        float step = 3 * Time.deltaTime;
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-        transform.rotation = Quaternion.LookRotation(newDir);
+        float step = 5* Time.deltaTime;
+        /////
+        Vector3 newDir = Vector3.RotateTowards(transform.right, targetDir, step, 0.0F);
+        //transform.rotation = Quaternion.LookRotation(newDir);
+        transform.right = newDir;
     }
 }
