@@ -226,7 +226,7 @@ public class RootCamera : MonoBehaviour
             transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
         }
 
-        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Run && machine.runTimer > 0.1f)
+        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Run && machine.runTimer > 0.2f)
         {
             Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
 
@@ -236,8 +236,18 @@ public class RootCamera : MonoBehaviour
                 transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.25f * turnDirection);
             }
         }
-            
-        
+        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Walk)
+        {
+            Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
+
+            if (playerCamCross.magnitude > 0.02f)
+            {
+                float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
+                transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.08f * turnDirection);
+            }
+        }
+
+
 
 
         // y rotation
@@ -274,7 +284,14 @@ public class RootCamera : MonoBehaviour
         //    currentMode = CameraMode.Field;
         //}
 
+
         // up/down movement
+        if (Mathf.Abs(transform.position.y - Player.transform.position.y) > 20)
+        {
+            // maximum vertical distance exceeded
+            lastGround = Player.transform.position.y + Height;
+        }
+
         if (!Mathf.Approximately(transform.position.y, lastGround + Height))
         {
             float verticalMovement = (lastGround + Height) - transform.position.y;
