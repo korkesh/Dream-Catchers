@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  keeps launcher in front of clown
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class LaunchMovement : MonoBehaviour {

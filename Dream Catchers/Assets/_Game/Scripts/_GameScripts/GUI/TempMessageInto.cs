@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  temp script for little into scene in new game
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class TempMessageInto : MonoBehaviour {

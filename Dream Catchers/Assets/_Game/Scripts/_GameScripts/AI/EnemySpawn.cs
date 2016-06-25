@@ -1,13 +1,20 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  trigger for spawning enemys
+//================================
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class EnemySpawn : MonoBehaviour {
 
+    //list of enemys
     public List<GameObject> enemys;
 
     void Awake()
     {
+        //active false
         for (int i = 0; i < enemys.Count; i++)
         {
             if (enemys[i] != null)
@@ -19,7 +26,7 @@ public class EnemySpawn : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Fun");
+        //active true
         if(other.gameObject.tag == "Player")
         {
             for (int i = 0; i < enemys.Count; i++)

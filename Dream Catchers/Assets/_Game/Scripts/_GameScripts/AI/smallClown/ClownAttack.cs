@@ -1,8 +1,16 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  clown ball attack. Explodes and checks if character knocks it back
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class ClownAttack : MonoBehaviour {
 
+
+    //================================
+    // Variables
+    //================================
     public SphereCollider spCollider;
     public PhysicMaterial physMat;
     public Rigidbody rigidB;
@@ -18,10 +26,19 @@ public class ClownAttack : MonoBehaviour {
     public GameObject NightmareBall;
     public GameObject particles;
 
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
+
     void Awake()
     {
 
         exploded = false;
+        //is bouncy ball or bomb
         if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
         {
             spCollider.material = physMat;
@@ -30,6 +47,7 @@ public class ClownAttack : MonoBehaviour {
         {
             spCollider.material = null;
         }
+        //hasnt been hit back yet
         hitBack = false;
     }
 
@@ -68,6 +86,7 @@ public class ClownAttack : MonoBehaviour {
 	
 	}
 
+    //checksa if the bomb should explode, deal damage or bouncy back
     void OnCollisionEnter(Collision collision)
     {
         if(exploded == true)
@@ -157,6 +176,8 @@ public class ClownAttack : MonoBehaviour {
         }
     }
 
+
+    //checks if the enemy is within your sight when u hit the ball back using dot product
     bool EnemyInCone()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -177,6 +198,7 @@ public class ClownAttack : MonoBehaviour {
         return false;
     }
 
+    //hack for bomb state when staying in geometry
     void OnCollisionStay(Collision collisionInfo)
     {
         if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && exploded == false)

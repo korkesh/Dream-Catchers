@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Menu Manager, deals with changing the menus
+//================================
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 

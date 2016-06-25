@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Deals with stuff relating to the character, health , checkpint , playerPrefs
+//================================
+using UnityEngine;
 using System.Collections;
 
 
@@ -205,6 +209,7 @@ public class Character_Manager : Singleton<Character_Manager>
         if(Character != null)
         {
             Character.transform.position = Level_Manager.instance.CheckPointPos;
+            Character.transform.Rotate(Level_Manager.instance.Rot);
         }
 
     }

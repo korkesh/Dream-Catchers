@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  menu base class for menu animation stuff
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class Menu : MonoBehaviour

@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  checkpoint for players. Save postion to playerPrefs
+//================================
+
+using UnityEngine;
 using System.Collections;
 
 public class CheckPoints : MonoBehaviour {
@@ -20,7 +25,7 @@ public class CheckPoints : MonoBehaviour {
     {
         if(other.tag == "Player")
         {
-            Level_Manager.instance.newCheckPoint(position);
+            Level_Manager.instance.newCheckPoint(position, transform.rotation.eulerAngles);
             //might remove
             Destroy(this.gameObject,0.5f);
         }

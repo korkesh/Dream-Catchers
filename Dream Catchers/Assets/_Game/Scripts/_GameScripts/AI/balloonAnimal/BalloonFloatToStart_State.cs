@@ -1,13 +1,32 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  balloon floats back into path
+//================================
+
+using UnityEngine;
 using System.Collections;
 
 public class BalloonFloatToStart_State : BaseState {
+
+
+    //================================
+    // Variables
+    //================================
 
     Rigidbody rigidB;
     public Vector3 StartPos;
     public float speed;
     public float radiusOfCircle;
 
+
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
     void Awake()
     {
         //get fsm
@@ -16,6 +35,9 @@ public class BalloonFloatToStart_State : BaseState {
         StartPos = this.transform.position + new Vector3(radiusOfCircle, 0, 0);
     }
 
+    //-----------------
+    // FSM methods
+    //-----------------
 
     public override void Enter()
     {
@@ -27,6 +49,8 @@ public class BalloonFloatToStart_State : BaseState {
     {
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, StartPos, step);
+
+        //state switches
         if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
             fsm.changeState("Drop");

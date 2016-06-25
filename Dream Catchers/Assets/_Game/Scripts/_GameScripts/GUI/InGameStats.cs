@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  Deals with all ui elements in play mode of game. Needs some rework once we decide how final ui should be
+//================================
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -185,7 +189,6 @@ public class InGameStats : MonoBehaviour {
 
         timeCollUI = TimeofCollectibleUI;
     }
-
 
     public void updateFragments()
     {

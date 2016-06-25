@@ -1,28 +1,47 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  damage triggers for damage floors.
+//================================
+
+using UnityEngine;
 using System.Collections;
 
 public class EnterDamage : MonoBehaviour {
 
     public DamageDealer d;
     public float Timer; //Invincibility Frames
+    [HideInInspector]
     public float time;
+    bool hit;
 
+    void Start()
+    {
+        time = Timer;
+        hit = false;
+    }
 
-    //void OnTriggerEnter(Collider collision)
-    //{
-    //    if (collision.gameObject.tag == "Player")
-    //    {
-    //        time = 0;
-    //    }
-    //}
-
+    //initial enter deal damage
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && hit == false)
+        {
+            d.DealDamage();
+            hit = true;
+            Debug.Log("Deal Dam");
+        }
+    }
+
+    //after some time deal damage 
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
         {
             time -= Time.deltaTime;
+            Debug.Log(Time.deltaTime);
+            Debug.Log("time is :" + time);
             if (time <= 0)
             {
+                Debug.Log("WTF");
                 d.DealDamage();
                 time = Timer;
             }
@@ -31,13 +50,9 @@ public class EnterDamage : MonoBehaviour {
     }
 
 
-
-    //void OnCollisionExit(Collision collisionInfo)
-    //{
-    //    Debug.Log("EXit");
-    //    if (collisionInfo.gameObject.tag == "Player")
-    //    {
-    //        time = Timer;
-    //    }
-    //}
+    void OnTriggerExit(Collider other)
+    {
+        time = Timer;
+        hit = false;
+    }
 }

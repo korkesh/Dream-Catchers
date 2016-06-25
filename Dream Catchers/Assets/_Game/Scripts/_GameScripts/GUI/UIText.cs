@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  triggers for text prompts. not in use
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class UIText : MonoBehaviour {

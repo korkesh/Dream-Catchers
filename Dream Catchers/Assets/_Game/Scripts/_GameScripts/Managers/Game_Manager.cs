@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex,Matt
+//  Game Manager, deals with currecnt state of game
+//================================
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 

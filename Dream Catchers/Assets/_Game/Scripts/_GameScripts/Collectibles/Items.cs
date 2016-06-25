@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  items script. items delete themselves if they have been collected
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class Items : MonoBehaviour {
@@ -18,7 +22,8 @@ public class Items : MonoBehaviour {
     public Type type;
     public string Scene;
     public Level_Manager.Levels Level;
-    string key;
+    [HideInInspector]
+    public string key;
     //================================
     // Methods
     //================================
@@ -31,30 +36,8 @@ public class Items : MonoBehaviour {
 
         //if the key exists in player prefsit checks to see if it is a 1 (meaning its been picked up), if so the object is deleted
 	    key = Level.ToString() + Scene + gameObject.name.ToString();
-        if(type == Type.FRAGEMENT)
-        {
-            key = gameObject.name.ToString();
-            Debug.Log(gameObject.name.ToString());
-        }
-
+        checkIfCollected();
         
-            if(PlayerPrefs.HasKey(key))
-            {
-                int pickedup = PlayerPrefs.GetInt(key);
-                if(pickedup == 1)
-                {
-                    Destroy(gameObject);
-                }
-            }
-            else
-            {
-                if(type != Type.HEALTH_PICKUP)
-                {
-                    //object isnt in player prefs .. it is now added
-                    PlayerPrefs.SetInt(key, 0);
-                }
-               
-            }
 	}
 
     //-----------------
@@ -90,12 +73,43 @@ public class Items : MonoBehaviour {
                 Character_Manager.Instance.CollectMemoryFrag();
 
             }
+
+            //keeps health drops from not spawning
             if(type != Type.HEALTH_PICKUP)
             {
                 PlayerPrefs.SetInt(key, 1);
             }
             
             Destroy(gameObject);
+        }
+    }
+
+
+    public void checkIfCollected()
+    {
+        if (type == Type.FRAGEMENT)
+        {
+            key = gameObject.name.ToString();
+            Debug.Log(gameObject.name.ToString());
+        }
+
+
+        if (PlayerPrefs.HasKey(key))
+        {
+            int pickedup = PlayerPrefs.GetInt(key);
+            if (pickedup == 1)
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            if (type != Type.HEALTH_PICKUP)
+            {
+                //object isnt in player prefs .. it is now added
+                PlayerPrefs.SetInt(key, 0);
+            }
+
         }
     }
 }

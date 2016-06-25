@@ -1,8 +1,16 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  clown enemy behaviour
+//================================
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class SmallClownAI : MonoBehaviour {
+
+    //================================
+    // Variables
+    //================================
 
     public List<GameObject> path;
     public GameObject LaunchPoint;
@@ -24,6 +32,13 @@ public class SmallClownAI : MonoBehaviour {
     public float speedOfRotation;
 
 
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
 
 	// Use this for initialization
 	void Awake () {
@@ -39,9 +54,10 @@ public class SmallClownAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        //bock does nothing in dream
         if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
+            //enemy waits a bit throws a ball waits some more then jumps to new spot .. repeat
             
             rigidB.useGravity = true;
             WatchPlayer();
@@ -93,6 +109,8 @@ public class SmallClownAI : MonoBehaviour {
         attackDelayTime = DelayToAttack;
     }
 
+
+    //creates the ball
     void Attack()
     {
         GameObject rocket = (GameObject)Instantiate(Ball, LaunchPoint.transform.position, LaunchPoint.transform.rotation);
@@ -103,6 +121,7 @@ public class SmallClownAI : MonoBehaviour {
         rocketClone.velocity = Jump(Player.transform.position, LuanchAngle,LaunchPoint.transform);
     }
 
+    //destroys ball 
     void RemoveAttack()
     {
         if(currentAttack != null)
@@ -111,6 +130,8 @@ public class SmallClownAI : MonoBehaviour {
         }
     }
 
+
+    //movemt to next spot
     void move()
     {
         if(path.Count > 0)
@@ -148,6 +169,8 @@ public class SmallClownAI : MonoBehaviour {
         }
     }
 
+
+    //cannonball launch code again from unity answers
    public Vector3 Jump(Vector3 target, float angle, Transform current)
     {
         Vector3 dir = target - current.position;  // get target direction
@@ -168,6 +191,7 @@ public class SmallClownAI : MonoBehaviour {
         return vel * dir.normalized;
     }
 
+    //look at player
     void WatchPlayer()
     {
         Vector3 lookDir = Player.transform.position;

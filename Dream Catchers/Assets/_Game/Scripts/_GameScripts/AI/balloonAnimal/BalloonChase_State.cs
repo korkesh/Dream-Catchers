@@ -1,13 +1,30 @@
-﻿using UnityEngine;
+﻿//================================
+// Alex
+//  chase for balloon uses navmesh
+//================================
+using UnityEngine;
 using System.Collections;
 
 public class BalloonChase_State : BaseState {
+
+
+    //================================
+    // Variables
+    //================================
 
     public float attackRadius;
     public float MaxAllowedDist;
     GameObject Player;
     public GameObject ReturnSpot;
     public NavMeshAgent NavAgent;
+
+    //================================
+    // Methods
+    //================================
+
+    //-----------------
+    // Initialization
+    //-----------------
 
     void Awake()
     {
@@ -16,6 +33,10 @@ public class BalloonChase_State : BaseState {
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
+
+    //-----------------
+    // Fsm methods
+    //-----------------
 
     public override void Enter()
     {
@@ -40,6 +61,7 @@ public class BalloonChase_State : BaseState {
         }
         else
         {
+            //set destination
             NavAgent.SetDestination(Player.transform.position);
         }
 
