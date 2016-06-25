@@ -23,6 +23,8 @@ public class PlayerMachine : SuperStateMachine {
     private RootCamera cam; // Main Player Follow Camera
     private PlayerInputController input; // Input Controller
 
+    public Vector3 prevPos;
+
     //----------------------------------------------
     // Editor Fields
     //----------------------------------------------
@@ -38,8 +40,11 @@ public class PlayerMachine : SuperStateMachine {
     public float RunTurnSpeed = 10.0f;
     public float MaxRunSpeed = 6.0f;
     public float TurnRadius = 4.0f;
+    public float runTimer = 0; // how long player has maintained runstate
 
     // Jumping
+    public float VerticalSpeedCap = 10.0f;
+    public float AirTurnSpeed = 10.0f;
     public float AirAcceleration = 3.0f;
     public float JumpAcceleration = 5.0f;
     public float JumpHoldAcceleration = 10.0f;
@@ -116,7 +121,7 @@ public class PlayerMachine : SuperStateMachine {
 
         if (ground && cam)
         {
-            cam.setLastGround = transform.position.y;
+            //cam.setLastGround = transform.position.y;
         }
 
         return ground;//controller.currentGround.IsGrounded(false, 0.01f);
@@ -178,7 +183,6 @@ public class PlayerMachine : SuperStateMachine {
 
     protected override void EarlyGlobalSuperUpdate()
     {
-        crossY = Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y;
         // DEBUG:
         /*hAxis = input.Current.MoveInput.x;
         vAxis = input.Current.MoveInput.z;
@@ -228,11 +232,15 @@ public class PlayerMachine : SuperStateMachine {
         {
             transform.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
         }
+
+        prevPos = transform.position;
     }
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     // 
     // MOVEMENT STATES
+    //
+    // Author/modifier: Conor MacKeigan
     //
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -283,12 +291,6 @@ public class PlayerMachine : SuperStateMachine {
 
         // Apply friction to slow us to a halt
         moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
-
-        // check camera for obstructions
-        if (idleTimer > 0.6f && cam != null)
-        {
-            cam.CheckOcclusion();
-        }
 
         if(idleTimer >= 5)
         {
@@ -361,6 +363,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Run_SuperUpdate()
     {
+        runTimer += Time.deltaTime;
+
         // Dont allow attack and then jump
         if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
@@ -416,6 +420,8 @@ public class PlayerMachine : SuperStateMachine {
         else
         {
             currentState = PlayerStates.Idle;
+            runTimer = 0;
+
             return;
         }
     }
@@ -431,7 +437,7 @@ public class PlayerMachine : SuperStateMachine {
 
         // immediate slowing effect
         moveDirection.Normalize();
-        moveDirection *= 0.7f;
+        moveDirection *= 0.4f;
     }
 
     void Skid_SuperUpdate()
@@ -515,10 +521,36 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
+            float old_ratio = 1.0f - new_ratio;
+
+            // hack: turn a tiny bit manually to avoid 180 degree lock
+            if (Vector3.Cross(transform.right, LocalMovement()).y > 0.988f)
+            {
+                transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+            }
+
+            transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
+            facing = transform.forward;
+
+            // speed is a function of how aligned the input direction is with the player forward vector
+            float cross = Vector3.Cross(LocalMovement(), transform.right).y;
+
+            // normalize cross
+            float speedCoefficient = (cross - -1) / (1 - -1);
+
+            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
+        }
+        else
+        {
+            moveDirection = Vector3.zero; // todo: add slight buffer?
+        }
+
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
-        moveDirection = planarMoveDirection + verticalMoveDirection;
+        moveDirection += verticalMoveDirection;
     }
 
     void SkidJump_ExitState()
@@ -544,9 +576,17 @@ public class PlayerMachine : SuperStateMachine {
             moveDirection = new Vector3(moveDirection.x, 0, moveDirection.z);
         }
 
-        jumpTravelled = 0;
-
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
+
+        // calculate external vertical movement
+        float externalVerticalVelocity = ((transform.position - prevPos) / Time.deltaTime).y;
+        moveDirection += new Vector3(0, externalVerticalVelocity, 0);
+
+        // cap jump speed
+        if (moveDirection.y > VerticalSpeedCap)
+        {
+            moveDirection = new Vector3(moveDirection.x, VerticalSpeedCap, moveDirection.z);
+        }
     }
 
     void Jump_SuperUpdate()
@@ -595,10 +635,37 @@ public class PlayerMachine : SuperStateMachine {
             return;            
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
+            float old_ratio = 1.0f - new_ratio;
+
+            // hack: turn a tiny bit manually to avoid 180 degree lock
+            if (Vector3.Cross(transform.right, LocalMovement()).y > 0.988f)
+            {
+                transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+            }
+
+            transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
+            facing = transform.forward;
+
+            // speed is a function of how aligned the input direction is with the player forward vector
+            float cross = Vector3.Cross(LocalMovement(), transform.right).y;
+
+            // normalize cross
+            float speedCoefficient = (cross - -1) / (1 - -1);
+
+            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
+        }
+        else
+        {
+            moveDirection = Vector3.zero; // todo: add slight buffer?
+        }
+
+        //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
-        moveDirection = planarMoveDirection + verticalMoveDirection;
+        moveDirection += verticalMoveDirection;
     }
 
     void Jump_ExitState()
@@ -642,10 +709,37 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            float new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
+            float old_ratio = 1.0f - new_ratio;
+
+            // hack: turn a tiny bit manually to avoid 180 degree lock
+            if (Vector3.Cross(transform.right, LocalMovement()).y > 0.988f)
+            {
+                transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+            }
+
+            transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
+            facing = transform.forward;
+
+            // speed is a function of how aligned the input direction is with the player forward vector
+            float cross = Vector3.Cross(LocalMovement(), transform.right).y;
+
+            // normalize cross
+            float speedCoefficient = (cross - -1) / (1 - -1);
+
+            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
+        }
+        else
+        {
+            moveDirection = Vector3.zero; // todo: add slight buffer?
+        }
+
+        //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
-        moveDirection = planarMoveDirection + verticalMoveDirection;
+        moveDirection += verticalMoveDirection;
     }
 
     void DoubleJump_ExitState()
@@ -797,4 +891,5 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Dead", false);
     }
+
 }

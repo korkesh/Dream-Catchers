@@ -6,15 +6,17 @@ public class RealCamera : MonoBehaviour
     public RootCamera RootCam;
     public GameObject PlayerTarget;
     public GameObject Player;
-    public float MaxLookTurn = 300;
-    public float lookDistance = 10;
+    public float lookDistance;
 
 	// Use this for initialization
 	void Start ()
     {
         //transform.position = RootCam.transform.position;
         //transform.rotation = RootCam.transform.rotation;
-	}
+
+        Player = GameObject.FindGameObjectWithTag("Player"); // Character_Manager.Instance.Character;
+        PlayerTarget = Player.GetComponent<HunterChildren>().camTarget;
+    }
 	
 	// Update is called once per frame
 	void Update ()
