@@ -384,7 +384,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        if ((Input_Manager.instance.useBuffer && input.Current.moveBuffer) || (!Input_Manager.instance.useBuffer && input.Current.MoveInput != Vector3.zero))
+        if ((Input_Manager.instance.useBuffer) || (!Input_Manager.instance.useBuffer && input.Current.MoveInput != Vector3.zero))
         {
             // transition to walk condition
             if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkspeedThreshold)

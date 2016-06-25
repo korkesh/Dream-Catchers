@@ -12,7 +12,6 @@ public class PlayerInputController : MonoBehaviour {
     public PlayerInput Current;
 
     public bool toggleJump;
-    public bool useBuffer;
 
     public float moveBufferTimer = 0;
 
@@ -48,7 +47,7 @@ public class PlayerInputController : MonoBehaviour {
             };
         }
 
-        if (useBuffer)
+        if (Input_Manager.instance.useBuffer)
         {
             // buffer movement for a few frames
             if (Current.MoveInput != Vector3.zero)
