@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Animates the lowering of a door
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class LowerDoor : MonoBehaviour {

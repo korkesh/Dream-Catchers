@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Circle swipe animation on manipulation UI element
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -9,19 +14,17 @@ public class RechargeAnimation : MonoBehaviour {
 
     void Start()
     {
-        rechargeGraphic.fillAmount = 1.0f;      // Initally progress bar is full
+        rechargeGraphic.fillAmount = 1.0f;
     }
 
     void Update()
-    {
-        
-            rechargeGraphic.fillAmount += Time.deltaTime / timer;
-        
+    {     
+       rechargeGraphic.fillAmount += Time.deltaTime / timer;      
     }
 
     public void StartRecharge(float s)
     {
-        rechargeGraphic.fillAmount = 0.0f;      // Initally progress bar is empty
+        rechargeGraphic.fillAmount = 0.0f;
         timer = s;
     }
 }

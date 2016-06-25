@@ -1,20 +1,24 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Logic for pressure plates used in puzzles, such as opening doors
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class PressurePlate : MonoBehaviour {
 
-    public List<string> WeightedObjectTag;
+    public List<string> WeightedObjectTag; // List of objects which can trigger the pressure plate
     List<string> objectsOnSwitch;
 
-    public GameObject ObjectToTrigger;
-    public string TriggerFunctionCall;
+    public GameObject ObjectToTrigger; // The object which will trigger upon activation of pressure plate
+    public string TriggerFunctionCall; // Method to trigger
 
-    // TODO: Add animator? How do we want to handle lowering of plate?
     public GameObject PressurePlateObject;
     public float animationSpeed;
 
-    public bool allowDeactivate;
+    public bool allowDeactivate; // Allow switch to deactivate
     public bool activated = false;
 
     Vector3 originalPos;
@@ -31,6 +35,7 @@ public class PressurePlate : MonoBehaviour {
 
     void Update()
     {
+        // Animate the lowering of pressure plate
         PressurePlateObject.transform.position = Vector3.Lerp(originalPos, destinationPos, animationSpeed * timer);
 
         if (destinationPos == originalPos)
@@ -78,6 +83,7 @@ public class PressurePlate : MonoBehaviour {
             }
         }
 
+        // Only trigger if no other objects are on the pressure plate
         if(objectsOnSwitch.Count == 0 && allowDeactivate && activated)
         {
             timer = Time.deltaTime;

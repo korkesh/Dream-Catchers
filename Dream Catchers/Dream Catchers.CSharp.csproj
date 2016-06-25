@@ -110,12 +110,11 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RealCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RootCamera.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\TestCamera.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\CharacterOnPlatform.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\TempCamera.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\CharacterOnRotatingPlatform.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\LimitVelocity.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\PlayerInputController.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\PlayerMachine.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\SimpleStateMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\SuperCharacterController.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\CollectibleSpawner.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
@@ -171,6 +170,7 @@
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\LegacyCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\Math3d.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\PlayerMachineDebug.cs" />
+    <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\SimpleStateMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\SuperCollider.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\SuperCollisionType.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\SuperMath.cs" />

@@ -1,9 +1,16 @@
-﻿using UnityEngine;
+﻿///==========================================================================
+/// Author: Matt
+/// Purpose: Places an upperbound on the velocity of the player character
+///          in all directions. Used to prevent the character from clipping
+///          through objects at high speeds.
+///==========================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class LimitVelocity : MonoBehaviour {
 
-    public Vector3 maxVelocity;
+    public Vector3 maxVelocity; // Upper-Bound Velocities
 
 	// Use this for initialization
 	void Start () {
@@ -13,9 +20,9 @@ public class LimitVelocity : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
+        PlayerMachine pm = gameObject.GetComponent<PlayerMachine>(); // Used to access character's current velocity
 
-        PlayerMachine pm = gameObject.GetComponent<PlayerMachine>();
-
+        // Clamp X velocity
         if (Mathf.Abs(pm.moveDirection.x) > maxVelocity.x)
         {
             Debug.Log("Slow DOWN! (X) " + pm.moveDirection.x);
@@ -29,6 +36,7 @@ public class LimitVelocity : MonoBehaviour {
             }
         }
 
+        // Clamp Y Velocity
         if (Mathf.Abs(pm.moveDirection.y) > maxVelocity.y)
         {
             Debug.Log("Slow DOWN! (Y) " + pm.moveDirection.y);
@@ -42,6 +50,7 @@ public class LimitVelocity : MonoBehaviour {
             }
         }
 
+        // Clamp Z Velocity
         if (Mathf.Abs(pm.moveDirection.z) > maxVelocity.z)
         {
             Debug.Log("Slow DOWN! (Z) " + pm.moveDirection.z);
@@ -53,8 +62,6 @@ public class LimitVelocity : MonoBehaviour {
             {
                 pm.moveDirection.z = -maxVelocity.z;
             }
-        }
-        
-
+        }      
     }
 }

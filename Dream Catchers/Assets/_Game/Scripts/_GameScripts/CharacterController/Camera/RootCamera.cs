@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Connor
+/// Purpose: This is the "invisible" camera that keeps track of the base forward vector
+///          The "real" camera uses this as a reference for look ahead rotations so it 
+///          does not affect calculations
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 
-// This is the "invisible" camera that keeps track of the base forward vector
-// The "real" camera uses this as a reference for look ahead rotations so it does not affect calculations
 public class RootCamera : MonoBehaviour
 {
     public enum CameraMode

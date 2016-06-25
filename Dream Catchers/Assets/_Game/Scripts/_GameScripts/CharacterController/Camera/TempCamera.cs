@@ -1,7 +1,13 @@
-﻿using UnityEngine;
+﻿///===============================================================================
+/// Author: Matt
+/// Purpose: A basic camera used as a temporary stand in until the proper camera
+///          is implemented. This script simply maps the right analog stick
+///          to the camera's position
+///===============================================================================
+using UnityEngine;
 using System.Collections;
 
-public class TestCamera : MonoBehaviour {
+public class TempCamera : MonoBehaviour {
 
     public Transform target;
     public float distance = 5.0f;

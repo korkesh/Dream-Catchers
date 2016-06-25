@@ -1,4 +1,9 @@
-﻿// External release version 2.0.0
+﻿///===============================================================================
+/// Author: Matt & Connor
+/// Purpose: Mostly a third party script with some slight modifications/tuning
+///===============================================================================
+
+// External release version 2.0.0
 
 using UnityEngine;
 using System;

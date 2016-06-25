@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Detects if the player has fallen off of the level and kills the character
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class KillFloor : MonoBehaviour {

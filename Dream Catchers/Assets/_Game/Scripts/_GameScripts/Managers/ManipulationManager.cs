@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Manages the World manipulation mechanic. Toggles state upon player input.
+///          Handles BGM and skybox. 
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 

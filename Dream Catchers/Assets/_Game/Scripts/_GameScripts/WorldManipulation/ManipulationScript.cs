@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: The main manipulation script
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class ManipulationScript : MonoBehaviour

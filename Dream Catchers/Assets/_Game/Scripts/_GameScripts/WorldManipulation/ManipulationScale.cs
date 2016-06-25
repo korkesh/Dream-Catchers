@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Scale an object between positions in world swap
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 

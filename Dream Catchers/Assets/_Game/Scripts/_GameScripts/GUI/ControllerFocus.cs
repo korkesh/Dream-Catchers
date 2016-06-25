@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Sets menu focus to controller if game focus is lost (i.e. an alt-tab)
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
 
 public class ControllerFocus : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
 	// Update is called once per frame
 	void Update () {
 

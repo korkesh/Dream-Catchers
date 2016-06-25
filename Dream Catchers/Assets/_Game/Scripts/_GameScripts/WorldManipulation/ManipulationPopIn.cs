@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Handles appearnce changes in objects upon world swap
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class ManipulationPopIn : ManipulationScript {

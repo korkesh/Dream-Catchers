@@ -1,9 +1,18 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Pushes a block along the ground based on a calculated velocity
+///======================================================================================
+
+using UnityEngine;
+///=====================================================================================
+/// Author: Matt
+/// Purpose: Handles changes in lighting upon world swap
+///======================================================================================
+
 using System.Collections;
 
 public class ManipulationLight : ManipulationScript
 {
-
     public Color dreamColor;
     public Color nightmareColor;
 
@@ -11,7 +20,7 @@ public class ManipulationLight : ManipulationScript
     void Start()
     {
         // Set the default world state
-        currentManipType = MANIPULATION_TYPE.TRANSLATE;
+        currentManipType = MANIPULATION_TYPE.OTHER;
 
     }
 

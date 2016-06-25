@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿///===============================================================================
+/// Author: Matt & Connor
+/// Purpose: Handles controller inputs with regards to Character Actions and 
+///          Camera control
+///===============================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class PlayerInputController : MonoBehaviour {
@@ -17,11 +23,7 @@ public class PlayerInputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
-
-        // Retrieve our current WASD or Arrow Key input
-        // Using GetAxisRaw removes any kind of gravity or filtering being applied to the input
-        // Ensuring that we are getting either -1, 0 or 1
+       
         if(Game_Manager.instance == null || !Game_Manager.instance.isPaused())
         {
             // Controls set via Unity Input Managre
@@ -82,7 +84,7 @@ public struct PlayerInput
 
     public bool JumpInput; // Jump
     public bool JumpHold; // Jump Height
-    public bool LTrigger; // Left Trigger?
+    public bool LTrigger; // Left Trigger
 
     public bool moveBuffer;
 }

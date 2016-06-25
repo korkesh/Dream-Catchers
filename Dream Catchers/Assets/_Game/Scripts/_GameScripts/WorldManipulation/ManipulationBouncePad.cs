@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Creates bounce pads upon world change
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Collider))]

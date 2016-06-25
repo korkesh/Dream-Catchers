@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Logic for multiple pressure plates that must be activated at the same time
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,16 +17,6 @@ public class MultiplePlatesController : MonoBehaviour {
     public bool allowDeactivate;
 
     bool allActive = false;
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     // Only activate if all switches toggled
     public void CheckSwitches()

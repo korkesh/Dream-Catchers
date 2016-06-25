@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Handles changes in gravity on an object upon world swap
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 
@@ -109,9 +114,11 @@ public class ManipulationGravity : ManipulationScript {
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
+        {
             return;
+        }
         currentFloat = FLOAT_STATE.NEUTRAL;
-            DOTween.Kill(transform);
+        DOTween.Kill(transform);
     }
 
 }

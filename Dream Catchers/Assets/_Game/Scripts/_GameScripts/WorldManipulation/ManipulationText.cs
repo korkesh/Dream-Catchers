@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Handles changes in text fonts upon world swap
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 

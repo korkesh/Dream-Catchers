@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Lower a door upon a certain criteria being met; i.e. certain enemies killed
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,11 +21,6 @@ public class DoorTrigger : MonoBehaviour {
     public LowerDoor lowerDoorRef;
 
     bool opened = false;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {

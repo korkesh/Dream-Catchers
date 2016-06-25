@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Handles health on enemies and player
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class HealthManager : MonoBehaviour {
@@ -6,9 +11,8 @@ public class HealthManager : MonoBehaviour {
     public int maxHealth;
     public int currentHealth;
     public bool spawns;
-    //public GameObject spawnObject;
 
-     bool isVulnerable = true;
+    bool isVulnerable = true;
 	
     void Start()
      {
@@ -20,7 +24,6 @@ public class HealthManager : MonoBehaviour {
 	
         if(currentHealth <= 0)
         {
-            //TODO: Kill Animation
             spawns = true;
             Destroy(gameObject);
         }

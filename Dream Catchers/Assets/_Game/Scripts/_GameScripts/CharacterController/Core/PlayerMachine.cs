@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿///===================================================================================
+/// Author: Matt (Combat states) & Connor (All Non-combat states; primary contributer)
+/// Purpose: Loosely based on a third party script with significant modifications
+///          This script handles all movement logic for the player including
+///          idle, walking, running, jumping and combat states. 
+///==================================================================================
+///
+using UnityEngine;
 using System.Collections;
 
 /*

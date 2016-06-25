@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///===============================================================================
+/// Author: Connor
+/// Purpose: The main camera manager
+///===============================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class RealCamera : MonoBehaviour

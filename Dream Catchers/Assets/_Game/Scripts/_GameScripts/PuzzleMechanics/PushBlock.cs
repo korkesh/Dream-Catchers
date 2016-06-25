@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Pushes a block along the ground based on a calculated velocity
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 
@@ -47,10 +52,6 @@ public class PushBlock : MonoBehaviour {
             {
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
-        }
-        else
-        {
-
         }
     }
 

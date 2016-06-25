@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Handles the combat flow of the player; includes attacking, invicibility,
+///          damage and death
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class PlayerCombat : MonoBehaviour

@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Adjusts characters speed in world swap when entering object
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Collider))]

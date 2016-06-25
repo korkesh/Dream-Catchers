@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Connor
+/// Purpose: Swamps between smart camera and temporary camera
+///======================================================================================
+///
+using UnityEngine;
 using System.Collections;
 
 public class CameraSwap : MonoBehaviour
@@ -13,7 +18,7 @@ public class CameraSwap : MonoBehaviour
 
     private RootCamera rootCam;
     private RealCamera viewCam;
-    private TestCamera manualCam;
+    private TempCamera manualCam;
      
 	// Use this for initialization
 	void Start ()
@@ -22,7 +27,7 @@ public class CameraSwap : MonoBehaviour
 
         rootCam = GetComponent<RootCamera>();
         viewCam = GetComponentInChildren<RealCamera>();
-        manualCam = GetComponent<TestCamera>();
+        manualCam = GetComponent<TempCamera>();
 	}
 	
 	// Update is called once per frame
