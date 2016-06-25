@@ -64,7 +64,7 @@ public class PlayerMachine : SuperStateMachine {
 
     public float idleTimer { get; private set; } // how long the player has been idling
 
-    public Vector3 moveDirection { get; private set; } // player movement direction vector
+    public Vector3 moveDirection; // player movement direction vector
 
     public Vector3 facing; // direction player is facing
 
@@ -196,8 +196,7 @@ public class PlayerMachine : SuperStateMachine {
         // This is run regardless of what state you're in
 
         // Allow Attacks only when on ground and upon attack input
-        if (input.Current.AttackInput && !currentState.Equals(PlayerStates.Jump) && !currentState.Equals(PlayerStates.DoubleJump) && !currentState.Equals(PlayerStates.Fall)
-            && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER))
+        if (input.Current.AttackInput && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER))
         {
             gameObject.GetComponent<PlayerCombat>().BeginAttack();
         }
