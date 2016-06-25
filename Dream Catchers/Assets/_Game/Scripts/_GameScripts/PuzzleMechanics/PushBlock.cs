@@ -84,7 +84,6 @@ public class PushBlock : MonoBehaviour {
         pushDir.Normalize();
 
         // The position to push the box to
-        float savedTime = Time.time;
         pushTo = new Vector3(pushDir.x * pushDistance, 0, pushDir.z * pushDistance);
 
         gameObject.GetComponent<Rigidbody>().velocity = pushTo / pushTime;

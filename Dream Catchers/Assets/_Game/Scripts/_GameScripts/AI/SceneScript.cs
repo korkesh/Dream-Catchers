@@ -6,7 +6,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ScneScript : MonoBehaviour {
+public class SceneScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {

@@ -15,11 +15,8 @@ public class BalloonAttack_State : BaseState {
     public bool IsAttacking;
     bool IsJumping;
     public float waitTillNextAttack;
-    bool wait;
-    float waittime;
     public NavMeshAgent NavAgent;
     public float AttackDuration;
-    float attackTIme;
     GameObject Player;
     public GameObject ReturnSpot;
     public float AllowableDistance;
@@ -44,9 +41,6 @@ public class BalloonAttack_State : BaseState {
         fsm = this.gameObject.GetComponent<FSM>();
         Player = GameObject.FindGameObjectWithTag("Player");
         IsAttacking = false;
-        wait = false;
-        waittime = waitTillNextAttack;
-        attackTIme = AttackDuration;
         IsJumping = false;
         speed = NavAgent.speed;
         rigidB = GetComponent<Rigidbody>();
@@ -144,16 +138,12 @@ public class BalloonAttack_State : BaseState {
     public override void Exit()
     {
         NavAgent.enabled = false;
-        wait = false;
-        waittime = waitTillNextAttack;
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            attackTIme = AttackDuration;
-            wait = true;
             NavAgent.speed = speed;
             IsAttacking = false;
             damage.DealDamage();

@@ -16,7 +16,6 @@ public class BalloonWait_State : BaseState {
     // State Variables
     //-----------------
 
-    GameObject Player;
     public float shortwaitTime;
     public float longWaitTime;
     float wait;
@@ -33,7 +32,6 @@ public class BalloonWait_State : BaseState {
     {
         //get fsm
         fsm = this.gameObject.GetComponent<FSM>();
-        Player = GameObject.FindGameObjectWithTag("Player");
         wait = shortwaitTime;
     }
 

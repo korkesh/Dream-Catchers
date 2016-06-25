@@ -36,10 +36,10 @@ public class RootCamera : MonoBehaviour
     private PlayerMachine machine;
 
     private Transform target;
-    private Transform lookUpTarget;
-    private Transform lookDownTarget;
+    //private Transform lookUpTarget; Un-Used Variable
+    //private Transform lookDownTarget; Un-Used Variable
 
-    private float CamY = 0; // amount of y manipulation camera has applied to it
+    //private float CamY = 0; // amount of y manipulation camera has applied to it - Currentyl Un-Used
 
     // Target:
     public SteeringBehaviourComponent steering;
@@ -52,7 +52,7 @@ public class RootCamera : MonoBehaviour
 
     public Vector3 targetPos; // actual target coords in world space    
 
-    private Vector3 lookOffset; // the vector that moves the target to "look ahead" of the player
+    // private Vector3 lookOffset; // the vector that moves the target to "look ahead" of the player - Currently Un-Used
     public float lookDistance = 2.5f; // controls how far along cam right the target will move when the player is facing that direction
 
     private SuperCharacterController controller;
@@ -81,8 +81,8 @@ public class RootCamera : MonoBehaviour
 
         steering = gameObject.GetComponent<SteeringBehaviourComponent>();
         target = PlayerTarget.transform;
-        lookUpTarget = LookUp.transform;
-        lookDownTarget = LookDown.transform;
+        //lookUpTarget = LookUp.transform;
+        //lookDownTarget = LookDown.transform;
 
         lastGround = machine.transform.position.y;
 
@@ -154,12 +154,12 @@ public class RootCamera : MonoBehaviour
         // process cam right offset for look ahead
         // move target "in front" of player to give forward vantage
         Vector3 planarPlayerForward = Math3d.ProjectVectorOnPlane(controller.up, controller.transform.forward).normalized;
-        Vector3 planarCamForward = Math3d.ProjectVectorOnPlane(controller.up, transform.forward).normalized;
+        //Vector3 planarCamForward = Math3d.ProjectVectorOnPlane(controller.up, transform.forward).normalized; Un-Used Variable
 
         playerCamCross = Vector3.Cross(transform.right, planarPlayerForward);
 
         // closer to 0 means close to looking straight left/right, close to 1 means looking almost straight ahead
-        lookOffset = transform.right * (1 - playerCamCross.magnitude) * Mathf.Sign(Vector3.Cross(planarCamForward, planarPlayerForward).y) * lookDistance;
+        //lookOffset = transform.right * (1 - playerCamCross.magnitude) * Mathf.Sign(Vector3.Cross(planarCamForward, planarPlayerForward).y) * lookDistance;
 
 
         // set target position in world coords

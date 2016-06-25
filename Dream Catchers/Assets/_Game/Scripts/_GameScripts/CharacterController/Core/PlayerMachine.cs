@@ -72,7 +72,7 @@ public class PlayerMachine : SuperStateMachine {
 
     public float xRotation { get; private set; } // TODO: Wat is this?
 
-    private bool jumpHold = false; // controls variable jump heights by holding jump button
+    //private bool jumpHold = false; // controls variable jump heights by holding jump button - Currently Un-Used
     public float jumpTravelled = 0; // keeps track of 
 
     //----------------------------------------------
@@ -458,8 +458,8 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // input overrides rotation
-        float new_ratio = 0.9f * Time.deltaTime * RunTurnSpeed;
-        float old_ratio = 1 - new_ratio;
+        //float new_ratio = 0.9f * Time.deltaTime * RunTurnSpeed; Un-Used Variable
+        //float old_ratio = 1 - new_ratio; Un-Used Variable
 
         transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement()).normalized;
         facing = transform.forward;
@@ -556,13 +556,13 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
         input.toggleJump = false;
-        jumpHold = false;
+        //jumpHold = false;
     }
 
 
     void Jump_EnterState()
     {
-        jumpHold = true;
+        //jumpHold = true;
         JumpTimer = 0;
 
         gameObject.GetComponent<Animator>().SetBool("Jumping", true);
@@ -593,7 +593,7 @@ public class PlayerMachine : SuperStateMachine {
         // if holding jump button and not at max jump height, raise movement vector
         if (!input.Current.JumpHold)
         {
-            jumpHold = false;
+            //jumpHold = false;
         }
 
         //if (jumpHold)
@@ -671,7 +671,7 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
         input.toggleJump = false;
-        jumpHold = false;
+        //jumpHold = false;
     }
 
     //----------------------------------------------

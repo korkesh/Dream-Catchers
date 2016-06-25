@@ -18,8 +18,8 @@ public class SteeringBehaviourComponent : MonoBehaviour
     public float SlowRadius = 25.0f;
     public Vector3 Velocity = Vector3.zero;
     public Vector3 Target = Vector3.zero;
-    private Vector3 Heading = Vector3.zero;
-    private Vector3 Side = Vector3.zero;
+    //private Vector3 Heading = Vector3.zero; Un-Used Variable
+    //private Vector3 Side = Vector3.zero; Un-Used Variable
     public float BoundingRadius = 25.0f;
 
     private float stopDistance = 0.01f;
