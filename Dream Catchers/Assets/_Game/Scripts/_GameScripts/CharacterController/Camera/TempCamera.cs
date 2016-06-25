@@ -31,14 +31,10 @@ public class TempCamera : MonoBehaviour {
     // Use this for initialization 
     void Start () {
 
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        //target = GameObject.FindGameObjectWithTag("Player").transform;
 
         Vector3 angles = transform.eulerAngles;
         x = angles.y; y = angles.x;
-
-        // Make the rigid body not change rotation 
-        if (GetComponent<Rigidbody>())
-            GetComponent<Rigidbody>().freezeRotation = true;
     }
 
     // Update is called once per frame 
@@ -48,18 +44,32 @@ public class TempCamera : MonoBehaviour {
         {
             if (target)
             {
-                distance -= .5f * Input.mouseScrollDelta.y;
-                if (distance < 0)
-                {
-                    distance = 0;
-                }
                 x += Input.GetAxis("Horizontal2") * xSpeed * 0.02f;
                 y -= (Input_Manager.instance.invertCamera) ? (-Input.GetAxis("Vertical2") * ySpeed * 0.02f) : (Input.GetAxis("Vertical2") * ySpeed * 0.02f);
                 y = ClampAngle(y, yMinLimit, yMaxLimit);
                 Quaternion rotation = Quaternion.Euler(y, x, 0);
                 Vector3 position = rotation * new Vector3(bufferright, 0.0f, -distance) + target.position + new Vector3(0.0f, bufferup, 0.0f);
-                transform.rotation = rotation; transform.position = position;
+                transform.rotation = rotation;
+                transform.position = position;
+
+                Vector3 cameraPos = transform.position;
+                cameraCollision(target.position, ref cameraPos);
+
+                transform.position = cameraPos;
+                transform.LookAt(target);
             }
+        }
+    }
+
+    void cameraCollision(Vector3 fromObject, ref Vector3 toTarget)
+    {
+        Debug.DrawLine(fromObject, toTarget, Color.cyan);
+        RaycastHit objectHit = new RaycastHit();
+        if(Physics.Linecast(fromObject, toTarget, out objectHit))
+        {
+            Debug.DrawRay(objectHit.point, Vector3.left, Color.red);
+
+            toTarget = new Vector3(objectHit.point.x, toTarget.y, objectHit.point.z);
         }
     }
 
