@@ -40,6 +40,7 @@ public class PlayerMachine : SuperStateMachine {
     public float RunTurnSpeed = 10.0f;
     public float MaxRunSpeed = 6.0f;
     public float TurnRadius = 4.0f;
+    public float runTimer = 0; // how long player has maintained runstate
 
     // Jumping
     public float VerticalSpeedCap = 10.0f;
@@ -120,7 +121,7 @@ public class PlayerMachine : SuperStateMachine {
 
         if (ground && cam)
         {
-            cam.setLastGround = transform.position.y;
+            //cam.setLastGround = transform.position.y;
         }
 
         return ground;//controller.currentGround.IsGrounded(false, 0.01f);
@@ -182,7 +183,6 @@ public class PlayerMachine : SuperStateMachine {
 
     protected override void EarlyGlobalSuperUpdate()
     {
-        crossY = Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y;
         // DEBUG:
         /*hAxis = input.Current.MoveInput.x;
         vAxis = input.Current.MoveInput.z;
@@ -240,6 +240,8 @@ public class PlayerMachine : SuperStateMachine {
     // 
     // MOVEMENT STATES
     //
+    // Author/modifier: Conor MacKeigan
+    //
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     //----------------------------------------------
@@ -289,12 +291,6 @@ public class PlayerMachine : SuperStateMachine {
 
         // Apply friction to slow us to a halt
         moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
-
-        // check camera for obstructions
-        if (idleTimer > 0.6f && cam != null)
-        {
-            cam.CheckOcclusion();
-        }
 
         if(idleTimer >= 5)
         {
@@ -367,6 +363,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Run_SuperUpdate()
     {
+        runTimer += Time.deltaTime;
+
         // Dont allow attack and then jump
         if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
         {
@@ -422,6 +420,8 @@ public class PlayerMachine : SuperStateMachine {
         else
         {
             currentState = PlayerStates.Idle;
+            runTimer = 0;
+
             return;
         }
     }
@@ -891,4 +891,5 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Dead", false);
     }
+
 }

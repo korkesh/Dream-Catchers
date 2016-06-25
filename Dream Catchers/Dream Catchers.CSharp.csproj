@@ -75,8 +75,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CameraSwap.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\HunterChildren.cs" />
     <Compile Include="Assets\_Game\Scenes\_GameScenes\Scene 1 - Alpha\Kill.cs" />
     <Compile Include="Assets\_Game\Scenes\_GameScenes\Scene 1 - Alpha\RealCamera.cs" />
     <Compile Include="Assets\_Game\Scenes\_GameScenes\Scene 1 - Alpha\TestDamage.cs" />

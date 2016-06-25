@@ -539,11 +539,13 @@ public class SuperCharacterController : MonoBehaviour
     {
         public GameObject go;
         public string tag;
+        public float groundHeight;
 
         public SuperGround(LayerMask walkable, SuperCharacterController controller)
         {
             this.walkable = walkable;
             this.controller = controller;
+            groundHeight = controller.transform.position.y;
         }
 
         private class GroundHit
@@ -601,7 +603,7 @@ public class SuperCharacterController : MonoBehaviour
                 var superColType = hit.collider.gameObject.GetComponent<SuperCollisionType>();
 
                 go = hit.collider.gameObject;
-                tag = go.tag;
+                tag = go.tag;            
 
                 if (superColType == null)
                 {
@@ -617,6 +619,12 @@ public class SuperCharacterController : MonoBehaviour
 
                 primaryGround = new GroundHit(hit.point, hit.normal, hit.distance);
                 Debug.DrawLine(o, hit.point);
+
+                if (Mathf.Abs(controller.transform.position.y - primaryGround.point.y) < 8)
+                {
+                    groundHeight = primaryGround.point.y;
+                }
+
 
                 // If we are standing on a perfectly flat surface, we cannot be either on an edge,
                 // On a slope or stepping off a ledge
@@ -737,6 +745,7 @@ public class SuperCharacterController : MonoBehaviour
                     Character_Manager.instance.takeDamage(Character_Manager.instance.maxHealth);
                 }
             }
+
         }
 
         private void ResetGrounds()
@@ -760,7 +769,6 @@ public class SuperCharacterController : MonoBehaviour
 
             if (primaryGround == null || primaryGround.distance > distance)
             {
-                Debug.Log("nope");
                 return false;
             }
 

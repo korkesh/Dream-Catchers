@@ -20,6 +20,7 @@ public class RootCamera : MonoBehaviour
     public float MaxDistance = 11.0f;
     public float MinDistance = 9.0f;
     public float Height = 4.5f; // height offset from player
+    public float MaxHeightDelta; // maximum difference between cam and player y before currentground gets overridden
 
     public float moveSpeed = 10.0f;
     public float rotateSpeed = 100;
@@ -45,8 +46,8 @@ public class RootCamera : MonoBehaviour
 
     public Vector3 playerCamCross;
 
-    public float targetHeightHigh = 1.5f; // above character (standard)
-    public float targetHeightLow = -0.5f; // below character (for falling)
+    public float targetHeightHigh = 0.8f; // above character (standard)
+    public float targetHeightLow = 0f; // below character (for falling)
     public float targetHeight; // current target height
 
     public Vector3 targetPos; // actual target coords in world space    
@@ -55,10 +56,6 @@ public class RootCamera : MonoBehaviour
     public float lookDistance = 2.5f; // controls how far along cam right the target will move when the player is facing that direction
 
     private SuperCharacterController controller;
-
-    public bool aligning = false; // controls timer for camera align
-    private float alignTimer;
-    public float alignTime = 1.5f;
 
     private float yOffset; // offset from default pos by player input
 
@@ -72,6 +69,11 @@ public class RootCamera : MonoBehaviour
 	void Start ()
     {
         currentMode = CameraMode.Field;
+
+        Player = GameObject.FindGameObjectWithTag("Player"); //Character_Manager.Instance.Character;
+        PlayerTarget = Player.GetComponent<HunterChildren>().camTarget;
+        LookUp = Player.GetComponent<HunterChildren>().lookUp;
+        LookDown = Player.GetComponent<HunterChildren>().lookDown;
 
         input = Player.GetComponent<PlayerInputController>();
         machine = Player.GetComponent<PlayerMachine>();
@@ -93,7 +95,7 @@ public class RootCamera : MonoBehaviour
 	void LateUpdate ()
     {
         prevPos = transform.position;
-        lastGround = controller.lastGroundPosition.y;
+        //lastGround = controller.lastGroundPosition.y;
 
         UpdateTarget();
 
@@ -107,6 +109,8 @@ public class RootCamera : MonoBehaviour
         {
             idleTimer = 0;
         }
+
+        lastGround = controller.currentGround.groundHeight;
 
         //Vector3 targetPos = target.position;
         //targetPos.y = lastGround;
@@ -159,13 +163,15 @@ public class RootCamera : MonoBehaviour
 
 
         // set target position in world coords
-        targetPos = Player.transform.position;
+        targetPos = new Vector3();//Player.transform.position;
         targetPos.y += targetHeight;
+        // move ahead a little bit
+        //targetPos += Math3d.ProjectVectorOnPlane(controller.up, transform.forward).normalized;
 
         // TEMPORARY MOVEMENT
         if (PlayerTarget.transform.position != targetPos)
         {
-            Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, 0.2f);
+            Vector3 lerp = Vector3.Lerp(PlayerTarget.transform.localPosition, targetPos, Vector3.Distance(PlayerTarget.transform.position, targetPos));
 
             if (!Mathf.Approximately(lerp.x, targetPos.x) || !Mathf.Approximately(lerp.y, targetPos.y) || !Mathf.Approximately(lerp.z, targetPos.z))
             {
@@ -220,11 +226,11 @@ public class RootCamera : MonoBehaviour
             transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
         }
 
-        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Idle)
+        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Run && machine.runTimer > 0.1f)
         {
             Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
 
-            if (playerCamCross.magnitude > 0.02f && machine.idleTimer > 0.5f)
+            if (playerCamCross.magnitude > 0.02f)
             {
                 float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
                 transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.25f * turnDirection);
@@ -271,82 +277,12 @@ public class RootCamera : MonoBehaviour
         // up/down movement
         if (!Mathf.Approximately(transform.position.y, lastGround + Height))
         {
-            steering.Target = new Vector3(transform.position.x, lastGround + Height, transform.position.z);
+            float verticalMovement = (lastGround + Height) - transform.position.y;
+            transform.position += new Vector3(0, verticalMovement * Time.deltaTime * 2, 0);
+            //steering.Target = new Vector3(transform.position.x, lastGround + Height, transform.position.z);
         }
 
 
-        // align with player forward if holding straight up or idle(?)
-        if (aligning)
-        {
-            alignTimer += Time.deltaTime;
-
-            if (alignTimer >= alignTime)
-            {
-
-            }
-        }
-        else
-        {
-            alignTimer = 0;
-        }
-    }
-
-    // if something is obstructing the character from camera view, rotate until visible todo: alpha
-    public void CheckOcclusion()
-    {
-        //if (idleTimer < 0.6f)
-        //{
-        //    return; // must be stationary for at least one second to apply automated occlusion rotation
-        //}
-
-        //if (Physics.Raycast(transform.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
-        //{
-        //    // find out which side to rotate
-        //    Transform left = occlusionCheckL.transform;
-        //    Transform right = occlusionCheckL.transform;
-
-        //    left.position = transform.position;
-        //    right.position = transform.position;
-
-        //    bool r = true; // default dir is right
-
-        //    float distance = 0; // counts how much distance much be travelled to avoid obstruction
-
-        //    while (true)
-        //    {
-        //        distance += 0.2f;
-
-        //        left.position = transform.position;
-        //        right.position = transform.position;
-
-        //        left.RotateAround(PlayerTarget.transform.position, controller.up, -distance);
-        //        right.RotateAround(PlayerTarget.transform.position, controller.up, distance);
-
-        //        if (!Physics.Raycast(left.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
-        //        {
-        //            r = false;
-        //            break;
-        //        }
-        //        else if (!Physics.Raycast(right.position, (PlayerTarget.transform.parent.position - transform.position).normalized, (PlayerTarget.transform.parent.position - transform.position).magnitude - 1))
-        //        {
-        //            r = true;
-        //            break; // r is true by default
-        //        }
-
-        //        if (distance > 20)
-        //        {
-        //            Debug.Log("escape");
-        //            break; // safety net escape (large geometry not dealt with yet anyway)
-        //        }
-        //    }
-
-        //    // rotate camera away from obstruction
-        //    if (!r)
-        //    {
-        //        distance *= -1;
-        //    }
-
-            //transform.RotateAround(PlayerTarget.transform.position, controller.up, Time.deltaTime * distance * 0.3f);
-        //}
+ 
     }
 }
