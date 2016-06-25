@@ -90,7 +90,6 @@ public class Items : MonoBehaviour {
         if (type == Type.FRAGEMENT)
         {
             key = gameObject.name.ToString();
-            Debug.Log(gameObject.name.ToString());
         }
 
 

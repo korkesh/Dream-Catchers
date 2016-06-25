@@ -27,7 +27,7 @@ public class EnterDamage : MonoBehaviour {
         {
             d.DealDamage();
             hit = true;
-            Debug.Log("Deal Dam");
+            //Debug.Log("Deal Dam");
         }
     }
 
@@ -37,11 +37,11 @@ public class EnterDamage : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             time -= Time.deltaTime;
-            Debug.Log(Time.deltaTime);
-            Debug.Log("time is :" + time);
+            //Debug.Log(Time.deltaTime);
+            //Debug.Log("time is :" + time);
             if (time <= 0)
             {
-                Debug.Log("WTF");
+                //Debug.Log("WTF");
                 d.DealDamage();
                 time = Timer;
             }

@@ -33,7 +33,7 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        Debug.Log("Attacking");
+//        Debug.Log("Attacking");
         StartCoroutine(EnableCollider());
         StartCoroutine(EndAttack());
 
@@ -58,7 +58,7 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForSeconds(attackLength);
 
-        Debug.Log("Attacking End");
+//        Debug.Log("Attacking End");
 
         weaponParentObject.SetActive(false); // Turn hammer off
 
