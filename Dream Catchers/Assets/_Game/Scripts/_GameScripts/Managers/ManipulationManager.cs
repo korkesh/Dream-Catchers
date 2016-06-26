@@ -26,6 +26,7 @@ public class ManipulationManager : MonoBehaviour
 
     // Skybox controls
     GameObject mainCamera;
+    GameObject viewCamera;
     public Material skyboxDream;
     public Material skyboxNightmare;
 
@@ -73,10 +74,12 @@ public class ManipulationManager : MonoBehaviour
             currentWorldState = (currentWorldState == WORLD_STATE.DREAM) ? WORLD_STATE.NIGHTMARE : WORLD_STATE.DREAM;
 
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            viewCamera = GameObject.FindGameObjectWithTag("ViewCamera");
 
             if (currentWorldState == WORLD_STATE.DREAM)
             {
                 mainCamera.GetComponent<Skybox>().material = skyboxDream;
+                viewCamera.GetComponent<Skybox>().material = skyboxDream;
 
                 // BGM
                 Audio_Manager.Instance.NightmareBGM.mute = true;
@@ -85,6 +88,7 @@ public class ManipulationManager : MonoBehaviour
             else
             {
                 mainCamera.GetComponent<Skybox>().material = skyboxNightmare;
+                viewCamera.GetComponent<Skybox>().material = skyboxNightmare;
 
                 // BGM
                 Audio_Manager.Instance.DreamBGM.mute = true;
