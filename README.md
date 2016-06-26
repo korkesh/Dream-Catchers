@@ -14,3 +14,6 @@ The options menu can be found upon starting the game. Options include Inverting 
 toggling a slide option on the player character.
 
 While in game you can press x+c to toggle between the two camera types (A free-cam and smart-cam).
+
+<b>Alpha Intructions:</b>
+NOTE: The Alpha submission build can be found on the Alpha_Final Branch.
