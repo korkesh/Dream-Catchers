@@ -18,4 +18,5 @@ While in game you can press x+c to toggle between the two camera types (A free-c
 
 <b>Alpha Intructions:</b>
 NOTE: The Alpha submission build can be found on the Alpha_Final Branch.
+
 NOTE: Controls are set up for use with an Xbox-360 controller
