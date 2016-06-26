@@ -6,7 +6,8 @@ GDAP 2016 Capstone Project
 To run the game from the Unity Editor you must launch from the Intro scene found in the Scenes folder under GUIScenes.
 Note that it is safe to run the game directly from the BetterGreybox scene, however not all functionality may be present.
 
-To run the game without the editor, simply use the Alpha_Final Executable to run the game.
+To run the game without the editor, simply use the Alpha_Final Executable to run the game. 
+(Found in the zipped Alpa_Final folder)
 
 <b>In-Game Intructions:</b>
 
