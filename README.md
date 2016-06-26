@@ -7,7 +7,7 @@ To run the game from the Unity Editor you must launch from the Intro scene found
 Note that it is safe to run the game directly from the BetterGreybox scene, however not all functionality may be present.
 
 To run the game without the editor, simply use the Alpha_Final Executable to run the game. 
-(Found in the zipped Alpa_Final folder)
+(Found in the attached Alpa_Final zip sent via e-mail)
 
 <b>In-Game Intructions:</b>
 
@@ -18,3 +18,4 @@ While in game you can press x+c to toggle between the two camera types (A free-c
 
 <b>Alpha Intructions:</b>
 NOTE: The Alpha submission build can be found on the Alpha_Final Branch.
+NOTE: Controls are set up for use with an Xbox-360 controller
