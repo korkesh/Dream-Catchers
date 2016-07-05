@@ -115,6 +115,8 @@ public class RootCamera : MonoBehaviour
             idleTimer = 0;
         }
 
+        CheckCollision();
+
         lastGround = controller.currentGround.groundHeight;
 
         //Vector3 targetPos = target.position;
@@ -306,5 +308,14 @@ public class RootCamera : MonoBehaviour
 
 
  
+    }
+
+    public void CheckCollision()
+    {
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(PlayerTarget.transform.position, (transform.position - PlayerTarget.transform.position).normalized, out hit, (transform.position - PlayerTarget.transform.position).magnitude))
+        {
+            transform.position = hit.point;
+        }
     }
 }

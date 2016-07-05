@@ -7,6 +7,7 @@
 ///
 using UnityEngine;
 using System.Collections;
+using System;
 
 /*
  * Example implementation of the SuperStateMachine and SuperCharacterController
@@ -40,14 +41,19 @@ public class PlayerMachine : SuperStateMachine {
     public float WalkAcceleration = 30.0f;
     public float RunAcceleration = 10.0f;
 
-    public float WalkSpeed = 0.1f;
-    public float WalkspeedThreshold = 0.5f;
+    //public float WalkSpeed = 0.1f;
+    //public float WalkspeedThreshold = 0.5f;
 
+    public float maxSpeedTime = 5; // amount of time in seconds it takes to go from idle to max speed
+    [SerializeField]
+    private float speed = 0; // current run speed
     public float RunSpeed = 0.65f;
     public float RunTurnSpeed = 10.0f;
     public float MaxRunSpeed = 6.0f;
     public float TurnRadius = 4.0f;
     public float runTimer = 0; // how long player has maintained runstate
+    private float skidTimer = 0;
+    public float skidTime = 0.5f; // time in seconds skid state lasts for if not broken by jump/fall
 
     // Jumping
     public float VerticalSpeedCap = 10.0f;
@@ -236,7 +242,7 @@ public class PlayerMachine : SuperStateMachine {
         // Rotate mesh to face correct direction (temp if implementing min turn radius)
         if (Math3d.ProjectVectorOnPlane(controller.up, facing) != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
+            //transform.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
         }
 
         prevPos = transform.position;
@@ -283,24 +289,40 @@ public class PlayerMachine : SuperStateMachine {
 
         if (input.Current.MoveInput != Vector3.zero)
         {
-            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkspeedThreshold)
-            {
-                currentState = PlayerStates.Run;
-                return;
-            }
-            else
-            {
-                currentState = PlayerStates.Walk;
-                return;
-            }
+            currentState = PlayerStates.Run;
+            return;
         }
 
         // Apply friction to slow us to a halt
-        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+        float new_ratio = 0.9f * Time.deltaTime * maxSpeedTime;
+        float old_ratio = 1 - new_ratio;
+
+        speed = (speed * old_ratio) - (speed * new_ratio);
+        if (speed < 0)
+            speed = 0;
+
+        moveDirection = transform.forward * speed;
 
         if(idleTimer >= 5)
         {
             gameObject.GetComponent<Animator>().SetBool("IdleTimeOut", true);
+        }
+
+        // ANIMATION:
+        if (speed / MaxRunSpeed > 0.5f)
+        {
+            gameObject.GetComponent<Animator>().SetBool("Running", true);
+            gameObject.GetComponent<Animator>().SetBool("Walking", false);
+        }
+        else if (speed / MaxRunSpeed > 0.1f)
+        {
+            gameObject.GetComponent<Animator>().SetBool("Running", false);
+            gameObject.GetComponent<Animator>().SetBool("Walking", true);
+        }
+        else
+        {
+            gameObject.GetComponent<Animator>().SetBool("Running", false);
+            gameObject.GetComponent<Animator>().SetBool("Walking", false);
         }
     }
 
@@ -311,60 +333,14 @@ public class PlayerMachine : SuperStateMachine {
         // Run once when we exit the idle state
     }
 
-    //----------------------------------------------
-    // Walking
-    //----------------------------------------------
-
-    void Walk_EnterState()
-    {
-        gameObject.GetComponent<Animator>().SetBool("Walking", true);
-    }
-
-    void Walk_SuperUpdate()
-    {
-        // Dont allow attack and then jump
-        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
-        {
-            currentState = PlayerStates.Jump;
-            return;
-        }
-
-        if (!MaintainingGround())
-        {
-            currentState = PlayerStates.Fall;
-            return;
-        }
-
-        if (input.Current.MoveInput != Vector3.zero)
-        {
-            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) >= WalkspeedThreshold)
-            {
-                currentState = PlayerStates.Run;
-                return;
-            }
-            moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * WalkSpeed, WalkAcceleration * Time.deltaTime);
-            facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
-        }
-        else 
-        {
-            currentState = PlayerStates.Idle;
-            return; 
-        }
-    }
-
-    void Walk_ExitState()
-    {
-        gameObject.GetComponent<Animator>().SetBool("Walking", false);
-    }
-
+  
     //----------------------------------------------
     // Running
     //----------------------------------------------
 
-    // todo: > 180 degree turn case
     void Run_EnterState()
     {
-        gameObject.GetComponent<Animator>().SetBool("Running", true);
+        //gameObject.GetComponent<Animator>().SetBool("Running", true);
     }
 
     void Run_SuperUpdate()
@@ -384,43 +360,47 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        if ((Input_Manager.instance.useBuffer) || (!Input_Manager.instance.useBuffer && input.Current.MoveInput != Vector3.zero))
+        if (input.Current.MoveInput != Vector3.zero)
         {
-            // transition to walk condition
-            if (Mathf.Abs(input.Current.MoveInput.x) + Mathf.Abs(input.Current.MoveInput.z) < WalkspeedThreshold)
+            // ROTATION:
+            float new_ratio = 0.9f * Time.deltaTime * RunTurnSpeed;
+            float old_ratio = 1 - new_ratio;
+
+            transform.forward = ((moveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
+            facing = transform.forward;
+
+            // skid if input is >90 degrees of current facing direction
+            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.4f)
             {
-                currentState = PlayerStates.Walk;
+                currentState = PlayerStates.Skid;
+                transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement());
                 return;
             }
+            
 
-            if (!Input_Manager.instance.useBuffer)
+            // SPEED:
+            // get desired speed
+            float desiredSpeed = (float)Math.Round(clampF(0f, 1f, input.Current.MoveInput.magnitude) * MaxRunSpeed, 2);
+
+            new_ratio = 0.9f * Time.deltaTime * maxSpeedTime;
+            old_ratio = 1 - new_ratio;
+
+            speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
+            Debug.Log(desiredSpeed);
+
+            moveDirection = transform.forward * speed;
+
+
+            // ANIMATION:
+            if (speed / MaxRunSpeed > 0.5f)
             {
-                moveDirection = Vector3.MoveTowards(moveDirection, LocalMovement() * RunSpeed, RunAcceleration * Time.deltaTime);
-                facing = LocalMovement(); // when walking always facing in direction moving todo: account for external forces
+                gameObject.GetComponent<Animator>().SetBool("Running", true);
+                gameObject.GetComponent<Animator>().SetBool("Walking", false);
             }
-            else
+            else if (speed / MaxRunSpeed > 0.1f)
             {
-                float new_ratio = 0.9f * Time.deltaTime * RunTurnSpeed;
-                float old_ratio = 1 - new_ratio;
-
-                transform.forward = ((moveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
-                facing = transform.forward;
-
-                moveDirection = transform.forward * MaxRunSpeed;
-
-                if (Input_Manager.instance.useBuffer)
-                {
-                    // skid if input is >90 degrees of current facing direction
-                    if (input.Current.MoveInput != Vector3.zero)
-                    {
-                        if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.4f)
-                        {
-                            currentState = PlayerStates.Skid;
-                            transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement());
-                            return;
-                        }
-                    }
-                }
+                gameObject.GetComponent<Animator>().SetBool("Running", false);
+                gameObject.GetComponent<Animator>().SetBool("Walking", true);
             }
         }
         else
@@ -439,6 +419,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Skid_EnterState()
     {
+        skidTimer = 0;
+
         transform.forward = LocalMovement();
 
         // immediate slowing effect
@@ -448,10 +430,21 @@ public class PlayerMachine : SuperStateMachine {
 
     void Skid_SuperUpdate()
     {
-        // when in skid state slow to a stop
-        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, Time.deltaTime * 10);
+        skidTimer += Time.deltaTime;
 
-        if (moveDirection.magnitude < 0.1f)
+        transform.forward = LocalMovement();
+
+        // when in skid state slow to a stop
+        float new_ratio = 0.9f * Time.deltaTime * maxSpeedTime;
+        float old_ratio = 1 - new_ratio;
+
+        speed = (speed * old_ratio) - (speed * new_ratio);
+        if (speed < 0)
+            speed = 0;
+
+        moveDirection = moveDirection.normalized * speed;
+
+        if (skidTimer >= skidTime)
         {
             currentState = PlayerStates.Idle;
             moveDirection = Vector3.zero;
@@ -464,12 +457,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // input overrides rotation
-        //float new_ratio = 0.9f * Time.deltaTime * RunTurnSpeed; Un-Used Variable
-        //float old_ratio = 1 - new_ratio; Un-Used Variable
-
         transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement()).normalized;
-        facing = transform.forward;
     }
 
     void Skid_ExitState()
@@ -547,11 +535,13 @@ public class PlayerMachine : SuperStateMachine {
             // normalize cross
             float speedCoefficient = (cross - -1) / (1 - -1);
 
-            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
+            speed = MaxRunSpeed * speedCoefficient;
+            moveDirection = transform.forward * speed;
         }
         else
         {
             moveDirection = Vector3.zero; // todo: add slight buffer?
+            speed = 0;
         }
 
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
@@ -661,11 +651,13 @@ public class PlayerMachine : SuperStateMachine {
             // normalize cross
             float speedCoefficient = (cross - -1) / (1 - -1);
 
-            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
+            speed = MaxRunSpeed * speedCoefficient;
+            moveDirection = transform.forward * speed;
         }
         else
         {
             moveDirection = Vector3.zero; // todo: add slight buffer?
+            speed = 0;
         }
 
         //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
@@ -735,11 +727,13 @@ public class PlayerMachine : SuperStateMachine {
             // normalize cross
             float speedCoefficient = (cross - -1) / (1 - -1);
 
-            moveDirection = transform.forward * MaxRunSpeed * speedCoefficient;
+            speed = MaxRunSpeed * speedCoefficient;
+            moveDirection = transform.forward * speed;
         }
         else
         {
             moveDirection = Vector3.zero; // todo: add slight buffer?
+            speed = 0;
         }
 
         //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, LocalMovement() * MaxRunSpeed, AirAcceleration * Time.deltaTime);
@@ -898,4 +892,12 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Dead", false);
     }
 
+    float clampF(float min, float max, float val)
+    {
+        if (val < min)
+            return min;
+        else if (val > max)
+            return max;
+        return val;
+    }
 }
