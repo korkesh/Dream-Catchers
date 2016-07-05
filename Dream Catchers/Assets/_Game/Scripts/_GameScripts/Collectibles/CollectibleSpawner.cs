@@ -10,6 +10,7 @@ public class CollectibleSpawner : MonoBehaviour {
 
     public GameObject Prefabs;
     public float probabilityOfDrop;
+    public string Scene;
     HealthManager HM;
      GameObject spawns;
      //public string name;
@@ -39,7 +40,7 @@ public class CollectibleSpawner : MonoBehaviour {
                 //spawns.name = spawns.name + this.name;
                 GameObject t = (GameObject)Instantiate(spawns, this.transform.position, spawns.transform.rotation);
                 Items i = t.GetComponent<Items>();
-                i.key = i.key + this.gameObject.name;
+                i.key = i.key + this.gameObject.name + Scene;
                 i.checkIfCollected();
                 //Destroy(spawns);
             }
