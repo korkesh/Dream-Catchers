@@ -177,6 +177,9 @@
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\SuperStateMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\RPGController\RPGMesh.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\RPGController\RPGTriangleTree.cs" />
+    <Compile Include="Assets\_Game\Scripts\_ThirdParty\Spline\MathUtils.cs" />
+    <Compile Include="Assets\_Game\Scripts\_ThirdParty\Spline\SplineController.cs" />
+    <Compile Include="Assets\_Game\Scripts\_ThirdParty\Spline\SplineInterpolator.cs" />
     <Compile Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
     <Compile Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
     <Compile Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
