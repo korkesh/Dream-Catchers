@@ -844,7 +844,7 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
 
         gameObject.GetComponent<Animator>().SetBool("Damage", true);
-        gameObject.GetComponent<Animator>().applyRootMotion = true;
+        //gameObject.GetComponent<Animator>().applyRootMotion = true;
 
     }
 
@@ -862,7 +862,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Damage_ExitState()
     {
-        gameObject.GetComponent<Animator>().applyRootMotion = false;
+        //gameObject.GetComponent<Animator>().applyRootMotion = false;
         gameObject.GetComponent<Animator>().SetBool("Damage", false);
         gameObject.GetComponent<Collider>().enabled = true;
     }
