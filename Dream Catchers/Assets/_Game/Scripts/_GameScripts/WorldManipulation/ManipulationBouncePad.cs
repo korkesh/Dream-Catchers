@@ -23,6 +23,8 @@ public class ManipulationBouncePad : ManipulationScript
     private float originalMinHeight;
     private float originalAcceleration;
 
+    private float jumpReset = 0.5f;
+
     // Use this for initialization
     void Start()
     {
@@ -79,10 +81,21 @@ public class ManipulationBouncePad : ManipulationScript
 
             PlayerInputController inputScript = other.gameObject.GetComponent<PlayerInputController>();
             inputScript.toggleJump = true;
+
+            StartCoroutine(ResetJump());
         }
     }
 
-    public void OnTriggerExit(Collider other)
+    public IEnumerator ResetJump()
+    {
+        yield return new WaitForSeconds(jumpReset);
+
+        player.GetComponent<PlayerMachine>().MaxJumpHeight = originalMaxHeight;
+        player.GetComponent<PlayerMachine>().MinJumpHeight = originalMinHeight;
+        player.GetComponent<PlayerMachine>().JumpAcceleration = originalAcceleration;
+    }
+
+    /*public void OnTriggerExit(Collider other)
     {
         if (bounceObject && other.gameObject == player)
         {
@@ -90,6 +103,6 @@ public class ManipulationBouncePad : ManipulationScript
             player.GetComponent<PlayerMachine>().MinJumpHeight = originalMinHeight;
             player.GetComponent<PlayerMachine>().JumpAcceleration = originalAcceleration;
         }
-    }
+    }*/
 
 }
