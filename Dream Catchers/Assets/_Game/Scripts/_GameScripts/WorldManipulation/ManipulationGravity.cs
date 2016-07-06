@@ -37,13 +37,22 @@ public class ManipulationGravity : ManipulationScript {
 
     void FixedUpdate()
     {
-        if(currentFloat == FLOAT_STATE.DOWN)
+        if (gameObject.GetComponent<Rigidbody>().velocity == Vector3.zero)
         {
-            FloatDown();
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+
+            if (currentFloat == FLOAT_STATE.DOWN)
+            {
+                FloatDown();
+            }
+            else if (currentFloat == FLOAT_STATE.UP)
+            {
+                FloatUp();
+            }
         }
-        else if (currentFloat == FLOAT_STATE.UP)
+        else
         {
-            FloatUp();
+            Debug.Log(gameObject.GetComponent<Rigidbody>().velocity);
         }
     }
 
@@ -59,7 +68,7 @@ public class ManipulationGravity : ManipulationScript {
 
         Physics.Raycast(transform.position, dir, out hit, layerMask); // The Raycast to calculate distance from floor
 
-        if (hit.distance < maxDist && hit.distance >= minDist && !DOTween.IsTweening(transform)) 
+        if (maxDist - hit.distance > 0.01 && hit.distance >= minDist && !DOTween.IsTweening(transform)) 
         {
             // Move by offset distance
             Vector3 toMove = new Vector3(transform.position.x, transform.position.y + (maxDist - hit.distance), transform.position.z);
@@ -96,17 +105,17 @@ public class ManipulationGravity : ManipulationScript {
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM && floatInDream)
         {
             currentFloat = FLOAT_STATE.UP;
-            gameObject.GetComponent<Rigidbody>().useGravity = false;
+            //gameObject.GetComponent<Rigidbody>().useGravity = false;
         }
         else if (currentObjectState == ManipulationManager.WORLD_STATE.NIGHTMARE && floatInNightmare)
         {
             currentFloat = FLOAT_STATE.UP;
-            gameObject.GetComponent<Rigidbody>().useGravity = false;
+            //gameObject.GetComponent<Rigidbody>().useGravity = false;
         }
         else
         {
             currentFloat = FLOAT_STATE.DOWN;
-            gameObject.GetComponent<Rigidbody>().useGravity = true;
+            //gameObject.GetComponent<Rigidbody>().useGravity = true;
         }
 
     }
