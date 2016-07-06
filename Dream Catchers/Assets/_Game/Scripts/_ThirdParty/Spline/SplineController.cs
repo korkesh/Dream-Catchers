@@ -69,7 +69,9 @@ public class SplineController : MonoBehaviour
 		{
 			if (OrientationMode == eOrientationMode.NODE)
 			{
-				interp.AddPoint(trans[c].position, trans[c].rotation, step * c, new Vector2(0, 1));
+                SplineNodeTrigger nodeProperties = trans[c].gameObject.GetComponent<SplineNodeTrigger>();
+
+                interp.AddPoint(trans[c].position, trans[c].rotation, step * c, new Vector2(0, 1), nodeProperties);
 			}
 			else if (OrientationMode == eOrientationMode.TANGENT)
 			{
@@ -81,7 +83,9 @@ public class SplineController : MonoBehaviour
 				else
 					rot = trans[c].rotation;
 
-				interp.AddPoint(trans[c].position, rot, step * c, new Vector2(0, 1));
+                SplineNodeTrigger nodeProperties = trans[c].gameObject.GetComponent<SplineNodeTrigger>();
+
+                interp.AddPoint(trans[c].position, rot, step * c, new Vector2(0, 1), nodeProperties);
 			}
 		}
 

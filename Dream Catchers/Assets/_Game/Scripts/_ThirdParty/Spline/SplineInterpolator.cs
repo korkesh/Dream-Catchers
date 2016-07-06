@@ -17,8 +17,14 @@ public class SplineInterpolator : MonoBehaviour
 		internal float Time;
 		internal Vector2 EaseIO;
 
-		internal SplineNode(Vector3 p, Quaternion q, float t, Vector2 io) { Point = p; Rot = q; Time = t; EaseIO = io; }
+        // Custom Properties
+        internal bool toggleState;
+        internal bool toggleCamera;
+        internal GameObject cameraToSwap;
+
+        internal SplineNode(Vector3 p, Quaternion q, float t, Vector2 io, bool toggle, bool swap, GameObject cam) { Point = p; Rot = q; Time = t; EaseIO = io; toggleState = toggle; toggleCamera = swap; cameraToSwap = cam; }
 		internal SplineNode(SplineNode o) { Point = o.Point; Rot = o.Rot; Time = o.Time; EaseIO = o.EaseIO; }
+
 	}
 
 	List<SplineNode> mNodes = new List<SplineNode>();
@@ -26,8 +32,6 @@ public class SplineInterpolator : MonoBehaviour
 	bool mRotations;
 
 	OnEndCallback mOnEndCallback;
-
-
 
 	void Awake()
 	{
@@ -56,12 +60,23 @@ public class SplineInterpolator : MonoBehaviour
 		mEndPointsMode = eEndPointsMode.AUTO;
 	}
 
-	public void AddPoint(Vector3 pos, Quaternion quat, float timeInSeconds, Vector2 easeInOut)
+	public void AddPoint(Vector3 pos, Quaternion quat, float timeInSeconds, Vector2 easeInOut, SplineNodeTrigger trigger)
 	{
 		if (mState != "Reset")
 			throw new System.Exception("Cannot add points after start");
 
-		mNodes.Add(new SplineNode(pos, quat, timeInSeconds, easeInOut));
+        bool toggleState = false;
+        bool toggleCamera = false;
+        GameObject camera = null;
+
+        if (trigger != null)
+        {
+            toggleState = trigger.toggleWorldState;
+            toggleCamera = trigger.swapCamera;
+            camera = trigger.cameraToSwap;
+        }
+
+		mNodes.Add(new SplineNode(pos, quat, timeInSeconds, easeInOut, toggleState, toggleCamera, camera));
 	}
 
 
@@ -146,8 +161,22 @@ public class SplineInterpolator : MonoBehaviour
 			if (mCurrentIdx < mNodes.Count - 3)
 			{
 				mCurrentIdx++;
-			}
-			else
+                
+                // Check for properties on node
+                if(mNodes[mCurrentIdx].toggleState) // toggle World state
+                {
+                    ManipulationManager.instance.currentWorldState = (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM) 
+                                                                        ? ManipulationManager.WORLD_STATE.NIGHTMARE 
+                                                                        : ManipulationManager.WORLD_STATE.DREAM;
+                }
+
+                if (mNodes[mCurrentIdx].toggleCamera) // Swap Cameras
+                {
+                    mNodes[mCurrentIdx].cameraToSwap.SetActive(true);
+                    gameObject.SetActive(false);
+                }
+            }
+            else
 			{
 				if (mState != "Loop")
 				{

@@ -110,6 +110,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RealCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RootCamera.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\SplineNodeTrigger.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\TempCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\CharacterOnRotatingPlatform.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\LimitVelocity.cs" />
