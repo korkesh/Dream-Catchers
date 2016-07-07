@@ -233,26 +233,26 @@ public class RootCamera : MonoBehaviour
             transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * input.Current.Joy2Input.x);
         }
 
-        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Run && machine.runTimer > 0.2f)
-        {
-            Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
+        //else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Run && machine.runTimer > 1f)
+        //{
+        //    Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
 
-            if (playerCamCross.magnitude > 0.02f)
-            {
-                float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
-                transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.25f * turnDirection);
-            }
-        }
-        else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Walk)
-        {
-            Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
+        //    if (playerCamCross.magnitude > 0.02f)
+        //    {
+        //        float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
+        //        transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.085f * turnDirection);
+        //    }
+        //}
+        //else if ((PlayerMachine.PlayerStates)machine.currentState == PlayerMachine.PlayerStates.Walk)
+        //{
+        //    Vector3 playerCamCross = Vector3.Cross(Math3d.ProjectVectorOnPlane(Vector3.up, Player.transform.forward), Math3d.ProjectVectorOnPlane(Vector3.up, transform.forward));
 
-            if (playerCamCross.magnitude > 0.02f)
-            {
-                float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
-                transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.08f * turnDirection);
-            }
-        }
+        //    if (playerCamCross.magnitude > 0.02f)
+        //    {
+        //        float turnDirection = Mathf.Sign(playerCamCross.y) * -1;
+        //        transform.RotateAround(target.position, controller.up, Time.deltaTime * rotateSpeed * 0.025f * turnDirection);
+        //    }
+        //}
 
 
 

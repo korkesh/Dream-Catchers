@@ -105,6 +105,8 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\ClownAttack.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\LaunchMovement.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\HybridCamera.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\NewCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RealCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RootCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\TempCamera.cs" />
