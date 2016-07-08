@@ -217,6 +217,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDEstroy.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonAttack_State.cs" />
