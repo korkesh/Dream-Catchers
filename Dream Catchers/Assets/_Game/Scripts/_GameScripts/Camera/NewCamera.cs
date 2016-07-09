@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
+// todo: air state locks rotation and moves to keep player at correct viewport pos
 public class NewCamera : MonoBehaviour
 {
     //===========================================
@@ -25,7 +25,6 @@ public class NewCamera : MonoBehaviour
     private PlayerMachine machine;
     private SuperCharacterController controller;
 
-    [SerializeField]
     private Vector3 Target; // actual focus coordinate (offset from player)
     public float targetOffset; // how far above player origin to focus
     private Vector3 vTargetOffset; // vector to add targetOffset to Player.pos
@@ -34,6 +33,7 @@ public class NewCamera : MonoBehaviour
     private Vector3 PlayerRoot; // player.x, cam.y, player.z
     [SerializeField]
     private Vector3 Displacement; // direction from cam to player
+    private Vector3 BaseDisplacement;
 
 
     //==========================================
@@ -69,14 +69,20 @@ public class NewCamera : MonoBehaviour
     private float currentAngle; // current x rotation
 
     private Vector3 CurrentTargetPos; // position target is at this frame
+    private float CurrentTargetOffset = 0;
+
 
     //==========================================
-    // Smoothening Coefficients
+    // Smoothing Coefficients
     //==========================================
     public float smoothFollow;
     public float smoothVertical;
     public float rotateSpeed;
-    public float secondaryRotateSpeed; // speed cam moves to adjust to look ahead changes
+
+
+    // *** Debug ***
+    public GameObject test1;
+    public GameObject test2;
 
 
     void Start ()
@@ -91,10 +97,10 @@ public class NewCamera : MonoBehaviour
 
         vTargetOffset = new Vector3(0, targetOffset, 0);
 
+        Target = Player.transform.position + vTargetOffset;
         CurrentTargetPos = Player.transform.position + vTargetOffset;
     }
 	
-
 
 	void Update ()
     {
@@ -109,9 +115,9 @@ public class NewCamera : MonoBehaviour
         UpdateVectors();  
 
         // constrain distance
-        if (!Mathf.Approximately(Displacement.magnitude, currentFollowDistance))
+        if (!Mathf.Approximately(BaseDisplacement.magnitude, currentFollowDistance))
         {
-            TargetPos = transform.position + (Displacement.normalized * (Displacement.magnitude - currentFollowDistance));
+            TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
 
             transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
         }
@@ -167,18 +173,22 @@ public class NewCamera : MonoBehaviour
         Target = Player.transform.position + vTargetOffset; // base pos
 
         // determine how aligned player forward is with displacement vector
-        Vector3 BaseDisplacement = (Player.transform.position - transform.position);
+        BaseDisplacement = (Player.transform.position - transform.position);
         BaseDisplacement.y = 0;
-        BaseDisplacement.Normalize();
 
-        float align = Vector3.Cross(BaseDisplacement, Player.transform.forward).y;
+        float align = Vector3.Cross(BaseDisplacement.normalized, Player.transform.forward).y;
 
         // local right is inconsistent as camera looks ahead of player, so use cross of up/cam-player dir as constant right
-        Target += (Vector3.Cross(Vector3.up, BaseDisplacement) * align * lookDistance);
+        Target += (Vector3.Cross(Vector3.up, BaseDisplacement.normalized) * align * lookDistance);
 
         // smoothly move target left/right
-        CurrentTargetPos = Vector3.MoveTowards(CurrentTargetPos, Target, (Target - CurrentTargetPos).magnitude * Time.deltaTime * 6);
-        Debug.DrawRay(transform.position, CurrentTargetPos - transform.position, Color.blue);
+        CurrentTargetOffset = Clamp(-lookDistance, lookDistance, CurrentTargetOffset + (Mathf.Sign(align * lookDistance - CurrentTargetOffset) * Time.deltaTime * Mathf.Abs(align * lookDistance - CurrentTargetOffset)));
+        CurrentTargetPos = (Player.transform.position + vTargetOffset) + (CurrentTargetOffset * Vector3.Cross(Vector3.up, BaseDisplacement.normalized));
+ 
+        //CurrentTargetPos = Vector3.MoveTowards(CurrentTargetPos, Target, (Target - CurrentTargetPos).magnitude * Time.deltaTime);
+
+        test1.transform.position = Target; // debug
+        test2.transform.position = CurrentTargetPos;
     }
 
 
@@ -216,7 +226,15 @@ public class NewCamera : MonoBehaviour
 
             float angle = Vector3.Angle(PlanarForward, Displacement.normalized);
 
-            transform.forward = Quaternion.AngleAxis(angle * dir * Clamp(0.1f, 1f, (1f - Vector3.Cross(Displacement.normalized, transform.right).y)) * rotateSpeed * Time.deltaTime, Vector3.up) * transform.forward;
+            // in ground state rotation is locked
+            if (machine.ground)
+            {
+                //transform.forward = new Vector3(Displacement.normalized.x, transform.forward.y, Displacement.normalized.z);
+            }
+            //else
+            {
+                transform.forward = Quaternion.AngleAxis(angle * dir/* * Clamp(0.1f, 1f, (1f - Vector3.Cross(Displacement.normalized, transform.right).y)) * rotateSpeed * Time.deltaTime */, Vector3.up) * transform.forward;
+            }
         }
 
 

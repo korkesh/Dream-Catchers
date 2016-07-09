@@ -32,6 +32,7 @@ public class PlayerMachine : SuperStateMachine {
     private PlayerInputController input; // Input Controller
 
     public Vector3 prevPos;
+    public Vector3 Displacement; // displacement this frame
 
     public bool ground { get; private set; }
 
@@ -196,6 +197,8 @@ public class PlayerMachine : SuperStateMachine {
         /*hAxis = input.Current.MoveInput.x;
         vAxis = input.Current.MoveInput.z;
         inputMagnitude = input.Current.MoveInput.magnitude;*/
+
+        Displacement = transform.position - prevPos;
 
         // Rotate out facing direction horizontally based on mouse input
         //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
