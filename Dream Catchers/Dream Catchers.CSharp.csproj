@@ -110,6 +110,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RealCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\RootCamera.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\SplineNodeTrigger.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Camera\TempCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\CharacterOnRotatingPlatform.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\Core\LimitVelocity.cs" />
@@ -177,6 +178,9 @@
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\SuperStateMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\RPGController\RPGMesh.cs" />
     <Compile Include="Assets\_Game\Scripts\_ThirdParty\RPGController\RPGTriangleTree.cs" />
+    <Compile Include="Assets\_Game\Scripts\_ThirdParty\Spline\MathUtils.cs" />
+    <Compile Include="Assets\_Game\Scripts\_ThirdParty\Spline\SplineController.cs" />
+    <Compile Include="Assets\_Game\Scripts\_ThirdParty\Spline\SplineInterpolator.cs" />
     <Compile Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
     <Compile Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
     <Compile Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
