@@ -112,6 +112,9 @@
     <Reference Include="DOTweenEditor">
       <HintPath>Assets\Demigiant\DOTween\Editor\DOTweenEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Editor.ReorderableList">
+      <HintPath>Assets\Fungus\Thirdparty\Reorderable List Field\Editor\Editor.ReorderableList.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Dream Catchers.CSharp.csproj">
@@ -134,6 +137,46 @@
     <Compile Include="Assets\Editor\ImageEffects\SunShaftsEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\TonemappingEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
+    <Compile Include="Assets\Fungus\Audio\Editor\ControlAudioEditor.cs" />
+    <Compile Include="Assets\Fungus\Camera\Editor\CameraMenuItems.cs" />
+    <Compile Include="Assets\Fungus\Camera\Editor\ViewEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\AssetModProcessor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\BlockEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\BlockInspector.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\CallEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\CommandEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\CommandListAdaptor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\CustomGUI.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\EditorExtensions.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\EditorZoomArea.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\EventHandlerEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\FlowchartEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\FlowchartMenuItems.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\FlowchartWindow.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\FungusEditorResources.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\GLDraw.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\IfEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\InvokeEventEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\InvokeMethodEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\JumpEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\LabelEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\SetVariableEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\VariableEditor.cs" />
+    <Compile Include="Assets\Fungus\Flowchart\Editor\VariableListAdaptor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\CharacterEditor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\DialogInputEditor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\LocalizationEditor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\MenuEditor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\MenuTimerEditor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\NarrativeMenuItems.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\PortraitEditor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\SayEditor.cs" />
+    <Compile Include="Assets\Fungus\Narrative\Editor\StageEditor.cs" />
+    <Compile Include="Assets\Fungus\Sprite\Editor\SetColliderEditor.cs" />
+    <Compile Include="Assets\Fungus\Sprite\Editor\SpriteMenuItems.cs" />
+    <Compile Include="Assets\Fungus\Thirdparty\Usfxr\Editor\SfxrGenerator.cs" />
+    <Compile Include="Assets\Fungus\UI\Editor\WriteEditor.cs" />
+    <Compile Include="Assets\Fungus\UI\Editor\WriterAudioEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
@@ -142,6 +185,22 @@
     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
     <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
+    <None Include="Assets\Fungus\CHANGELOG.txt" />
+    <None Include="Assets\Fungus\Flowchart\Editor\Resources\GLLineDraw.shader" />
+    <None Include="Assets\Fungus\Integrations\Spine\Readme.txt" />
+    <None Include="Assets\Fungus\LICENSE.txt" />
+    <None Include="Assets\Fungus\Narrative\Fonts\Amaranth\SIL Open Font License.txt" />
+    <None Include="Assets\Fungus\Narrative\Fonts\Exo2\OFL.txt" />
+    <None Include="Assets\Fungus\Narrative\Images\Attribution.txt" />
+    <None Include="Assets\Fungus\README.txt" />
+    <None Include="Assets\Fungus\Thirdparty\LeanTween\ReadMe.txt" />
+    <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\Editor\Editor.ReorderableList.xml" />
+    <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\LICENSE.txt" />
+    <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\README.txt" />
+    <None Include="Assets\FungusExamples\Attribution.txt" />
+    <None Include="Assets\FungusExamples\FungusTown\Readme.txt" />
+    <None Include="Assets\FungusExamples\Sherlock\Readme.txt" />
+    <None Include="Assets\FungusExamples\TheFacility\Fonts\aleo\SIL Open Font License.txt" />
     <None Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\README.txt" />
     <None Include="Assets\_Game\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
