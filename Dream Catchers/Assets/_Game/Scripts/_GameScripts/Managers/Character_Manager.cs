@@ -71,7 +71,8 @@ public class Character_Manager : Singleton<Character_Manager>
     void Start()
     {
         totalMemoryFragmentsCollected = PlayerPrefs.GetInt("TotalMemoryFragsCollected");
-        totalCollectibles = PlayerPrefs.GetInt("TotalOtherCollectiblesCollected"); ;
+        totalCollectibles = PlayerPrefs.GetInt("TotalOtherCollectiblesCollected");
+        //Character = GameObject.FindWithTag("Player");
     }
 
     /// <summary>

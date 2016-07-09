@@ -33,6 +33,8 @@ public class PlayerMachine : SuperStateMachine {
 
     public Vector3 prevPos;
 
+    public bool ground { get; private set; }
+
     //----------------------------------------------
     // Editor Fields
     //----------------------------------------------
@@ -45,7 +47,6 @@ public class PlayerMachine : SuperStateMachine {
     //public float WalkspeedThreshold = 0.5f;
 
     public float maxSpeedTime = 5; // amount of time in seconds it takes to go from idle to max speed
-    [SerializeField]
     private float speed = 0; // current run speed
     public float RunSpeed = 0.65f;
     public float RunTurnSpeed = 10.0f;
@@ -130,19 +131,14 @@ public class PlayerMachine : SuperStateMachine {
 
     private bool AcquiringGround()
     {
-        bool ground = controller.currentGround.IsGrounded(false, 0.01f);
-
-        if (ground && cam)
-        {
-            //cam.setLastGround = transform.position.y;
-        }
-
+        ground = controller.currentGround.IsGrounded(false, 0.01f);
         return ground;//controller.currentGround.IsGrounded(false, 0.01f);
     }
 
     private bool MaintainingGround()
     {
-        return controller.currentGround.IsGrounded(true, 0.5f);
+        ground = controller.currentGround.IsGrounded(true, 0.5f);
+        return ground;
     }
 
     public void RotateGravity(Vector3 up)
@@ -386,7 +382,6 @@ public class PlayerMachine : SuperStateMachine {
             old_ratio = 1 - new_ratio;
 
             speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
-            Debug.Log(desiredSpeed);
 
             moveDirection = transform.forward * speed;
 
@@ -559,7 +554,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_EnterState()
     {
-        //jumpHold = true;
+        ground = false;
+
         JumpTimer = 0;
 
         gameObject.GetComponent<Animator>().SetBool("Jumping", true);
