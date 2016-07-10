@@ -680,6 +680,7 @@ public class SuperCharacterController : MonoBehaviour
                         else
                         {
                             // Uh oh
+                            Debug.Log("dragons");
                         }
                     }
                 }

@@ -47,7 +47,8 @@ public class PlayerMachine : SuperStateMachine {
     //public float WalkSpeed = 0.1f;
     //public float WalkspeedThreshold = 0.5f;
 
-    public float maxSpeedTime = 5; // amount of time in seconds it takes to go from idle to max speed
+    public float maxSpeedTime = 5; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
+    public float maxAirSpeedTime = 1; // amount of time it takes to go from 0 x/z speed to max in the air
     private float speed = 0; // current run speed
     public float RunSpeed = 0.65f;
     public float RunTurnSpeed = 10.0f;
@@ -68,6 +69,7 @@ public class PlayerMachine : SuperStateMachine {
     public float MaxJumpHeight = 3.0f;
     public float DoubleJumpHeight = 2.0f;
     public float JumpTimer = 0;
+    public Vector3 LastGroundPos { get; private set; } // position character was at last frame they were grounded
 
     // Physics
     public float Gravity = 25.0f;
@@ -81,14 +83,7 @@ public class PlayerMachine : SuperStateMachine {
 
     public Vector3 moveDirection; // player movement direction vector
 
-    public Vector3 facing; // direction player is facing
-
     public Vector3 lookDirection { get; private set; } // current direction camera is facing
-
-    public float xRotation { get; private set; } // TODO: Wat is this?
-
-    //private bool jumpHold = false; // controls variable jump heights by holding jump button - Currently Un-Used
-    public float jumpTravelled = 0; // keeps track of 
 
     //----------------------------------------------
     // Debug Inspector Fields:
@@ -139,6 +134,14 @@ public class PlayerMachine : SuperStateMachine {
     private bool MaintainingGround()
     {
         ground = controller.currentGround.IsGrounded(true, 0.5f);
+
+        // if not grounded, left this frame. tell camera
+        if (!ground)
+        {
+            Debug.Log("send message");
+            Camera.main.SendMessage("LeftGround", SendMessageOptions.DontRequireReceiver);
+        }
+
         return ground;
     }
 
@@ -193,12 +196,12 @@ public class PlayerMachine : SuperStateMachine {
 
     protected override void EarlyGlobalSuperUpdate()
     {
-        // DEBUG:
-        /*hAxis = input.Current.MoveInput.x;
-        vAxis = input.Current.MoveInput.z;
-        inputMagnitude = input.Current.MoveInput.magnitude;*/
-
         Displacement = transform.position - prevPos;
+
+        if (ground)
+        {
+            LastGroundPos = transform.position;
+        }
 
         // Rotate out facing direction horizontally based on mouse input
         //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
@@ -236,15 +239,9 @@ public class PlayerMachine : SuperStateMachine {
         // This is run regardless of what state you're in
 
         // Move the player by our velocity every frame
-        transform.position += moveDirection * Time.deltaTime;
-
-        // Rotate mesh to face correct direction (temp if implementing min turn radius)
-        if (Math3d.ProjectVectorOnPlane(controller.up, facing) != Vector3.zero)
-        {
-            //transform.rotation = Quaternion.LookRotation(Math3d.ProjectVectorOnPlane(controller.up, facing), controller.up);
-        }
-
         prevPos = transform.position;
+
+        transform.position += moveDirection * Time.deltaTime;    
     }
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -366,7 +363,6 @@ public class PlayerMachine : SuperStateMachine {
             float old_ratio = 1 - new_ratio;
 
             transform.forward = ((moveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
-            facing = transform.forward;
 
             // skid if input is >90 degrees of current facing direction
             if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.4f)
@@ -422,8 +418,7 @@ public class PlayerMachine : SuperStateMachine {
         transform.forward = LocalMovement();
 
         // immediate slowing effect
-        moveDirection.Normalize();
-        moveDirection *= 0.4f;
+        moveDirection = moveDirection.normalized * 0.25f;
     }
 
     void Skid_SuperUpdate()
@@ -483,7 +478,6 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection = new Vector3(LocalMovement().x, 0, LocalMovement().z);
         transform.forward = moveDirection;
-        facing = moveDirection;
         
 
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight * 1.8f, Gravity);
@@ -525,7 +519,6 @@ public class PlayerMachine : SuperStateMachine {
             }
 
             transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
-            facing = transform.forward;
 
             // speed is a function of how aligned the input direction is with the player forward vector
             float cross = Vector3.Cross(LocalMovement(), transform.right).y;
@@ -642,7 +635,6 @@ public class PlayerMachine : SuperStateMachine {
             }
 
             transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
-            facing = transform.forward;
 
             // speed is a function of how aligned the input direction is with the player forward vector
             float cross = Vector3.Cross(LocalMovement(), transform.right).y;
@@ -718,7 +710,6 @@ public class PlayerMachine : SuperStateMachine {
             }
 
             transform.forward = ((transform.forward * old_ratio).normalized + (LocalMovement() * new_ratio)).normalized;
-            facing = transform.forward;
 
             // speed is a function of how aligned the input direction is with the player forward vector
             float cross = Vector3.Cross(LocalMovement(), transform.right).y;
