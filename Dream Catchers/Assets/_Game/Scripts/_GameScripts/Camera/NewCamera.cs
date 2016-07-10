@@ -61,6 +61,7 @@ public class NewCamera : MonoBehaviour
     public float hAngleAir;
     public float lAngleGround; // = ~10~
     public float lAngleAir;
+    private float angleOffset = 0; // offset applied to static x angle
 
     // Jump state variables
     private Vector3 JumpOrigin; // position at which player left the ground
@@ -114,28 +115,13 @@ public class NewCamera : MonoBehaviour
         lastGround = controller.currentGround.groundHeight + vTargetOffset.y;
 
         UpdateTarget();
-
         UpdateActiveVariables();
-
-        UpdateHeight();
-       
-        UpdateVectors();  
-
-        // constrain distance
-        if (!machine.ground)
-        {
-            // in air follow player via movement instead of rotation, so match player displacement per frame (ignoring y)
-            transform.position += new Vector3(machine.transform.position.x - machine.prevPos.x, 0, machine.transform.position.z - machine.prevPos.z);
-        }
-
-        else if (!Mathf.Approximately(BaseDisplacement.magnitude, currentFollowDistance))
-        {
-            TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
-
-            transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
-        }
-
+        UpdateHeight();     
+        UpdateVectors();
+        ConstrainDistance();
+        //UpdateTarget();
         UpdateRotation();
+        UpdateTarget();
     }
 
 
@@ -152,6 +138,7 @@ public class NewCamera : MonoBehaviour
                     {
                         currentHeight = hHeightGround;
                         currentAngle = hAngleGround;
+                        angleOffset = 0;
                     }
                     else
                     {
@@ -170,6 +157,7 @@ public class NewCamera : MonoBehaviour
                     {
                         currentHeight = lHeightGround;
                         currentAngle = lAngleGround;
+                        angleOffset = 0;
                     }
                     else
                     {
@@ -194,17 +182,17 @@ public class NewCamera : MonoBehaviour
         float align = Vector3.Cross(BaseDisplacement.normalized, Player.transform.forward).y;
 
         // local right is inconsistent as camera looks ahead of player, so use cross of up/cam-player dir as constant right
-        Target += (Vector3.Cross(Vector3.up, BaseDisplacement.normalized) * align * lookDistance);
+        Vector3 right = Vector3.Cross(Vector3.up, BaseDisplacement.normalized);
+        
+        Target += (right * align * lookDistance);
 
-        // smoothly move target left/right in ground state   todo: fix slight jitter
+        // smoothly move target left/right in ground state
         if (machine.ground)
         {     
-            currentTargetOffset = Clamp(-lookDistance, lookDistance, currentTargetOffset + (Mathf.Sign(align * lookDistance - currentTargetOffset) * Time.deltaTime * Mathf.Abs(align * lookDistance - currentTargetOffset)));
+            currentTargetOffset = Clamp(-lookDistance, lookDistance, currentTargetOffset + (Mathf.Sign(align * lookDistance - currentTargetOffset) * Time.deltaTime * 0.5f * Mathf.Abs(align * lookDistance - currentTargetOffset)));
         }
 
-        CurrentTargetPos = (Player.transform.position + vTargetOffset) + (currentTargetOffset * Vector3.Cross(Vector3.up, BaseDisplacement.normalized));
- 
-        //CurrentTargetPos = Vector3.MoveTowards(CurrentTargetPos, Target, (Target - CurrentTargetPos).magnitude * Time.deltaTime);
+        CurrentTargetPos = (Player.transform.position + vTargetOffset) + (currentTargetOffset * right);
 
         test1.transform.position = Target; // debug
         test2.transform.position = CurrentTargetPos;
@@ -216,9 +204,18 @@ public class NewCamera : MonoBehaviour
         currentHeight += Clamp(0, float.PositiveInfinity, (Target.y - lastGround) - currentMaxJumpHeight);
         currentHeight -= Clamp(0, float.PositiveInfinity, lastGround - Target.y);
 
-
         TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime);
+
+        if (TargetPos.y > transform.position.y)
+        {
+            // upward movement should be essentially snapped
+            transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime);
+        }
+        else
+        {
+            // downward movement is slower, rotating downward to keep player in view
+            transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime * 0.2f);
+        }
     }
 
 
@@ -229,6 +226,23 @@ public class NewCamera : MonoBehaviour
         PlayerRoot.z = CurrentTargetPos.z;
 
         TargetDisplacement = PlayerRoot - transform.position;
+    }
+
+
+    void ConstrainDistance()
+    {
+        if (!machine.ground)
+        {
+            // in air follow player via movement instead of rotation, so match player displacement per frame (ignoring y)
+            transform.position += new Vector3(machine.transform.position.x - machine.prevPos.x, 0, machine.transform.position.z - machine.prevPos.z);
+        }
+
+        // in ground state maintain player distance by travelling along cam-player displacement vector
+        else if (!Mathf.Approximately(BaseDisplacement.magnitude, currentFollowDistance))
+        {
+            TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
+            transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
+        }
     }
 
 
@@ -248,25 +262,29 @@ public class NewCamera : MonoBehaviour
             // in ground state rotation is locked
             if (machine.ground)
             {
-                transform.forward = Quaternion.AngleAxis(angle * dir/* * Clamp(0.1f, 1f, (1f - Vector3.Cross(Displacement.normalized, transform.right).y)) * rotateSpeed * Time.deltaTime */, Vector3.up) * transform.forward;
-            }
-            else
-            {
-                // todo: modify currentAngle if player falls too low or is obstructed or something
+                transform.forward = Quaternion.AngleAxis(angle * dir, Vector3.up) * transform.forward;
             }
         }
 
+        // x - axis rotation: 
+        // TODO: fix slight jitter from long falls
+        // TODO: look further downward
+        // in air states, rotate down further if player goes below viewport threshold
+        if (machine.moveDirection.y < -17.5f)
+        {
+            Vector3 DisplacementDir = (Target - transform.position).normalized;
+            if (DisplacementDir.y < transform.forward.y)// - 0.25f)//0.225f)
+            {
+                if (Vector3.Cross(transform.forward, DisplacementDir).magnitude > 0.2f)
+                {
+                    Debug.Log("changing angle");
+                    angleOffset = Mathf.Max(angleOffset, Vector3.Angle(transform.forward, DisplacementDir));
+                }
+            }
+        }
 
-        // x-axis rotation(static)
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed * 0.25f, transform.eulerAngles.y, transform.eulerAngles.z);
-    }
-
-
-    // called on the frame the player leaves the ground
-    void LeftGround()
-    {
-        Debug.Log("left ground");
-        JumpDisplacement = new Vector3(transform.position.x, 0, transform.position.z) - new Vector3(Player.transform.position.x, 0, Player.transform.position.z);
+        // TODO: fix rotation smoothening
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle + angleOffset - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
 

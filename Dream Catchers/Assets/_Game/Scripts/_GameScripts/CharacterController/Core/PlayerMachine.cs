@@ -60,6 +60,7 @@ public class PlayerMachine : SuperStateMachine {
 
     // Jumping
     public float VerticalSpeedCap = 10.0f;
+    public float VerticalSpeedCapDown = -30.0f;
     public float AirTurnSpeed = 10.0f;
     public float AirAcceleration = 3.0f;
     public float JumpAcceleration = 5.0f;
@@ -134,13 +135,6 @@ public class PlayerMachine : SuperStateMachine {
     private bool MaintainingGround()
     {
         ground = controller.currentGround.IsGrounded(true, 0.5f);
-
-        // if not grounded, left this frame. tell camera
-        if (!ground)
-        {
-            Debug.Log("send message");
-            Camera.main.SendMessage("LeftGround", SendMessageOptions.DontRequireReceiver);
-        }
 
         return ground;
     }
@@ -240,6 +234,11 @@ public class PlayerMachine : SuperStateMachine {
 
         // Move the player by our velocity every frame
         prevPos = transform.position;
+
+        if (moveDirection.y < VerticalSpeedCapDown)
+        {
+            moveDirection.y = VerticalSpeedCapDown;
+        }
 
         transform.position += moveDirection * Time.deltaTime;    
     }
