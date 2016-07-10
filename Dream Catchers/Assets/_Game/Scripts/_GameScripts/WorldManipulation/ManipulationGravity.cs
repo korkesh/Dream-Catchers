@@ -39,8 +39,11 @@ public class ManipulationGravity : ManipulationScript {
     {
         if (gameObject.GetComponent<Rigidbody>().velocity == Vector3.zero)
         {
-            gameObject.GetComponent<Rigidbody>().useGravity = false;
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+            if (gameObject.tag == "PushBlock")
+            {
+                gameObject.GetComponent<Rigidbody>().useGravity = false;
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+            }
 
             if (currentFloat == FLOAT_STATE.DOWN)
             {
