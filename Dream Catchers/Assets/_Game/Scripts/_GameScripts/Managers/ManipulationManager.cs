@@ -23,6 +23,7 @@ public class ManipulationManager : MonoBehaviour
     // Limit the ability to manipulate
     public float manipulationCooldown;
     bool onCooldown;
+    public bool manipGained = false;
 
     // Skybox controls
     GameObject mainCamera;
@@ -66,7 +67,7 @@ public class ManipulationManager : MonoBehaviour
     void Update()
     {
         // Toggles the World State upon player input
-        if (Input.GetButtonDown("Fire3") && (Game_Manager.instance == null || Game_Manager.instance.isPlaying()) && !onCooldown)
+        if (Input.GetButtonDown("Fire3") && (Game_Manager.instance == null || Game_Manager.instance.isPlaying()) && !onCooldown && manipGained)
         {
             onCooldown = true;
             StartCoroutine(toggleCooldown());
@@ -106,4 +107,8 @@ public class ManipulationManager : MonoBehaviour
         onCooldown = false;
     }
 
+    public void giveManip()
+    {
+        manipGained = true;
+    }
 }

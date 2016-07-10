@@ -16,6 +16,7 @@ public class Character_Manager : Singleton<Character_Manager>
 
     //may not be needed depends what game object this is on or if it just referes to a specific script
     public GameObject Character;
+    public bool toggleHammer;
 
     //-----------------
     // Stats 
@@ -93,6 +94,14 @@ public class Character_Manager : Singleton<Character_Manager>
         totalCollectibles = 0;
         currentHealth = newGameHealth;
         maxHealth = newGameHealth;
+    }
+
+    /// <summary>
+    /// Turns on Hammer (One-off for tutorial)
+    /// </summary>
+    public void ActivateHammer()
+    {
+        toggleHammer = true;
     }
 
     //-----------------

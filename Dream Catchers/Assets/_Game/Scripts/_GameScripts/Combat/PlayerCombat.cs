@@ -34,7 +34,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void BeginAttack()
     {
-        if(attacking)
+        if(attacking || !Character_Manager.instance.toggleHammer)
         {
             return;
         }

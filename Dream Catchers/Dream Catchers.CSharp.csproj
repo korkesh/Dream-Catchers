@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -252,10 +246,13 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\BalloonFloatToStart2.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\BalloonIdle2.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\BalloonRun2.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\Confetti.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\DestroyParticles.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDEstroy.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDestroy.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\GenericTrigger.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
