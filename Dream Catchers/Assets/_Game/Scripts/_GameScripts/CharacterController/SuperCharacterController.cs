@@ -625,7 +625,7 @@ public class SuperCharacterController : MonoBehaviour
                 primaryGround = new GroundHit(hit.point, hit.normal, hit.distance);
                 Debug.DrawLine(o, hit.point);
 
-                if (Mathf.Abs(controller.transform.position.y - primaryGround.point.y) < 8)
+                if (Mathf.Abs(controller.transform.position.y - primaryGround.point.y) < 1.5f)
                 {
                     groundHeight = primaryGround.point.y;
                 }
@@ -680,6 +680,7 @@ public class SuperCharacterController : MonoBehaviour
                         else
                         {
                             // Uh oh
+                            Debug.Log("dragons");
                         }
                     }
                 }

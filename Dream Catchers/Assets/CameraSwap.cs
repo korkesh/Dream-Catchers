@@ -16,8 +16,9 @@ public class CameraSwap : MonoBehaviour
 
     private Mode mode;
 
-    private RootCamera rootCam;
-    private RealCamera viewCam;
+    //private RootCamera rootCam;
+    //private RealCamera viewCam;
+    private NewCamera newCam;
     private TempCamera manualCam;
      
 	// Use this for initialization
@@ -25,8 +26,10 @@ public class CameraSwap : MonoBehaviour
     {
         mode = Mode.Smart;
 
-        rootCam = GetComponent<RootCamera>();
-        viewCam = GetComponentInChildren<RealCamera>();
+        //rootCam = GetComponent<RootCamera>();
+        //viewCam = GetComponentInChildren<RealCamera>();
+
+        newCam = GetComponent<NewCamera>();
         manualCam = GetComponent<TempCamera>();
 	}
 	
@@ -39,16 +42,14 @@ public class CameraSwap : MonoBehaviour
             {
                 mode = Mode.Manual;
 
-                rootCam.GetComponent<Camera>().targetDisplay = 0;
-                viewCam.GetComponent<Camera>().targetDisplay = 1;
+                newCam.enabled = false;
                 manualCam.enabled = true;
             }
             else
             {
                 mode = Mode.Smart;
 
-                rootCam.GetComponent<Camera>().targetDisplay = 1;
-                viewCam.GetComponent<Camera>().targetDisplay = 0;
+                newCam.enabled = true;
                 manualCam.enabled = false;
             }
         }
