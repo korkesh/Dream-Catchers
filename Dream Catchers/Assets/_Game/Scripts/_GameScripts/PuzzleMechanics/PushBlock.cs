@@ -66,6 +66,7 @@ public class PushBlock : MonoBehaviour {
             return;
         }
 
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 
         // The direction the character is facing when colliding with the box
