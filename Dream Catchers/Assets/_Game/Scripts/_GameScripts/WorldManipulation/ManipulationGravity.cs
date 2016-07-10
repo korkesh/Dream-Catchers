@@ -125,6 +125,11 @@ public class ManipulationGravity : ManipulationScript {
     {
         if (collision.gameObject.tag == "Player")
         {
+            if (currentFloat == FLOAT_STATE.DOWN)
+            {
+                currentFloat = FLOAT_STATE.NEUTRAL;
+                DOTween.Kill(transform);
+            }
             return;
         }
         currentFloat = FLOAT_STATE.NEUTRAL;
