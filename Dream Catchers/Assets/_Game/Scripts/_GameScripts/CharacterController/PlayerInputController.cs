@@ -33,7 +33,7 @@ public class PlayerInputController : MonoBehaviour {
 
             bool jumpInput = Input.GetButtonDown("Jump") || toggleJump;
             bool jumpHold = Input.GetButton("Jump");
-            bool lTrigger = Input.GetButtonDown("L");
+            bool rButton = Input.GetButtonDown("R");
 
             Current = new PlayerInput()
             {
@@ -42,7 +42,7 @@ public class PlayerInputController : MonoBehaviour {
                 AttackInput = attackInput,
                 JumpInput = jumpInput,
                 JumpHold = jumpHold,
-                LTrigger = lTrigger,
+                RButton = rButton,
                 moveBuffer = false          
             };
         }
@@ -83,7 +83,7 @@ public struct PlayerInput
 
     public bool JumpInput; // Jump
     public bool JumpHold; // Jump Height
-    public bool LTrigger; // Left Trigger
+    public bool RButton; // Left Trigger
 
     public bool moveBuffer;
 }

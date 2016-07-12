@@ -90,12 +90,6 @@ public class PlayerMachine : SuperStateMachine {
     // Debug Inspector Fields:
     //----------------------------------------------
 
-    public float crossY;
-    /*public float moveSpeed;
-    public float hAxis;
-    public float vAxis;
-    public float inputMagnitude;
-    public float inputPlayerCross;*/
 
     //================================
     // Methods
@@ -364,7 +358,7 @@ public class PlayerMachine : SuperStateMachine {
             transform.forward = ((moveDirection.normalized * old_ratio) + (LocalMovement() * new_ratio)).normalized;
 
             // skid if input is >90 degrees of current facing direction
-            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.4f)
+            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, LocalMovement()).normalized).y > 0.49f)
             {
                 currentState = PlayerStates.Skid;
                 transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, LocalMovement());
@@ -417,7 +411,7 @@ public class PlayerMachine : SuperStateMachine {
         transform.forward = LocalMovement();
 
         // immediate slowing effect
-        moveDirection = moveDirection.normalized * 0.25f;
+        moveDirection = moveDirection.normalized * 0.2f;
     }
 
     void Skid_SuperUpdate()

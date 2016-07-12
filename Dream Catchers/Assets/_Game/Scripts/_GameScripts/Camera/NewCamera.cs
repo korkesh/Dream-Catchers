@@ -114,14 +114,39 @@ public class NewCamera : MonoBehaviour
     {
         lastGround = controller.currentGround.groundHeight + vTargetOffset.y;
 
+        // change modes if player pressed R
+        if (input.Current.RButton)
+        {
+            if (Mode == CameraMode.High)
+            {
+                Mode = CameraMode.Low;
+            }
+            else
+            {
+                Mode = CameraMode.High;
+            }
+        }
+
+        // manual x control (rotate around player pivot)
+        if (input.Current.Joy2Input.x != 0)
+        {
+            transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * 10f * input.Current.Joy2Input.x);
+        }
+
         UpdateTarget();
         UpdateActiveVariables();
         UpdateHeight();     
         UpdateVectors();
         ConstrainDistance();
-        //UpdateTarget();
         UpdateRotation();
         UpdateTarget();
+
+        RaycastHit hit = new RaycastHit();
+        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+        {
+            transform.position = hit.point;
+            UpdateRotation();
+        }
     }
 
 
@@ -239,7 +264,7 @@ public class NewCamera : MonoBehaviour
 
         // in ground state maintain player distance by travelling along cam-player displacement vector
         else if (!Mathf.Approximately(BaseDisplacement.magnitude, currentFollowDistance))
-        {
+        {          
             TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
             transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
         }
@@ -285,6 +310,25 @@ public class NewCamera : MonoBehaviour
 
         // TODO: fix rotation smoothening
         transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle + angleOffset - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed, transform.eulerAngles.y, transform.eulerAngles.z);
+    }
+
+
+    bool CheckCollision(Vector3 start, Vector3 end, out RaycastHit hit)
+    {
+        //RaycastHit hit = new RaycastHit();
+
+        Vector3 PlayerRoot = Player.transform.position + vTargetOffset;
+
+        if (Physics.Raycast(PlayerRoot, (transform.position - PlayerRoot).normalized, out hit, (transform.position - PlayerRoot).magnitude))
+        {
+            Debug.DrawLine(PlayerRoot, hit.point, Color.red);
+            if (hit.transform.gameObject.tag == "Wall")
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
