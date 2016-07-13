@@ -117,6 +117,7 @@ public class SmallClownAI : MonoBehaviour {
         currentAttack = rocket;
         ClownAttack cA = rocket.GetComponent<ClownAttack>();
         cA.clown = this.gameObject;
+        cA.LaunchAngle = LuanchAngle;
         Rigidbody rocketClone = rocket.GetComponent<Rigidbody>();
         rocketClone.velocity = Jump(Player.transform.position, LuanchAngle,LaunchPoint.transform);
     }
