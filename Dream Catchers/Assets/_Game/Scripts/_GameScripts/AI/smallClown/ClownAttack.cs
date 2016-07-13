@@ -70,6 +70,10 @@ public class ClownAttack : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+        if (NightmareBall == null)
+        {
+            Destroy(this.gameObject);
+        }
 
         if( currentState != ManipulationManager.instance.currentWorldState)
         {
@@ -166,7 +170,7 @@ public class ClownAttack : MonoBehaviour {
                 
                if(EnemyInCone() == true)
                {
-                   hitBack = true;
+                  hitBack = true;
                   rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
                }
                else

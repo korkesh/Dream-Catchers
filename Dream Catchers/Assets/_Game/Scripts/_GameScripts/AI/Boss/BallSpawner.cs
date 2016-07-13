@@ -50,6 +50,8 @@ public class BallSpawner : MonoBehaviour {
 
     public void Spawn()
     {
+        if (currentAttack != null)
+            return;
         GameObject rocket = (GameObject)Instantiate(Ballprefab, this.transform.position, this.transform.rotation);
         currentAttack = rocket;
         rocket.transform.localScale = rocket.transform.localScale * LocalScale;
