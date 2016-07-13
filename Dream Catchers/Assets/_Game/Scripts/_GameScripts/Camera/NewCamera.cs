@@ -133,11 +133,12 @@ public class NewCamera : MonoBehaviour
             transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * 10f * input.Current.Joy2Input.x);
         }
 
-        UpdateTarget();
+        //UpdateTarget();
         UpdateActiveVariables();
         UpdateHeight();     
         UpdateVectors();
         ConstrainDistance();
+        UpdateTarget();
         UpdateRotation();
         UpdateTarget();
 
