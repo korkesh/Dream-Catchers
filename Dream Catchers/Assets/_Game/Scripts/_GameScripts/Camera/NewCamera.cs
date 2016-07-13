@@ -81,6 +81,8 @@ public class NewCamera : MonoBehaviour
 
     private bool rotate = false; // set to true for the frame if player manipulated rotation
 
+    private float xRotationOffset = 0; // player manipulation value to x axis rotation
+
     //==========================================
     // Smoothing Coefficients
     //==========================================
@@ -138,15 +140,28 @@ public class NewCamera : MonoBehaviour
             rotate = true;
             transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * 10f * input.Current.Joy2Input.x);
         }
+
         ConstrainDistance();
         UpdateTarget();
         UpdateActiveVariables();
+
+        // check x-rotation manipulation after setting follow distance to apply offset
+        if (input.Current.Joy2Input.z != 0)
+        {
+            xRotationOffset = Clamp(-17.5f, 25, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10);
+        }
+        else
+        { // move toward default if no manipulation input
+            xRotationOffset += (0 - xRotationOffset) * Time.deltaTime * 10;
+        }
+
         UpdateHeight();
         UpdateVectors();
         //ConstrainDistance();  
         UpdateRotation();
         UpdateTarget();
 
+        // collision logic
         RaycastHit hit = new RaycastHit();
         if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
         {
@@ -168,13 +183,14 @@ public class NewCamera : MonoBehaviour
                     if (machine.ground)
                     {
                         currentHeight = hHeightGround;
-                        currentAngle = hAngleGround;
+                        currentAngle = hAngleGround + xRotationOffset;
                         angleOffset = 0;
                     }
                     else
                     {
                         currentHeight = hHeightAir;
                         currentAngle = hAngleAir;
+                        xRotationOffset = 0;
                     }
 
                     return;
@@ -187,13 +203,14 @@ public class NewCamera : MonoBehaviour
                     if (machine.ground)
                     {
                         currentHeight = lHeightGround;
-                        currentAngle = lAngleGround;
+                        currentAngle = lAngleGround + xRotationOffset;
                         angleOffset = 0;
                     }
                     else
                     {
                         currentHeight = lHeightAir;
                         currentAngle = lAngleAir;
+                        xRotationOffset = 0;
                     }
 
                     return;
@@ -336,16 +353,12 @@ public class NewCamera : MonoBehaviour
     }
 
 
-    bool CheckCollision(Vector3 start, Vector3 end, out RaycastHit hit)
+    bool CheckCollision(Vector3 Start, Vector3 End, out RaycastHit hit)
     {
-        //RaycastHit hit = new RaycastHit();
-
-        Vector3 PlayerRoot = Player.transform.position + vTargetOffset;
-
-        if (Physics.Raycast(PlayerRoot, (transform.position - PlayerRoot).normalized, out hit, (transform.position - PlayerRoot).magnitude))
+        if (Physics.Raycast(Start, (End - Start).normalized, out hit, (End - Start).magnitude))
         {
             Debug.DrawLine(PlayerRoot, hit.point, Color.red);
-            if (hit.transform.gameObject.tag == "Wall")
+            //if (hit.transform.gameObject.tag == "Wall")
             {
                 return true;
             }
