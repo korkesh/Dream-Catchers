@@ -33,7 +33,7 @@ public class NewCamera : MonoBehaviour
     private Vector3 PlayerRoot; // player.x, cam.y, player.z
     private Vector3 TargetDisplacement; // displacement from cam to player target
     private Vector3 BaseDisplacement; // displacement from cam to player transform
-
+    private Vector3 PrevDispDir; // displacement from cam to player on previous frame
 
     //==========================================
     // Constraints:
@@ -79,6 +79,7 @@ public class NewCamera : MonoBehaviour
     private Vector3 CurrentTargetPos; // position target is at this frame
     private float currentTargetOffset = 0;
 
+    private bool rotate = false; // set to true for the frame if player manipulated rotation
 
     //==========================================
     // Smoothing Coefficients
@@ -107,6 +108,9 @@ public class NewCamera : MonoBehaviour
 
         Target = Player.transform.position + vTargetOffset;
         CurrentTargetPos = Player.transform.position + vTargetOffset;
+
+        BaseDisplacement = (Player.transform.position - transform.position);
+        BaseDisplacement.y = 0;
     }
 	
 
@@ -128,24 +132,25 @@ public class NewCamera : MonoBehaviour
         }
 
         // manual x control (rotate around player pivot)
+        rotate = false;
         if (input.Current.Joy2Input.x != 0)
         {
+            rotate = true;
             transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * 10f * input.Current.Joy2Input.x);
         }
-
-        //UpdateTarget();
-        UpdateActiveVariables();
-        UpdateHeight();     
-        UpdateVectors();
         ConstrainDistance();
         UpdateTarget();
+        UpdateActiveVariables();
+        UpdateHeight();
+        UpdateVectors();
+        //ConstrainDistance();  
         UpdateRotation();
         UpdateTarget();
 
         RaycastHit hit = new RaycastHit();
         if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
         {
-            transform.position = hit.point;
+            transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);//hit.point;
             UpdateRotation();
         }
     }
@@ -199,6 +204,9 @@ public class NewCamera : MonoBehaviour
 
     void UpdateTarget()
     {
+        // store previous frame's displacement before updating
+        PrevDispDir = BaseDisplacement.normalized;
+
         Target = Player.transform.position + vTargetOffset; // base pos
 
         // determine how aligned player forward is with displacement vector
@@ -257,18 +265,32 @@ public class NewCamera : MonoBehaviour
 
     void ConstrainDistance()
     {
-        if (!machine.ground)
+        // follow player via their movement direction if rotation hasn't been manipulated this frame
+        if (!rotate)
         {
-            // in air follow player via movement instead of rotation, so match player displacement per frame (ignoring y)
-            transform.position += new Vector3(machine.transform.position.x - machine.prevPos.x, 0, machine.transform.position.z - machine.prevPos.z);
+            TargetPos = Player.transform.position - (PrevDispDir * currentFollowDistance);
+            TargetPos.y = transform.position.y;
+            transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
         }
-
-        // in ground state maintain player distance by travelling along cam-player displacement vector
+        // manual rotation logic messes with movement following, so simply close gap via displacement dir
         else if (!Mathf.Approximately(BaseDisplacement.magnitude, currentFollowDistance))
-        {          
+        {
             TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
             transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
         }
+
+        //if (!machine.ground)
+        //{
+        //    // in air follow player via movement instead of rotation, so match player displacement per frame (ignoring y)
+        //    transform.position += new Vector3(machine.transform.position.x - machine.prevPos.x, 0, machine.transform.position.z - machine.prevPos.z);
+        //}
+
+        //// in ground state maintain player distance by travelling along cam-player displacement vector
+        //else if (!Mathf.Approximately(BaseDisplacement.magnitude, currentFollowDistance))
+        //{          
+        //    TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
+        //    transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
+        //}
     }
 
 
