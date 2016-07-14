@@ -72,7 +72,8 @@ public class ClownAttack : MonoBehaviour {
         }
         if (NightmareBall == null)
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+            //Destroying the gameobject makes the timing on new ball spawns less weird, but it destroys the particle effect as well
         }
 
         if( currentState != ManipulationManager.instance.currentWorldState)

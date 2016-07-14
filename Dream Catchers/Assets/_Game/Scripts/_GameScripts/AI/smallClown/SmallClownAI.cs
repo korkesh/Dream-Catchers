@@ -63,8 +63,8 @@ public class SmallClownAI : MonoBehaviour {
             WatchPlayer();
             if (readyingAttack == true)
             {
-                if (rigidB.velocity.y == 0)
-                {
+                //if (rigidB.velocity.y == 0)
+                //{
                     attackDelayTime -= Time.deltaTime;
                     if (attackDelayTime <= 0)
                     {
@@ -75,7 +75,7 @@ public class SmallClownAI : MonoBehaviour {
                         readyingAttack = false;
                         attackDelayTime = DelayToAttack;
                     }
-                }
+                //}
 
             }
             else
@@ -94,7 +94,7 @@ public class SmallClownAI : MonoBehaviour {
 
             if(rigidB.detectCollisions == true && rigidB.velocity.y == 0)
             {
-                rigidB.useGravity = false;
+                //rigidB.useGravity = false;
             }
         }
 
