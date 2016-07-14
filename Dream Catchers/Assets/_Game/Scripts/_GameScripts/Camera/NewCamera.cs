@@ -133,31 +133,31 @@ public class NewCamera : MonoBehaviour
             }
         }
 
+        UpdateTarget();
+
         // manual x control (rotate around player pivot)
         rotate = false;
-        if (input.Current.Joy2Input.x != 0)
+        if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)
         {
             rotate = true;
             transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * 10f * input.Current.Joy2Input.x);
         }
 
         ConstrainDistance();
-        UpdateTarget();
         UpdateActiveVariables();
 
         // check x-rotation manipulation after setting follow distance to apply offset
-        if (input.Current.Joy2Input.z != 0)
+        if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
         {
             xRotationOffset = Clamp(-17.5f, 25, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10);
         }
-        else
+        else if (machine.ground)
         { // move toward default if no manipulation input
-            xRotationOffset += (0 - xRotationOffset) * Time.deltaTime * 10;
+            xRotationOffset += (0 - xRotationOffset) * Time.deltaTime * 4;
         }
 
         UpdateHeight();
-        UpdateVectors();
-        //ConstrainDistance();  
+        UpdateVectors();  
         UpdateRotation();
         UpdateTarget();
 
@@ -165,7 +165,13 @@ public class NewCamera : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
         {
+            if (hit.transform.gameObject.tag != "Wall" && hit.transform.gameObject.tag != "Floor")
+            {
+                return; // todo: obstruction logic (rotate or alpha out)
+            }
+
             transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);//hit.point;
+            UpdateTarget();
             UpdateRotation();
         }
     }
