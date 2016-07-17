@@ -95,4 +95,15 @@ public class PressurePlate : MonoBehaviour {
         }
     }
 
+    // NOTE: One off functionality for the case in which an enemy holding down a button is destroyed
+    public void EnemyDestroyed()
+    {
+        timer = Time.deltaTime;
+        originalPos = PressurePlateObject.transform.position;
+        destinationPos.y = -destinationPos.y;
+
+        activated = false;
+        ObjectToTrigger.SendMessage(TriggerFunctionCall);
+    }
+
 }
