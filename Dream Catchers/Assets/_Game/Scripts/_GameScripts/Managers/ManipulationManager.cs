@@ -109,6 +109,6 @@ public class ManipulationManager : MonoBehaviour
 
     public void giveManip()
     {
-        manipGained = true;
+        manipGained = !manipGained;
     }
 }
