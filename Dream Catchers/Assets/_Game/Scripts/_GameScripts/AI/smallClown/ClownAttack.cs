@@ -25,6 +25,8 @@ public class ClownAttack : MonoBehaviour {
     public GameObject DreamBall;
     public GameObject NightmareBall;
     public GameObject particles;
+    public float LaunchAngle;
+    public string messagetosend;
 
     //================================
     // Methods
@@ -68,6 +70,11 @@ public class ClownAttack : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
+        if (NightmareBall == null)
+        {
+            //Destroy(this.gameObject);
+            //Destroying the gameobject makes the timing on new ball spawns less weird, but it destroys the particle effect as well
+        }
 
         if( currentState != ManipulationManager.instance.currentWorldState)
         {
@@ -86,6 +93,26 @@ public class ClownAttack : MonoBehaviour {
 	
 	}
 
+    public Vector3 Jump(Vector3 target, float angle, Transform current)
+    {
+        Vector3 dir = target - current.position;  // get target direction
+        float h = dir.y;  // get height difference
+        dir.y = 0;  // retain only the horizontal direction
+        float dist = dir.magnitude;  // get horizontal distance
+        float a = angle * Mathf.Deg2Rad;  // convert angle to radians
+        dir.y = dist * Mathf.Tan(a);  // set dir to the elevation angle
+        dist += h / Mathf.Tan(a);  // correct for small height differences
+        // calculate the velocity magnitude
+        float sin = Mathf.Sin(2 * a);
+        float div = dist * Physics.gravity.magnitude / sin;
+        if (sin == 0 || div < 0)
+        {
+            return current.transform.forward * 2;
+        }
+        float vel = Mathf.Sqrt(div);
+        return vel * dir.normalized;
+    }
+
     //checksa if the bomb should explode, deal damage or bouncy back
     void OnCollisionEnter(Collision collision)
     {
@@ -100,9 +127,14 @@ public class ClownAttack : MonoBehaviour {
 
         if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && collision.gameObject.name != "Launch")
         {
-            if(collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Hammer")
             {
                 damage.DealDamage();
+            }
+
+            if(collision.gameObject == clown &&  messagetosend != "")
+            {
+                clown.SendMessage(messagetosend);
             }
 
             Debug.Log(collision.gameObject.tag);
@@ -136,18 +168,17 @@ public class ClownAttack : MonoBehaviour {
 
             if(collision.gameObject.tag == "Hammer" && hitBack == false)
             {
-                Debug.Log("hit hammer");
+                
                if(EnemyInCone() == true)
                {
-                   hitBack = true;
-                   Debug.Log("lob");
-                  rigidB.velocity = clown.GetComponent<SmallClownAI>().Jump(clown.transform.position + Vector3.up, clown.GetComponent<SmallClownAI>().LuanchAngle, transform);
+                  hitBack = true;
+                  rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
                }
                else
                {
                    GameObject player = GameObject.FindGameObjectWithTag("Player");
                    Vector3 inFrontofPlayer = player.transform.position + player.transform.forward * 5;
-                   rigidB.velocity = clown.GetComponent<SmallClownAI>().Jump(inFrontofPlayer, clown.GetComponent<SmallClownAI>().LuanchAngle, transform);
+                   rigidB.velocity = Jump(inFrontofPlayer, LaunchAngle, transform);
                }
             }
             else if (collision.gameObject.tag == "Player" && hitBack == false) 
@@ -161,7 +192,7 @@ public class ClownAttack : MonoBehaviour {
                         if(EnemyInCone() == true)
                         {
                             hitBack = true;
-                            rigidB.velocity = clown.GetComponent<SmallClownAI>().Jump(clown.transform.position + Vector3.up, clown.GetComponent<SmallClownAI>().LuanchAngle, transform);
+                            rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
                         }
                         else
                         {

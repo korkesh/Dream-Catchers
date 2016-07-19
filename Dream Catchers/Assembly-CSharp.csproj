@@ -48,6 +48,7 @@
      <Compile Include="Assets\CameraSwap.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+     <Compile Include="Assets\DestroyObject.cs" />
      <Compile Include="Assets\Fungus\Animation\Scripts\Commands\ResetAnimTrigger.cs" />
      <Compile Include="Assets\Fungus\Animation\Scripts\Commands\SetAnimBool.cs" />
      <Compile Include="Assets\Fungus\Animation\Scripts\Commands\SetAnimFloat.cs" />
@@ -215,6 +216,9 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\BalloonRun2.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\Confetti.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\DestroyParticles.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BallSpawner.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HandScript.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
