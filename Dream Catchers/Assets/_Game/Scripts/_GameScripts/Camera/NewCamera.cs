@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// todo: air state locks rotation and moves to keep player at correct viewport pos
+
+// Author: Conor MacKeigan
 public class NewCamera : MonoBehaviour
 {
     //===========================================
@@ -67,7 +68,6 @@ public class NewCamera : MonoBehaviour
     private Vector3 JumpOrigin; // position at which player left the ground
     private Vector3 JumpDisplacement; // displacement vector on frame player left ground
 
-
     //=========================================
     // Active Variables
     //=========================================
@@ -82,6 +82,8 @@ public class NewCamera : MonoBehaviour
     private bool rotate = false; // set to true for the frame if player manipulated rotation
 
     private float xRotationOffset = 0; // player manipulation value to x axis rotation
+
+    private float currentRotateSpeed = 0; // speed at which camera is rotating around y axis (accelerates)
 
     //==========================================
     // Smoothing Coefficients
@@ -98,7 +100,7 @@ public class NewCamera : MonoBehaviour
 
     void Start ()
     {
-        Mode = CameraMode.High;
+        Mode = CameraMode.Low;
 
         Player = GameObject.FindGameObjectWithTag("Player"); // Character_Manager.Instance.Character;
 
@@ -118,6 +120,14 @@ public class NewCamera : MonoBehaviour
 
 	void LateUpdate ()
     {
+        // DEBUG: toggle test spheres
+        if ((Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.S)) || (Input.GetKeyDown(KeyCode.S) && Input.GetKey(KeyCode.X)))
+        {
+            test1.SetActive(!test1.active);
+            test2.SetActive(!test2.active);
+        }
+
+        Vector3 prevPos = transform.position; // save position before movement in case of 
         lastGround = controller.currentGround.groundHeight + vTargetOffset.y;
 
         // change modes if player pressed R
@@ -133,39 +143,64 @@ public class NewCamera : MonoBehaviour
             }
         }
 
-        UpdateTarget();
+        //UpdateTarget();
+
+        RaycastHit hit = new RaycastHit();
 
         // manual x control (rotate around player pivot)
         rotate = false;
-        if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)
+
+        if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f && machine.ground)
         {
             rotate = true;
-            transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * 10f * input.Current.Joy2Input.x);
+            transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
+
+            // if rotation caused a collision revert
+            if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+            {
+                if (hit.transform.gameObject.tag == "Wall")
+                {
+                    transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
+                    rotate = false;
+                }
+            }
+        }
+        else
+        {
+            currentRotateSpeed = 0;
         }
 
-        ConstrainDistance();
+
+        UpdateTarget();
+        //ConstrainDistance();
         UpdateActiveVariables();
 
+
         // check x-rotation manipulation after setting follow distance to apply offset
-        if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
+        if (Mathf.Abs(input.Current.Joy2Input.x) < 0.25f)
         {
-            xRotationOffset = Clamp(-17.5f, 25, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10);
+            if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
+            {
+                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
+            }
+            else if (machine.ground)
+            { // move toward default if no manipulation input
+                xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * 4f;
+            }
         }
-        else if (machine.ground)
-        { // move toward default if no manipulation input
-            xRotationOffset += (0 - xRotationOffset) * Time.deltaTime * 4;
-        }
+        
 
         UpdateHeight();
-        UpdateVectors();  
+        ConstrainDistance();
+        UpdateVectors();
         UpdateRotation();
         UpdateTarget();
 
-        // collision logic
-        RaycastHit hit = new RaycastHit();
+
+        // collision logic  
         if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
         {
-            if (hit.transform.gameObject.tag != "Wall" && hit.transform.gameObject.tag != "Floor")
+            if (hit.transform.gameObject.tag != "Wall")
             {
                 return; // todo: obstruction logic (rotate or alpha out)
             }
@@ -262,16 +297,27 @@ public class NewCamera : MonoBehaviour
         currentHeight -= Clamp(0, float.PositiveInfinity, lastGround - Target.y);
 
         TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
+        Vector3 prevPos = transform.position; // store position pre-move in case of collision
 
-        if (TargetPos.y > transform.position.y)
+        //if (TargetPos.y > transform.position.y)
         {
             // upward movement should be essentially snapped
             transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime);
         }
-        else
+        //else
         {
             // downward movement is slower, rotating downward to keep player in view
-            transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime * 0.2f);
+            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime * 0.2f);
+        }
+
+        // if moved into a floor/ceiling, revert movement
+        RaycastHit hit = new RaycastHit();
+        if (CheckCollision(Player.transform.position, transform.position, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Floor")
+            {
+                transform.position = prevPos;
+            }
         }
     }
 
@@ -301,19 +347,6 @@ public class NewCamera : MonoBehaviour
             TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
             transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
         }
-
-        //if (!machine.ground)
-        //{
-        //    // in air follow player via movement instead of rotation, so match player displacement per frame (ignoring y)
-        //    transform.position += new Vector3(machine.transform.position.x - machine.prevPos.x, 0, machine.transform.position.z - machine.prevPos.z);
-        //}
-
-        //// in ground state maintain player distance by travelling along cam-player displacement vector
-        //else if (!Mathf.Approximately(BaseDisplacement.magnitude, currentFollowDistance))
-        //{          
-        //    TargetPos = transform.position + (BaseDisplacement.normalized * (BaseDisplacement.magnitude - currentFollowDistance));
-        //    transform.position = Vector3.MoveTowards(transform.position, TargetPos, smoothFollow * Time.deltaTime);
-        //}
     }
 
 
@@ -338,7 +371,6 @@ public class NewCamera : MonoBehaviour
         }
 
         // x - axis rotation: 
-        // TODO: fix slight jitter from long falls
         // TODO: look further downward
         // in air states, rotate down further if player goes below viewport threshold
         if (machine.moveDirection.y < -17.5f)
@@ -359,15 +391,13 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // checks for first collision point along ray between start/end TODO: raycast ignore layer to get wall hits thru obstacles
     bool CheckCollision(Vector3 Start, Vector3 End, out RaycastHit hit)
     {
         if (Physics.Raycast(Start, (End - Start).normalized, out hit, (End - Start).magnitude))
         {
             Debug.DrawLine(PlayerRoot, hit.point, Color.red);
-            //if (hit.transform.gameObject.tag == "Wall")
-            {
-                return true;
-            }
+            return true;       
         }
 
         return false;
