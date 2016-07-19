@@ -37,12 +37,12 @@ public class PlayerInputController : MonoBehaviour {
             bool rButton = Input.GetButtonDown("R");
 
             // TODO: Change the efficiency of this; no lookup everytime
-            GameObject dialogBox = GameObject.FindGameObjectWithTag("DialogBox");
-            if (dialogBox != null && dialogBox.activeSelf)
-            {
-                jumpInput = false;
-                jumpHold = false;
-            }
+            //GameObject dialogBox = GameObject.FindGameObjectWithTag("DialogBox");
+            //if (dialogBox != null && dialogBox.activeSelf)
+            //{
+            //    jumpInput = false;
+            //    jumpHold = false;
+            //}
 
 
             Current = new PlayerInput()

@@ -152,6 +152,7 @@ public class NewCamera : MonoBehaviour
 
         if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f && machine.ground)
         {
+            Debug.Log("sup");
             rotate = true;
             transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
 
