@@ -43,6 +43,8 @@ public class TempSwitchScene : MonoBehaviour {
         if(PlayerPrefs.HasKey("CurrentHealth"))
         {
             SceneManager.LoadScene(NextScene);
+            Level_Manager.instance.ContinueLevel();
+            Character_Manager.instance.GoTocheckPoint();
         }
         else
         {
