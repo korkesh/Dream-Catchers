@@ -22,7 +22,8 @@ public class PlayerInputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       
+
+
         if(Game_Manager.instance == null || !Game_Manager.instance.isPaused())
         {
             // Controls set via Unity Input Managre
@@ -34,6 +35,15 @@ public class PlayerInputController : MonoBehaviour {
             bool jumpInput = Input.GetButtonDown("Jump") || toggleJump;
             bool jumpHold = Input.GetButton("Jump");
             bool rButton = Input.GetButtonDown("R");
+
+            // TODO: Change the efficiency of this; no lookup everytime
+            GameObject dialogBox = GameObject.FindGameObjectWithTag("DialogBox");
+            if (dialogBox != null && dialogBox.activeSelf)
+            {
+                jumpInput = false;
+                jumpHold = false;
+            }
+
 
             Current = new PlayerInput()
             {

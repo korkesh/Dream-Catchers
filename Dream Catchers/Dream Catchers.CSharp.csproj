@@ -252,6 +252,10 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BallSpawner.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HandScript.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageOne.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageTwo.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\Stages.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\SwipePoints.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />

@@ -102,7 +102,7 @@ public class Character_Manager : Singleton<Character_Manager>
     /// </summary>
     public void ActivateHammer()
     {
-        toggleHammer = true;
+        toggleHammer = !toggleHammer;
     }
 
     //-----------------
