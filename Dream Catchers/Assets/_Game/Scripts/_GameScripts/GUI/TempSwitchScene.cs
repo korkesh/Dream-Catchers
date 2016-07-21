@@ -52,6 +52,23 @@ public class TempSwitchScene : MonoBehaviour {
         }
     }
 
+    public void ReloadLevel()
+    {
+        if (PlayerPrefs.GetString("CurrentLevel") == "Tutorial" || PlayerPrefs.HasKey("CurrentLevel") == false)
+        {
+            newGame();
+        }
+        else
+        {
+            Game_Manager.instance.ChangeScene(PlayerPrefs.GetString("CurrentLevel"));
+            UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
+            Game_Manager.instance.PlayGame();
+            Level_Manager.instance.ContinueLevel();
+            GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
+            Character_Manager.instance.GoTocheckPoint();
+        }
+    }
+
     public void newMenu(Menu menu)
     {
         UI_Manager.instance.ShowMenu(menu);
