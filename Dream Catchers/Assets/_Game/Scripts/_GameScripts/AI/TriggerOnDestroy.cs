@@ -14,6 +14,10 @@ public class TriggerOnDestroy : MonoBehaviour {
             ObjectToTrigger = GameObject.Find(ObjectToTriggerName);
         }
 
-        ObjectToTrigger.SendMessage(TriggerFunctionCall);
+        if (ObjectToTrigger != null)
+        {
+            ObjectToTrigger.SendMessage(TriggerFunctionCall);
+        }
+        
     }
 }
