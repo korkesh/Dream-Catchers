@@ -43,7 +43,26 @@ public class BallSpawner : MonoBehaviour {
         }
         else
         {
+            if (currentAttack == null)
+            {
+                BossClown Bc = GameObject.FindObjectOfType<BossClown>();
+                if (Bc != null)
+                {
+                    if(Bc.RightHand.spawner.currentAttack == null && Bc.LeftHand.spawner.currentAttack == null)
+                    {
+                         if (Bc.RightHand.attack == HandScript.Mode.THROW)
+                         {
+                             Bc.RightHand.attack = HandScript.Mode.NONE;
+                         }
 
+                         if (Bc.LeftHand.attack == HandScript.Mode.THROW)
+                         {
+                             Bc.LeftHand.attack = HandScript.Mode.NONE;
+                         }
+                    }
+                    
+                }
+            }
         }
 	
 	}
