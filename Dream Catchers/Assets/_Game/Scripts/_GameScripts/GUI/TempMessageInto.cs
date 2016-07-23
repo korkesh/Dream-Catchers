@@ -20,6 +20,7 @@ public class TempMessageInto : MonoBehaviour {
         if(Input.GetButtonDown("Jump") == true)
         {
             Game_Manager.instance.ChangeScene(nextscene);
+            PlayerPrefs.SetString("CurrentLevel", "Tutorial");
         }
 
 	}

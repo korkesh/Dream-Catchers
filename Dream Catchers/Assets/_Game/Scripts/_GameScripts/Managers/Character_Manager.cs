@@ -102,7 +102,7 @@ public class Character_Manager : Singleton<Character_Manager>
     /// </summary>
     public void ActivateHammer()
     {
-        toggleHammer = !toggleHammer;
+        toggleHammer = true;
     }
 
     //-----------------
@@ -216,13 +216,14 @@ public class Character_Manager : Singleton<Character_Manager>
     public void GoTocheckPoint()
     {
         Character = GameObject.FindGameObjectWithTag("Player");
-        if(Character != null)
+        if (Character != null && Level_Manager.instance.checkPointContinue == true)
         {
             Character.transform.position = Level_Manager.instance.CheckPointPos;
             Character.transform.Rotate(Level_Manager.instance.Rot);
         }
+       
 
     }
 
-    
+
 }

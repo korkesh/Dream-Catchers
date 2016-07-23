@@ -6,7 +6,8 @@ using UnityEngine;
 using System.Collections;
 
 
-public class Level_Manager : MonoBehaviour {
+public class Level_Manager : MonoBehaviour
+{
 
     public static Level_Manager instance = null;
 
@@ -32,6 +33,7 @@ public class Level_Manager : MonoBehaviour {
     public Levels defaultLevel;
     public string defaultGameScene;
     public Vector3 defaultCheckPoint;
+    public bool checkPointContinue;
 
     //-----------------
     // Collectibles 
@@ -67,20 +69,22 @@ public class Level_Manager : MonoBehaviour {
         }
 
         //Sets this to not be destroyed when reloading scene
-       // DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         ContinueLevel();
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
 
-	}
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     /// <summary>
     /// Creates a new game save in player prefs
@@ -88,8 +92,7 @@ public class Level_Manager : MonoBehaviour {
     public void NewGamePlayerPrefs()
     {
 
-        PlayerPrefs.SetString("CurrentLevel", defaultLevel.ToString());
-        PlayerPrefs.SetString("CurrentScene", defaultGameScene);
+        PlayerPrefs.SetString("CurrentLevel", "Tutorial");
         PlayerPrefs.SetInt("TotalNumMemoryFrag", totalNumMemoryFrag);
         PlayerPrefs.SetInt("TotalNumCollectibles", totalNumCollectibles);
         PlayerPrefs.SetInt("LevelComplete", 0);
@@ -110,9 +113,9 @@ public class Level_Manager : MonoBehaviour {
 
     public bool LevelComplete()
     {
-        if(PlayerPrefs.GetInt("TotalNumMemoryFrag") == Character_Manager.instance.totalMemoryFragmentsCollected)
+        if (PlayerPrefs.GetInt("TotalNumMemoryFrag") == Character_Manager.instance.totalMemoryFragmentsCollected)
         {
-            if(PlayerPrefs.GetInt("LevelComplete") == 0)
+            if (PlayerPrefs.GetInt("LevelComplete") == 0)
             {
                 PlayerPrefs.SetInt("LevelComplete", 1);
                 return true;
@@ -121,7 +124,7 @@ public class Level_Manager : MonoBehaviour {
         return false;
     }
 
-    public void newCheckPoint(Vector3 pos, Vector3 Rotation)
+    public void newCheckPoint(Vector3 pos, Vector3 Rotation, string Level)
     {
         CheckPointPos = pos;
         Rot = Rotation;
@@ -129,11 +132,12 @@ public class Level_Manager : MonoBehaviour {
         PlayerPrefs.SetFloat("CheckPointY", CheckPointPos.y);
         PlayerPrefs.SetFloat("CheckPointZ", CheckPointPos.z);
         PlayerPrefs.SetFloat("RotationY", Rotation.y);
+        PlayerPrefs.SetString("CurrentLevel", Level);
     }
 
     public void ContinueLevel()
     {
-        Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
+        // Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
 
         CheckPointPos.x = PlayerPrefs.GetFloat("CheckPointX");
         CheckPointPos.y = PlayerPrefs.GetFloat("CheckPointY");
@@ -141,13 +145,15 @@ public class Level_Manager : MonoBehaviour {
         Rot.x = 0;
         Rot.y = PlayerPrefs.GetFloat("RotationY");
         Rot.z = 0;
+        SceneName = PlayerPrefs.GetString("CurrentLevel");
 
-        if(CheckPointPos == Vector3.zero)
+        if (CheckPointPos == Vector3.zero)
         {
             PlayerPrefs.SetFloat("CheckPointX", defaultCheckPoint.x);
             PlayerPrefs.SetFloat("CheckPointY", defaultCheckPoint.y);
             PlayerPrefs.SetFloat("CheckPointZ", defaultCheckPoint.z);
             CheckPointPos = defaultCheckPoint;
+            SceneName = "Tutorial";
         }
     }
 }

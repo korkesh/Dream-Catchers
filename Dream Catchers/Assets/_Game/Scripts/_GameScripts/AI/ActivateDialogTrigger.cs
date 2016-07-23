@@ -10,7 +10,11 @@ public class ActivateDialogTrigger : MonoBehaviour
 
     void OnDestroy()
     {
-        flC.SendFungusMessage(message);
+        if(flC != null)
+        {
+            flC.SendFungusMessage(message);
+        }
+        
     }
 }
      

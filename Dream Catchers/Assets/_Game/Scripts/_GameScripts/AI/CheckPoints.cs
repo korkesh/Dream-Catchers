@@ -5,30 +5,35 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class CheckPoints : MonoBehaviour {
+public class CheckPoints : MonoBehaviour
+{
 
     public Vector3 position;
     public bool useCurrentPos;
+    public string LevelName;
 
-	// Use this for initialization
-	void Start () {
-	
-        if(useCurrentPos == true)
+    // Use this for initialization
+    void Start()
+    {
+
+        if (useCurrentPos == true)
         {
             position = this.transform.position;
         }
 
-	}
+    }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
-            Level_Manager.instance.newCheckPoint(position, transform.rotation.eulerAngles);
+            Level_Manager.instance.newCheckPoint(position, transform.rotation.eulerAngles, SceneManager.GetActiveScene().name);
+            Level_Manager.instance.checkPointContinue = true;
             //might remove
-            Destroy(this.gameObject,0.5f);
+            Destroy(this.gameObject, 0.5f);
         }
-        
+
     }
 }
