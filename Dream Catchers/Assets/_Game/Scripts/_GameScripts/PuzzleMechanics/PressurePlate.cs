@@ -23,12 +23,16 @@ public class PressurePlate : MonoBehaviour {
 
     Vector3 originalPos;
     Vector3 destinationPos;
+
+    public Vector3 PressedPos;
+    public Vector3 DePressedPos;
+
     float timer;
 
     void Start()
     {
-        originalPos = PressurePlateObject.transform.position;
-        destinationPos = PressurePlateObject.transform.position;
+        originalPos = PressurePlateObject.transform.parent.position;
+        destinationPos = PressurePlateObject.transform.parent.position;
         timer = Time.deltaTime;
         objectsOnSwitch = new List<string>();
     }
@@ -36,7 +40,7 @@ public class PressurePlate : MonoBehaviour {
     void Update()
     {
         // Animate the lowering of pressure plate
-        PressurePlateObject.transform.position = Vector3.Lerp(originalPos, destinationPos, animationSpeed * timer);
+        PressurePlateObject.transform.parent.position = Vector3.Lerp(originalPos, destinationPos, animationSpeed * timer);
 
         if (destinationPos == originalPos)
         {
@@ -56,8 +60,8 @@ public class PressurePlate : MonoBehaviour {
             if ((other.tag == s) && !activated)
             {
                 timer = Time.deltaTime;
-                originalPos = PressurePlateObject.transform.position;
-                destinationPos.y = -destinationPos.y;
+                originalPos = PressurePlateObject.transform.parent.position;
+                destinationPos = PressedPos;
 
                 activated = true;
                 ObjectToTrigger.SendMessage(TriggerFunctionCall);
@@ -87,8 +91,8 @@ public class PressurePlate : MonoBehaviour {
         if(objectsOnSwitch.Count == 0 && allowDeactivate && activated)
         {
             timer = Time.deltaTime;
-            originalPos = PressurePlateObject.transform.position;
-            destinationPos.y = -destinationPos.y;
+            originalPos = PressurePlateObject.transform.parent.position;
+            destinationPos = DePressedPos;
 
             activated = false;
             ObjectToTrigger.SendMessage(TriggerFunctionCall);
@@ -99,8 +103,8 @@ public class PressurePlate : MonoBehaviour {
     public void EnemyDestroyed()
     {
         timer = Time.deltaTime;
-        originalPos = PressurePlateObject.transform.position;
-        destinationPos.y = -destinationPos.y;
+        originalPos = PressurePlateObject.transform.parent.position;
+        destinationPos = PressedPos;
 
         activated = false;
         ObjectToTrigger.SendMessage(TriggerFunctionCall);

@@ -207,7 +207,7 @@ public class Game_Manager : MonoBehaviour {
     // check if playing
     public bool isPlaying()
     {
-        return currentGameState == GameState.PLAY;
+        return true; // currentGameState == GameState.PLAY;
     }
 
     // check if in menus

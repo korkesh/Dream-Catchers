@@ -13,6 +13,7 @@ public class CheckPoints : MonoBehaviour
     public Vector3 position;
     public bool useCurrentPos;
     public string LevelName;
+    public Light lightbulb;
 
     // Use this for initialization
     void Start()
@@ -31,8 +32,8 @@ public class CheckPoints : MonoBehaviour
         {
             Level_Manager.instance.newCheckPoint(position, transform.rotation.eulerAngles, SceneManager.GetActiveScene().name);
             Level_Manager.instance.checkPointContinue = true;
-            //might remove
-            Destroy(this.gameObject, 0.5f);
+            lightbulb.enabled = true;
+
         }
 
     }
