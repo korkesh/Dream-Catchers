@@ -364,7 +364,7 @@ public class NewCamera : MonoBehaviour
             float angle = Vector3.Angle(PlanarForward, TargetDisplacement.normalized);
 
             // in ground state rotation is locked
-            if (machine.ground)
+            //if (machine.ground)
             {
                 transform.forward = Quaternion.AngleAxis(angle * dir, Vector3.up) * transform.forward;
             }
