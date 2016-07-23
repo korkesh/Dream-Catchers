@@ -78,6 +78,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AutoTextureTilingTool\Example\Scripts\ScaleAnimation.cs" />
+    <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\AutoTextureTiling.cs" />
+    <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\DynamicTextureTiling.cs" />
+    <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\MeshData.cs" />
     <Compile Include="Assets\CameraSwap.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
@@ -253,6 +257,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HandScript.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageOne.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageThree.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageTwo.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\Stages.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\SwipePoints.cs" />
@@ -264,6 +269,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerOnDestroy.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerScene.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonAttack_State.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonChase_State.cs" />
@@ -276,10 +282,11 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BaseState.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\DamageDealer.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\FSM.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\hunterOnAwake.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\ClownAttack.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\LaunchMovement.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\HybridCamera.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\BossCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\NewCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RealCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RootCamera.cs" />
@@ -412,10 +419,6 @@
     <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\Editor\Editor.ReorderableList.xml" />
     <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\LICENSE.txt" />
     <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\README.txt" />
-    <None Include="Assets\FungusExamples\Attribution.txt" />
-    <None Include="Assets\FungusExamples\FungusTown\Readme.txt" />
-    <None Include="Assets\FungusExamples\Sherlock\Readme.txt" />
-    <None Include="Assets\FungusExamples\TheFacility\Fonts\aleo\SIL Open Font License.txt" />
     <None Include="Assets\TSF\Shaders\TSF.shader" />
     <None Include="Assets\TSF\Shaders\TSFOutline.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CelShaderV2.shader" />

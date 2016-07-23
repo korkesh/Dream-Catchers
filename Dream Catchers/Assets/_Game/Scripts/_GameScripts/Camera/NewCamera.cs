@@ -380,7 +380,7 @@ public class NewCamera : MonoBehaviour
             {
                 if (Vector3.Cross(transform.forward, DisplacementDir).magnitude > 0.2f)
                 {
-                    Debug.Log("changing angle");
+                    //Debug.Log("changing angle");
                     angleOffset = Mathf.Max(angleOffset, Vector3.Angle(transform.forward, DisplacementDir));
                 }
             }

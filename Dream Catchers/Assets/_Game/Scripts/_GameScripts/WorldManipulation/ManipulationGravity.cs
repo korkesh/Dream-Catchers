@@ -56,7 +56,7 @@ public class ManipulationGravity : ManipulationScript {
         }
         else
         {
-            Debug.Log(gameObject.GetComponent<Rigidbody>().velocity);
+            //Debug.Log(gameObject.GetComponent<Rigidbody>().velocity);
         }
     }
 
