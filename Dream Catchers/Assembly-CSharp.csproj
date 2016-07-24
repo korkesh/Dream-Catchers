@@ -226,6 +226,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\GenericTrigger.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerOnDestroy.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonAttack_State.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonChase_State.cs" />
@@ -380,6 +381,7 @@
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
+     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Diffuse.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Fungus\Thirdparty\LeanTween\ReadMe.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
@@ -389,10 +391,13 @@
      <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
      <None Include="Assets\Fungus\LICENSE.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
+     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Bump.shader" />
      <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
      <None Include="Assets\FungusExamples\Attribution.txt" />
+     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CelShaderV2.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
+     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Temp.shader" />
      <None Include="Assets\FungusExamples\TheFacility\Fonts\aleo\SIL Open Font License.txt" />
      <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\README.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
@@ -402,6 +407,7 @@
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
+     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShaderWithRamp.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
@@ -451,6 +457,7 @@
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\Fungus\CHANGELOG.txt" />
      <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\Editor\Editor.ReorderableList.xml" />
+     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShader.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
