@@ -58,8 +58,8 @@ public class SmallClownAI : MonoBehaviour {
         if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
             //enemy waits a bit throws a ball waits some more then jumps to new spot .. repeat
-            rigidB.constraints = RigidbodyConstraints.None;
-            rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            //rigidB.constraints = RigidbodyConstraints.None;
+            //rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             rigidB.useGravity = true;
             WatchPlayer();
             if (readyingAttack == true)
@@ -92,7 +92,7 @@ public class SmallClownAI : MonoBehaviour {
         }
         else
         {
-            rigidB.constraints = RigidbodyConstraints.FreezeAll;
+            //rigidB.constraints = RigidbodyConstraints.FreezeAll;
             if(rigidB.detectCollisions == true && rigidB.velocity.y == 0)
             {
                 //rigidB.useGravity = false;
