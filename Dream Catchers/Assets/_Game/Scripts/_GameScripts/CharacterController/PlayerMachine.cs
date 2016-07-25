@@ -49,7 +49,7 @@ public class PlayerMachine : SuperStateMachine {
     //public float WalkspeedThreshold = 0.5f;
 
     public float maxSpeedTime = 5; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
-    private float maxAirSpeedTime = 0.5f; // amount of time it takes to go from 0 x/z speed to max in the air
+    private float maxAirSpeedTime = 1.15f; // amount of time it takes to go from 0 x/z speed to max in the air
     [SerializeField]
     private float speed = 0; // current run speed
     [SerializeField]
@@ -66,6 +66,7 @@ public class PlayerMachine : SuperStateMachine {
     public float DiveJumpForce;
 
     public float slideFriction; // time in seconds for bellyside to end
+    public float slideTurnSpeed = 500f;
 
     // Jumping
     public float VerticalSpeedCap = 10.0f;
@@ -374,7 +375,7 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // dive condition
-        if (input.Current.DiveInput)
+        if (input.Current.DiveInput && speed / MaxRunSpeed > 0.5f)
         {
             currentState = PlayerStates.Dive;
             return;
@@ -414,6 +415,11 @@ public class PlayerMachine : SuperStateMachine {
 
         speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
 
+        if (speed > MaxRunSpeed)
+        {
+            speed = MaxRunSpeed;
+        }
+
         moveDirection = transform.forward * speed;
 
 
@@ -423,7 +429,7 @@ public class PlayerMachine : SuperStateMachine {
             gameObject.GetComponent<Animator>().SetBool("Running", true);
             gameObject.GetComponent<Animator>().SetBool("Walking", false);
         }
-        else if (speed / MaxRunSpeed > 0.1f)
+        else if (speed / MaxRunSpeed > 0.01f)
         {
             gameObject.GetComponent<Animator>().SetBool("Running", false);
             gameObject.GetComponent<Animator>().SetBool("Walking", true);
@@ -909,19 +915,24 @@ public class PlayerMachine : SuperStateMachine {
 
     void Dive_EnterState()
     {
+        Debug.Log(currentState.ToString());
         gameObject.GetComponent<Animator>().SetBool("Diving", true);
 
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
         // static properties from ground (run state)
-        if (ground)
+        //if (ground)
         {
             moveDirection = transform.forward * MaxDiveSpeed;
             moveDirection.y += DiveJumpForce;
+
+            speed = MaxDiveSpeed;
         }
 
         // todo: airstate dive
+
+        controller.feet.offset = 1f;
     }
 
     void Dive_SuperUpdate()
@@ -947,44 +958,77 @@ public class PlayerMachine : SuperStateMachine {
     void Dive_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Diving", false);
+
+        controller.feet.offset = 0.5f;
     }
-
-
 
     void Slide_EnterState()
     {
+        Debug.Log(currentState.ToString());
+
         gameObject.GetComponent<Animator>().SetBool("Sliding", true);
         //moveDirection = transform.forward * MaxDiveSpeed;
+
+        controller.feet.offset = 0.3f;
     }
 
     void Slide_SuperUpdate()
     {
-        // transition to roll condition
-        if (input.Current.DiveInput)
-        {           
-            rollSpeed = Math3d.ProjectVectorOnPlane(controller.up, moveDirection).magnitude;
-            Debug.Log(rollSpeed);
-            currentState = PlayerStates.Roll;
+        // transition to fall condition
+        if (!ground)
+        {
+            Debug.Log("nope");
+            currentState = PlayerStates.Fall;
             return;
         }
 
-        moveDirection += transform.forward * (-MaxDiveSpeed * (slideFriction) * Time.deltaTime);
+        // transition to roll condition
+        if (input.Current.DiveInput || input.Current.JumpInput)
+        {           
+            rollSpeed = Math3d.ProjectVectorOnPlane(controller.up, moveDirection).magnitude;
 
-        if (moveDirection.magnitude < 0.05f)
+            currentState = PlayerStates.Roll;
+            return;
+        }
+        speed -= MaxDiveSpeed * slideFriction * Time.deltaTime;
+        moveDirection = transform.forward * speed;
+
+        //moveDirection += transform.forward * (-MaxDiveSpeed * (slideFriction) * Time.deltaTime);
+
+        if (moveDirection.magnitude < 0.8f)// || moveDirection.normalized != transform.forward)
         {
+            moveDirection = Vector3.zero;
+
             // todo: fix standup animation
 
             //currentState = PlayerStates.StandUp;
             currentState = PlayerStates.Idle;
+
             return;
+        }
+
+        // steering (fixed rotation amount)
+        if (LocalMovement() != Vector3.zero)
+        {
+            Vector3 Cross = Vector3.Cross(transform.forward, LocalMovement());
+
+            if (Cross.magnitude > 0.05f)
+            {
+                transform.forward = Quaternion.AngleAxis(Mathf.Sign(Cross.y) * slideTurnSpeed * Time.deltaTime, controller.up) * transform.forward;
+            }
+            else if (LocalMovement() != Vector3.zero)
+            {
+                transform.forward = LocalMovement();
+            }
         }
     }
 
     void Slide_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Sliding", false);
-    }
 
+        controller.feet.offset = 0.5f;
+    }
 
 
     void StandUp_EnterState()
@@ -1000,12 +1044,14 @@ public class PlayerMachine : SuperStateMachine {
 
     void Roll_EnterState()
     {
+        speed = rollSpeed;
+
         gameObject.GetComponent<Animator>().SetBool("Rolling", true);
 
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
-        moveDirection = transform.forward * rollSpeed;
+        moveDirection = transform.forward * speed;
         moveDirection.y += DiveJumpForce;
     }
 
@@ -1089,7 +1135,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Damage_SuperUpdate()
     {
-        if(Character_Manager.instance != null && !Character_Manager.instance.invincible)
+        if(Character_Manager.Instance != null && !Character_Manager.Instance.invincible)
         {
             currentState = PlayerStates.Idle;
             return;
@@ -1105,6 +1151,14 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Damage", false);
         gameObject.GetComponent<Collider>().enabled = true;
     }
+
+    void FinishDamage()
+    {
+        currentState = PlayerStates.Idle;
+
+        Character_Manager.Instance.invincible = false;
+    }
+
 
     //----------------------------------------------
     // Death

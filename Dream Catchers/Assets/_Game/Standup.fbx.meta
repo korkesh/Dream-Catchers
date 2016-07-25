@@ -1,114 +1,114 @@
 fileFormatVersion: 2
-guid: 3a9a181fe149890479628675b258af74
-timeCreated: 1469066180
+guid: 8bfd62ebe5405fd4b8c74889924d6066
+timeCreated: 1469391622
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Armature
-    100002: Group31986.001
-    100004: mixamorig:Head
-    100006: mixamorig:HeadTop_End
-    100008: mixamorig:HeadTop_End_end
-    100010: mixamorig:Hips
-    100012: mixamorig:LeftArm
-    100014: mixamorig:LeftFoot
-    100016: mixamorig:LeftForeArm
-    100018: mixamorig:LeftHand
-    100020: mixamorig:LeftHandIndex1
-    100022: mixamorig:LeftHandIndex2
-    100024: mixamorig:LeftHandIndex3
-    100026: mixamorig:LeftHandIndex4
-    100028: mixamorig:LeftHandIndex4_end
-    100030: mixamorig:LeftHandThumb1
-    100032: mixamorig:LeftHandThumb2
-    100034: mixamorig:LeftHandThumb3
-    100036: mixamorig:LeftHandThumb4
-    100038: mixamorig:LeftHandThumb4_end
-    100040: mixamorig:LeftLeg
-    100042: mixamorig:LeftShoulder
-    100044: mixamorig:LeftToe_End
-    100046: mixamorig:LeftToe_End_end
-    100048: mixamorig:LeftToeBase
-    100050: mixamorig:LeftUpLeg
-    100052: mixamorig:Neck
-    100054: mixamorig:RightArm
-    100056: mixamorig:RightFoot
-    100058: mixamorig:RightForeArm
-    100060: mixamorig:RightHand
-    100062: mixamorig:RightHandIndex1
-    100064: mixamorig:RightHandIndex2
-    100066: mixamorig:RightHandIndex3
-    100068: mixamorig:RightHandIndex4
-    100070: mixamorig:RightHandIndex4_end
-    100072: mixamorig:RightHandThumb1
-    100074: mixamorig:RightHandThumb2
-    100076: mixamorig:RightHandThumb3
-    100078: mixamorig:RightHandThumb4
-    100080: mixamorig:RightHandThumb4_end
-    100082: mixamorig:RightLeg
-    100084: mixamorig:RightShoulder
-    100086: mixamorig:RightToe_End
-    100088: mixamorig:RightToe_End_end
-    100090: mixamorig:RightToeBase
-    100092: mixamorig:RightUpLeg
-    100094: mixamorig:Spine
-    100096: mixamorig:Spine1
-    100098: mixamorig:Spine2
-    100100: //RootNode
-    400000: Armature
-    400002: Group31986.001
-    400004: mixamorig:Head
-    400006: mixamorig:HeadTop_End
-    400008: mixamorig:HeadTop_End_end
-    400010: mixamorig:Hips
-    400012: mixamorig:LeftArm
-    400014: mixamorig:LeftFoot
-    400016: mixamorig:LeftForeArm
-    400018: mixamorig:LeftHand
-    400020: mixamorig:LeftHandIndex1
-    400022: mixamorig:LeftHandIndex2
-    400024: mixamorig:LeftHandIndex3
-    400026: mixamorig:LeftHandIndex4
-    400028: mixamorig:LeftHandIndex4_end
-    400030: mixamorig:LeftHandThumb1
-    400032: mixamorig:LeftHandThumb2
-    400034: mixamorig:LeftHandThumb3
-    400036: mixamorig:LeftHandThumb4
-    400038: mixamorig:LeftHandThumb4_end
-    400040: mixamorig:LeftLeg
-    400042: mixamorig:LeftShoulder
-    400044: mixamorig:LeftToe_End
-    400046: mixamorig:LeftToe_End_end
-    400048: mixamorig:LeftToeBase
-    400050: mixamorig:LeftUpLeg
-    400052: mixamorig:Neck
-    400054: mixamorig:RightArm
-    400056: mixamorig:RightFoot
-    400058: mixamorig:RightForeArm
-    400060: mixamorig:RightHand
-    400062: mixamorig:RightHandIndex1
-    400064: mixamorig:RightHandIndex2
-    400066: mixamorig:RightHandIndex3
-    400068: mixamorig:RightHandIndex4
-    400070: mixamorig:RightHandIndex4_end
-    400072: mixamorig:RightHandThumb1
-    400074: mixamorig:RightHandThumb2
-    400076: mixamorig:RightHandThumb3
-    400078: mixamorig:RightHandThumb4
-    400080: mixamorig:RightHandThumb4_end
-    400082: mixamorig:RightLeg
-    400084: mixamorig:RightShoulder
-    400086: mixamorig:RightToe_End
-    400088: mixamorig:RightToe_End_end
-    400090: mixamorig:RightToeBase
-    400092: mixamorig:RightUpLeg
-    400094: mixamorig:Spine
-    400096: mixamorig:Spine1
-    400098: mixamorig:Spine2
-    400100: //RootNode
+    100000: //RootNode
+    100002: Armature
+    100004: Group31986.001
+    100006: mixamorig:Head
+    100008: mixamorig:HeadTop_End
+    100010: mixamorig:HeadTop_End_end
+    100012: mixamorig:Hips
+    100014: mixamorig:LeftArm
+    100016: mixamorig:LeftFoot
+    100018: mixamorig:LeftForeArm
+    100020: mixamorig:LeftHand
+    100022: mixamorig:LeftHandIndex1
+    100024: mixamorig:LeftHandIndex2
+    100026: mixamorig:LeftHandIndex3
+    100028: mixamorig:LeftHandIndex4
+    100030: mixamorig:LeftHandIndex4_end
+    100032: mixamorig:LeftHandThumb1
+    100034: mixamorig:LeftHandThumb2
+    100036: mixamorig:LeftHandThumb3
+    100038: mixamorig:LeftHandThumb4
+    100040: mixamorig:LeftHandThumb4_end
+    100042: mixamorig:LeftLeg
+    100044: mixamorig:LeftShoulder
+    100046: mixamorig:LeftToe_End
+    100048: mixamorig:LeftToe_End_end
+    100050: mixamorig:LeftToeBase
+    100052: mixamorig:LeftUpLeg
+    100054: mixamorig:Neck
+    100056: mixamorig:RightArm
+    100058: mixamorig:RightFoot
+    100060: mixamorig:RightForeArm
+    100062: mixamorig:RightHand
+    100064: mixamorig:RightHandIndex1
+    100066: mixamorig:RightHandIndex2
+    100068: mixamorig:RightHandIndex3
+    100070: mixamorig:RightHandIndex4
+    100072: mixamorig:RightHandIndex4_end
+    100074: mixamorig:RightHandThumb1
+    100076: mixamorig:RightHandThumb2
+    100078: mixamorig:RightHandThumb3
+    100080: mixamorig:RightHandThumb4
+    100082: mixamorig:RightHandThumb4_end
+    100084: mixamorig:RightLeg
+    100086: mixamorig:RightShoulder
+    100088: mixamorig:RightToe_End
+    100090: mixamorig:RightToe_End_end
+    100092: mixamorig:RightToeBase
+    100094: mixamorig:RightUpLeg
+    100096: mixamorig:Spine
+    100098: mixamorig:Spine1
+    100100: mixamorig:Spine2
+    400000: //RootNode
+    400002: Armature
+    400004: Group31986.001
+    400006: mixamorig:Head
+    400008: mixamorig:HeadTop_End
+    400010: mixamorig:HeadTop_End_end
+    400012: mixamorig:Hips
+    400014: mixamorig:LeftArm
+    400016: mixamorig:LeftFoot
+    400018: mixamorig:LeftForeArm
+    400020: mixamorig:LeftHand
+    400022: mixamorig:LeftHandIndex1
+    400024: mixamorig:LeftHandIndex2
+    400026: mixamorig:LeftHandIndex3
+    400028: mixamorig:LeftHandIndex4
+    400030: mixamorig:LeftHandIndex4_end
+    400032: mixamorig:LeftHandThumb1
+    400034: mixamorig:LeftHandThumb2
+    400036: mixamorig:LeftHandThumb3
+    400038: mixamorig:LeftHandThumb4
+    400040: mixamorig:LeftHandThumb4_end
+    400042: mixamorig:LeftLeg
+    400044: mixamorig:LeftShoulder
+    400046: mixamorig:LeftToe_End
+    400048: mixamorig:LeftToe_End_end
+    400050: mixamorig:LeftToeBase
+    400052: mixamorig:LeftUpLeg
+    400054: mixamorig:Neck
+    400056: mixamorig:RightArm
+    400058: mixamorig:RightFoot
+    400060: mixamorig:RightForeArm
+    400062: mixamorig:RightHand
+    400064: mixamorig:RightHandIndex1
+    400066: mixamorig:RightHandIndex2
+    400068: mixamorig:RightHandIndex3
+    400070: mixamorig:RightHandIndex4
+    400072: mixamorig:RightHandIndex4_end
+    400074: mixamorig:RightHandThumb1
+    400076: mixamorig:RightHandThumb2
+    400078: mixamorig:RightHandThumb3
+    400080: mixamorig:RightHandThumb4
+    400082: mixamorig:RightHandThumb4_end
+    400084: mixamorig:RightLeg
+    400086: mixamorig:RightShoulder
+    400088: mixamorig:RightToe_End
+    400090: mixamorig:RightToe_End_end
+    400092: mixamorig:RightToeBase
+    400094: mixamorig:RightUpLeg
+    400096: mixamorig:Spine
+    400098: mixamorig:Spine1
+    400100: mixamorig:Spine2
     4300000: Group31986.001
-    7400000: SlideStandup
+    7400000: Standup
     9500000: //RootNode
     13700000: Group31986.001
   materials:
@@ -122,20 +122,7 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'mixamorig:Spine' has translation animation
-      that will be discarded.\n\t'mixamorig:Spine2' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'mixamorig:LeftShoulder'
-      has translation animation that will be discarded.\n\t'mixamorig:LeftArm' has
-      translation animation that will be discarded.\n\t'mixamorig:LeftForeArm' has
-      translation animation that will be discarded.\n\t'mixamorig:RightShoulder' has
-      translation animation that will be discarded.\n\t'mixamorig:RightArm' has translation
-      animation that will be discarded.\n\t'mixamorig:RightForeArm' has translation
-      animation that will be discarded.\n\t'mixamorig:LeftUpLeg' has translation animation
-      that will be discarded.\n\t'mixamorig:LeftLeg' has translation animation that
-      will be discarded.\n\t'mixamorig:RightFoot' has translation animation that will
-      be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 3
@@ -146,10 +133,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: SlideStandup
+      name: Standup
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 36
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -566,7 +553,7 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Slide-Idle-Animation(Clone)
+    - name: Standup(Clone)
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
