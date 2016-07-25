@@ -22,7 +22,7 @@ public class StageThree : Stages {
         if(Bc.RightHand.attack == HandScript.Mode.NONE && Bc.LeftHand.attack == HandScript.Mode.NONE)
         {
             float rand = Random.Range(0, 30.0f);
-            if(rand < 1.0f)
+            if(rand < 10.0f)
             {
                 if(RightHand == false)
                 {
