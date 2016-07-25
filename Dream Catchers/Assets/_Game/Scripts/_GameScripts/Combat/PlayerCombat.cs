@@ -16,6 +16,7 @@ public class PlayerCombat : MonoBehaviour
 
     public float attackStart;
     public float attackLength;
+    public float iframes;
 
     // Use this for initialization
     void Start()
@@ -100,13 +101,17 @@ public class PlayerCombat : MonoBehaviour
     public void DamageBegin()
     {
         gameObject.GetComponent<Collider>().enabled = false;
+        StartCoroutine(DamageEnd());
     }
 
     // Turn off invincibility
-    public void DamageEnd()
+    public IEnumerator DamageEnd()
     {
+        yield return new WaitForSeconds(iframes);
+
         if (Character_Manager.instance != null)
         {
+            //Debug.Log("Damage End");
             Character_Manager.instance.invincible = false;
         }
     }

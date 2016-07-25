@@ -137,7 +137,7 @@ public class ClownAttack : MonoBehaviour {
                 clown.SendMessage(messagetosend);
             }
 
-            Debug.Log(collision.gameObject.tag);
+            //Debug.Log(collision.gameObject.tag);
             if (collision.gameObject.tag == "Enemy")
             {
                 HealthManager Health = collision.gameObject.GetComponent<HealthManager>();

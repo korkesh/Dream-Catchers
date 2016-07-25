@@ -161,7 +161,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9903192
+      - time: 0.93116426
         functionName: DamageEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 24227e94bacf1f44d9585e92c6776657,
