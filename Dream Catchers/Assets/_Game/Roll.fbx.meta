@@ -160,10 +160,10 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.99538934
+      - time: 0.9846491
         functionName: FinishRoll
         data: 
-        objectReferenceParameter: {fileID: 151374, guid: 3c97341b83dffae44a103f45aaf19b18,
+        objectReferenceParameter: {fileID: 116822, guid: 20f964e417b52df48904f9091019ad51,
           type: 2}
         floatParameter: 0
         intParameter: 0

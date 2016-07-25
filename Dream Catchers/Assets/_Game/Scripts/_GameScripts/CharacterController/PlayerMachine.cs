@@ -943,6 +943,7 @@ public class PlayerMachine : SuperStateMachine {
         // landing on ground transition
         if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
         {
+            Debug.Log("grounded");
             moveDirection = planarMoveDirection;
             currentState = PlayerStates.Slide;
             return;
@@ -967,9 +968,13 @@ public class PlayerMachine : SuperStateMachine {
         Debug.Log(currentState.ToString());
 
         gameObject.GetComponent<Animator>().SetBool("Sliding", true);
-        //moveDirection = transform.forward * MaxDiveSpeed;
+        
+        if (moveDirection.magnitude > MaxRunSpeed)
+        {
+            moveDirection = moveDirection.normalized * MaxRunSpeed;
+        }
 
-        controller.feet.offset = 0.3f;
+        controller.feet.offset = 0.2f;
     }
 
     void Slide_SuperUpdate()
@@ -1078,6 +1083,7 @@ public class PlayerMachine : SuperStateMachine {
     // animation event function
     public void FinishRoll()
     {
+        Debug.Log("finish roll");
         currentState = PlayerStates.Fall;
     }
 
