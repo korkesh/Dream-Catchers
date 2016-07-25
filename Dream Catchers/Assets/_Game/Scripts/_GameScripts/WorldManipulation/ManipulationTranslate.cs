@@ -62,36 +62,29 @@ public class ManipulationTranslate : ManipulationScript
         {
             if (loop && pauseInDream)
             {
-                Debug.Log("Pause");
                 mySequence.TogglePause();
             }
             else if (loop)
             {
-                Debug.Log("Play");
                 mySequence.TogglePause();
             }
             else
             {
-                Debug.Log("Other");
                 objectTransform.DOMove(translateDream, translateDuration);
             }
-
         }
         else
         {
             if (loop && pauseInNightmare)
             {
-                Debug.Log("Pause");
                 mySequence.TogglePause();
             }
             else if (loop)
             {
-                Debug.Log("Play");
                 mySequence.TogglePause();
             }
             else
             {
-                Debug.Log("Other");
                 objectTransform.DOMove(translateNightmare, translateDuration);
             }
         }

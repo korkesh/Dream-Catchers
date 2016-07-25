@@ -23,7 +23,6 @@ public class PlayerInputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
         if(Game_Manager.instance == null || !Game_Manager.instance.isPaused())
         {
             // Controls set via Unity Input Managre
