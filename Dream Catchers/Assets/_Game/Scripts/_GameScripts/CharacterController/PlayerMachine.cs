@@ -101,7 +101,7 @@ public class PlayerMachine : SuperStateMachine {
     // Debug Inspector Fields:
     //----------------------------------------------
     // debug controller swap:
-    bool controllerTechnical = true;
+    bool controllerTechnical = false;
 
     //================================
     // Methods
@@ -283,6 +283,13 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
 
         xSpeed = 0;
+
+        if (input.Current.MoveInput == Vector3.zero)
+        {
+            speed = 0;
+            gameObject.GetComponent<Animator>().SetBool("Walking", false);
+            gameObject.GetComponent<Animator>().SetBool("Running", false);
+        }
     }
 
     void Idle_SuperUpdate()
@@ -346,7 +353,6 @@ public class PlayerMachine : SuperStateMachine {
     {
         idleTimer = 0;
         gameObject.GetComponent<Animator>().SetBool("IdleTimeOut", false);
-        // Run once when we exit the idle state
     }
 
   
@@ -965,16 +971,9 @@ public class PlayerMachine : SuperStateMachine {
 
     void Slide_EnterState()
     {
-        Debug.Log(currentState.ToString());
-
         gameObject.GetComponent<Animator>().SetBool("Sliding", true);
-        
-        if (moveDirection.magnitude > MaxRunSpeed)
-        {
-            moveDirection = moveDirection.normalized * MaxRunSpeed;
-        }
 
-        controller.feet.offset = 0.2f;
+        controller.feet.offset = 0.15f;
     }
 
     void Slide_SuperUpdate()
@@ -1017,13 +1016,21 @@ public class PlayerMachine : SuperStateMachine {
         {
             Vector3 Cross = Vector3.Cross(transform.forward, LocalMovement());
 
-            if (Cross.magnitude > 0.05f)
+            if (Cross.magnitude > 0.02f)
             {
                 transform.forward = Quaternion.AngleAxis(Mathf.Sign(Cross.y) * slideTurnSpeed * Time.deltaTime, controller.up) * transform.forward;
             }
             else if (LocalMovement() != Vector3.zero)
             {
-                transform.forward = LocalMovement();
+                // if it's a behind input manually turn a bit for deadlock. otherwise, snap dir
+                if (Vector3.Cross(transform.right, LocalMovement()).y > 0.98f)
+                {
+                    //transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+                }
+                else
+                {
+                    transform.forward = LocalMovement();
+                }
             }
         }
     }
