@@ -24,7 +24,7 @@ public class PlayerMachine : SuperStateMachine {
     //----------------------------------------------
 
     // Add more states by comma separating them
-    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9 };
+    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13 };
 
     private SuperCharacterController controller;
     private RootCamera cam; // Main Player Follow Camera
@@ -34,6 +34,8 @@ public class PlayerMachine : SuperStateMachine {
     public Vector3 Displacement; // displacement this frame
 
     public bool ground { get; private set; }
+
+    private float rollSpeed; // planar speed of current roll sequence
 
     //----------------------------------------------
     // Editor Fields
@@ -47,7 +49,7 @@ public class PlayerMachine : SuperStateMachine {
     //public float WalkspeedThreshold = 0.5f;
 
     public float maxSpeedTime = 5; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
-    private float maxAirSpeedTime = 0.5f; // amount of time it takes to go from 0 x/z speed to max in the air
+    private float maxAirSpeedTime = 1.15f; // amount of time it takes to go from 0 x/z speed to max in the air
     [SerializeField]
     private float speed = 0; // current run speed
     [SerializeField]
@@ -58,6 +60,13 @@ public class PlayerMachine : SuperStateMachine {
     public float TurnRadius = 4.0f;
     private float skidTimer = 0;
     public float skidTime = 0.5f; // time in seconds skid state lasts for if not broken by jump/fall
+
+    // Diving
+    public float MaxDiveSpeed;
+    public float DiveJumpForce;
+
+    public float slideFriction; // time in seconds for bellyside to end
+    public float slideTurnSpeed = 500f;
 
     // Jumping
     public float VerticalSpeedCap = 10.0f;
@@ -365,6 +374,14 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
+        // dive condition
+        if (input.Current.DiveInput && speed / MaxRunSpeed > 0.5f)
+        {
+            currentState = PlayerStates.Dive;
+            return;
+        }
+
+        // MOVEMENT:
         float new_ratio;
         float old_ratio;
 
@@ -398,6 +415,11 @@ public class PlayerMachine : SuperStateMachine {
 
         speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
 
+        if (speed > MaxRunSpeed)
+        {
+            speed = MaxRunSpeed;
+        }
+
         moveDirection = transform.forward * speed;
 
 
@@ -407,7 +429,7 @@ public class PlayerMachine : SuperStateMachine {
             gameObject.GetComponent<Animator>().SetBool("Running", true);
             gameObject.GetComponent<Animator>().SetBool("Walking", false);
         }
-        else if (speed / MaxRunSpeed > 0.1f)
+        else if (speed / MaxRunSpeed > 0.01f)
         {
             gameObject.GetComponent<Animator>().SetBool("Running", false);
             gameObject.GetComponent<Animator>().SetBool("Walking", true);
@@ -474,6 +496,8 @@ public class PlayerMachine : SuperStateMachine {
     // AIR CONTROL STATES
     //
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+    
 
     //----------------------------------------------
     // Jumping
@@ -615,8 +639,8 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
 
         // calculate external vertical movement
-        float externalVerticalVelocity = ((transform.position - prevPos) / Time.deltaTime).y;
-        moveDirection += new Vector3(0, externalVerticalVelocity, 0);
+        //float externalVerticalVelocity = ((transform.position - prevPos) / Time.deltaTime).y;
+        //moveDirection += new Vector3(0, externalVerticalVelocity, 0);
 
         // cap jump speed
         if (moveDirection.y > VerticalSpeedCap)
@@ -884,6 +908,180 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Falling", false);
     }
 
+
+    //--------------------------------------------------
+    //  Dive Related States
+    //--------------------------------------------------
+
+    void Dive_EnterState()
+    {
+        Debug.Log(currentState.ToString());
+        gameObject.GetComponent<Animator>().SetBool("Diving", true);
+
+        controller.DisableClamping();
+        controller.DisableSlopeLimit();
+
+        // static properties from ground (run state)
+        //if (ground)
+        {
+            moveDirection = transform.forward * MaxDiveSpeed;
+            moveDirection.y += DiveJumpForce;
+
+            speed = MaxDiveSpeed;
+        }
+
+        // todo: airstate dive
+
+        controller.feet.offset = 1f;
+    }
+
+    void Dive_SuperUpdate()
+    {
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
+        // landing on ground transition
+        if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
+        {
+            moveDirection = planarMoveDirection;
+            currentState = PlayerStates.Slide;
+            return;
+        }
+
+        moveDirection = transform.forward * MaxDiveSpeed;
+
+        // gravity
+        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+        moveDirection += verticalMoveDirection;
+    }
+
+    void Dive_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Diving", false);
+
+        controller.feet.offset = 0.5f;
+    }
+
+    void Slide_EnterState()
+    {
+        Debug.Log(currentState.ToString());
+
+        gameObject.GetComponent<Animator>().SetBool("Sliding", true);
+        //moveDirection = transform.forward * MaxDiveSpeed;
+
+        controller.feet.offset = 0.3f;
+    }
+
+    void Slide_SuperUpdate()
+    {
+        // transition to fall condition
+        if (!ground)
+        {
+            Debug.Log("nope");
+            currentState = PlayerStates.Fall;
+            return;
+        }
+
+        // transition to roll condition
+        if (input.Current.DiveInput || input.Current.JumpInput)
+        {           
+            rollSpeed = Math3d.ProjectVectorOnPlane(controller.up, moveDirection).magnitude;
+
+            currentState = PlayerStates.Roll;
+            return;
+        }
+        speed -= MaxDiveSpeed * slideFriction * Time.deltaTime;
+        moveDirection = transform.forward * speed;
+
+        //moveDirection += transform.forward * (-MaxDiveSpeed * (slideFriction) * Time.deltaTime);
+
+        if (moveDirection.magnitude < 0.8f)// || moveDirection.normalized != transform.forward)
+        {
+            moveDirection = Vector3.zero;
+
+            // todo: fix standup animation
+
+            //currentState = PlayerStates.StandUp;
+            currentState = PlayerStates.Idle;
+
+            return;
+        }
+
+        // steering (fixed rotation amount)
+        if (LocalMovement() != Vector3.zero)
+        {
+            Vector3 Cross = Vector3.Cross(transform.forward, LocalMovement());
+
+            if (Cross.magnitude > 0.05f)
+            {
+                transform.forward = Quaternion.AngleAxis(Mathf.Sign(Cross.y) * slideTurnSpeed * Time.deltaTime, controller.up) * transform.forward;
+            }
+            else if (LocalMovement() != Vector3.zero)
+            {
+                transform.forward = LocalMovement();
+            }
+        }
+    }
+
+    void Slide_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Sliding", false);
+
+        controller.feet.offset = 0.5f;
+    }
+
+
+    void StandUp_EnterState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("StandUp", true);
+    }
+
+    void StandUp_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("StandUp", false);
+    }
+
+
+    void Roll_EnterState()
+    {
+        speed = rollSpeed;
+
+        gameObject.GetComponent<Animator>().SetBool("Rolling", true);
+
+        controller.DisableClamping();
+        controller.DisableSlopeLimit();
+
+        moveDirection = transform.forward * speed;
+        moveDirection.y += DiveJumpForce;
+    }
+
+    void Roll_SuperUpdate()
+    {
+        controller.DisableClamping();
+        controller.DisableSlopeLimit();
+
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
+        moveDirection = transform.forward * rollSpeed;
+
+        // gravity
+        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+        moveDirection += verticalMoveDirection;
+    }
+
+    void Roll_ExitState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Rolling", false);
+    }
+
+    // animation event function
+    public void FinishRoll()
+    {
+        currentState = PlayerStates.Fall;
+    }
+
+
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     // 
     // COMBAT STATES
@@ -937,7 +1135,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Damage_SuperUpdate()
     {
-        if(Character_Manager.instance != null && !Character_Manager.instance.invincible)
+        if(Character_Manager.Instance != null && !Character_Manager.Instance.invincible)
         {
             currentState = PlayerStates.Idle;
             return;
@@ -953,6 +1151,14 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Damage", false);
         gameObject.GetComponent<Collider>().enabled = true;
     }
+
+    void FinishDamage()
+    {
+        currentState = PlayerStates.Idle;
+
+        Character_Manager.Instance.invincible = false;
+    }
+
 
     //----------------------------------------------
     // Death

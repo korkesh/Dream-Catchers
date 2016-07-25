@@ -34,6 +34,7 @@ public class PlayerInputController : MonoBehaviour {
             bool jumpInput = Input.GetButtonDown("Jump") || toggleJump;
             bool jumpHold = Input.GetButton("Jump");
             bool rButton = Input.GetButtonDown("R");
+            bool diveInput = Input.GetButtonDown("Dive");
 
             // TODO: Change the efficiency of this; no lookup everytime
             GameObject dialogBox = GameObject.FindGameObjectWithTag("DialogBox");
@@ -52,6 +53,8 @@ public class PlayerInputController : MonoBehaviour {
                 JumpInput = jumpInput,
                 JumpHold = jumpHold,
                 RButton = rButton,
+                DiveInput = diveInput,
+                
                 moveBuffer = false          
             };
         }
@@ -93,6 +96,7 @@ public struct PlayerInput
     public bool JumpInput; // Jump
     public bool JumpHold; // Jump Height
     public bool RButton; // Left Trigger
+    public bool DiveInput;
 
     public bool moveBuffer;
 }

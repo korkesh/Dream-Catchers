@@ -153,19 +153,10 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0
-        functionName: DamageBegin
+      - time: 0.96311474
+        functionName: FinishDamage
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 24227e94bacf1f44d9585e92c6776657,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.93116426
-        functionName: DamageEnd
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 24227e94bacf1f44d9585e92c6776657,
-          type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
