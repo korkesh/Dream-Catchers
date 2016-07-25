@@ -102,14 +102,14 @@ public class UI_Manager : MonoBehaviour {
             
         }
 
-        if(Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
+        /*if(Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
         {
             if(Level_Manager.instance.LevelComplete())
             {
                 Game_Manager.instance.changeGameState(Game_Manager.GameState.MENU);
                 ShowMenu(LevelComplete);
             }
-        }
+        }*/
 	}
 
     public void GameOver()

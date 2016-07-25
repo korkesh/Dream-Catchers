@@ -48,6 +48,7 @@ public class TriggerScene : MonoBehaviour
                 break;
             case TypeOfSwitch.CompleteSwitch:
                 SceneManager.LoadScene(SceneName);
+                Level_Manager.instance.checkPointContinue = false;
                 break;
             case TypeOfSwitch.Unload:
                 SceneManager.UnloadScene(SceneName);

@@ -101,7 +101,7 @@ public class PlayerMachine : SuperStateMachine {
     // Debug Inspector Fields:
     //----------------------------------------------
     // debug controller swap:
-    bool controllerTechnical = true;
+    bool controllerTechnical = false;
 
     //================================
     // Methods
