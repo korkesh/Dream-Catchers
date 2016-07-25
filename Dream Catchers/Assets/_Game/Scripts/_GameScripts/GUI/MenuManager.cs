@@ -28,11 +28,19 @@ public class MenuManager : MonoBehaviour {
     /// </summary>
     public void ContinueGame(string sceneToLoad)
     {
-        Game_Manager.instance.ChangeScene(sceneToLoad);
-        UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
-        Game_Manager.instance.PlayGame();
-        Level_Manager.instance.ContinueLevel();
-        GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
+        if(PlayerPrefs.GetString("CurrentLevel") == "Tutorial")
+        {
+            StartNewGame(sceneToLoad);
+        }
+        else
+        {
+            Level_Manager.instance.ContinueLevel();
+            Game_Manager.instance.ChangeScene(PlayerPrefs.GetString("CurrentLevel"));
+            UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
+            Game_Manager.instance.PlayGame();
+            GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
+        }
+        
     }
 
     /// <summary>

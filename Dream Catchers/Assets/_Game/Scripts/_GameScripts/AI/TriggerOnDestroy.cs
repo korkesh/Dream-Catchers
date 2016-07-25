@@ -16,7 +16,8 @@ public class TriggerOnDestroy : MonoBehaviour {
 
         if (ObjectToTrigger != null)
         {
-            ObjectToTrigger.SendMessage(TriggerFunctionCall);
+            //was getting errors about reciever missing when destroying scene.. added that u dont have to have one to hopefully fix problem
+            ObjectToTrigger.SendMessage(TriggerFunctionCall,SendMessageOptions.DontRequireReceiver);
         }
         
     }
