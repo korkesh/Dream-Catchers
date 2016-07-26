@@ -184,11 +184,11 @@ public class NewCamera : MonoBehaviour
         {
             if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
             {
-                //xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
+                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
             }
             else if (machine.ground)
             { // move toward default if no manipulation input
-               // xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * 4f;
+                xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * 4f;
             }
         }
         
