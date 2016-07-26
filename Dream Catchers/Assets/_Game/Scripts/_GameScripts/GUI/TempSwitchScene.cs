@@ -43,7 +43,7 @@ public class TempSwitchScene : MonoBehaviour {
         if(PlayerPrefs.HasKey("CurrentHealth"))
         {
             SceneManager.LoadScene(NextScene);
-            Level_Manager.instance.ContinueLevel();
+            Level_Manager.Instance.ContinueLevel();
             Character_Manager.instance.GoTocheckPoint();
         }
         else
@@ -63,7 +63,7 @@ public class TempSwitchScene : MonoBehaviour {
             Game_Manager.instance.ChangeScene(PlayerPrefs.GetString("CurrentLevel"));
             UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
             Game_Manager.instance.PlayGame();
-            Level_Manager.instance.ContinueLevel();
+            Level_Manager.Instance.ContinueLevel();
             GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
             Character_Manager.instance.GoTocheckPoint();
         }

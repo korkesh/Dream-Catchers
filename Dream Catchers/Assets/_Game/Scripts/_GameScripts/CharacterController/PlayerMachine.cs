@@ -981,7 +981,6 @@ public class PlayerMachine : SuperStateMachine {
         // transition to fall condition
         if (!ground)
         {
-            Debug.Log("nope");
             currentState = PlayerStates.Fall;
             return;
         }
@@ -1069,6 +1068,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Roll_SuperUpdate()
     {
+        ground = false;
+
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 

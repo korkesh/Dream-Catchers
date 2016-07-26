@@ -83,6 +83,7 @@ public class NewCamera : MonoBehaviour
 
     private float xRotationOffset = 0; // player manipulation value to x axis rotation
 
+    [SerializeField]
     private float currentRotateSpeed = 0; // speed at which camera is rotating around y axis (accelerates)
 
     //==========================================
@@ -100,6 +101,8 @@ public class NewCamera : MonoBehaviour
 
     void Start ()
     {
+        transform.eulerAngles = Vector3.zero; // hack: fix intro->tutorial camera bug out
+
         Mode = CameraMode.Low;
 
         Player = GameObject.FindGameObjectWithTag("Player"); // Character_Manager.Instance.Character;
@@ -181,11 +184,11 @@ public class NewCamera : MonoBehaviour
         {
             if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
             {
-                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
+                //xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
             }
             else if (machine.ground)
             { // move toward default if no manipulation input
-                xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * 4f;
+               // xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * 4f;
             }
         }
         

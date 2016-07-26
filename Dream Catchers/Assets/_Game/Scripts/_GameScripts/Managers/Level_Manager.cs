@@ -6,10 +6,10 @@ using UnityEngine;
 using System.Collections;
 
 
-public class Level_Manager : MonoBehaviour
+public class Level_Manager : Singleton<Level_Manager>
 {
 
-    public static Level_Manager instance = null;
+    //public static Level_Manager instance = null;
 
     //================================
     // Variables

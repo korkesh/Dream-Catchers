@@ -34,7 +34,7 @@ public class MenuManager : MonoBehaviour {
         }
         else
         {
-            Level_Manager.instance.ContinueLevel();
+            Level_Manager.Instance.ContinueLevel();
             Game_Manager.instance.ChangeScene(PlayerPrefs.GetString("CurrentLevel"));
             UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
             Game_Manager.instance.PlayGame();

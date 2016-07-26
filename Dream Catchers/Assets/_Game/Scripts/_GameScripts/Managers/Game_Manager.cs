@@ -74,7 +74,7 @@ public class Game_Manager : MonoBehaviour {
     public void NewGame()
     {
         PlayerPrefs.DeleteAll();
-        Level_Manager.instance.NewGamePlayerPrefs();
+        Level_Manager.Instance.NewGamePlayerPrefs();
         Character_Manager.instance.NewGamePlayerPrefs();
     }
 

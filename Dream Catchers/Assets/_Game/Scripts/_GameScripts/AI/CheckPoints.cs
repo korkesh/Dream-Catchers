@@ -30,8 +30,8 @@ public class CheckPoints : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Level_Manager.instance.newCheckPoint(position, transform.rotation.eulerAngles, SceneManager.GetActiveScene().name);
-            Level_Manager.instance.checkPointContinue = true;
+            Level_Manager.Instance.newCheckPoint(position, transform.rotation.eulerAngles, SceneManager.GetActiveScene().name);
+            Level_Manager.Instance.checkPointContinue = true;
             lightbulb.enabled = true;
 
         }
