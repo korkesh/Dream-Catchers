@@ -78,6 +78,11 @@ public class BallSpawner : MonoBehaviour {
         cA.clown = TargetHitBack;
         cA.LaunchAngle = LaunchAngle;
         cA.messagetosend = TargetMessage;
+        if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+        {
+            cA.NightmareBall.SetActive(true);
+            cA.spCollider = null;
+        }
         Rigidbody rocketClone = rocket.GetComponent<Rigidbody>();
         if(FindObjectTOLuanchAt == true)
         {

@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AutoTextureTilingTool\Example\Scripts\ScaleAnimation.cs" />
+     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\AutoTextureTiling.cs" />
+     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\DynamicTextureTiling.cs" />
+     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\MeshData.cs" />
      <Compile Include="Assets\CameraSwap.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
@@ -219,6 +223,11 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BallSpawner.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HandScript.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageOne.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageThree.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageTwo.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\Stages.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\SwipePoints.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
@@ -227,6 +236,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerOnDestroy.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerScene.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonAttack_State.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BalloonChase_State.cs" />
@@ -239,10 +249,11 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BaseState.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\DamageDealer.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\FSM.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\hunterOnAwake.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\ClownAttack.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\LaunchMovement.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
-     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\HybridCamera.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\BossCamera.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\NewCamera.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RealCamera.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RootCamera.cs" />
@@ -393,16 +404,13 @@
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
      <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Bump.shader" />
      <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
-     <None Include="Assets\FungusExamples\Attribution.txt" />
      <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CelShaderV2.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Temp.shader" />
-     <None Include="Assets\FungusExamples\TheFacility\Fonts\aleo\SIL Open Font License.txt" />
      <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\README.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
-     <None Include="Assets\FungusExamples\Sherlock\Readme.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ConvertDepth.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
@@ -429,7 +437,6 @@
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
-     <None Include="Assets\FungusExamples\FungusTown\Readme.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\SepiaToneEffect.shader" />

@@ -62,9 +62,9 @@ public class ManipulationTranslate : ManipulationScript
         {
             if (loop && pauseInDream)
             {
-                mySequence.TogglePause();
+                mySequence.Pause();
             }
-            else if (loop)
+            else if (loop && pauseInNightmare)
             {
                 mySequence.TogglePause();
             }
@@ -77,9 +77,9 @@ public class ManipulationTranslate : ManipulationScript
         {
             if (loop && pauseInNightmare)
             {
-                mySequence.TogglePause();
+                mySequence.Pause();
             }
-            else if (loop)
+            else if (loop && pauseInDream)
             {
                 mySequence.TogglePause();
             }
