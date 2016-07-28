@@ -1,0 +1,762 @@
+fileFormatVersion: 2
+guid: fdb49a86a66ede342b56423a2a9bf3e8
+timeCreated: 1469727346
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Arm IK.R
+    100002: Arm Pole Target.R
+    100004: Arm Pole Target.R_end
+    100006: //RootNode
+    100008: Collarbone.R
+    100010: Finger Curl.R
+    100012: Finger Curl.R_end
+    100014: Hand.R
+    100016: Index Finger Base.R
+    100018: Index Finger Tips.R
+    100020: Index Finger Tips.R_end
+    100022: Lower Arm.R
+    100024: Middle Finger Base.R
+    100026: Middle Finger Tips.R
+    100028: Middle Finger Tips.R_end
+    100030: Pinky Finger Base.R
+    100032: Pinky Finger Tips.R
+    100034: Pinky Finger Tips.R_end
+    100036: Right Hand
+    100038: Right Hand Rig
+    100040: Ring Finger Base.R
+    100042: Ring Finger Tips.R
+    100044: Ring Finger Tips.R_end
+    100046: Thumb Base.R
+    100048: Thumb Curl.R
+    100050: Thumb Curl.R_end
+    100052: Thumb Tip.R
+    100054: Thumb Tip.R_end
+    100056: Upper Arm.R
+    400000: Arm IK.R
+    400002: Arm Pole Target.R
+    400004: Arm Pole Target.R_end
+    400006: //RootNode
+    400008: Collarbone.R
+    400010: Finger Curl.R
+    400012: Finger Curl.R_end
+    400014: Hand.R
+    400016: Index Finger Base.R
+    400018: Index Finger Tips.R
+    400020: Index Finger Tips.R_end
+    400022: Lower Arm.R
+    400024: Middle Finger Base.R
+    400026: Middle Finger Tips.R
+    400028: Middle Finger Tips.R_end
+    400030: Pinky Finger Base.R
+    400032: Pinky Finger Tips.R
+    400034: Pinky Finger Tips.R_end
+    400036: Right Hand
+    400038: Right Hand Rig
+    400040: Ring Finger Base.R
+    400042: Ring Finger Tips.R
+    400044: Ring Finger Tips.R_end
+    400046: Thumb Base.R
+    400048: Thumb Curl.R
+    400050: Thumb Curl.R_end
+    400052: Thumb Tip.R
+    400054: Thumb Tip.R_end
+    400056: Upper Arm.R
+    4300000: Right Hand
+    7400000: Right Hand Rig|Idle.R
+    7400002: Right Hand Rig|Rotation.R
+    7400004: Right Hand Rig|SlamDown.R
+    7400006: Right Hand Rig|SlamDownPrep.R
+    7400008: Right Hand Rig|Sweep.R
+    7400010: Right Hand Rig|Throwing.R
+    9500000: //RootNode
+    13700000: Right Hand
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Right Hand Rig|Idle.R
+      takeName: Right Hand Rig|Idle.R
+      firstFrame: 0
+      lastFrame: 160
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Right Hand
+        weight: 1
+      - path: Right Hand Rig
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R/Arm Pole Target.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R/Finger Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R/Thumb Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R/Index Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R/Middle Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R/Pinky Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R/Ring Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R/Thumb Tip.R_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Right Hand Rig|Rotation.R
+      takeName: Right Hand Rig|Rotation.R
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Right Hand
+        weight: 1
+      - path: Right Hand Rig
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R/Arm Pole Target.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R/Finger Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R/Thumb Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R/Index Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R/Middle Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R/Pinky Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R/Ring Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R/Thumb Tip.R_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Right Hand Rig|SlamDown.R
+      takeName: Right Hand Rig|SlamDown.R
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.66785717
+        functionName: ReturnToTempPos
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Right Hand
+        weight: 1
+      - path: Right Hand Rig
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R/Arm Pole Target.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R/Finger Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R/Thumb Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R/Index Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R/Middle Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R/Pinky Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R/Ring Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R/Thumb Tip.R_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Right Hand Rig|SlamDownPrep.R
+      takeName: Right Hand Rig|SlamDownPrep.R
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.086720884
+        functionName: HoverStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Right Hand
+        weight: 1
+      - path: Right Hand Rig
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R/Arm Pole Target.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R/Finger Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R/Thumb Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R/Index Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R/Middle Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R/Pinky Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R/Ring Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R/Thumb Tip.R_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Right Hand Rig|Sweep.R
+      takeName: Right Hand Rig|Sweep.R
+      firstFrame: 0
+      lastFrame: 170
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.74896264
+        functionName: ReturnToTempPos
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Right Hand
+        weight: 1
+      - path: Right Hand Rig
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R/Arm Pole Target.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R/Finger Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R/Thumb Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R/Index Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R/Middle Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R/Pinky Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R/Ring Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R/Thumb Tip.R_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Right Hand Rig|Throwing.R
+      takeName: Right Hand Rig|Throwing.R
+      firstFrame: 0
+      lastFrame: 78
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Right Hand
+        weight: 1
+      - path: Right Hand Rig
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Arm Pole Target.R/Arm Pole Target.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Finger Curl.R/Finger Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R
+        weight: 1
+      - path: Right Hand Rig/Arm IK.R/Thumb Curl.R/Thumb Curl.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Index Finger
+          Base.R/Index Finger Tips.R/Index Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Middle Finger
+          Base.R/Middle Finger Tips.R/Middle Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Pinky Finger
+          Base.R/Pinky Finger Tips.R/Pinky Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Ring Finger
+          Base.R/Ring Finger Tips.R/Ring Finger Tips.R_end
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R
+        weight: 1
+      - path: Right Hand Rig/Collarbone.R/Upper Arm.R/Lower Arm.R/Hand.R/Thumb Base.R/Thumb
+          Tip.R/Thumb Tip.R_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

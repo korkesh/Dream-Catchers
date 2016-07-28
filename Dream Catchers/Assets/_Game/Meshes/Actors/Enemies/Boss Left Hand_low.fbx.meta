@@ -1,0 +1,138 @@
+fileFormatVersion: 2
+guid: 11c27d8061557844cb28ad40ccedd226
+timeCreated: 1469727341
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Arm IK.L
+    100002: Arm Pole Target.L
+    100004: Arm Pole Target.L_end
+    100006: //RootNode
+    100008: Collarbone.L
+    100010: Finger Curl.L
+    100012: Finger Curl.L_end
+    100014: Hand.L
+    100016: Index Finger Base.L
+    100018: Index Finger Tips.L
+    100020: Index Finger Tips.L_end
+    100022: Left Hand
+    100024: Left Hand Rig
+    100026: Lower Arm.L
+    100028: Middle Finger Base.L
+    100030: Middle Finger Tips.L
+    100032: Middle Finger Tips.L_end
+    100034: Pinky Finger Base.L
+    100036: Pinky Finger Tips.L
+    100038: Pinky Finger Tips.L_end
+    100040: Ring Finger Base.L
+    100042: Ring Finger Tips.L
+    100044: Ring Finger Tips.L_end
+    100046: Thumb Base.L
+    100048: Thumb Curl.L
+    100050: Thumb Curl.L_end
+    100052: Thumb Tip.L
+    100054: Thumb Tip.L_end
+    100056: Upper Arm.L
+    400000: Arm IK.L
+    400002: Arm Pole Target.L
+    400004: Arm Pole Target.L_end
+    400006: //RootNode
+    400008: Collarbone.L
+    400010: Finger Curl.L
+    400012: Finger Curl.L_end
+    400014: Hand.L
+    400016: Index Finger Base.L
+    400018: Index Finger Tips.L
+    400020: Index Finger Tips.L_end
+    400022: Left Hand
+    400024: Left Hand Rig
+    400026: Lower Arm.L
+    400028: Middle Finger Base.L
+    400030: Middle Finger Tips.L
+    400032: Middle Finger Tips.L_end
+    400034: Pinky Finger Base.L
+    400036: Pinky Finger Tips.L
+    400038: Pinky Finger Tips.L_end
+    400040: Ring Finger Base.L
+    400042: Ring Finger Tips.L
+    400044: Ring Finger Tips.L_end
+    400046: Thumb Base.L
+    400048: Thumb Curl.L
+    400050: Thumb Curl.L_end
+    400052: Thumb Tip.L
+    400054: Thumb Tip.L_end
+    400056: Upper Arm.L
+    4300000: Left Hand
+    7400000: Left Hand Rig|Idle.L
+    7400002: Left Hand Rig|Rotation.L
+    7400004: Left Hand Rig|SlamDown.L
+    7400006: Left Hand Rig|SlamDownPrep.L
+    7400008: Left Hand Rig|Sweep.L
+    7400010: Left Hand Rig|Throwing.L
+    9500000: //RootNode
+    13700000: Left Hand
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
