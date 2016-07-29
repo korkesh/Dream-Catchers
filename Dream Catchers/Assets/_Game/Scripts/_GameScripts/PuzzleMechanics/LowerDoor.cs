@@ -8,8 +8,8 @@ using System.Collections;
 
 public class LowerDoor : MonoBehaviour {
 
-    public Vector3 openPos;
-    public Vector3 closePos;
+    public Vector3 StartPos;
+    public Vector3 EndPos;
     public float animationSpeed;
 
     Vector3 originalPos;
@@ -22,7 +22,7 @@ public class LowerDoor : MonoBehaviour {
     void Start () {
         timer = Time.deltaTime;
         originalPos = transform.position;
-        destinationPos = openPos;
+        destinationPos = StartPos;
     }
 	
 	// Update is called once per frame
@@ -51,13 +51,13 @@ public class LowerDoor : MonoBehaviour {
         {
             timer = Time.deltaTime;
             originalPos = transform.position;
-            destinationPos = closePos;
+            destinationPos = EndPos;
         }
         else
         {
             timer = Time.deltaTime;
             originalPos = transform.position;
-            destinationPos = openPos;
+            destinationPos = StartPos;
         }
 
     }

@@ -11,6 +11,8 @@ public class ManipulationBouncePad : ManipulationScript
 {
     public GameObject player; // The player to act upon
 
+    public Animator bouncePadAnim;
+
     public float bounceMaxHeight;
     public float bounceMinHeight;
     public float bounceAcceleration;
@@ -68,6 +70,11 @@ public class ManipulationBouncePad : ManipulationScript
             player.GetComponent<PlayerMachine>().MaxJumpHeight = bounceMaxHeight;
             player.GetComponent<PlayerMachine>().MinJumpHeight = bounceMinHeight;
             player.GetComponent<PlayerMachine>().JumpAcceleration = bounceAcceleration;
+
+            if (bouncePadAnim != null)
+            {
+                bouncePadAnim.SetTrigger("Bounce");
+            }
         }
     }
 
