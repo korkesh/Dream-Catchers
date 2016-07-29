@@ -206,6 +206,7 @@
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CelShaderV2.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Bump.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Diffuse.shader" />
+    <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShader-No Outline.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShader.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShaderWithRamp.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Temp.shader" />
