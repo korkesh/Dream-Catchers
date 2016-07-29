@@ -25,8 +25,8 @@ public class StageThree : Stages {
     {
         if (Bc.RightHand == null && Bc.LeftHand == null)
         {
-            //Bc.currentStage = NextStage;
-            Debug.Log("Done");
+            Bc.currentStage = NextStage;
+           // Debug.Log("Done");
         }
         else if(Bc.RightHand == null)
         {

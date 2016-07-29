@@ -95,9 +95,9 @@ public class HandScript : MonoBehaviour {
 
         if (isAttacking == true)
         {
-           // ThrowBall();
+            //ThrowBall();
             //Block();
-            //ChargeSmackDown();
+           // ChargeSmackDown();
             Swipe();
             isAttacking = false;
         }else if (returnSpot == true)
@@ -169,7 +169,7 @@ public class HandScript : MonoBehaviour {
     public void SmackDown()
     {
         attack = Mode.SMACK;
-
+        smackFollowTime = smackFollow;
         anim.SetTrigger("Slam");
 
 
@@ -232,6 +232,16 @@ public class HandScript : MonoBehaviour {
         attack = Mode.HOVER;
     }
 
+    public void SlowDownAnim()
+    {
+        anim.speed = 0.5f;
+    }
+
+    public void SpeedUpAnim()
+    {
+        anim.speed = 1.0f;
+    }
+
     void OnDestroy()
     {
         
@@ -247,6 +257,13 @@ public class HandScript : MonoBehaviour {
            Debug.Log("hunter");
            //isAttacking == true && 
            Damage.DealDamage();
+       }else if(other.gameObject.name == "DamageTrigger" && attack == Mode.SMACK)
+       {
+           HealthManager HM = this.GetComponent<HealthManager>();
+           if (HM != null)
+           {
+               HM.TakeDamage(2);
+           }
        }
     }
 

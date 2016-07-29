@@ -533,6 +533,22 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.33214286
+        functionName: SlowDownAnim
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.66964287
+        functionName: SpeedUpAnim
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.74896264
         functionName: ReturnToTempPos
         data: 

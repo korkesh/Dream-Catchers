@@ -36,6 +36,14 @@ public class EnterDamage : MonoBehaviour {
             {
                 h.TakeDamage(d.Damage);
             }
+            else
+            {
+                h = GetComponentInParent<HealthManager>();
+                if (h != null)
+                {
+                    h.TakeDamage(d.Damage);
+                }
+            }
         }
     }
 

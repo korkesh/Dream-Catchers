@@ -134,7 +134,7 @@ public class ClownAttack : MonoBehaviour {
 
             if(collision.gameObject == clown &&  messagetosend != "")
             {
-                clown.SendMessage(messagetosend);
+                clown.SendMessage(messagetosend,SendMessageOptions.DontRequireReceiver);
             }
 
             //Debug.Log(collision.gameObject.tag);
