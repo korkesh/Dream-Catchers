@@ -41,6 +41,12 @@ public class PushBlock : MonoBehaviour {
         {
             return;
         }
+
+        if (gameObject.GetComponent<ManipulationGravity>() != null && gameObject.GetComponent<ManipulationGravity>().currentFloat != ManipulationGravity.FLOAT_STATE.NEUTRAL)
+        {
+            return;
+        }
+
         // Only allow push from player and when not animating
         if (collision.gameObject.tag == "Player")
         {
