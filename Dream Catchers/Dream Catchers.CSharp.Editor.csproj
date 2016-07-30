@@ -127,6 +127,7 @@
     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\Editor\AutoTextureTiling_Editor.cs" />
     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\Editor\DynamicTextureTiling_Editor.cs" />
     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\Editor\TextureTilingEditorWindow.cs" />
+    <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
     <Compile Include="Assets\Editor\ImageEffects\AntialiasingEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\BloomAndFlaresEditor.cs" />
     <Compile Include="Assets\Editor\ImageEffects\BloomEditor.cs" />
