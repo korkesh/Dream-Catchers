@@ -28,12 +28,21 @@ public class EnterDamage : MonoBehaviour {
             d.DealDamage();
             hit = true;
             //Debug.Log("Deal Dam");
-        }else if(collision.gameObject.tag == "Enemy")
+        }
+        else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "BossHand")
         {
             HealthManager h = collision.GetComponent<HealthManager>();
             if(h != null)
             {
                 h.TakeDamage(d.Damage);
+            }
+            else
+            {
+                h = GetComponentInParent<HealthManager>();
+                if (h != null)
+                {
+                    h.TakeDamage(d.Damage);
+                }
             }
         }
     }

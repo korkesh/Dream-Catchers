@@ -28,11 +28,11 @@ public class StageOne : Stages {
             time = timeBetweenThrows;
             if(RightHand == false)
             {
-                Bc.RightHand.spawner.Spawn();
+                Bc.RightHand.ThrowBall();
                 RightHand = true;
             }else
             {
-                Bc.LeftHand.spawner.Spawn();
+                Bc.LeftHand.ThrowBall();
                 RightHand = false;
             }
         }
