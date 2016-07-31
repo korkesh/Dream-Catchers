@@ -72,6 +72,11 @@ public class PushBlock : MonoBehaviour {
             return;
         }
 
+        if (gameObject.GetComponent<ManipulationGravity>() != null && gameObject.GetComponent<ManipulationGravity>().currentFloat != ManipulationGravity.FLOAT_STATE.NEUTRAL)
+        {
+            return;
+        }
+
         gameObject.GetComponent<Rigidbody>().useGravity = true;
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 
