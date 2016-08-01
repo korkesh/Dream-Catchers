@@ -15,6 +15,8 @@ public class ManipulationScale : ManipulationScript {
     public Vector3 scaleNightmare;
 
     public float scaleDuration;
+    public bool isBoundry;
+    public Collider boundry;
 
     // Use this for initialization
     void Start () {
@@ -32,6 +34,10 @@ public class ManipulationScale : ManipulationScript {
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM)
         {
             objectTransform.DOScale(scaleDream, scaleDuration);
+            if(isBoundry)
+            {
+                StartCoroutine(ToggleCollision());
+            }
         }
         else
         {
@@ -39,6 +45,15 @@ public class ManipulationScale : ManipulationScript {
         }
     }
 
-   
+    public IEnumerator ToggleCollision()
+    {
+        boundry.enabled = !boundry.enabled;
+
+        yield return new WaitForSeconds(0.8f);
+
+        boundry.enabled = !boundry.enabled;
+
+    }
+
 
 }
