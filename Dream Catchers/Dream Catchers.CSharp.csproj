@@ -323,6 +323,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Character_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\DontDestroyOnLoad.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Game_Manager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\HubManager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Input_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\Level_Manager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Managers\ManipulationManager.cs" />

@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TriggerScene : MonoBehaviour
 {
-
     public enum TypeOfSwitch
     {
         AdditiveLoad,
@@ -20,7 +19,7 @@ public class TriggerScene : MonoBehaviour
     //public bool exitSwitch;
     public TypeOfSwitch exitSwitch;
     public bool saveScene;
-
+    public bool LevelComplete;
 
     void OnTriggerEnter(Collider other)
     {
@@ -38,9 +37,13 @@ public class TriggerScene : MonoBehaviour
         }
     }
 
-
     public void SceneChange(TypeOfSwitch tos)
     {
+        if (LevelComplete == true)
+        {
+            Level_Manager.Instance.LevelComplete(Level_Manager.Instance.CurrentLevel);
+        }
+
         switch (tos)
         {
             case TypeOfSwitch.AdditiveLoad:
@@ -49,15 +52,54 @@ public class TriggerScene : MonoBehaviour
             case TypeOfSwitch.CompleteSwitch:
                 SceneManager.LoadScene(SceneName);
                 Level_Manager.Instance.checkPointContinue = false;
+                setCurrentLevel();
                 break;
             case TypeOfSwitch.Unload:
                 SceneManager.UnloadScene(SceneName);
                 break;
         }
 
-        if(saveScene == true)
+        if (saveScene == true)
         {
-            PlayerPrefs.SetString("CurrentLevel",SceneName);
+            PlayerPrefs.SetString("CurrentLevel", SceneName);
         }
+    }
+
+    public void setCurrentLevel()
+    {
+        switch (SceneName)
+        {
+            case "Hub":
+                {
+                    Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.HUB;
+                    break;
+                }
+            case "Tutorial":
+                {
+                    Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.TUTORIAL;
+                    break;
+                }
+            case "Level1":
+                {
+                    Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.CANNON;
+                    break;
+                }
+            case "Level2":
+                {
+                    Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.DAMAGE;
+                    break;
+                }
+            case "Boss":
+                {
+                    Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.BOSS;
+                    break;
+                }
+            default:
+                {
+                    Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.MENU;
+                    break;
+                }
+        }
+
     }
 }

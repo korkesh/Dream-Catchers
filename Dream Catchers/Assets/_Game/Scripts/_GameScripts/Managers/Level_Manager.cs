@@ -4,7 +4,7 @@
 //================================
 using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 
 public class Level_Manager : Singleton<Level_Manager>
 {
@@ -17,14 +17,20 @@ public class Level_Manager : Singleton<Level_Manager>
 
     public enum Levels
     {
-        CLOWNDREAM
+        HUB = 0,
+        TUTORIAL = 1,
+        CANNON = 2,
+        DAMAGE = 3,
+        BOSS = 4,
+        MENU = 5
     }
 
     public string SceneName;
-    public Levels LevelName;
+    public Levels CurrentLevel;
+    public Levels FurthestLevelProgressed;
+    public List<string> levels;
     public Vector3 CheckPointPos;
     public Vector3 Rot;
-
 
     //-----------------
     // Defaults 
@@ -75,7 +81,6 @@ public class Level_Manager : Singleton<Level_Manager>
     // Use this for initialization
     void Start()
     {
-
         ContinueLevel();
 
     }
@@ -83,7 +88,6 @@ public class Level_Manager : Singleton<Level_Manager>
     // Update is called once per frame
     void Update()
     {
-
     }
 
     /// <summary>
@@ -96,6 +100,7 @@ public class Level_Manager : Singleton<Level_Manager>
         PlayerPrefs.SetInt("TotalNumMemoryFrag", totalNumMemoryFrag);
         PlayerPrefs.SetInt("TotalNumCollectibles", totalNumCollectibles);
         PlayerPrefs.SetInt("LevelComplete", 0);
+        PlayerPrefs.SetInt("FurthestLevelProgressed", 0);
         PlayerPrefs.SetFloat("CheckPointX", defaultCheckPoint.x);
         PlayerPrefs.SetFloat("CheckPointY", defaultCheckPoint.y);
         PlayerPrefs.SetFloat("CheckPointZ", defaultCheckPoint.z);
@@ -122,6 +127,12 @@ public class Level_Manager : Singleton<Level_Manager>
             }
         }
         return false;
+    }
+
+    // Override of prev; this function keeps track of the most recent level completed by the player
+    public void LevelComplete(Levels lvl)
+    {
+        PlayerPrefs.SetInt("FurthestLevelProgressed", (int)lvl);
     }
 
     public void newCheckPoint(Vector3 pos, Vector3 Rotation, string Level)
@@ -153,7 +164,7 @@ public class Level_Manager : Singleton<Level_Manager>
             PlayerPrefs.SetFloat("CheckPointY", defaultCheckPoint.y);
             PlayerPrefs.SetFloat("CheckPointZ", defaultCheckPoint.z);
             CheckPointPos = defaultCheckPoint;
-            SceneName = "Tutorial";
         }
     }
+
 }
