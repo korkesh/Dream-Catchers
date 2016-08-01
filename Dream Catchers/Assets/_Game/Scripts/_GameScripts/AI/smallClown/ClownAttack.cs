@@ -26,7 +26,8 @@ public class ClownAttack : MonoBehaviour {
     public GameObject NightmareBall;
     public GameObject particles;
     public float LaunchAngle;
-    public string messagetosend;
+    public string Nightmaremessagetosend;
+    public string Hammermessagetosend;
 
     //================================
     // Methods
@@ -132,9 +133,9 @@ public class ClownAttack : MonoBehaviour {
                 damage.DealDamage();
             }
 
-            if(collision.gameObject == clown &&  messagetosend != "")
+            if (collision.gameObject == clown && Nightmaremessagetosend != "")
             {
-                clown.SendMessage(messagetosend,SendMessageOptions.DontRequireReceiver);
+                clown.SendMessage(Nightmaremessagetosend, SendMessageOptions.DontRequireReceiver);
             }
 
             //Debug.Log(collision.gameObject.tag);
@@ -185,9 +186,9 @@ public class ClownAttack : MonoBehaviour {
                {
                   hitBack = true;
                   rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
-                   if(messagetosend != "")
+                   if(Hammermessagetosend != "")
                    {
-                       clown.SendMessageUpwards(messagetosend,this.gameObject, SendMessageOptions.DontRequireReceiver);
+                       clown.SendMessageUpwards(Hammermessagetosend, this.gameObject, SendMessageOptions.DontRequireReceiver);
                    }
                   
                }
@@ -212,9 +213,9 @@ public class ClownAttack : MonoBehaviour {
                         {
                             hitBack = true;
                             rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
-                            if (messagetosend != "")
+                            if (Hammermessagetosend != "")
                             {
-                                clown.SendMessageUpwards(messagetosend, this.gameObject, SendMessageOptions.DontRequireReceiver);
+                                clown.SendMessageUpwards(Hammermessagetosend, this.gameObject, SendMessageOptions.DontRequireReceiver);
                             }
                         }
                         else

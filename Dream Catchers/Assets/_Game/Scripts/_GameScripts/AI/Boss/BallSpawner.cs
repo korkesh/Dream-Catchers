@@ -12,7 +12,8 @@ public class BallSpawner : MonoBehaviour {
     public GameObject currentAttack;
     public Type type;
     public float LocalScale;
-    public string TargetMessage;
+    public string HammerTargetMessage;
+    public string NightmareTargetMessage;
 
     public enum Type
     {
@@ -77,7 +78,8 @@ public class BallSpawner : MonoBehaviour {
         ClownAttack cA = rocket.GetComponent<ClownAttack>();
         cA.clown = TargetHitBack;
         cA.LaunchAngle = LaunchAngle;
-        cA.messagetosend = TargetMessage;
+        cA.Hammermessagetosend = HammerTargetMessage;
+        cA.Nightmaremessagetosend = NightmareTargetMessage;
         if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
             cA.NightmareBall.SetActive(true);

@@ -23,45 +23,54 @@ public class EnterDamage : MonoBehaviour {
     //initial enter deal damage
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Player" && hit == false)
+        if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
-            d.DealDamage();
-            hit = true;
-            //Debug.Log("Deal Dam");
-        }
-        else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "BossHand")
-        {
-            HealthManager h = collision.GetComponent<HealthManager>();
-            if(h != null)
+            if (collision.gameObject.tag == "Player" && hit == false)
             {
-                h.TakeDamage(d.Damage);
+                d.DealDamage();
+                hit = true;
+                //Debug.Log("Deal Dam");
             }
-            else
+            else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "BossHand")
             {
-                h = GetComponentInParent<HealthManager>();
+                HealthManager h = collision.GetComponent<HealthManager>();
                 if (h != null)
                 {
                     h.TakeDamage(d.Damage);
                 }
+                else
+                {
+                    h = GetComponentInParent<HealthManager>();
+                    if (h != null)
+                    {
+                        h.TakeDamage(d.Damage);
+                    }
+                }
             }
         }
+        
     }
 
     //after some time deal damage 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+
+        if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
-            time -= Time.deltaTime;
-            //Debug.Log(Time.deltaTime);
-            //Debug.Log("time is :" + time);
-            if (time <= 0)
+            if (other.gameObject.tag == "Player")
             {
-                //Debug.Log("WTF");
-                d.DealDamage();
-                time = Timer;
+                time -= Time.deltaTime;
+                //Debug.Log(Time.deltaTime);
+                //Debug.Log("time is :" + time);
+                if (time <= 0)
+                {
+                    //Debug.Log("WTF");
+                    d.DealDamage();
+                    time = Timer;
+                }
             }
         }
+        
 
     }
 

@@ -30,6 +30,8 @@ public class SmallClownAI : MonoBehaviour {
     bool reverse;
     GameObject currentAttack;
     public float speedOfRotation;
+    bool jumping;
+    float airTime;
 
 
     //================================
@@ -50,10 +52,22 @@ public class SmallClownAI : MonoBehaviour {
         readyingAttack = true;
         index = 0;
         reverse = false;
+        airTime = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(jumping == true)
+        {
+            airTime -= Time.deltaTime;
+            if(airTime <= 0)
+            {
+                jumping = false;
+                airTime = 1;
+            }
+        }
+
         //bock does nothing in dream
         if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
@@ -64,6 +78,11 @@ public class SmallClownAI : MonoBehaviour {
             WatchPlayer();
             if (readyingAttack == true)
             {
+                //if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
+                //{
+                //    rigidB.constraints = RigidbodyConstraints.FreezeAll;
+                //    //rigidB.useGravity = false;
+                //}
                 //if (rigidB.velocity.y == 0)
                 //{
                     attackDelayTime -= Time.deltaTime;
@@ -93,10 +112,11 @@ public class SmallClownAI : MonoBehaviour {
         else
         {
             //rigidB.constraints = RigidbodyConstraints.FreezeAll;
-            if(rigidB.detectCollisions == true && rigidB.velocity.y == 0)
-            {
-                //rigidB.useGravity = false;
-            }
+            ////if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
+            ////{
+            ////    rigidB.constraints = RigidbodyConstraints.FreezeAll;
+            ////    rigidB.useGravity = false;
+            ////}
         }
 
         
@@ -141,6 +161,9 @@ public class SmallClownAI : MonoBehaviour {
     //movemt to next spot
     void move()
     {
+        rigidB.constraints = RigidbodyConstraints.None;
+        rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        jumping = true;
         if(path.Count > 0)
         {
             if(loop == true)
@@ -207,5 +230,14 @@ public class SmallClownAI : MonoBehaviour {
         float step = speedOfRotation * Time.deltaTime;
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
         transform.rotation = Quaternion.LookRotation(newDir);
+    }
+
+
+    void OnCollisionStay(Collision collisionInfo)
+    {
+        if (jumping == false && collisionInfo.gameObject.layer == LayerMask.NameToLayer("Level") || collisionInfo.gameObject.tag == "Switch")
+        {
+            rigidB.constraints = RigidbodyConstraints.FreezeAll;
+        }
     }
 }
