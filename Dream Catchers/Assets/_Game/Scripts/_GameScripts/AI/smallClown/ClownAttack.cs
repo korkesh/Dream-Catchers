@@ -20,7 +20,7 @@ public class ClownAttack : MonoBehaviour {
     public float sightRadius;
     public GameObject clown;
     public float timer;
-    bool exploded;
+    public  bool exploded;
     public float wait;
     public GameObject DreamBall;
     public GameObject NightmareBall;
@@ -134,17 +134,16 @@ public class ClownAttack : MonoBehaviour {
 
             if(collision.gameObject == clown &&  messagetosend != "")
             {
-                clown.SendMessage(messagetosend);
+                clown.SendMessage(messagetosend,SendMessageOptions.DontRequireReceiver);
             }
 
             //Debug.Log(collision.gameObject.tag);
             if (collision.gameObject.tag == "Enemy")
             {
                 HealthManager Health = collision.gameObject.GetComponent<HealthManager>();
-                Debug.Log("himself");
                 if(Health != null)
                 {
-                    Debug.Log("TakeDamage");
+                    //Debug.Log("TakeDamage");
                     Health.TakeDamage(damage.Damage);
                 }
             }
@@ -166,6 +165,19 @@ public class ClownAttack : MonoBehaviour {
                 //clown.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
 
+             if(collision.gameObject.tag  == "BossHand")
+             {
+
+                 spCollider.enabled = false;
+                 rigidB.useGravity = false;
+                 exploded = true;
+                 Destroy(NightmareBall);
+                 Destroy(DreamBall);
+                 GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
+                 ex.transform.parent = this.transform;
+                 ex.SetActive(true);
+             }
+
             if(collision.gameObject.tag == "Hammer" && hitBack == false)
             {
                 
@@ -173,6 +185,11 @@ public class ClownAttack : MonoBehaviour {
                {
                   hitBack = true;
                   rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
+                   if(messagetosend != "")
+                   {
+                       clown.SendMessageUpwards(messagetosend,this.gameObject, SendMessageOptions.DontRequireReceiver);
+                   }
+                  
                }
                else
                {
@@ -180,6 +197,8 @@ public class ClownAttack : MonoBehaviour {
                    Vector3 inFrontofPlayer = player.transform.position + player.transform.forward * 5;
                    rigidB.velocity = Jump(inFrontofPlayer, LaunchAngle, transform);
                }
+
+              
             }
             else if (collision.gameObject.tag == "Player" && hitBack == false) 
             {
@@ -193,6 +212,10 @@ public class ClownAttack : MonoBehaviour {
                         {
                             hitBack = true;
                             rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
+                            if (messagetosend != "")
+                            {
+                                clown.SendMessageUpwards(messagetosend, this.gameObject, SendMessageOptions.DontRequireReceiver);
+                            }
                         }
                         else
                         {

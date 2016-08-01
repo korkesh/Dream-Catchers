@@ -9,14 +9,15 @@ using DG.Tweening;
 
 public class ManipulationGravity : ManipulationScript {
 
-    enum FLOAT_STATE
+    public enum FLOAT_STATE
     {
         UP = 0,
         DOWN = 1,
-        NEUTRAL = 2
+        NEUTRAL = 2,
+        BLOCK = 3
     }
 
-    FLOAT_STATE currentFloat = FLOAT_STATE.DOWN;
+    public FLOAT_STATE currentFloat = FLOAT_STATE.DOWN;
 
     public float maxDist;
     public float minDist;
@@ -42,7 +43,7 @@ public class ManipulationGravity : ManipulationScript {
             if (gameObject.tag == "PushBlock")
             {
                 gameObject.GetComponent<Rigidbody>().useGravity = false;
-                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
 
             if (currentFloat == FLOAT_STATE.DOWN)
@@ -130,13 +131,28 @@ public class ManipulationGravity : ManipulationScript {
         {
             if (currentFloat == FLOAT_STATE.DOWN)
             {
-                currentFloat = FLOAT_STATE.NEUTRAL;
-                DOTween.Kill(transform);
+                currentFloat = FLOAT_STATE.BLOCK;
+                DOTween.Pause(transform);
             }
             return;
         }
         currentFloat = FLOAT_STATE.NEUTRAL;
         DOTween.Kill(transform);
+    }
+
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            if (currentFloat == FLOAT_STATE.BLOCK)
+            {
+                currentFloat = FLOAT_STATE.DOWN;
+                DOTween.Play(transform);
+            }
+            return;
+        }
+
     }
 
 }

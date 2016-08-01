@@ -67,7 +67,7 @@ public class ManipulationManager : MonoBehaviour
     void Update()
     {
         // Toggles the World State upon player input
-        if (Input.GetButtonDown("Fire3") && (Game_Manager.instance == null || Game_Manager.instance.isPlaying()) && !onCooldown && manipGained)
+        if (Input.GetButtonDown("Manip") && (Game_Manager.instance == null || Game_Manager.instance.isPlaying()) && !onCooldown && manipGained)
         {
             onCooldown = true;
             StartCoroutine(toggleCooldown());

@@ -11,6 +11,9 @@ public class BossClown : MonoBehaviour {
 
     public Stages currentStage;
 
+    public bool inDanger;
+    public GameObject inComingBall;
+
 	// Use this for initialization
 	void Start () {
 
@@ -21,6 +24,16 @@ public class BossClown : MonoBehaviour {
 	void Update () {
 
         currentStage.Play();
+        if(inComingBall == null)
+        {
+            inDanger = false;
+        }else
+        {
+            if(inComingBall.GetComponent<ClownAttack>().exploded == true)
+            {
+                inDanger = false;
+            }
+        }
 	}
 
 
@@ -43,4 +56,11 @@ public class BossClown : MonoBehaviour {
             Destroy(this.transform.parent.gameObject);
         }
     }
+
+    public void Block(GameObject ball)
+    {
+        inDanger = true;
+        inComingBall = ball;
+    }
+
 }

@@ -1,0 +1,778 @@
+fileFormatVersion: 2
+guid: 11c27d8061557844cb28ad40ccedd226
+timeCreated: 1469727341
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Arm IK.L
+    100002: Arm Pole Target.L
+    100004: Arm Pole Target.L_end
+    100006: //RootNode
+    100008: Collarbone.L
+    100010: Finger Curl.L
+    100012: Finger Curl.L_end
+    100014: Hand.L
+    100016: Index Finger Base.L
+    100018: Index Finger Tips.L
+    100020: Index Finger Tips.L_end
+    100022: Left Hand
+    100024: Left Hand Rig
+    100026: Lower Arm.L
+    100028: Middle Finger Base.L
+    100030: Middle Finger Tips.L
+    100032: Middle Finger Tips.L_end
+    100034: Pinky Finger Base.L
+    100036: Pinky Finger Tips.L
+    100038: Pinky Finger Tips.L_end
+    100040: Ring Finger Base.L
+    100042: Ring Finger Tips.L
+    100044: Ring Finger Tips.L_end
+    100046: Thumb Base.L
+    100048: Thumb Curl.L
+    100050: Thumb Curl.L_end
+    100052: Thumb Tip.L
+    100054: Thumb Tip.L_end
+    100056: Upper Arm.L
+    400000: Arm IK.L
+    400002: Arm Pole Target.L
+    400004: Arm Pole Target.L_end
+    400006: //RootNode
+    400008: Collarbone.L
+    400010: Finger Curl.L
+    400012: Finger Curl.L_end
+    400014: Hand.L
+    400016: Index Finger Base.L
+    400018: Index Finger Tips.L
+    400020: Index Finger Tips.L_end
+    400022: Left Hand
+    400024: Left Hand Rig
+    400026: Lower Arm.L
+    400028: Middle Finger Base.L
+    400030: Middle Finger Tips.L
+    400032: Middle Finger Tips.L_end
+    400034: Pinky Finger Base.L
+    400036: Pinky Finger Tips.L
+    400038: Pinky Finger Tips.L_end
+    400040: Ring Finger Base.L
+    400042: Ring Finger Tips.L
+    400044: Ring Finger Tips.L_end
+    400046: Thumb Base.L
+    400048: Thumb Curl.L
+    400050: Thumb Curl.L_end
+    400052: Thumb Tip.L
+    400054: Thumb Tip.L_end
+    400056: Upper Arm.L
+    4300000: Left Hand
+    7400000: Left Hand Rig|Idle.L
+    7400002: Left Hand Rig|Rotation.L
+    7400004: Left Hand Rig|SlamDown.L
+    7400006: Left Hand Rig|SlamDownPrep.L
+    7400008: Left Hand Rig|Sweep.L
+    7400010: Left Hand Rig|Throwing.L
+    9500000: //RootNode
+    13700000: Left Hand
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Left Hand Rig|Idle.L
+      takeName: Left Hand Rig|Idle.L
+      firstFrame: 0
+      lastFrame: 160
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Left Hand
+        weight: 1
+      - path: Left Hand Rig
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L/Arm Pole Target.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L/Finger Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L/Thumb Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L/Index Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L/Middle Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L/Pinky Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L/Ring Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L/Thumb Tip.L_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Left Hand Rig|Rotation.L
+      takeName: Left Hand Rig|Rotation.L
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Left Hand
+        weight: 1
+      - path: Left Hand Rig
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L/Arm Pole Target.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L/Finger Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L/Thumb Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L/Index Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L/Middle Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L/Pinky Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L/Ring Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L/Thumb Tip.L_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Left Hand Rig|SlamDown.L
+      takeName: Left Hand Rig|SlamDown.L
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.66785717
+        functionName: ReturnToTempPos
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Left Hand
+        weight: 1
+      - path: Left Hand Rig
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L/Arm Pole Target.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L/Finger Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L/Thumb Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L/Index Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L/Middle Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L/Pinky Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L/Ring Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L/Thumb Tip.L_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Left Hand Rig|SlamDownPrep.L
+      takeName: Left Hand Rig|SlamDownPrep.L
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.08928572
+        functionName: HoverStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Left Hand
+        weight: 1
+      - path: Left Hand Rig
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L/Arm Pole Target.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L/Finger Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L/Thumb Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L/Index Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L/Middle Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L/Pinky Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L/Ring Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L/Thumb Tip.L_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Left Hand Rig|Sweep.L
+      takeName: Left Hand Rig|Sweep.L
+      firstFrame: 0
+      lastFrame: 170
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.33214286
+        functionName: SlowDownAnim
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.67142856
+        functionName: SpeedUpAnim
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.74821424
+        functionName: ReturnToTempPos
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Left Hand
+        weight: 1
+      - path: Left Hand Rig
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L/Arm Pole Target.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L/Finger Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L/Thumb Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L/Index Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L/Middle Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L/Pinky Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L/Ring Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L/Thumb Tip.L_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Left Hand Rig|Throwing.L
+      takeName: Left Hand Rig|Throwing.L
+      firstFrame: 0
+      lastFrame: 78
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Left Hand
+        weight: 1
+      - path: Left Hand Rig
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Arm Pole Target.L/Arm Pole Target.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Finger Curl.L/Finger Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L
+        weight: 1
+      - path: Left Hand Rig/Arm IK.L/Thumb Curl.L/Thumb Curl.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Index Finger
+          Base.L/Index Finger Tips.L/Index Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Middle Finger
+          Base.L/Middle Finger Tips.L/Middle Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Pinky Finger
+          Base.L/Pinky Finger Tips.L/Pinky Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Ring Finger
+          Base.L/Ring Finger Tips.L/Ring Finger Tips.L_end
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L
+        weight: 1
+      - path: Left Hand Rig/Collarbone.L/Upper Arm.L/Lower Arm.L/Hand.L/Thumb Base.L/Thumb
+          Tip.L/Thumb Tip.L_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
