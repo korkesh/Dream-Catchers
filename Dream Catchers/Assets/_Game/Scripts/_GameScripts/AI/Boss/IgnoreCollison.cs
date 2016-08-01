@@ -10,7 +10,7 @@ public class IgnoreCollison : MonoBehaviour {
     //GameObject avoiding;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
         if(thisColiider != null)
         {
