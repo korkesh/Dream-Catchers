@@ -73,6 +73,7 @@ public class NewCamera : MonoBehaviour
     //=========================================
     // Active Variables
     //=========================================
+    [SerializeField]
     private float currentFollowDistance;
     private float currentHeight; // current height above player offset
     private float currentAngle; // current x rotation
@@ -82,11 +83,13 @@ public class NewCamera : MonoBehaviour
     private float currentTargetOffset = 0;
 
     private bool rotate = false; // set to true for the frame if player manipulated rotation
-    private bool collision = false; // set to true for the frame if the camera collided with something
-
+    [SerializeField]
     private float xRotationOffset = 0; // player manipulation value to x axis rotation
 
     private float currentRotateSpeed = 0; // speed at which camera is rotating around y axis (accelerates)
+    private float currentFloorOffset = 0; // offset for floor obstruction
+
+    private bool autoRotating; // whether the camera is currently in autorotate mode
 
     //==========================================
     // Smoothing Coefficients
@@ -103,7 +106,7 @@ public class NewCamera : MonoBehaviour
 
     void Start ()
     {
-        transform.eulerAngles = Vector3.zero; // hack: fix intro->tutorial camera bug out
+        transform.eulerAngles = Vector3.zero;
 
         Mode = CameraMode.Low;
 
@@ -114,7 +117,6 @@ public class NewCamera : MonoBehaviour
         controller = Player.GetComponent<SuperCharacterController>();
 
         vTargetOffset = new Vector3(0, targetOffset, 0);
-
         Target = Player.transform.position + vTargetOffset;
         CurrentTargetPos = Player.transform.position + vTargetOffset;
 
@@ -125,89 +127,21 @@ public class NewCamera : MonoBehaviour
 
 	void LateUpdate ()
     {
-        float newGround = controller.currentGround.groundHeight + vTargetOffset.y;
-        lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
-
-        // change modes if player pressed R
-        if (input.Current.RButton)
-        {
-            if (Mode == CameraMode.High)
-            {
-                Mode = CameraMode.Low;
-            }
-            else
-            {
-                Mode = CameraMode.High;
-            }
-        }
-
-        collision = false;
-
-        RaycastHit hit = new RaycastHit();
-
-        // manual x control (rotate around player pivot)
-        rotate = false;
-
-        if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f )//&& machine.ground)
-        {
-            rotate = true;
-            transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
-
-            // if rotation caused a collision revert
-            if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
-            {
-                if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
-                {
-                    transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
-                    rotate = false;
-                    collision = true;
-                }
-            }
-        }
-        else
-        {
-            currentRotateSpeed = 0;
-        }
-
+        UpdateMode();
+        ManualRotation();
 
         UpdateTarget();
-        //ConstrainDistance();
+
         UpdateActiveVariables();
-
-
-        // check x-rotation manipulation after setting follow distance to apply offset
-        if (Mathf.Abs(input.Current.Joy2Input.x) < 0.25f)
-        {
-            if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
-            {
-                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
-            }
-            else if (machine.ground)
-            { // move toward default if no manipulation input
-                xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * 4f;
-            }
-        }
-        
-
         UpdateHeight();
         ConstrainDistance();
         UpdateVectors();
         UpdateRotation();
+
         UpdateTarget();
 
-
-        // collision logic  
-        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
-        {
-            if (hit.transform.gameObject.tag != "Wall")
-            {
-                return; // todo: obstruction logic (rotate or alpha out)
-            }
-
-            transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);//hit.point;
-            UpdateTarget();
-            UpdateRotation();
-        }
+        ManualLook();
+        CheckOcclusion();
     }
 
 
@@ -259,6 +193,73 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    void UpdateMode()
+    {
+        // change modes if player pressed R
+        if (input.Current.RButton)
+        {
+            if (Mode == CameraMode.High)
+            {
+                Mode = CameraMode.Low;
+            }
+            else
+            {
+                Mode = CameraMode.High;
+            }
+        }
+    }
+
+
+    void ManualRotation()
+    {
+        // manual x control (rotate around player pivot)
+        if (!autoRotating)
+        {
+            rotate = false;
+            RaycastHit hit;
+
+            if (input.Current.LTrigger > 0.25f || input.Current.RTrigger > 0.25f)
+            {
+                rotate = true;
+                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
+
+                // if rotation caused a collision revert
+                if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+                {
+                    if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
+                    {
+                        //transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
+                        //rotate = false;
+                    }
+                }
+            }
+            else if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)//&& machine.ground)
+            {
+                rotate = true;
+                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
+
+                // if rotation caused a collision revert
+                if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+                {
+                    if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
+                    {
+                        //transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
+                        //rotate = false;
+                    }
+                }
+            }
+            else
+            {
+                currentRotateSpeed = Clamp(0, float.PositiveInfinity, currentRotateSpeed + (0f - currentRotateSpeed) * Time.deltaTime * 4);
+            }
+        }
+        else
+        {
+            rotate = true;
+        }
+    }
+
+
     void UpdateTarget()
     {
         // store previous frame's displacement before updating
@@ -292,6 +293,10 @@ public class NewCamera : MonoBehaviour
 
     void UpdateHeight()
     {
+        // update anchor height based on most recent ground height
+        float newGround = controller.currentGround.groundHeight + vTargetOffset.y;
+        lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
+
         currentHeight += Clamp(0, float.PositiveInfinity, (Target.y - lastGround) - currentMaxJumpHeight);
         currentHeight -= Clamp(0, float.PositiveInfinity, lastGround - Target.y);
 
@@ -373,18 +378,18 @@ public class NewCamera : MonoBehaviour
         // x - axis rotation: 
         // TODO: look further downward
         // in air states, rotate down further if player goes below viewport threshold
-        if (machine.moveDirection.y < -17.5f)
-        {
-            Vector3 DisplacementDir = (Target - transform.position).normalized;
-            if (DisplacementDir.y < transform.forward.y)// - 0.25f)//0.225f)
-            {
-                if (Vector3.Cross(transform.forward, DisplacementDir).magnitude > 0.2f)
-                {
-                    //Debug.Log("changing angle");
-                    angleOffset = Mathf.Max(angleOffset, Vector3.Angle(transform.forward, DisplacementDir));
-                }
-            }
-        }
+        //if (machine.moveDirection.y < -17.5f)
+        //{
+        //    Vector3 DisplacementDir = (Target - transform.position).normalized;
+        //    if (DisplacementDir.y < transform.forward.y)// - 0.25f)//0.225f)
+        //    {
+        //        if (Vector3.Cross(transform.forward, DisplacementDir).magnitude > 0.2f)
+        //        {
+        //            //Debug.Log("changing angle");
+        //            angleOffset = Mathf.Max(angleOffset, Vector3.Angle(transform.forward, DisplacementDir));
+        //        }
+        //    }
+        //}
 
         // TODO: fix rotation smoothening
         transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle + angleOffset - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed, transform.eulerAngles.y, transform.eulerAngles.z);
@@ -404,31 +409,86 @@ public class NewCamera : MonoBehaviour
     }
 
 
-    // autorotates 1/8 circle, faster than stick
-    IEnumerator AutoRotate(float dir)
+    void ManualLook()
     {
-        for (int i = 0; i < 20; i++)
+        // manual look rotation around x-axis
+        if (Mathf.Abs(input.Current.Joy2Input.x) < 0.25f)
         {
-            // rotate set amount until collision or finish
-            rotate = true;
-            transform.RotateAround(Player.transform.position, controller.up, (45 / 20) * dir);
-
-            // if rotation caused a collision revert
-            RaycastHit hit;
-            if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+            if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
             {
-                if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
-                {
-                    transform.RotateAround(Player.transform.position, controller.up, 0.05f * rotateSpeed * -dir);
-                    rotate = false;
-                    yield break;
-                }
-            }
+                // rotation
+                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
 
-            yield return new WaitForSeconds(0.025f);
+                // interpolate to player proportional to xRotationOffset   
+                Vector3 Root = Player.transform.position;
+                Root -= (BaseDisplacement.normalized * currentFollowDistance);
+                Root.y = Target.y + currentHeight;
+
+                // normalize xRotationOffset 0-1
+                float norm = 0;
+                if (xRotationOffset < 0)
+                {
+                    norm = (xRotationOffset - -15f) / (0 - -15f);
+                }
+                else if (xRotationOffset > 0)
+                {
+                    norm = (xRotationOffset - 25) / (25 - 0);
+                }
+
+                //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
+            }
+            else
+            { // move toward default if moving and no manipulation input
+                xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * machine.moveDirection.magnitude * 0.25f;
+
+                // interpolate to player proportional to xRotationOffset   
+                Vector3 Root = Player.transform.position;
+                Root -= (BaseDisplacement.normalized * currentFollowDistance);
+                Root.y = Target.y + currentHeight;
+
+                // normalize xRotationOffset 0-1
+                float norm = 0;
+                if (xRotationOffset < 0)
+                {
+                    norm = (xRotationOffset - -15f) / (0 - -15f);
+                }
+                else if (xRotationOffset > 0)
+                {
+                    norm = (xRotationOffset - 25) / (25 - 0);
+                }
+
+                //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
+            }
         }
+
+        
     }
 
+
+    void CheckOcclusion()
+    {
+        // Wall Occlusion
+        RaycastHit hit = new RaycastHit();
+        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Wall")
+            {
+                transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);//hit.point;
+                UpdateTarget();
+                UpdateRotation();
+            }     
+        }
+
+
+        // Floor Occlusion
+        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Floor")
+            {
+                
+            }          
+        }
+    }
 
     // Mathf.Clamp doesn't work?????????????????
     float Clamp(float min, float max, float val)
@@ -439,4 +499,33 @@ public class NewCamera : MonoBehaviour
             return max;
         return val;
     }
+
+
+    //// autorotates 1/8 circle, faster than stick
+    //IEnumerator AutoRotate(float dir)
+    //{
+    //    for (int i = 0; i < 20; i++)
+    //    {
+    //        // rotate set amount until collision or finish
+    //        rotate = true;
+    //        transform.RotateAround(Player.transform.position, controller.up, (45 / 20) * dir);
+
+    //        // if rotation caused a collision revert
+    //        RaycastHit hit;
+    //        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+    //        {
+    //            if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
+    //            {
+    //                transform.RotateAround(Player.transform.position, controller.up, 0.05f * rotateSpeed * -dir);
+    //                rotate = false;
+    //                autoRotating = false;
+    //                yield break;
+    //            }
+    //        }
+
+    //        yield return new WaitForSeconds(0.0025f);
+    //    }
+
+    //    autoRotating = false;
+    //}
 }

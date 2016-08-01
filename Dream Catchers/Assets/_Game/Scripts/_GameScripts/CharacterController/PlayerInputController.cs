@@ -7,7 +7,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerInputController : MonoBehaviour {
+public class PlayerInputController : MonoBehaviour
+{
 
     public PlayerInput Current;
 
@@ -16,16 +17,17 @@ public class PlayerInputController : MonoBehaviour {
     public float moveBufferTimer = 0;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         Current = new PlayerInput();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
+	void Update ()
+    {
         if(Game_Manager.instance == null || !Game_Manager.instance.isPaused())
         {
-            // Controls set via Unity Input Managre
+            // Controls set via Unity Input Manager
             Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             Vector3 joy2Input = new Vector3(Input.GetAxis("Horizontal2"), 0, Input.GetAxis("Vertical2"));
 
@@ -35,6 +37,8 @@ public class PlayerInputController : MonoBehaviour {
             bool jumpHold = Input.GetButton("Jump");
             bool rButton = Input.GetButtonDown("R");
             bool diveInput = Input.GetButtonDown("Dive");
+            float lTrigger = Input.GetAxisRaw("LeftTrigger");
+            float rTrigger = Input.GetAxisRaw("RightTrigger");
 
             // TODO: Change the efficiency of this; no lookup everytime
             GameObject dialogBox = GameObject.FindGameObjectWithTag("DialogBox");
@@ -54,6 +58,8 @@ public class PlayerInputController : MonoBehaviour {
                 JumpHold = jumpHold,
                 RButton = rButton,
                 DiveInput = diveInput,
+                RTrigger = rTrigger,
+                LTrigger = lTrigger,
                 
                 moveBuffer = false          
             };
@@ -97,6 +103,9 @@ public struct PlayerInput
     public bool JumpHold; // Jump Height
     public bool RButton; // Left Trigger
     public bool DiveInput;
+
+    public float LTrigger;
+    public float RTrigger;
 
     public bool moveBuffer;
 }
