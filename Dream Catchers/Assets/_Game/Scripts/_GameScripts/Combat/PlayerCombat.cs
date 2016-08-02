@@ -18,6 +18,9 @@ public class PlayerCombat : MonoBehaviour
     public float attackLength;
     public float iframes;
 
+    private PlayerMachine machine;
+    private PlayerInputController input;
+
     // Use this for initialization
     void Start()
     {
@@ -25,6 +28,8 @@ public class PlayerCombat : MonoBehaviour
         weaponCollider.SetActive(false);
         //groundPoundCollider.SetActive(false);
 
+        machine = GameObject.FindWithTag("Player").GetComponent<PlayerMachine>();
+        input = GameObject.FindWithTag("Player").GetComponent<PlayerInputController>();
     }
 
     // Update is called once per frame
@@ -47,7 +52,17 @@ public class PlayerCombat : MonoBehaviour
         weaponParentObject.SetActive(true); // Turn hammer on
 
         // Attack animation
-        gameObject.GetComponent<Animator>().SetBool("StandAttack", true);
+        // sideswing on horizontal or 0 input
+        if (Vector3.Cross(machine.transform.forward, machine.localMovement).magnitude > 0.5f || input.Current.MoveInput.magnitude < 0.25f)
+        {
+            gameObject.GetComponent<Animator>().SetBool("SideSwing", true);
+        }
+        // down swing
+        else
+        {
+            gameObject.GetComponent<Animator>().SetBool("SideSwing", true);
+        }
+
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 1);
     }
 
@@ -74,7 +89,8 @@ public class PlayerCombat : MonoBehaviour
         weaponCollider.SetActive(false);
 
         // Attack animation End
-        gameObject.GetComponent<Animator>().SetBool("StandAttack", false);
+        gameObject.GetComponent<Animator>().SetBool("SideSwing", false);
+        gameObject.GetComponent<Animator>().SetBool("DownSwing", false);
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 0);
 
     }

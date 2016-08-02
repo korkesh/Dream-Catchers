@@ -9,7 +9,6 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-// todo: localMovement class variable so we aren't calling 1000 cross products per frame
 
 [RequireComponent(typeof(SuperCharacterController))]
 [RequireComponent(typeof(PlayerInputController))]
@@ -94,7 +93,7 @@ public class PlayerMachine : SuperStateMachine {
 
     public Vector3 lookDirection { get; private set; } // current direction camera is facing
 
-    private Vector3 localMovement; // call localMovement at beginning of frame once
+    public Vector3 localMovement { get; private set; } // call localMovement at beginning of frame once
 
     //----------------------------------------------
     // Debug Inspector Fields:
@@ -288,6 +287,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Idle_SuperUpdate()
     {
+        float prevIdle = idleTimer;
         idleTimer += Time.deltaTime;
 
         // Run every frame we are in the idle state
@@ -320,10 +320,26 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection = transform.forward * speed;
 
-        if(idleTimer >= 5)
+        if(idleTimer >= 5f && prevIdle < 5f)
         {
-            gameObject.GetComponent<Animator>().SetBool("IdleTimeOut", true);
+            gameObject.GetComponent<Animator>().SetBool("Idle1", true);
         }
+        else if (idleTimer >= 5f)
+        {
+            gameObject.GetComponent<Animator>().SetBool("Idle1", false);
+
+            if (idleTimer >= 10f && prevIdle < 10f)
+            {
+                gameObject.GetComponent<Animator>().SetBool("Idle2", true);
+            }
+            else if (idleTimer >= 10f)
+            {
+                gameObject.GetComponent<Animator>().SetBool("Idle2", false);
+                idleTimer = 0; // reset timer, completed full cycle
+            }
+        }
+        
+
 
         // ANIMATION:
         if (speed / MaxRunSpeed > 0.5f)
@@ -347,6 +363,8 @@ public class PlayerMachine : SuperStateMachine {
     {
         idleTimer = 0;
         gameObject.GetComponent<Animator>().SetBool("IdleTimeOut", false);
+        gameObject.GetComponent<Animator>().SetBool("Idle1", false);
+        gameObject.GetComponent<Animator>().SetBool("Idle2", false);
     }
 
   
