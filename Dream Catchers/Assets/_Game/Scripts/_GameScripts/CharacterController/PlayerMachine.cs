@@ -81,6 +81,7 @@ public class PlayerMachine : SuperStateMachine {
 
     // Physics
     public float Gravity = 25.0f;
+    public float DiveGravity = 32.0f;
     public float GroundFriction = 10.0f;
 
     //----------------------------------------------
@@ -195,12 +196,6 @@ public class PlayerMachine : SuperStateMachine {
     protected override void EarlyGlobalSuperUpdate()
     {
         localMovement = LocalMovement();
-
-        // debug control state swap:
-        if ((Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.Z)) || (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.X)))
-        {
-            controllerTechnical = !controllerTechnical;
-        }
 
         Displacement = transform.position - prevPos;
 
@@ -546,6 +541,13 @@ public class PlayerMachine : SuperStateMachine {
 
     void SkidJump_SuperUpdate()
     {
+        // dive condition
+        if (input.Current.DiveInput)
+        {
+            currentState = PlayerStates.Dive;
+            return;
+        }
+
         if (JumpTimer + Time.deltaTime < JumpHoldTime)
         {
             moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
@@ -670,6 +672,13 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_SuperUpdate()
     {
+        // dive condition
+        if (input.Current.DiveInput)
+        {
+            currentState = PlayerStates.Dive;
+            return;
+        }
+
         // if holding jump button and not at max jump height, raise movement vector
         if (!input.Current.JumpHold)
         {
@@ -900,6 +909,13 @@ public class PlayerMachine : SuperStateMachine {
 
     void Fall_SuperUpdate()
     {
+        // dive condition
+        if (input.Current.DiveInput)
+        {
+            currentState = PlayerStates.Dive;
+            return;
+        }
+
         /*if (input.Current.AttackInput)
         {
             currentState = PlayerStates.GroundPound;
@@ -941,16 +957,22 @@ public class PlayerMachine : SuperStateMachine {
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
         // static properties from ground (run state)
         //if (ground)
         {
             moveDirection = transform.forward * MaxDiveSpeed;
-            moveDirection.y += DiveJumpForce;
+
+            if (verticalMoveDirection.y > 1f || Mathf.Approximately(0f, verticalMoveDirection.y))
+            {
+                Debug.Log(verticalMoveDirection.y + " adfadfafa");
+                moveDirection.y += DiveJumpForce;
+            }
 
             speed = MaxDiveSpeed;
         }
-
-        // todo: airstate dive
 
         controller.feet.offset = 1f;
     }
@@ -990,7 +1012,7 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection += transform.right * xSpeed;
 
         // gravity
-        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+        verticalMoveDirection -= controller.up * DiveGravity * Time.deltaTime;
         moveDirection += verticalMoveDirection;
     }
 
@@ -1000,6 +1022,7 @@ public class PlayerMachine : SuperStateMachine {
 
         controller.feet.offset = 0.5f;
     }
+
 
     void Slide_EnterState()
     {
