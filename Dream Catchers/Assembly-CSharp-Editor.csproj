@@ -49,6 +49,7 @@
      <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\Editor\AutoTextureTiling_Editor.cs" />
      <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\Editor\DynamicTextureTiling_Editor.cs" />
      <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\Editor\TextureTilingEditorWindow.cs" />
+     <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
      <Compile Include="Assets\Editor\ImageEffects\AntialiasingEditor.cs" />
      <Compile Include="Assets\Editor\ImageEffects\BloomAndFlaresEditor.cs" />
      <Compile Include="Assets\Editor\ImageEffects\BloomEditor.cs" />
@@ -140,6 +141,7 @@
      <None Include="Assets\Fungus\LICENSE.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
      <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Bump.shader" />
+     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShader-No Outline.shader" />
      <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
      <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CelShaderV2.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />

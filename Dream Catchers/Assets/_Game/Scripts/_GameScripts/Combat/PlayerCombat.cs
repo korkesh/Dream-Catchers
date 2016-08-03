@@ -46,7 +46,6 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-        Debug.Log("Begin Attack");
         attacking = true;
 
         weaponParentObject.SetActive(true); // Turn hammer on
