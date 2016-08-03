@@ -168,7 +168,7 @@ ModelImporter:
     7400006: Idle2
     7400008: Jump
     7400010: Run
-    7400012: Second Jump
+    7400012: Get Up
     7400014: SwingDown
     7400016: SwingSide
     7400018: Taking Damage
@@ -1489,10 +1489,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Second Jump
+      name: Get Up
       takeName: Second Jump
-      firstFrame: 0
-      lastFrame: 29
+      firstFrame: 33
+      lastFrame: 76
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -1505,9 +1505,9 @@ ModelImporter:
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
-      heightFromFeet: 1
+      heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
