@@ -207,7 +207,7 @@ public class ClownAttack : MonoBehaviour {
                 Animator anim = collision.gameObject.GetComponent<Animator>();
                 if(anim != null)
                 {
-                    if (anim.GetBool("StandAttack") == true )
+                    if (anim.GetBool("SideSwing") == true )
                     {
                         if(EnemyInCone() == true)
                         {
