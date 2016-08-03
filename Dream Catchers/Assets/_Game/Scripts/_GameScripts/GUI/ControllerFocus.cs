@@ -9,12 +9,18 @@ using UnityEngine.EventSystems;
 
 public class ControllerFocus : MonoBehaviour {
 
+    public GameObject Selected;
+
 	// Update is called once per frame
 	void Update () {
 
         if(EventSystem.current.currentSelectedGameObject == null)
          {
-            EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
+            EventSystem.current.SetSelectedGameObject(Selected);
+        }
+        else
+        {
+            Selected = EventSystem.current.currentSelectedGameObject;
         }
     }
 }

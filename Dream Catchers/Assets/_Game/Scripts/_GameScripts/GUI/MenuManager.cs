@@ -79,7 +79,7 @@ public class MenuManager : MonoBehaviour {
     public void Quit()
     {
         Game_Manager.instance.ChangeScene("MainMenu");
-        UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("MainMenu").GetComponent<Menu>());
+        //UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("MainMenu").GetComponent<Menu>());
         Game_Manager.instance.changeGameState(Game_Manager.GameState.MENU);
         UnPause();
     }
@@ -88,6 +88,6 @@ public class MenuManager : MonoBehaviour {
     {
         UnPause();
         Game_Manager.instance.PlayGame();
-        UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
+        //UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
     }
 }

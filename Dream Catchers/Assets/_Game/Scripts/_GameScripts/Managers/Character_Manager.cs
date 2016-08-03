@@ -215,6 +215,7 @@ public class Character_Manager : Singleton<Character_Manager>
     {
         totalCollectibles += 1;
         PlayerPrefs.SetInt("TotalOtherCollectiblesCollected", totalCollectibles);
+        
     }
 
 

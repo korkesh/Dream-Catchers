@@ -38,14 +38,7 @@ public class InGameStats : MonoBehaviour {
     public Text CollectibleNum;
     public Sprite NUllImage;
     public Animator CollectibleAnim;
-    public Sprite FragmentGearPic;
-    public Sprite FragmentKeyPic;
-    public Sprite FragmentLocketPic;
-    public Sprite DimFragmentGearPic;
-    public Sprite DimFragmentKeyPic;
-    public Sprite DimFragmentLocketPic;
-    public Sprite DreamHammer;
-    public Sprite NightHammer;
+    
 
     //-----------------
     // Stats 
@@ -98,20 +91,20 @@ public class InGameStats : MonoBehaviour {
             }
         }
 
-        if (Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE)
-        {
-            ShowCollect();
-        }
+        //if (Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE)
+        //{
+        //    //ShowCollect();
+        //}
 
-        if (state != Game_Manager.instance.currentGameState && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
-        {
-            updateFragments();
-        }
+        //if (state != Game_Manager.instance.currentGameState && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
+        //{
+        //    updateFragments();
+        //}
 
-        if(Wstate != ManipulationManager.instance.currentWorldState)
-        {
-            hammerChange();
-        }
+        //if(Wstate != ManipulationManager.instance.currentWorldState)
+        //{
+        //    hammerChange();
+        //}
 
         //if the game is in play mode check to see if anyvalues have changed. if so update ui
         if(UI_Manager.instance.CurrentMenu == this.GetComponent<Menu>())
@@ -129,10 +122,10 @@ public class InGameStats : MonoBehaviour {
             }
             CollectibleNum.text = Character_Manager.instance.totalCollectibles.ToString();
 
-            if(numFrag != Character_Manager.instance.totalMemoryFragmentsCollected)
-            {
-                updateFragments();
-            }
+            //if(numFrag != Character_Manager.instance.totalMemoryFragmentsCollected)
+            //{
+            //    updateFragments();
+            //}
 
         }else
         {
@@ -192,68 +185,68 @@ public class InGameStats : MonoBehaviour {
 
     public void updateFragments()
     {
-        if (PlayerPrefs.HasKey("Fragment Gear") == true)
-        {
-            if (PlayerPrefs.GetInt("Fragment Gear") == 1)
-            {
-                FragmentGear.sprite = FragmentGearPic;
-            }
-            else
-            {
-                FragmentGear.sprite = DimFragmentGearPic;
-            }
-        }
-        else
-        {
-            FragmentGear.sprite = DimFragmentGearPic;
-        }
+        //if (PlayerPrefs.HasKey("Fragment Gear") == true)
+        //{
+        //    if (PlayerPrefs.GetInt("Fragment Gear") == 1)
+        //    {
+        //        FragmentGear.sprite = FragmentGearPic;
+        //    }
+        //    else
+        //    {
+        //        FragmentGear.sprite = DimFragmentGearPic;
+        //    }
+        //}
+        //else
+        //{
+        //    FragmentGear.sprite = DimFragmentGearPic;
+        //}
 
-        if (PlayerPrefs.HasKey("Fragment Key") == true)
-        {
-            if (PlayerPrefs.GetInt("Fragment Key") == 1)
-            {
-                FragmentKey.sprite = FragmentKeyPic;
-            }
-            else
-            {
-                FragmentKey.sprite = DimFragmentKeyPic;
-            }
-        }
-        else
-        {
-            FragmentKey.sprite = DimFragmentKeyPic;
-        }
+        //if (PlayerPrefs.HasKey("Fragment Key") == true)
+        //{
+        //    if (PlayerPrefs.GetInt("Fragment Key") == 1)
+        //    {
+        //        FragmentKey.sprite = FragmentKeyPic;
+        //    }
+        //    else
+        //    {
+        //        FragmentKey.sprite = DimFragmentKeyPic;
+        //    }
+        //}
+        //else
+        //{
+        //    FragmentKey.sprite = DimFragmentKeyPic;
+        //}
 
-        if (PlayerPrefs.HasKey("Fragment Locket") == true)
-        {
-            if (PlayerPrefs.GetInt("Fragment Locket") == 1)
-            {
-                FragmentLocket.sprite = FragmentLocketPic;
-            }
-            else
-            {
-                FragmentLocket.sprite = DimFragmentLocketPic;
-            }
-        }
-        else
-        {
-            FragmentLocket.sprite = DimFragmentLocketPic;
-        }
+        //if (PlayerPrefs.HasKey("Fragment Locket") == true)
+        //{
+        //    if (PlayerPrefs.GetInt("Fragment Locket") == 1)
+        //    {
+        //        FragmentLocket.sprite = FragmentLocketPic;
+        //    }
+        //    else
+        //    {
+        //        FragmentLocket.sprite = DimFragmentLocketPic;
+        //    }
+        //}
+        //else
+        //{
+        //    FragmentLocket.sprite = DimFragmentLocketPic;
+        //}
 
-        numFrag = Character_Manager.instance.totalMemoryFragmentsCollected;
+        //numFrag = Character_Manager.instance.totalMemoryFragmentsCollected;
     }
 
     void hammerChange()
     {
-        if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
-        {
-            HammerIcon.sprite = DreamHammer;
+        //if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
+        //{
+        //    HammerIcon.sprite = DreamHammer;
 
-        }
-        else
-        {
-            HammerIcon.sprite = NightHammer;
-        }
+        //}
+        //else
+        //{
+        //    HammerIcon.sprite = NightHammer;
+        //}
     }
 
 

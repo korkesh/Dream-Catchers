@@ -27,7 +27,7 @@ public class TempSwitchScene : MonoBehaviour {
     {
         SceneManager.LoadScene(NextScene);
         Game_Manager.instance.changeGameState(Game_Manager.GameState.MENU);
-        UI_Manager.instance.ShowMenu(MainMenu);
+        //UI_Manager.instance.ShowMenu(MainMenu);
     }
 
     public void newGame()
@@ -62,7 +62,7 @@ public class TempSwitchScene : MonoBehaviour {
         {
             Game_Manager.instance.ChangeScene(PlayerPrefs.GetString("CurrentLevel"));
             UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
-            Game_Manager.instance.PlayGame();
+            //Game_Manager.instance.PlayGame();
             Level_Manager.Instance.ContinueLevel();
             GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
             Character_Manager.instance.GoTocheckPoint();
@@ -90,5 +90,10 @@ public class TempSwitchScene : MonoBehaviour {
 
         Character_Manager.instance.GoTocheckPoint();
         Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
+    }
+
+    public void GamePlay()
+    {
+        Game_Manager.instance.PlayGame();
     }
 }

@@ -61,7 +61,7 @@ public class Items : MonoBehaviour {
             if(type == Type.COLLECTIBLE)
             {
                 Character_Manager.Instance.CollectOtherCollectible();
-                
+                Level_Manager.Instance.updateLevelTickets(this);
                 
             }
             else if(type == Type.HEALTH_PICKUP)
