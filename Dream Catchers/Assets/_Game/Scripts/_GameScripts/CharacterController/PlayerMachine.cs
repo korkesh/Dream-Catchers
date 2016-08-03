@@ -220,6 +220,7 @@ public class PlayerMachine : SuperStateMachine {
         if (input.Current.AttackInput && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER) && Character_Manager.instance.toggleHammer)
         {
             gameObject.GetComponent<PlayerCombat>().BeginAttack();
+            idleTimer = 0;
         }
 
         // Prevent all movement once dead
@@ -292,7 +293,7 @@ public class PlayerMachine : SuperStateMachine {
 
         // Run every frame we are in the idle state
         // Dont allow attack and then jump
-        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().damage)
         {
             currentState = PlayerStates.Jump;
             return;
@@ -380,7 +381,7 @@ public class PlayerMachine : SuperStateMachine {
     void Run_SuperUpdate()
     {
         // Dont allow attack and then jump
-        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().attacking)
+        if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().damage)
         {
             currentState = PlayerStates.Jump;
             return;

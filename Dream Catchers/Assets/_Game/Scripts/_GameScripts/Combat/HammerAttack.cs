@@ -13,7 +13,7 @@ public class HammerAttack : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy" && combatScript.attacking && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+        if (other.tag == "Enemy" && combatScript.damage && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
         {
             other.BroadcastMessage("TakeDamage", hammerDamage);
         }
