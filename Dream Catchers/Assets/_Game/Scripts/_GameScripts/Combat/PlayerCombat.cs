@@ -13,9 +13,11 @@ public class PlayerCombat : MonoBehaviour
     //public GameObject groundPoundCollider;
     public GameObject weaponParentObject;
     public bool attacking;
+    public bool damage;
 
     public float attackStart;
     public float attackLength;
+    public float colliderLength;
     public float iframes;
 
     private PlayerMachine machine;
@@ -24,7 +26,7 @@ public class PlayerCombat : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        attacking = false;
+        damage = false;
         weaponCollider.SetActive(false);
         //groundPoundCollider.SetActive(false);
 
@@ -35,7 +37,6 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     public void BeginAttack()
@@ -45,53 +46,50 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
 
-//        Debug.Log("Attacking");
-        StartCoroutine(EnableCollider());
-        StartCoroutine(EndAttack());
+        Debug.Log("Begin Attack");
+        attacking = true;
 
         weaponParentObject.SetActive(true); // Turn hammer on
 
         // Attack animation
-        // sideswing on horizontal or 0 input
-        if (Vector3.Cross(machine.transform.forward, machine.localMovement).magnitude > 0.5f || input.Current.MoveInput.magnitude < 0.25f)
-        {
-            gameObject.GetComponent<Animator>().SetBool("SideSwing", true);
-        }
-        // down swing
-        else
-        {
-            gameObject.GetComponent<Animator>().SetBool("DownSwing", true);
-        }
+        gameObject.GetComponent<Animator>().SetBool("SideSwing", true);
 
         gameObject.GetComponent<Animator>().SetLayerWeight(1, 1);
+
+        StartCoroutine(EnableCollider());
+        StartCoroutine(DisableCollider());
+        StartCoroutine(EndAttack());
     }
 
     public IEnumerator EnableCollider()
     {
         yield return new WaitForSeconds(attackStart);
-
-        weaponCollider.SetActive(true);
-
+        
         // Allow attacks to register damage
-        attacking = true;
+        weaponCollider.SetActive(true);
+        damage = true;
+    }
+
+    public IEnumerator DisableCollider()
+    {
+        yield return new WaitForSeconds(colliderLength);
+
+        // DisAllow attacks to register damage
+        weaponCollider.SetActive(false);
+        damage = false;
+
     }
 
     public IEnumerator EndAttack()
     {
         yield return new WaitForSeconds(attackLength);
 
-//        Debug.Log("Attacking End");
-
-        weaponParentObject.SetActive(false); // Turn hammer off
-
-        // DisAllow attacks to register damage
         attacking = false;
-        weaponCollider.SetActive(false);
+        weaponParentObject.SetActive(false); // Turn hammer off
 
         // Attack animation End
         gameObject.GetComponent<Animator>().SetBool("SideSwing", false);
         gameObject.GetComponent<Animator>().SetBool("DownSwing", false);
-        gameObject.GetComponent<Animator>().SetLayerWeight(1, 0);
 
     }
 
