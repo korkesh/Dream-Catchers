@@ -285,7 +285,11 @@ public class SuperCharacterController : MonoBehaviour
     void ClampToGround()
     {
         float d = currentGround.Distance();
-        transform.position -= up * d;
+
+        if (d < 1.5f)
+        {
+            transform.position -= up * d;
+        }
     }
 
     public void EnableClamping()

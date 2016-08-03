@@ -59,6 +59,8 @@ public class NewCamera : MonoBehaviour
     public float lHeightGround;
     public float lHeightAir;
 
+    public float maxDownSpeed;
+
     // Static angles
     public float hAngleGround; // = ~15~
     public float hAngleAir;
@@ -142,6 +144,8 @@ public class NewCamera : MonoBehaviour
 
         ManualLook();
         CheckOcclusion();
+
+        
     }
 
 
@@ -275,7 +279,6 @@ public class NewCamera : MonoBehaviour
 
         // local right is inconsistent as camera looks ahead of player, so use cross of up/cam-player dir as constant right
         Vector3 right = Vector3.Cross(Vector3.up, BaseDisplacement.normalized);
-        
         Target += (right * align * lookDistance);
 
         // smoothly move target left/right in ground state
@@ -312,7 +315,7 @@ public class NewCamera : MonoBehaviour
         //else
         {
             // downward movement is slower, rotating downward to keep player in view
-            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime * 0.2f);
+            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, Clamp(0, maxDownSpeed, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime));
         }
 
         // if moved into a floor/ceiling, revert movement
@@ -411,57 +414,37 @@ public class NewCamera : MonoBehaviour
 
     void ManualLook()
     {
+        // get root position (pre look interpolation)
+        Vector3 Root = Player.transform.position;
+        Root -= (BaseDisplacement.normalized * currentFollowDistance);
+        Root.y = lastGround + currentHeight;
+
         // manual look rotation around x-axis
         if (Mathf.Abs(input.Current.Joy2Input.x) < 0.25f)
         {
             if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
             {
                 // rotation
-                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
-
-                // interpolate to player proportional to xRotationOffset   
-                Vector3 Root = Player.transform.position;
-                Root -= (BaseDisplacement.normalized * currentFollowDistance);
-                Root.y = Target.y + currentHeight;
-
-                // normalize xRotationOffset 0-1
-                float norm = 0;
-                if (xRotationOffset < 0)
-                {
-                    norm = (xRotationOffset - -15f) / (0 - -15f);
-                }
-                else if (xRotationOffset > 0)
-                {
-                    norm = (xRotationOffset - 25) / (25 - 0);
-                }
-
-                //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
+                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f); 
             }
             else
             { // move toward default if moving and no manipulation input
                 xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * machine.moveDirection.magnitude * 0.25f;
-
-                // interpolate to player proportional to xRotationOffset   
-                Vector3 Root = Player.transform.position;
-                Root -= (BaseDisplacement.normalized * currentFollowDistance);
-                Root.y = Target.y + currentHeight;
-
-                // normalize xRotationOffset 0-1
-                float norm = 0;
-                if (xRotationOffset < 0)
-                {
-                    norm = (xRotationOffset - -15f) / (0 - -15f);
-                }
-                else if (xRotationOffset > 0)
-                {
-                    norm = (xRotationOffset - 25) / (25 - 0);
-                }
-
-                //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
             }
         }
 
-        
+        // normalize xRotationOffset 0-1
+        float norm = 0;
+        if (xRotationOffset < 0)
+        {
+            norm = (xRotationOffset - 0) / (-15f - 0);
+        }
+        else if (xRotationOffset > 0)
+        {
+            norm = (xRotationOffset - 0) / (25 - 0);
+        }
+
+        //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
     }
 
 

@@ -197,12 +197,6 @@ public class PlayerMachine : SuperStateMachine {
     {
         localMovement = LocalMovement();
 
-        // debug control state swap:
-        if ((Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.Z)) || (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.X)))
-        {
-            controllerTechnical = !controllerTechnical;
-        }
-
         Displacement = transform.position - prevPos;
 
         if (ground)
