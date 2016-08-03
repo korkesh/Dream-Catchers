@@ -300,7 +300,9 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\PlayerInputController.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\PlayerMachine.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\SuperCharacterController.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\BoxCollision.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\CollectibleSpawner.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\IgnoreColliders.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\RotateCollectible.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\CharacterCrush.cs" />
