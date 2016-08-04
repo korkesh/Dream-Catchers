@@ -90,6 +90,8 @@ public class NewCamera : MonoBehaviour
 
     private float currentRotateSpeed = 0; // speed at which camera is rotating around y axis (accelerates)
     private float currentFloorOffset = 0; // offset for floor obstruction
+    [SerializeField]
+    private float floorArc = 0; // amount of arc rotation applied to see above floors
 
     private bool autoRotating; // whether the camera is currently in autorotate mode
 
@@ -434,14 +436,14 @@ public class NewCamera : MonoBehaviour
         }
 
         // normalize xRotationOffset 0-1
-        float norm = 0;
-        if (xRotationOffset < 0)
+        float norm = 0f;
+        if (xRotationOffset < 0f)
         {
-            norm = (xRotationOffset - 0) / (-15f - 0);
+            norm = (xRotationOffset - 0f) / (-15f - 0f);
         }
-        else if (xRotationOffset > 0)
+        else if (xRotationOffset > 0f)
         {
-            norm = (xRotationOffset - 0) / (25 - 0);
+            norm = (xRotationOffset - 0f) / (25 - 0f);
         }
 
         //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
@@ -456,7 +458,7 @@ public class NewCamera : MonoBehaviour
         {
             if (hit.transform.gameObject.tag == "Wall")
             {
-                transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z);//hit.point;
+                transform.position = new Vector3(hit.point.x, /*transform.position*/hit.point.y, hit.point.z);//hit.point;
                 UpdateTarget();
                 UpdateRotation();
             }     
@@ -464,14 +466,31 @@ public class NewCamera : MonoBehaviour
 
 
         // Floor Occlusion
-        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+        if (CheckCollision(transform.position, Player.transform.position + vTargetOffset, out hit))
         {
             if (hit.transform.gameObject.tag == "Floor")
             {
-                
+                xRotationOffset = 0;
+
+                floorArc = Clamp(0, 65, floorArc + (65 - floorArc) * Time.deltaTime);
+                transform.RotateAround(Vector3.right, floorArc);
             }          
         }
     }
+
+
+    // resets camera to behind hunter immediately
+    public void Reset()
+    {
+        Debug.Log("RESET");
+        transform.position = Player.transform.position;
+        transform.position -= (BaseDisplacement.normalized * currentFollowDistance);
+        transform.position = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
+
+        xRotationOffset = 0;
+        UpdateActiveVariables();
+    }
+
 
     // Mathf.Clamp doesn't work?????????????????
     float Clamp(float min, float max, float val)
