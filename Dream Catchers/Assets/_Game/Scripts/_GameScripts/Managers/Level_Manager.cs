@@ -47,9 +47,15 @@ public class Level_Manager : Singleton<Level_Manager>
 
     public int totalNumMemoryFrag;
     public int totalNumCollectibles;
+    public int totalTutorialTickets;
+    public int totalCannonTickets;
+    public int totalDamageTickets;
 
     public int collectedMemoryFrag;
     public int collectedCollectibles;
+    public int collectedTutorialTickets;
+    public int collectedCannonTickets;
+    public int collectedDamageTickets;
 
     //================================
     // Methods
@@ -97,14 +103,23 @@ public class Level_Manager : Singleton<Level_Manager>
     {
 
         PlayerPrefs.SetString("CurrentLevel", "Tutorial");
+        PlayerPrefs.SetFloat("Save", 0);
         PlayerPrefs.SetInt("TotalNumMemoryFrag", totalNumMemoryFrag);
         PlayerPrefs.SetInt("TotalNumCollectibles", totalNumCollectibles);
+        PlayerPrefs.SetInt("totalTutorialTickets", totalTutorialTickets);
+        PlayerPrefs.SetInt("totalCannonTickets", totalCannonTickets);
+        PlayerPrefs.SetInt("totalDamageTickets", totalDamageTickets);
         PlayerPrefs.SetInt("LevelComplete", 0);
         PlayerPrefs.SetInt("FurthestLevelProgressed", 0);
         PlayerPrefs.SetFloat("CheckPointX", defaultCheckPoint.x);
         PlayerPrefs.SetFloat("CheckPointY", defaultCheckPoint.y);
         PlayerPrefs.SetFloat("CheckPointZ", defaultCheckPoint.z);
         PlayerPrefs.SetFloat("RotationY", 0);
+        PlayerPrefs.SetInt("collectedMemoryFrag", 0);
+        PlayerPrefs.SetInt("collectedCollectibles", 0);
+        PlayerPrefs.SetInt("collectedTutorialTickets", 0);
+        PlayerPrefs.SetInt("collectedCannonTickets", 0);
+        PlayerPrefs.SetInt("collectedDamageTickets", 0);
         Rot = Vector3.zero;
         CheckPointPos = defaultCheckPoint;
     }
@@ -115,6 +130,11 @@ public class Level_Manager : Singleton<Level_Manager>
     //    UI_Manager.instance.GameOver();
     //    //Game_Manager.instance.ChangeScene(defaultGameScene);
     //}
+
+    public void SaveGame()
+    {
+        PlayerPrefs.SetFloat("Save", 1);
+    }
 
     public bool LevelComplete()
     {
@@ -167,4 +187,32 @@ public class Level_Manager : Singleton<Level_Manager>
         }
     }
 
+
+    public void updateLevelTickets(Items i)
+    {
+        int t;
+        t = PlayerPrefs.GetInt("TotalNumCollectibles");
+        t++;
+        PlayerPrefs.SetInt("TotalNumCollectibles", t);
+        switch (CurrentLevel)
+        {
+            
+            case Levels.TUTORIAL:
+                t = PlayerPrefs.GetInt("collectedTutorialTickets");
+                t++;
+                PlayerPrefs.SetInt("collectedTutorialTickets", t);
+                break;
+            case Levels.CANNON:
+                t = PlayerPrefs.GetInt("collectedCannonTickets");
+                t++;
+                PlayerPrefs.SetInt("collectedCannonTickets", t);
+                break;
+            case Levels.DAMAGE:
+                t = PlayerPrefs.GetInt("collectedDamageTickets");
+                t++;
+                PlayerPrefs.SetInt("collectedDamageTickets", t);
+                break;
+            
+        }
+    }
 }

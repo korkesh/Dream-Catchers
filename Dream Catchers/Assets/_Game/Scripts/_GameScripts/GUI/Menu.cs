@@ -4,6 +4,7 @@
 //================================
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class Menu : MonoBehaviour
 
     private Animator _animator;
     private CanvasGroup _canvasGroup;
-    
+    public Selectable firstSelected;
+    public Selectable secondSelected;
 
      //================================
      // Methods
@@ -37,14 +39,14 @@ public class Menu : MonoBehaviour
     public void Update()
     {
 
-        if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Open"))
-        {
-            _canvasGroup.blocksRaycasts = _canvasGroup.interactable = false;
-        }
-        else
-        {
-            _canvasGroup.blocksRaycasts = _canvasGroup.interactable = true;
-        }
+        //if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Open"))
+        //{
+        //    _canvasGroup.blocksRaycasts = _canvasGroup.interactable = false;
+        //}
+        //else
+        //{
+        //    _canvasGroup.blocksRaycasts = _canvasGroup.interactable = true;
+        //}
     }
 
 

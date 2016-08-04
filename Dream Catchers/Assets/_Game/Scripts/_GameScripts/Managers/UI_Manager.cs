@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UI_Manager : MonoBehaviour {
 
@@ -41,51 +42,57 @@ public class UI_Manager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if(CurrentMenu != null)
-        {
-            ShowMenu(CurrentMenu);
-        }
+        //if(CurrentMenu != null)
+        //{
+        //    ShowMenu(CurrentMenu);
+        //}
        
 	}
 
     //changes current ui menu element
     public void ShowMenu(Menu menu)
     {
-        if(menu != null)
+        if (menu != null)
         {
             if (CurrentMenu != null)
             {
                 CurrentMenu.IsOpen = false;
-                PreviousMenu = CurrentMenu;
+
             }
 
             CurrentMenu = menu;
             CurrentMenu.IsOpen = true;
+            SetSelectable(menu);
 
         }
     }
 
     public void showPrevious()
     {
-        if (PreviousMenu != null)
+        if(PreviousMenu != null)
         {
-            Menu temp = null;
-            if (CurrentMenu != null)
-            {
-                CurrentMenu.IsOpen = false;
-                temp = CurrentMenu;
-            }
-
-            CurrentMenu = PreviousMenu;
-            PreviousMenu = temp;
-            CurrentMenu.IsOpen = true;
+            ShowMenu(PreviousMenu);
         }
+
+        //if (PreviousMenu != null)
+        //{
+        //    Menu temp = null;
+        //    if (CurrentMenu != null)
+        //    {
+        //        CurrentMenu.IsOpen = false;
+        //        temp = CurrentMenu;
+        //    }
+
+        //    CurrentMenu = PreviousMenu;
+        //    PreviousMenu = temp;
+        //    CurrentMenu.IsOpen = true;
+        //}
     }
 
 	// Update is called once per frame
 	void Update () {
 
-        if ((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.isPlaying() && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen)
+        if ((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen)
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PAUSE);
             ShowMenu(Pause);
@@ -99,7 +106,7 @@ public class UI_Manager : MonoBehaviour {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
             ShowMenu(Stats);
             Time.timeScale = timePlaceHolder;
-            
+
         }
 
         /*if(Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
@@ -126,6 +133,23 @@ public class UI_Manager : MonoBehaviour {
             return;
         }
         rechargeTimer.SendMessage("StartRecharge", time);
+    }
+
+    public void SetSelectable(Menu menu)
+    {
+        if(menu.firstSelected != null && menu.firstSelected.IsActive() != false)
+        {
+            EventSystem.current.SetSelectedGameObject(menu.firstSelected.gameObject);
+
+        }else if(menu.secondSelected != null)
+        {
+            EventSystem.current.SetSelectedGameObject(menu.secondSelected.gameObject);
+        }
+    }
+
+    public void setPrevious(Menu menu)
+    {
+        PreviousMenu = menu;
     }
 
 }
