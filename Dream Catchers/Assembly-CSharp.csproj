@@ -267,7 +267,9 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\PlayerInputController.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\PlayerMachine.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\CharacterController\SuperCharacterController.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\BoxCollision.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\CollectibleSpawner.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\IgnoreColliders.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\RotateCollectible.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\CharacterCrush.cs" />
@@ -277,9 +279,12 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ControllerFocus.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\InGameStats.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\MainMenuControl.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\Menu.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\MenuManager.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\PauseMenu.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\RechargeAnimation.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ShowMenu.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempMessageInto.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />

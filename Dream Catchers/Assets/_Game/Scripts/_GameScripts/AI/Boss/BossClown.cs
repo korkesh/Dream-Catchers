@@ -63,4 +63,13 @@ public class BossClown : MonoBehaviour {
         inComingBall = ball;
     }
 
+    void OnDestroy()
+    {
+        GameObject lc = GameObject.Find("LevelComplete");
+        if(lc != null)
+        {
+            UI_Manager.instance.ShowMenu(lc.GetComponent<Menu>());
+        }
+    }
+
 }
