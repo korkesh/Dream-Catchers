@@ -163,7 +163,7 @@ public class NewCamera : MonoBehaviour
                     if (machine.ground)
                     {
                         currentHeight = hHeightGround;
-                        currentAngle = hAngleGround + xRotationOffset;
+                        currentAngle = hAngleGround + xRotationOffset + floorArc * 2f;
                         angleOffset = 0;
                     }
                     else
@@ -183,7 +183,7 @@ public class NewCamera : MonoBehaviour
                     if (machine.ground)
                     {
                         currentHeight = lHeightGround;
-                        currentAngle = lAngleGround + xRotationOffset;
+                        currentAngle = lAngleGround + xRotationOffset + floorArc * 2f;
                         angleOffset = 0;
                     }
                     else
@@ -227,22 +227,17 @@ public class NewCamera : MonoBehaviour
             if (input.Current.LTrigger > 0.25f || input.Current.RTrigger > 0.25f)
             {
                 rotate = true;
-                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
-
-                // if rotation caused a collision revert
-                if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+                if (currentRotateSpeed < 6f)
                 {
-                    if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
-                    {
-                        //transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
-                        //rotate = false;
-                    }
+                    currentRotateSpeed = 6f;
                 }
+
+                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
             }
             else if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)//&& machine.ground)
             {
                 rotate = true;
-                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
+                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * input.Current.Joy2Input.x);
 
                 // if rotation caused a collision revert
                 if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
@@ -256,7 +251,7 @@ public class NewCamera : MonoBehaviour
             }
             else
             {
-                currentRotateSpeed = Clamp(0, float.PositiveInfinity, currentRotateSpeed + (0f - currentRotateSpeed) * Time.deltaTime * 4);
+                currentRotateSpeed = 0;// Clamp(0, float.PositiveInfinity, currentRotateSpeed + (0f - currentRotateSpeed) * Time.deltaTime * 4);
             }
         }
         else
@@ -406,7 +401,6 @@ public class NewCamera : MonoBehaviour
     {
         if (Physics.Raycast(Start, (End - Start).normalized, out hit, (End - Start).magnitude))
         {
-            Debug.DrawLine(PlayerRoot, hit.point, Color.red);
             return true;       
         }
 
@@ -446,6 +440,7 @@ public class NewCamera : MonoBehaviour
             norm = (xRotationOffset - 0f) / (25 - 0f);
         }
 
+        
         //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
     }
 
@@ -466,15 +461,58 @@ public class NewCamera : MonoBehaviour
 
 
         // Floor Occlusion
+        float prevFloorArc = floorArc;
+        bool col = false;
+
         if (CheckCollision(transform.position, Player.transform.position + vTargetOffset, out hit))
+        {
+            Debug.DrawLine(transform.position, hit.point, Color.red);
+            if (hit.transform.gameObject.tag == "Floor")
+            {
+                col = true;
+                xRotationOffset = 0;
+
+                floorArc = Clamp(0, 65, floorArc + Time.deltaTime * 32f);             
+            } 
+        }
+        else
+        {
+            // don't revert arc unless there is space (prevents jitter)
+            Vector3 DispTest = transform.position - (Player.transform.position + vTargetOffset);
+            DispTest = Quaternion.AngleAxis(floorArc - (floorArc - Time.deltaTime * 128f), transform.right) * DispTest;
+
+            if (CheckCollision((Player.transform.position + vTargetOffset) + DispTest, Player.transform.position + vTargetOffset, out hit))
+            {
+                if (hit.transform.gameObject.tag != "Floor")
+                {
+                    floorArc = Clamp(0, 65, floorArc - Time.deltaTime * 32f);
+                }
+            }
+            else
+            {
+                floorArc = Clamp(0, 65, floorArc - Time.deltaTime * 32f);
+            }
+        }
+
+        Vector3 Disp = transform.position - (Player.transform.position + vTargetOffset);
+
+        // rotate
+        Vector3 prevPos = transform.position;
+
+        Disp = Quaternion.AngleAxis(floorArc - prevFloorArc, transform.right) * Disp;
+
+        Debug.DrawLine((Player.transform.position + vTargetOffset), (Player.transform.position + vTargetOffset) + Disp, Color.blue);
+        transform.position = (Player.transform.position + vTargetOffset) + Disp;
+
+        // if previous frame was clear and this frame collided due to floorArc decreasing, revert
+        if (!col && floorArc < prevFloorArc && CheckCollision(transform.position, Player.transform.position + vTargetOffset, out hit))
         {
             if (hit.transform.gameObject.tag == "Floor")
             {
-                xRotationOffset = 0;
-
-                floorArc = Clamp(0, 65, floorArc + (65 - floorArc) * Time.deltaTime);
-                transform.RotateAround(Vector3.right, floorArc);
-            }          
+                // revert arc
+                Disp = Quaternion.AngleAxis(prevFloorArc - floorArc, transform.right) * Disp;
+                floorArc = prevFloorArc;
+            }
         }
     }
 
@@ -482,7 +520,6 @@ public class NewCamera : MonoBehaviour
     // resets camera to behind hunter immediately
     public void Reset()
     {
-        Debug.Log("RESET");
         transform.position = Player.transform.position;
         transform.position -= (BaseDisplacement.normalized * currentFollowDistance);
         transform.position = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
