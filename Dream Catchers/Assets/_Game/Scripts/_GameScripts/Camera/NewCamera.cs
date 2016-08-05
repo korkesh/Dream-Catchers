@@ -163,13 +163,13 @@ public class NewCamera : MonoBehaviour
                     if (machine.ground)
                     {
                         currentHeight = hHeightGround;
-                        currentAngle = hAngleGround + xRotationOffset + floorArc * 2f;
+                        currentAngle = hAngleGround + xRotationOffset;
                         angleOffset = 0;
                     }
                     else
                     {
                         currentHeight = hHeightAir;
-                        currentAngle = hAngleAir;
+                        currentAngle = hAngleAir + xRotationOffset + floorArc;
                         xRotationOffset = 0;
                     }
 
@@ -183,7 +183,7 @@ public class NewCamera : MonoBehaviour
                     if (machine.ground)
                     {
                         currentHeight = lHeightGround;
-                        currentAngle = lAngleGround + xRotationOffset + floorArc * 2f;
+                        currentAngle = lAngleGround + xRotationOffset + floorArc;
                         angleOffset = 0;
                     }
                     else
@@ -461,6 +461,11 @@ public class NewCamera : MonoBehaviour
 
 
         // Floor Occlusion
+        // get root position (pre look interpolation)
+        Vector3 Root = Player.transform.position;
+        Root -= (BaseDisplacement.normalized * currentFollowDistance);
+        Root.y = lastGround + currentHeight;
+
         float prevFloorArc = floorArc;
         bool col = false;
 
@@ -479,7 +484,7 @@ public class NewCamera : MonoBehaviour
         {
             // don't revert arc unless there is space (prevents jitter)
             Vector3 DispTest = transform.position - (Player.transform.position + vTargetOffset);
-            DispTest = Quaternion.AngleAxis(floorArc - (floorArc - Time.deltaTime * 128f), transform.right) * DispTest;
+            DispTest = Quaternion.AngleAxis(floorArc - (floorArc - Time.deltaTime * 128f), Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * DispTest;
 
             if (CheckCollision((Player.transform.position + vTargetOffset) + DispTest, Player.transform.position + vTargetOffset, out hit))
             {
@@ -494,12 +499,12 @@ public class NewCamera : MonoBehaviour
             }
         }
 
-        Vector3 Disp = transform.position - (Player.transform.position + vTargetOffset);
+        Vector3 Disp = Root - (Player.transform.position + vTargetOffset);
 
         // rotate
         Vector3 prevPos = transform.position;
 
-        Disp = Quaternion.AngleAxis(floorArc - prevFloorArc, transform.right) * Disp;
+        Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
 
         Debug.DrawLine((Player.transform.position + vTargetOffset), (Player.transform.position + vTargetOffset) + Disp, Color.blue);
         transform.position = (Player.transform.position + vTargetOffset) + Disp;
@@ -510,7 +515,7 @@ public class NewCamera : MonoBehaviour
             if (hit.transform.gameObject.tag == "Floor")
             {
                 // revert arc
-                Disp = Quaternion.AngleAxis(prevFloorArc - floorArc, transform.right) * Disp;
+                Disp = Quaternion.AngleAxis(prevFloorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
                 floorArc = prevFloorArc;
             }
         }
