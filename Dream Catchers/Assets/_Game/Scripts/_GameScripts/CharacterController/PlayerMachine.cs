@@ -80,6 +80,8 @@ public class PlayerMachine : SuperStateMachine {
     public float JumpTimer = 0;
     public Vector3 LastGroundPos { get; private set; } // position character was at last frame they were grounded
 
+    public bool jumping = false; // set to true in active jump states (not fall/dive etc)
+
     // Physics
     public float Gravity = 25.0f;
     public float DiveGravity = 32.0f;
@@ -523,6 +525,7 @@ public class PlayerMachine : SuperStateMachine {
     //----------------------------------------------
     void SkidJump_EnterState()
     {
+        jumping = true;
         JumpTimer = 0;
 
         gameObject.GetComponent<Animator>().SetBool("Jumping", true);
@@ -640,6 +643,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void SkidJump_ExitState()
     {
+        jumping = false;
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
         input.toggleJump = false;
         //jumpHold = false;
@@ -648,6 +652,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_EnterState()
     {
+        jumping = true;
         ground = false;
 
         JumpTimer = 0;
@@ -792,6 +797,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_ExitState()
     {
+        jumping = false;
+
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
         input.toggleJump = false;
     }
@@ -802,6 +809,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_EnterState()
     {
+        jumping = true;
 
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", true);
 
@@ -894,6 +902,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_ExitState()
     {
+        jumping = false;
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
         input.toggleJump = false;
     }

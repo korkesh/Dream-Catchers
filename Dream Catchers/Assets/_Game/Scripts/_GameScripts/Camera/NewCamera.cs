@@ -160,7 +160,7 @@ public class NewCamera : MonoBehaviour
                     currentFollowDistance = hFollowDistance;
                     currentMaxJumpHeight = hMaxJumpHeight;
 
-                    if (machine.ground)
+                    if (!machine.jumping)
                     {
                         currentHeight = hHeightGround;
                         currentAngle = hAngleGround + xRotationOffset;
@@ -180,7 +180,7 @@ public class NewCamera : MonoBehaviour
                     currentFollowDistance = lFollowDistance;
                     currentMaxJumpHeight = lMaxJumpHeight;
 
-                    if (machine.ground)
+                    if (!machine.jumping)
                     {
                         currentHeight = lHeightGround;
                         currentAngle = lAngleGround + xRotationOffset + floorArc;
