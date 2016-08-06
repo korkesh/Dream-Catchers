@@ -28,4 +28,9 @@ public class BoxCollision : MonoBehaviour {
             colliderToDestroy.SetActive(false);
         }
     }
+
+    void OnDestroy()
+    {
+        colliderToDestroy.SetActive(false);
+    }
 }

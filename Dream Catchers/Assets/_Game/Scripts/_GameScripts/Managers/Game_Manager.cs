@@ -29,9 +29,9 @@ public class Game_Manager : MonoBehaviour {
         GAMEOVER,
         LEVELCOMPLETE
     }
-    
+
     // Current States
-    public GameState currentGameState { get; private set; }
+    public GameState currentGameState;
 
     // temp
     public bool enableSmartCam = false;
