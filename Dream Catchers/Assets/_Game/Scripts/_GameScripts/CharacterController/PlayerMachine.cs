@@ -56,6 +56,7 @@ public class PlayerMachine : SuperStateMachine {
     public float TurnRadius = 4.0f;
     private float skidTimer = 0;
     public float skidTime = 0.5f; // time in seconds skid state lasts for if not broken by jump/fall
+    private float runTimer = 0f;
 
     // Diving
     public float MaxDiveSpeed;
@@ -370,11 +371,12 @@ public class PlayerMachine : SuperStateMachine {
 
     void Run_EnterState()
     {
-        //gameObject.GetComponent<Animator>().SetBool("Running", true);
+        runTimer = 0f;
     }
 
     void Run_SuperUpdate()
     {
+        runTimer += Time.deltaTime;
         // Dont allow attack and then jump
         if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().damage)
         {
@@ -408,7 +410,7 @@ public class PlayerMachine : SuperStateMachine {
             transform.forward = ((moveDirection.normalized * old_ratio) + (localMovement * new_ratio)).normalized;
 
             // skid if input is >90 degrees of current facing direction
-            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, localMovement).normalized).y > 0.49f)
+            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, localMovement).normalized).y > 0.49f && runTimer > 0.15f)
             {
                 currentState = PlayerStates.Skid;
                 transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, localMovement);
@@ -458,6 +460,9 @@ public class PlayerMachine : SuperStateMachine {
     void Run_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Running", false);
+        gameObject.GetComponent<Animator>().SetBool("Walking", false);
+
+        runTimer = 0f;
     }
 
     void Skid_EnterState()
