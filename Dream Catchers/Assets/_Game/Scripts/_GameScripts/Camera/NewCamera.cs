@@ -124,10 +124,13 @@ public class NewCamera : MonoBehaviour
 
         BaseDisplacement = (Player.transform.position - transform.position);
         BaseDisplacement.y = 0;
-    }
-	
 
-	void LateUpdate ()
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
+
+    }
+
+
+    void LateUpdate ()
     {
         UpdateMode();
         ManualRotation();

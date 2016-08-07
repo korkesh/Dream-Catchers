@@ -290,6 +290,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\LaunchMovement.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\BossCamera.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\FadeScript.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\NewCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RealCamera.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RootCamera.cs" />

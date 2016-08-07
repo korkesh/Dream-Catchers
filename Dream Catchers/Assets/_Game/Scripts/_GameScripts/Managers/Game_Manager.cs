@@ -27,7 +27,8 @@ public class Game_Manager : MonoBehaviour {
         PLAY,
         PAUSE,
         GAMEOVER,
-        LEVELCOMPLETE
+        LEVELCOMPLETE,
+        CINEMATIC
     }
 
     // Current States
@@ -213,7 +214,7 @@ public class Game_Manager : MonoBehaviour {
     // check if in menus
     public bool inMenu()
     {
-        return currentGameState == GameState.MENU;
+        return currentGameState == GameState.MENU || currentGameState == GameState.INTRO;
     }
 
     //-----------------

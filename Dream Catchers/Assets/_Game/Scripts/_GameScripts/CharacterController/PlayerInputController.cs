@@ -25,7 +25,7 @@ public class PlayerInputController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if(Game_Manager.instance == null || !Game_Manager.instance.isPaused())
+        if(Game_Manager.instance == null || Game_Manager.instance.isPlaying())
         {
             // Controls set via Unity Input Manager
             Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));

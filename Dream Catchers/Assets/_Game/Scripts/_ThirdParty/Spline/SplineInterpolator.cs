@@ -161,19 +161,23 @@ public class SplineInterpolator : MonoBehaviour
 			if (mCurrentIdx < mNodes.Count - 3)
 			{
 				mCurrentIdx++;
-                
+
                 // Check for properties on node
-                if(mNodes[mCurrentIdx].toggleState) // toggle World state
+                if (mNodes[mCurrentIdx].toggleCamera) // Swap Cameras
+                {
+                    gameObject.GetComponent<FadeScript>().FadeOut(mNodes[mCurrentIdx].cameraToSwap, mNodes[mCurrentIdx].toggleState);
+
+                    return;
+
+                }
+
+                if (mNodes[mCurrentIdx].toggleState) // toggle World state
                 {
                     ManipulationManager.instance.currentWorldState = (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM) 
                                                                         ? ManipulationManager.WORLD_STATE.NIGHTMARE 
                                                                         : ManipulationManager.WORLD_STATE.DREAM;
-                }
 
-                if (mNodes[mCurrentIdx].toggleCamera) // Swap Cameras
-                {
-                    mNodes[mCurrentIdx].cameraToSwap.SetActive(true);
-                    gameObject.SetActive(false);
+
                 }
             }
             else
