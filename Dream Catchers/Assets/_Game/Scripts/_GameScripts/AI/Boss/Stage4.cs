@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Stage4 : Stages
 {
-    public BallSpawner spawner;
+    public BallSpawner spawnerR;
+    public BallSpawner spawnerL;
     public float timeBetween;
     float time;
 
@@ -17,7 +18,14 @@ public class Stage4 : Stages
         time -= Time.deltaTime;
         if(time <= 0)
         {
-            spawner.Spawn();
+            if (Bc.hunterOnRight == true)
+            {
+                spawnerR.Spawn();
+            }
+            else
+            {
+                spawnerL.Spawn();
+            }
             time = timeBetween;
         }
     }

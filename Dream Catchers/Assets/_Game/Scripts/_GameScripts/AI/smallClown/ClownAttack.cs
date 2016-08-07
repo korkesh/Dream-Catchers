@@ -166,7 +166,7 @@ public class ClownAttack : MonoBehaviour {
                 //clown.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
 
-             if(collision.gameObject.tag  == "BossHand")
+            if (collision.gameObject.tag == "BossHand" || collision.gameObject.tag == "BossHead")
              {
 
                  spCollider.enabled = false;

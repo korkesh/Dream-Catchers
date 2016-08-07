@@ -80,9 +80,10 @@ public class HandScript : MonoBehaviour {
                     SmackDown();
                 }else
                 {
-                   // follow = hunter.transform.position;
-                    //follow.y = HoverY;
-                   transform.position = Vector3.MoveTowards(this.transform.position, HoverSphere.transform.position,9*Time.deltaTime);
+                    follow = HoverSphere.transform.position;
+                    follow.y = HoverY;
+                    //HoverSphere.transform.position
+                    transform.position = Vector3.MoveTowards(this.transform.position, follow, 9 * Time.deltaTime);
                 }
                 break;
             case Mode.BLOCK:
@@ -97,8 +98,8 @@ public class HandScript : MonoBehaviour {
         {
             //ThrowBall();
             //Block();
-           // ChargeSmackDown();
-            Swipe();
+            ChargeSmackDown();
+            //Swipe();
             isAttacking = false;
         }else if (returnSpot == true)
         {
@@ -224,6 +225,7 @@ public class HandScript : MonoBehaviour {
         Return.Append(transform.DOMove(tempPos, 1.5f, false)).OnComplete(() =>
         {
             attack = Mode.NONE;
+
         }); 
     }
 
@@ -235,11 +237,13 @@ public class HandScript : MonoBehaviour {
     public void SlowDownAnim()
     {
         anim.speed = 0.5f;
+        
     }
 
     public void SpeedUpAnim()
     {
         anim.speed = 1.0f;
+        
     }
 
     void OnDestroy()
@@ -247,7 +251,16 @@ public class HandScript : MonoBehaviour {
         
     }
 
-    
+    public void TurnOffCollider()
+    {
+        Col.enabled = false;
+       
+    }
+
+    public void TurnOnCollider()
+    {
+        Col.enabled = true;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -257,7 +270,7 @@ public class HandScript : MonoBehaviour {
            Debug.Log("hunter");
            //isAttacking == true && 
            Damage.DealDamage();
-       }else if(other.gameObject.name == "DamageTrigger" && attack == Mode.SMACK)
+       }else if(other.gameObject.name == "DamageTrigger" && attack == Mode.SMACK && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
        {
            HealthManager HM = this.GetComponent<HealthManager>();
            if (HM != null)

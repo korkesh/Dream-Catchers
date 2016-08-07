@@ -11,6 +11,8 @@ public class BossClown : MonoBehaviour {
 
     public Stages currentStage;
 
+    public bool hunterOnRight;
+
     public bool inDanger;
     public GameObject inComingBall;
 
