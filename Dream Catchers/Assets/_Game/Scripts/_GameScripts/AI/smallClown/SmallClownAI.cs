@@ -68,23 +68,25 @@ public class SmallClownAI : MonoBehaviour {
             }
         }
 
-        //bock does nothing in dream
-        if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+        if(Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
         {
-            //enemy waits a bit throws a ball waits some more then jumps to new spot .. repeat
-            //rigidB.constraints = RigidbodyConstraints.None;
-            //rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-            rigidB.useGravity = true;
-            WatchPlayer();
-            if (readyingAttack == true)
+            //bock does nothing in dream
+            if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
             {
-                //if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
-                //{
-                //    rigidB.constraints = RigidbodyConstraints.FreezeAll;
-                //    //rigidB.useGravity = false;
-                //}
-                //if (rigidB.velocity.y == 0)
-                //{
+                //enemy waits a bit throws a ball waits some more then jumps to new spot .. repeat
+                //rigidB.constraints = RigidbodyConstraints.None;
+                //rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                rigidB.useGravity = true;
+                WatchPlayer();
+                if (readyingAttack == true)
+                {
+                    //if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
+                    //{
+                    //    rigidB.constraints = RigidbodyConstraints.FreezeAll;
+                    //    //rigidB.useGravity = false;
+                    //}
+                    //if (rigidB.velocity.y == 0)
+                    //{
                     attackDelayTime -= Time.deltaTime;
                     if (attackDelayTime <= 0)
                     {
@@ -95,33 +97,35 @@ public class SmallClownAI : MonoBehaviour {
                         readyingAttack = false;
                         attackDelayTime = DelayToAttack;
                     }
-                //}
+                    //}
 
+                }
+                else
+                {
+                    moveDelayTime -= Time.deltaTime;
+                    if (moveDelayTime <= 0)
+                    {
+                        if (path.Count > 0)
+                        {
+                            move();
+                        }
+
+                        readyingAttack = true;
+                        moveDelayTime = DelayToMove;
+                    }
+                }
             }
             else
             {
-                moveDelayTime -= Time.deltaTime;
-                if (moveDelayTime <= 0)
-                {
-                    if (path.Count > 0)
-                    {
-                        move();
-                    }
-                   
-                    readyingAttack = true;
-                    moveDelayTime = DelayToMove;
-                }
+                //rigidB.constraints = RigidbodyConstraints.FreezeAll;
+                ////if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
+                ////{
+                ////    rigidB.constraints = RigidbodyConstraints.FreezeAll;
+                ////    rigidB.useGravity = false;
+                ////}
             }
         }
-        else
-        {
-            //rigidB.constraints = RigidbodyConstraints.FreezeAll;
-            ////if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
-            ////{
-            ////    rigidB.constraints = RigidbodyConstraints.FreezeAll;
-            ////    rigidB.useGravity = false;
-            ////}
-        }
+        
 
         
 	
