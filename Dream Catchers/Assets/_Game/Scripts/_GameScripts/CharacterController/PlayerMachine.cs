@@ -47,7 +47,7 @@ public class PlayerMachine : SuperStateMachine {
     public float maxSpeedTime = 5; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
     private float maxAirSpeedTime = 1f; // amount of time it takes to go from 0 x/z speed to max in the air
     [SerializeField]
-    private float speed = 0; // current run speed
+    public float speed = 0; // current run speed
     [SerializeField]
     private float xSpeed = 0; // current left/right speed
     public float RunSpeed = 0.65f;

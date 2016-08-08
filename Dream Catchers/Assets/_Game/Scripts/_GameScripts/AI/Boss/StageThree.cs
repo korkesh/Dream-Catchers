@@ -10,6 +10,10 @@ public class StageThree : Stages {
     public int swipe;
     public int smack;
 
+    public int[] AttackPattern;
+    int index;
+    int rotation;
+
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +21,7 @@ public class StageThree : Stages {
         ball = 0;
         swipe = 0;
         smack = 0;
+        rotation = 3;
 
 
 	}
@@ -73,7 +78,7 @@ public class StageThree : Stages {
 
     public void chooseAttack(HandScript Hand, bool bothHands)
     {
-        
+
 
         if(Hand.attack == HandScript.Mode.NONE)
         {
@@ -82,41 +87,69 @@ public class StageThree : Stages {
                 RightHand = !RightHand;
             }
 
-            if(ball == 0)
+            if(rotation == 3)
+            {
+                int rand = Random.Range(0, 4);
+                Debug.Log(rand);
+                index = rand * 3;
+                rotation = 0;
+            }
+            else
+            {
+                index++;
+            }
+
+            Debug.Log("the index" + index);
+            Debug.Log("the value " + AttackPattern[index]);
+            if(AttackPattern[index] == 0)
             {
                 Hand.ThrowBall();
-                ball++;
-
-            }else
-            {
-                if(swipe >= ball + 3 && smack >= ball + 3)
-                {
-                    Hand.ThrowBall();
-                    ball++;
-
-                }else
-                {
-                    float rand = Random.Range(0, 30);
-                    if (rand <= 10)
-                    {
-                        
-                        Hand.ThrowBall();
-                        ball++;
-                    }
-                    else if (rand <= 20)
-                    {
-                        
-                        Hand.Swipe();
-                        swipe++;
-                    }
-                    else
-                    {
-                        
-                        Hand.ChargeSmackDown();
-                        smack++;
-                    }
-                }
             }
+            else if(AttackPattern[index] == 1)
+            {
+                Hand.Swipe();
+            }
+            else
+            {
+                Hand.ChargeSmackDown();
+            }
+
+            rotation++;
+            //if(ball == 0)
+            //{
+            //    Hand.ThrowBall();
+            //    ball++;
+
+            //}else
+            //{
+            //    if(swipe >= ball + 3 && smack >= ball + 3)
+            //    {
+            //        Hand.ThrowBall();
+            //        ball++;
+
+            //    }else
+            //    {
+            //        float rand = Random.Range(0, 30);
+            //        if (rand <= 10)
+            //        {
+                        
+            //            Hand.ThrowBall();
+            //            ball++;
+            //        }
+            //        else if (rand <= 20)
+            //        {
+                        
+            //            Hand.Swipe();
+            //            swipe++;
+            //        }
+            //        else
+            //        {
+                        
+            //            Hand.ChargeSmackDown();
+            //            smack++;
+            //        }
+            //    }
+            //}
         }
 
     }

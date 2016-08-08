@@ -27,11 +27,12 @@ public class Game_Manager : MonoBehaviour {
         PLAY,
         PAUSE,
         GAMEOVER,
-        LEVELCOMPLETE
+        LEVELCOMPLETE,
+        CINEMATIC
     }
-    
+
     // Current States
-    public GameState currentGameState { get; private set; }
+    public GameState currentGameState;
 
     // temp
     public bool enableSmartCam = false;
@@ -195,6 +196,7 @@ public class Game_Manager : MonoBehaviour {
     //change state to play
     public void PlayGame()
     {
+        
         changeGameState(GameState.PLAY);
     }
 
@@ -213,7 +215,7 @@ public class Game_Manager : MonoBehaviour {
     // check if in menus
     public bool inMenu()
     {
-        return currentGameState == GameState.MENU;
+        return currentGameState == GameState.MENU || currentGameState == GameState.INTRO;
     }
 
     //-----------------

@@ -30,6 +30,8 @@ public class HubManager : MonoBehaviour {
     //-----------------
     public void HubDoorToOpen()
     {
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.CINEMATIC);
+
         switch (Level_Manager.Instance.FurthestLevelProgressed)
         {
             case Level_Manager.Levels.TUTORIAL:
@@ -116,6 +118,7 @@ public class HubManager : MonoBehaviour {
                     tutorialCamera.SetActive(false);
                     level1Camera.SetActive(false);
                     level2Camera.SetActive(false);
+                    Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
 
                     break;
                 }

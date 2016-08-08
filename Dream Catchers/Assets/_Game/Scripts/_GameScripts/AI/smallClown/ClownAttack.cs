@@ -139,7 +139,7 @@ public class ClownAttack : MonoBehaviour {
             }
 
             //Debug.Log(collision.gameObject.tag);
-            if (collision.gameObject.tag == "Enemy")
+            if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "JackInTheBox")
             {
                 HealthManager Health = collision.gameObject.GetComponent<HealthManager>();
                 if(Health != null)
@@ -166,7 +166,7 @@ public class ClownAttack : MonoBehaviour {
                 //clown.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
 
-             if(collision.gameObject.tag  == "BossHand")
+            if (collision.gameObject.tag == "BossHand" || collision.gameObject.tag == "BossHead")
              {
 
                  spCollider.enabled = false;

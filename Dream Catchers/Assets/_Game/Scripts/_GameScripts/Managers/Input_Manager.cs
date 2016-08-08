@@ -9,7 +9,8 @@ public class Input_Manager : MonoBehaviour {
     //================================
 
     public bool useBuffer = false;
-    public bool invertCamera = false;
+    public bool invertCameraX = false;
+    public bool invertCameraY = false;
 
     public static Input_Manager instance = null;
 
@@ -43,8 +44,13 @@ public class Input_Manager : MonoBehaviour {
         useBuffer = !useBuffer;
     }
 
-    public void toggleInverted()
+    public void toggleInvertedX()
     {
-        invertCamera = !invertCamera;
+        invertCameraX = !invertCameraX;
+    }
+
+    public void toggleInvertedY()
+    {
+        invertCameraY = !invertCameraY;
     }
 }

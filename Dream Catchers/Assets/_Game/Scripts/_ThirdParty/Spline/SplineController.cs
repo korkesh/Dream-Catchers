@@ -46,6 +46,8 @@ public class SplineController : MonoBehaviour
 
 	void Start()
 	{
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.CINEMATIC);
+
 		mSplineInterp = GetComponent(typeof(SplineInterpolator)) as SplineInterpolator;
 
 		mTransforms = GetTransforms();

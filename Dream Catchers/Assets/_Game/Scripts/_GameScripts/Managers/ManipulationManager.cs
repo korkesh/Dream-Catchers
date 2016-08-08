@@ -66,6 +66,11 @@ public class ManipulationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Game_Manager.instance.inMenu())
+        {
+            return;
+        }
+
         // Toggles the World State upon player input
         if (Input.GetButtonDown("Manip") && (Game_Manager.instance == null || Game_Manager.instance.isPlaying()) && !onCooldown && manipGained)
         {
@@ -73,30 +78,46 @@ public class ManipulationManager : MonoBehaviour
             StartCoroutine(toggleCooldown());
             UI_Manager.instance.AnimateRecharge(manipulationCooldown);
             currentWorldState = (currentWorldState == WORLD_STATE.DREAM) ? WORLD_STATE.NIGHTMARE : WORLD_STATE.DREAM;
-
-            mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            viewCamera = GameObject.FindGameObjectWithTag("ViewCamera");
-
-            if (currentWorldState == WORLD_STATE.DREAM)
-            {
-                mainCamera.GetComponent<Skybox>().material = skyboxDream;
-                //viewCamera.GetComponent<Skybox>().material = skyboxDream;
-
-                // BGM
-                Audio_Manager.Instance.NightmareBGM.mute = true;
-                Audio_Manager.Instance.DreamBGM.mute = false;
-            }
-            else
-            {
-                mainCamera.GetComponent<Skybox>().material = skyboxNightmare;
-                //viewCamera.GetComponent<Skybox>().material = skyboxNightmare;
-
-                // BGM
-                Audio_Manager.Instance.DreamBGM.mute = true;
-                Audio_Manager.Instance.NightmareBGM.mute = false;               
-            }
         }
 
+        SkyboxManip();
+    }
+
+    void SkyboxManip()
+    {
+       
+        mainCamera = Camera.main.gameObject;
+
+        if (currentWorldState == WORLD_STATE.DREAM)
+        {
+            mainCamera.GetComponent<Skybox>().material = skyboxDream;
+
+            if(Game_Manager.instance.isPlaying())
+            {
+                // BGM
+                if(Audio_Manager.Instance.NightmareBGM != null && Audio_Manager.Instance.DreamBGM != null)
+                {
+                    Audio_Manager.Instance.NightmareBGM.mute = true;
+                    Audio_Manager.Instance.DreamBGM.mute = false;
+                }
+            }
+
+        }
+        else
+        {
+            mainCamera.GetComponent<Skybox>().material = skyboxNightmare;
+
+            if (Game_Manager.instance.isPlaying())
+            {
+                // BGM
+                if (Audio_Manager.Instance.NightmareBGM != null && Audio_Manager.Instance.DreamBGM != null)
+                {
+                    Audio_Manager.Instance.DreamBGM.mute = true;
+                    Audio_Manager.Instance.NightmareBGM.mute = false;
+                }
+            }
+
+        }
     }
 
     IEnumerator toggleCooldown()

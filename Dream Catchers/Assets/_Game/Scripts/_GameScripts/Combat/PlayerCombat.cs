@@ -12,6 +12,8 @@ public class PlayerCombat : MonoBehaviour
     public GameObject weaponCollider;
     //public GameObject groundPoundCollider;
     public GameObject weaponParentObject;
+    public GameObject weaponBackParentObject;
+
     public bool attacking;
     public bool damage;
 
@@ -49,6 +51,7 @@ public class PlayerCombat : MonoBehaviour
         attacking = true;
 
         weaponParentObject.SetActive(true); // Turn hammer on
+        weaponBackParentObject.SetActive(false); // Turn back hammer off
 
         // Attack animation
         gameObject.GetComponent<Animator>().SetBool("SideSwing", true);
@@ -85,6 +88,7 @@ public class PlayerCombat : MonoBehaviour
 
         attacking = false;
         weaponParentObject.SetActive(false); // Turn hammer off
+        weaponBackParentObject.SetActive(true); // Turn back hammer on
 
         // Attack animation End
         gameObject.GetComponent<Animator>().SetBool("SideSwing", false);

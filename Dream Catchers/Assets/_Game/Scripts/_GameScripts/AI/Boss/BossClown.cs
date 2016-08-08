@@ -11,6 +11,8 @@ public class BossClown : MonoBehaviour {
 
     public Stages currentStage;
 
+    public bool hunterOnRight;
+
     public bool inDanger;
     public GameObject inComingBall;
 
@@ -35,9 +37,6 @@ public class BossClown : MonoBehaviour {
             }
         }
 	}
-
-
-
 
     void OnCollisionEnter(Collision collision)
     {
@@ -66,7 +65,7 @@ public class BossClown : MonoBehaviour {
     void OnDestroy()
     {
         GameObject lc = GameObject.Find("LevelComplete");
-        if(lc != null)
+        if (lc != null && Health <= 0)
         {
             UI_Manager.instance.ShowMenu(lc.GetComponent<Menu>());
         }
