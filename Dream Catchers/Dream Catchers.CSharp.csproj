@@ -310,9 +310,12 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ControllerFocus.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\InGameStats.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\MainMenuControl.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\Menu.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\MenuManager.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\PauseMenu.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\RechargeAnimation.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ShowMenu.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempMessageInto.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
