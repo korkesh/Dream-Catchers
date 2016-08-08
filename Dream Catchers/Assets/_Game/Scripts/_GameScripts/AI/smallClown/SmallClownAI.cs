@@ -103,7 +103,11 @@ public class SmallClownAI : MonoBehaviour {
                 moveDelayTime -= Time.deltaTime;
                 if (moveDelayTime <= 0)
                 {
-                    move();
+                    if (path.Count > 0)
+                    {
+                        move();
+                    }
+                   
                     readyingAttack = true;
                     moveDelayTime = DelayToMove;
                 }
@@ -126,8 +130,8 @@ public class SmallClownAI : MonoBehaviour {
     void OnDisable()
     {
         readyingAttack = true;
-        moveDelayTime = DelayToMove;
-        attackDelayTime = DelayToAttack;
+        //moveDelayTime = DelayToMove;
+        //attackDelayTime = DelayToAttack;
     }
 
 

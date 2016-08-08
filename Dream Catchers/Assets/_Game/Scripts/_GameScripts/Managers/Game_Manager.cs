@@ -196,6 +196,7 @@ public class Game_Manager : MonoBehaviour {
     //change state to play
     public void PlayGame()
     {
+        
         changeGameState(GameState.PLAY);
     }
 
