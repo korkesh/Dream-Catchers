@@ -95,8 +95,11 @@ public class ManipulationManager : MonoBehaviour
             if(Game_Manager.instance.isPlaying())
             {
                 // BGM
-                Audio_Manager.Instance.NightmareBGM.mute = true;
-                Audio_Manager.Instance.DreamBGM.mute = false;
+                if(Audio_Manager.Instance.NightmareBGM != null && Audio_Manager.Instance.DreamBGM != null)
+                {
+                    Audio_Manager.Instance.NightmareBGM.mute = true;
+                    Audio_Manager.Instance.DreamBGM.mute = false;
+                }
             }
 
         }
@@ -107,8 +110,11 @@ public class ManipulationManager : MonoBehaviour
             if (Game_Manager.instance.isPlaying())
             {
                 // BGM
-                Audio_Manager.Instance.DreamBGM.mute = true;
-                Audio_Manager.Instance.NightmareBGM.mute = false;
+                if (Audio_Manager.Instance.NightmareBGM != null && Audio_Manager.Instance.DreamBGM != null)
+                {
+                    Audio_Manager.Instance.DreamBGM.mute = true;
+                    Audio_Manager.Instance.NightmareBGM.mute = false;
+                }
             }
 
         }
