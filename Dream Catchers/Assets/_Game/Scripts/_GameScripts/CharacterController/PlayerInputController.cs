@@ -64,6 +64,11 @@ public class PlayerInputController : MonoBehaviour
                 moveBuffer = false          
             };
         }
+        else
+        {
+            Current = new PlayerInput();
+            gameObject.GetComponent<PlayerMachine>().speed = 0;
+        }
 
         if (Input_Manager.instance.useBuffer)
         {
