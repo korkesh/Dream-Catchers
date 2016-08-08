@@ -23,6 +23,14 @@ public class MenuManager : MonoBehaviour {
         Game_Manager.instance.PlayGame();
     }
 
+    public void NewGameIntro(string sceneToLoad)
+    {
+        Game_Manager.instance.ChangeScene(sceneToLoad);
+        Game_Manager.instance.currentGameState = Game_Manager.GameState.INTRO;
+        UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
+        Game_Manager.instance.NewGame();
+    }
+
     /// <summary>
     /// Continue most recent game
     /// </summary>

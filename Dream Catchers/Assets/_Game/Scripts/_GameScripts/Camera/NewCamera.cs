@@ -125,7 +125,7 @@ public class NewCamera : MonoBehaviour
         BaseDisplacement = (Player.transform.position - transform.position);
         BaseDisplacement.y = 0;
 
-        Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
+        //Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
 
     }
 

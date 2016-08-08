@@ -22,6 +22,7 @@ public class TempMessageInto : MonoBehaviour {
             Game_Manager.instance.ChangeScene(nextscene);
             Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.TUTORIAL;
             PlayerPrefs.SetString("CurrentLevel", "Tutorial");
+            Game_Manager.instance.currentGameState = Game_Manager.GameState.CINEMATIC;
         }
 
 	}
