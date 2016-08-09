@@ -1,0 +1,211 @@
+fileFormatVersion: 2
+guid: fb263fdf9466a5d489f16f1e3bf131cb
+timeCreated: 1470775861
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Axle
+    100002: Axle_end
+    100004: Feather 1
+    100006: Feather 1_end
+    100008: Feather 2
+    100010: Feather 2_end
+    100012: Feather 3
+    100014: Feather 3_end
+    100016: Feather 4
+    100018: Feather 4_end
+    100020: //RootNode
+    100022: Fragments Rig
+    100024: Gear 1
+    100026: Gear 1_end
+    100028: Gear 2
+    100030: Gear 2_end
+    100032: Gear_2_Gear.003
+    100034: Key
+    100036: Key_end
+    100038: Locket
+    100040: Locket_end
+    100042: Small Gear 1
+    100044: Small Gear 1_end
+    100046: Small Gear 2
+    100048: Small Gear 2_end
+    100050: Small Gear 3
+    100052: Small Gear 3_end
+    400000: Axle
+    400002: Axle_end
+    400004: Feather 1
+    400006: Feather 1_end
+    400008: Feather 2
+    400010: Feather 2_end
+    400012: Feather 3
+    400014: Feather 3_end
+    400016: Feather 4
+    400018: Feather 4_end
+    400020: //RootNode
+    400022: Fragments Rig
+    400024: Gear 1
+    400026: Gear 1_end
+    400028: Gear 2
+    400030: Gear 2_end
+    400032: Gear_2_Gear.003
+    400034: Key
+    400036: Key_end
+    400038: Locket
+    400040: Locket_end
+    400042: Small Gear 1
+    400044: Small Gear 1_end
+    400046: Small Gear 2
+    400048: Small Gear 2_end
+    400050: Small Gear 3
+    400052: Small Gear 3_end
+    4300000: Gear_2_Gear.003
+    7400000: Fragments
+    9500000: //RootNode
+    13700000: Gear_2_Gear.003
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Fragments
+      takeName: Fragments
+      firstFrame: 0
+      lastFrame: 250
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Fragments Rig
+        weight: 1
+      - path: Fragments Rig/Axle
+        weight: 1
+      - path: Fragments Rig/Axle/Axle_end
+        weight: 1
+      - path: Fragments Rig/Feather 1
+        weight: 1
+      - path: Fragments Rig/Feather 1/Feather 1_end
+        weight: 1
+      - path: Fragments Rig/Feather 2
+        weight: 1
+      - path: Fragments Rig/Feather 2/Feather 2_end
+        weight: 1
+      - path: Fragments Rig/Feather 3
+        weight: 1
+      - path: Fragments Rig/Feather 3/Feather 3_end
+        weight: 1
+      - path: Fragments Rig/Feather 4
+        weight: 1
+      - path: Fragments Rig/Feather 4/Feather 4_end
+        weight: 1
+      - path: Fragments Rig/Gear 1
+        weight: 1
+      - path: Fragments Rig/Gear 1/Gear 1_end
+        weight: 1
+      - path: Fragments Rig/Gear 2
+        weight: 1
+      - path: Fragments Rig/Gear 2/Gear 2_end
+        weight: 1
+      - path: Fragments Rig/Key
+        weight: 1
+      - path: Fragments Rig/Key/Key_end
+        weight: 1
+      - path: Fragments Rig/Locket
+        weight: 1
+      - path: Fragments Rig/Locket/Locket_end
+        weight: 1
+      - path: Fragments Rig/Small Gear 1
+        weight: 1
+      - path: Fragments Rig/Small Gear 1/Small Gear 1_end
+        weight: 1
+      - path: Fragments Rig/Small Gear 2
+        weight: 1
+      - path: Fragments Rig/Small Gear 2/Small Gear 2_end
+        weight: 1
+      - path: Fragments Rig/Small Gear 3
+        weight: 1
+      - path: Fragments Rig/Small Gear 3/Small Gear 3_end
+        weight: 1
+      - path: Gear_2_Gear.003
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

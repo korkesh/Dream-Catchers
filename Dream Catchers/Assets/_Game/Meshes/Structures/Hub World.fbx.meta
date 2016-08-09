@@ -1,0 +1,273 @@
+fileFormatVersion: 2
+guid: 2a6e87dc91ac118458cdbfa9cd52dddc
+timeCreated: 1470770716
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Boss Door
+    100002: Boss Tent
+    100004: Crate Immovable Chains
+    100006: Crate Immovable Chains.001
+    100008: Crate Immovable Chains.002
+    100010: Crate Immovable Chains.003
+    100012: Crate Immovable Chains.005
+    100014: Crate Immovable Chains.006
+    100016: Crate Immovable Chains.007
+    100018: Crate Immovable Chains.008
+    100020: Crate Immovable Chains.009
+    100022: Crate Immovable Chains.010
+    100024: Crate Immovable Chains.011
+    100026: Crate Immovable Chains.012
+    100028: Crate Immovable Chains.013
+    100030: Crate Immovable Chains.014
+    100032: Crate Immovable Chains.015
+    100034: Cube.006
+    100036: Cube.007
+    100038: Cube.008
+    100040: Cube.013
+    100042: Cube.014
+    100044: Cube.015
+    100046: Dream Door
+    100048: Dream Door.001
+    100050: Dream Door.002
+    100052: Hub Floor
+    100054: Hub Tent
+    100056: //RootNode
+    100058: Level 1 Tent
+    100060: Level 2 Tent
+    100062: Level 3 Tent
+    100064: Lights
+    100066: Lights.009
+    100068: Lights.013
+    100070: Lights.028
+    100072: Tent Roof Circular
+    100074: Tent Roof Square.001
+    100076: Tent Roof Square.003
+    100078: Tent Roof Square.004
+    100080: Tent Tether.001
+    400000: Boss Door
+    400002: Boss Tent
+    400004: Crate Immovable Chains
+    400006: Crate Immovable Chains.001
+    400008: Crate Immovable Chains.002
+    400010: Crate Immovable Chains.003
+    400012: Crate Immovable Chains.005
+    400014: Crate Immovable Chains.006
+    400016: Crate Immovable Chains.007
+    400018: Crate Immovable Chains.008
+    400020: Crate Immovable Chains.009
+    400022: Crate Immovable Chains.010
+    400024: Crate Immovable Chains.011
+    400026: Crate Immovable Chains.012
+    400028: Crate Immovable Chains.013
+    400030: Crate Immovable Chains.014
+    400032: Crate Immovable Chains.015
+    400034: Cube.006
+    400036: Cube.007
+    400038: Cube.008
+    400040: Cube.013
+    400042: Cube.014
+    400044: Cube.015
+    400046: Dream Door
+    400048: Dream Door.001
+    400050: Dream Door.002
+    400052: Hub Floor
+    400054: Hub Tent
+    400056: //RootNode
+    400058: Level 1 Tent
+    400060: Level 2 Tent
+    400062: Level 3 Tent
+    400064: Lights
+    400066: Lights.009
+    400068: Lights.013
+    400070: Lights.028
+    400072: Tent Roof Circular
+    400074: Tent Roof Square.001
+    400076: Tent Roof Square.003
+    400078: Tent Roof Square.004
+    400080: Tent Tether.001
+    2300000: Boss Door
+    2300002: Boss Tent
+    2300004: Crate Immovable Chains
+    2300006: Crate Immovable Chains.001
+    2300008: Crate Immovable Chains.002
+    2300010: Crate Immovable Chains.003
+    2300012: Crate Immovable Chains.005
+    2300014: Crate Immovable Chains.006
+    2300016: Crate Immovable Chains.007
+    2300018: Crate Immovable Chains.008
+    2300020: Crate Immovable Chains.009
+    2300022: Crate Immovable Chains.010
+    2300024: Crate Immovable Chains.011
+    2300026: Crate Immovable Chains.012
+    2300028: Crate Immovable Chains.013
+    2300030: Crate Immovable Chains.014
+    2300032: Crate Immovable Chains.015
+    2300034: Cube.006
+    2300036: Cube.007
+    2300038: Cube.008
+    2300040: Cube.013
+    2300042: Cube.014
+    2300044: Cube.015
+    2300046: Dream Door
+    2300048: Dream Door.001
+    2300050: Dream Door.002
+    2300052: Hub Floor
+    2300054: Hub Tent
+    2300056: Level 1 Tent
+    2300058: Level 2 Tent
+    2300060: Level 3 Tent
+    2300062: Lights
+    2300064: Lights.009
+    2300066: Lights.013
+    2300068: Lights.028
+    2300070: Tent Roof Circular
+    2300072: Tent Roof Square.001
+    2300074: Tent Roof Square.003
+    2300076: Tent Roof Square.004
+    2300078: Tent Tether.001
+    3300000: Boss Door
+    3300002: Boss Tent
+    3300004: Crate Immovable Chains
+    3300006: Crate Immovable Chains.001
+    3300008: Crate Immovable Chains.002
+    3300010: Crate Immovable Chains.003
+    3300012: Crate Immovable Chains.005
+    3300014: Crate Immovable Chains.006
+    3300016: Crate Immovable Chains.007
+    3300018: Crate Immovable Chains.008
+    3300020: Crate Immovable Chains.009
+    3300022: Crate Immovable Chains.010
+    3300024: Crate Immovable Chains.011
+    3300026: Crate Immovable Chains.012
+    3300028: Crate Immovable Chains.013
+    3300030: Crate Immovable Chains.014
+    3300032: Crate Immovable Chains.015
+    3300034: Cube.006
+    3300036: Cube.007
+    3300038: Cube.008
+    3300040: Cube.013
+    3300042: Cube.014
+    3300044: Cube.015
+    3300046: Dream Door
+    3300048: Dream Door.001
+    3300050: Dream Door.002
+    3300052: Hub Floor
+    3300054: Hub Tent
+    3300056: Level 1 Tent
+    3300058: Level 2 Tent
+    3300060: Level 3 Tent
+    3300062: Lights
+    3300064: Lights.009
+    3300066: Lights.013
+    3300068: Lights.028
+    3300070: Tent Roof Circular
+    3300072: Tent Roof Square.001
+    3300074: Tent Roof Square.003
+    3300076: Tent Roof Square.004
+    3300078: Tent Tether.001
+    4300000: Tent Tether.001
+    4300002: Crate Immovable Chains.015
+    4300004: Crate Immovable Chains.014
+    4300006: Crate Immovable Chains.013
+    4300008: Crate Immovable Chains.012
+    4300010: Crate Immovable Chains.011
+    4300012: Crate Immovable Chains.010
+    4300014: Crate Immovable Chains.009
+    4300016: Crate Immovable Chains.008
+    4300018: Crate Immovable Chains.007
+    4300020: Crate Immovable Chains.006
+    4300022: Crate Immovable Chains.005
+    4300024: Crate Immovable Chains.003
+    4300026: Crate Immovable Chains.002
+    4300028: Crate Immovable Chains.001
+    4300030: Level 2 Tent
+    4300032: Lights.009
+    4300034: Lights.013
+    4300036: Lights.028
+    4300038: Hub Floor
+    4300040: Level 3 Tent
+    4300042: Level 1 Tent
+    4300044: Cube.006
+    4300046: Cube.015
+    4300048: Cube.014
+    4300050: Cube.013
+    4300052: Tent Roof Square.004
+    4300054: Dream Door.002
+    4300056: Dream Door.001
+    4300058: Tent Roof Square.003
+    4300060: Cube.008
+    4300062: Cube.007
+    4300064: Tent Roof Square.001
+    4300066: Boss Tent
+    4300068: Hub Tent
+    4300070: Tent Roof Circular
+    4300072: Dream Door
+    4300074: Lights
+    4300076: Crate Immovable Chains
+    4300078: Boss Door
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

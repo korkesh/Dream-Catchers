@@ -7,11 +7,15 @@ public class HubManager : MonoBehaviour {
     public GameObject tutorialCamera;
     public GameObject level1Camera;
     public GameObject level2Camera;
+    public GameObject bossCamera;
 
     public GameObject TutorialDoor;
     public GameObject Level1Door;
     public GameObject Level2Door;
     public GameObject BossDoor;
+
+    public GameObject fragment;
+    public Animator fragmentOpen;
 
     // Use this for initialization
     void Start () {
@@ -38,11 +42,12 @@ public class HubManager : MonoBehaviour {
                 {
                     // Open Level 1 Door && close Tutorial Door
 
-                    tutorialCamera.SetActive(true);
+                    //tutorialCamera.SetActive(true);
                     //mainCamera.SetActive(false);
                     TutorialDoor.GetComponent<LowerDoor>().CloseDoor();
+                    Level1Door.GetComponent<LowerDoor>().OpenDoor();
 
-                    StartCoroutine(CameraSwap("Level1"));
+                    StartCoroutine(Play(""));
 
                     break;
                 }
@@ -50,11 +55,12 @@ public class HubManager : MonoBehaviour {
                 {
                     // Open Level 2 Door && close Level 1 Door
 
-                    level1Camera.SetActive(true);
+                    //level1Camera.SetActive(true);
                     //mainCamera.SetActive(false);
                     Level1Door.GetComponent<LowerDoor>().CloseDoor();
+                    Level2Door.GetComponent<LowerDoor>().OpenDoor();
 
-                    StartCoroutine(CameraSwap("Level2"));
+                    StartCoroutine(Play(""));
 
                     break;
                 }
@@ -62,68 +68,43 @@ public class HubManager : MonoBehaviour {
                 {
                     // Allow Boss Door Activation && close Level 2 Door
 
-                    level2Camera.SetActive(true);
-                    //mainCamera.SetActive(false);
+                    //level2Camera.SetActive(true);
+                    bossCamera.SetActive(true);
+                    fragment.SetActive(true);
                     Level2Door.GetComponent<LowerDoor>().CloseDoor();
+                    fragmentOpen.SetTrigger("open");
+                    //BossDoor.GetComponent<LowerDoor>().OpenDoor();
 
-                    StartCoroutine(CameraSwap("Boss"));
+                    StartCoroutine(BossOpen("Boss"));
 
                     break;
                 }
         }
     }
 
-    public IEnumerator CameraSwap(string door)
+    public IEnumerator Play(string door)
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.0f);
 
-        switch (door)
-        {
-            case "Level1":
-                {
-                    // Open Level 1 Door && close Tutorial Door
+        tutorialCamera.SetActive(false);
+        level1Camera.SetActive(false);
+        level2Camera.SetActive(false);
+        bossCamera.SetActive(false);
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
+    }
 
-                    level1Camera.SetActive(true);
-                    tutorialCamera.SetActive(false);
-                    Level1Door.GetComponent<LowerDoor>().OpenDoor();
+    public IEnumerator BossOpen(string door)
+    {
+        yield return new WaitForSeconds(5.0f);
 
-                    StartCoroutine(CameraSwap("Default"));
+        BossDoor.GetComponent<LowerDoor>().OpenDoor();
 
-                    break;
-                }
-            case "Level2":
-                {
-                    // Open Level 2 Door && close Level 1 Door
+        yield return new WaitForSeconds(10.0f);
 
-                    level2Camera.SetActive(true);
-                    level1Camera.SetActive(false);
-                    Level2Door.GetComponent<LowerDoor>().OpenDoor();
-
-                    StartCoroutine(CameraSwap("Default"));
-
-                    break;
-                }
-            case "Boss":
-                {
-                    // Allow Boss Door Activation && close Level 2 Door
-                    level2Camera.SetActive(false);
-                    BossDoor.GetComponent<LowerDoor>().OpenDoor();
-
-                    StartCoroutine(CameraSwap("Default"));
-
-                    break;
-                }
-            default:
-                {
-                    tutorialCamera.SetActive(false);
-                    level1Camera.SetActive(false);
-                    level2Camera.SetActive(false);
-                    Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
-
-                    break;
-                }
-        }
-
-;
+        tutorialCamera.SetActive(false);
+        level1Camera.SetActive(false);
+        level2Camera.SetActive(false);
+        bossCamera.SetActive(false);
+        Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
     }
 }
