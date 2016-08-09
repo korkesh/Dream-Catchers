@@ -240,6 +240,7 @@
     <Compile Include="Assets\Fungus\iTween\Scripts\Commands\StopTweens.cs" />
     <Compile Include="Assets\Fungus\iTween\Scripts\Commands\iTweenCommand.cs" />
     <Compile Include="Assets\HunterChildren.cs" />
+    <Compile Include="Assets\PlaySound.cs" />
     <Compile Include="Assets\_Game\Scenes\_TestScenes\Weekly Builds\Week4 - PreAlpha\TempCameraSwap.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ActivateDialogTrigger.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\BalloonAttack2.cs" />
