@@ -52,6 +52,8 @@ public class HandScript : MonoBehaviour {
 
     public Animator anim;
 
+    public GameObject particles;
+
 	// Use this for initialization
 	void Start () {
         hunter = GameObject.FindGameObjectWithTag("Player");
@@ -246,10 +248,7 @@ public class HandScript : MonoBehaviour {
         
     }
 
-    void OnDestroy()
-    {
-        
-    }
+
 
     public void TurnOffCollider()
     {
@@ -295,6 +294,22 @@ public class HandScript : MonoBehaviour {
             }
 
             BlockReturn();
+        }
+    }
+
+    void OnDestroy()
+    {
+        HealthManager HM = this.GetComponent<HealthManager>();
+        if (HM != null)
+        {
+            if(HM.currentHealth <= 0)
+            {
+                if(particles != null)
+                {
+                    particles.SetActive(true);
+                    particles.transform.SetParent(null);
+                }
+            }
         }
     }
 
