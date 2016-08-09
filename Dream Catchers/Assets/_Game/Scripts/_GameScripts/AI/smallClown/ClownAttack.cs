@@ -25,6 +25,7 @@ public class ClownAttack : MonoBehaviour {
     public GameObject DreamBall;
     public GameObject NightmareBall;
     public GameObject particles;
+    public GameObject particlesDream;
     public float LaunchAngle;
     public string Nightmaremessagetosend;
     public string Hammermessagetosend;
@@ -69,7 +70,53 @@ public class ClownAttack : MonoBehaviour {
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            Destroy(this.gameObject);
+            if(exploded == false)
+            {
+                if(particlesDream != null && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
+                {
+                    exploded = true;
+                    spCollider.enabled = false;
+                    rigidB.useGravity = false;
+                    if(NightmareBall != null )
+                    {
+                        Destroy(NightmareBall);
+                    }
+                    if(DreamBall != null)
+                    {
+                        Destroy(DreamBall);
+                    }
+                    GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
+                    ex.transform.parent = this.transform;
+                    ex.SetActive(true);
+                    timer = 1;
+                    rigidB.constraints = RigidbodyConstraints.FreezeAll;
+
+                }
+                else if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+                {
+                    exploded = true;
+                    spCollider.enabled = false;
+                    rigidB.useGravity = false;
+                    if (NightmareBall != null)
+                    {
+                        Destroy(NightmareBall);
+                    }
+                    if (DreamBall != null)
+                    {
+                        Destroy(DreamBall);
+                    }
+                    GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
+                    ex.transform.parent = this.transform;
+                    ex.SetActive(true);
+                    timer = 1;
+                    rigidB.constraints = RigidbodyConstraints.FreezeAll;
+                }
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+            
         }
         if (NightmareBall == null)
         {
@@ -157,6 +204,7 @@ public class ClownAttack : MonoBehaviour {
             GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
             ex.transform.parent = this.transform;
             ex.SetActive(true);
+            rigidB.constraints = RigidbodyConstraints.FreezeAll;
 
         }
         else if (currentState == ManipulationManager.WORLD_STATE.DREAM)
@@ -174,9 +222,19 @@ public class ClownAttack : MonoBehaviour {
                  exploded = true;
                  Destroy(NightmareBall);
                  Destroy(DreamBall);
-                 GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
-                 ex.transform.parent = this.transform;
-                 ex.SetActive(true);
+                if(particlesDream != null)
+                {
+                    GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
+                    ex.transform.parent = this.transform;
+                    ex.SetActive(true);
+                }
+                else
+                {
+                    GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
+                    ex.transform.parent = this.transform;
+                    ex.SetActive(true);
+                }
+                
              }
 
             if(collision.gameObject.tag == "Hammer" && hitBack == false)
@@ -267,6 +325,7 @@ public class ClownAttack : MonoBehaviour {
             GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
             ex.transform.parent = this.transform;
             ex.SetActive(true);
+            rigidB.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
