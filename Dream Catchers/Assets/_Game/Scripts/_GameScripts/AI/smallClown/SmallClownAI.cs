@@ -48,7 +48,7 @@ public class SmallClownAI : MonoBehaviour {
         Player = GameObject.FindGameObjectWithTag("Player");
         rigidB = GetComponent<Rigidbody>();
         moveDelayTime = DelayToMove;
-        attackDelayTime = DelayToAttack;
+        attackDelayTime = 0.5f;
         readyingAttack = true;
         index = 0;
         reverse = false;
@@ -117,6 +117,10 @@ public class SmallClownAI : MonoBehaviour {
             }
             else
             {
+
+                readyingAttack = true;
+                attackDelayTime = 0.5f;
+                moveDelayTime = DelayToMove;
                 //rigidB.constraints = RigidbodyConstraints.FreezeAll;
                 ////if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
                 ////{

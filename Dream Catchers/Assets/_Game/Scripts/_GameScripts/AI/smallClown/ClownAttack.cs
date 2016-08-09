@@ -173,7 +173,7 @@ public class ClownAttack : MonoBehaviour {
             }
         }
 
-        if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && collision.gameObject.name != "Launch")
+        if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && collision.gameObject.name != "Launch" && exploded == false)
         {
             if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Hammer")
             {
