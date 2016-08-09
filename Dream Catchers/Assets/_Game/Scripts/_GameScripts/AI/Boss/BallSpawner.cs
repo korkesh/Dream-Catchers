@@ -35,6 +35,7 @@ public class BallSpawner : MonoBehaviour {
             if(currentAttack == null)
             {
                 Spawn();
+                gameObject.SendMessage("Play");
             }
 
         }

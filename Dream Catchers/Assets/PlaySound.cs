@@ -3,13 +3,29 @@ using System.Collections;
 
 public class PlaySound : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public AudioClip sound;
+    public AudioClip altSound;
+    public GameObject correspondingSound;
+    public GameObject soundCollider;
+    public bool collide;
+
+    void Play()
+    {
+        GetComponent<AudioSource>().PlayOneShot(sound);
+        
+    }
+
+    void PlayAlt()
+    {
+        GetComponent<AudioSource>().PlayOneShot(altSound);
+
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (collide)
+            Play();
+
+    }
+
 }

@@ -210,6 +210,7 @@
      <Compile Include="Assets\Fungus\iTween\Scripts\Commands\StopTweens.cs" />
      <Compile Include="Assets\Fungus\iTween\Scripts\Commands\iTweenCommand.cs" />
      <Compile Include="Assets\HunterChildren.cs" />
+     <Compile Include="Assets\PlaySound.cs" />
      <Compile Include="Assets\_Game\Scenes\_TestScenes\Weekly Builds\Week4 - PreAlpha\TempCameraSwap.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ActivateDialogTrigger.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\BalloonAttack2.cs" />
@@ -220,6 +221,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\BalloonRun2.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\Confetti.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\BalloonAnimalRound2\DestroyParticles.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\ArenaSides.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BallSpawner.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\ConstantFollowPos.cs" />
@@ -238,6 +240,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\GenericTrigger.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TextBoxChangeGameState.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerOnDestroy.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerScene.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BallonPatrol_State.cs" />
@@ -257,6 +260,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\LaunchMovement.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\SmallClownAI.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\BossCamera.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\FadeScript.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\NewCamera.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RealCamera.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Camera\RootCamera.cs" />
