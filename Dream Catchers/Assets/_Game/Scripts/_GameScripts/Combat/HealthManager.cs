@@ -25,11 +25,14 @@ public class HealthManager : MonoBehaviour {
         if(currentHealth <= 0)
         {
             spawns = true;
-            PlaySound sound = GetComponent<PlaySound>();
-            if (sound.correspondingSound)
+            if (GetComponent<PlaySound>())
             {
-                GameObject soundObj = Instantiate(sound.correspondingSound);
-                Destroy(soundObj, 1);
+                PlaySound sound = GetComponent<PlaySound>();
+                if (sound.correspondingSound)
+                {
+                    GameObject soundObj = Instantiate(sound.correspondingSound);
+                    Destroy(soundObj, 1);
+                }
             }
             Destroy(gameObject);
         }

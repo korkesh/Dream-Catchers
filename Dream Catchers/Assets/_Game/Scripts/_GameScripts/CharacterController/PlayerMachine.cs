@@ -652,6 +652,9 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_EnterState()
     {
+
+        gameObject.SendMessage("Play");
+
         jumping = true;
         ground = false;
 
@@ -809,6 +812,9 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_EnterState()
     {
+
+        gameObject.SendMessage("PlayAlt");
+
         jumping = true;
 
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", true);

@@ -65,6 +65,7 @@ public class PressurePlate : MonoBehaviour {
 
                 activated = true;
                 ObjectToTrigger.SendMessage(TriggerFunctionCall);
+                gameObject.SendMessage("Play");
                 if(!objectsOnSwitch.Contains(other.tag))
                 {
                     objectsOnSwitch.Add(other.tag);
