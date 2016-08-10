@@ -65,6 +65,8 @@ public class PlayerMachine : SuperStateMachine {
     public float slideFriction; // time in seconds for bellyside to end
     public float slideTurnSpeed = 500f;
 
+    private bool diving = false; // controls dive state (prevents double jumping out of dive-fall)
+
     // Jumping
     public float VerticalSpeedCap = 10.0f;
     public float VerticalSpeedCapDown = -30.0f;
@@ -271,6 +273,8 @@ public class PlayerMachine : SuperStateMachine {
     // Jump_SuperUpdate()
     void Idle_EnterState()
     {
+        diving = false;
+
         controller.EnableSlopeLimit();
         controller.EnableClamping();
 
@@ -872,28 +876,6 @@ public class PlayerMachine : SuperStateMachine {
                 speed = 0;
             }
         }
-        else
-        {
-            // technical controller locks direction and slows aerial acceleration
-            new_ratio = 0.9f * Time.deltaTime * maxAirSpeedTime;
-            old_ratio = 1.0f - new_ratio;
-
-            // SPEED:
-            float magnitude = input.Current.MoveInput.magnitude;
-            if (magnitude > 0.9f)
-            {
-                magnitude = 1f;
-            }
-
-            float desiredForwardSpeed = Vector3.Cross(localMovement, transform.right).y * maxAirSpeed * magnitude;
-            float desiredRightSpeed = Vector3.Cross(transform.forward, localMovement).y * maxAirSpeed * magnitude;
-
-            speed = (speed * old_ratio) + (desiredForwardSpeed * new_ratio);
-            xSpeed = (xSpeed * old_ratio) + (desiredRightSpeed * new_ratio);
-
-            moveDirection = transform.forward * speed;
-            moveDirection += transform.right * xSpeed;
-        }
 
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
 
@@ -936,7 +918,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }*/
 
-        if (input.Current.JumpInput)
+        if (input.Current.JumpInput && !diving)
         {
             currentState = PlayerStates.DoubleJump;
             return;
@@ -965,6 +947,7 @@ public class PlayerMachine : SuperStateMachine {
     void Dive_EnterState()
     {
         ground = false;
+        diving = true;
 
         gameObject.GetComponent<Animator>().SetBool("Diving", true);
 
