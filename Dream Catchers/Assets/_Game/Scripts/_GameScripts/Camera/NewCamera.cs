@@ -80,6 +80,8 @@ public class NewCamera : MonoBehaviour
     private float currentAngle; // current x rotation
     private float currentMaxJumpHeight; // height at which camera will begin raising to follow player y movement
 
+    private float heightOffset; // how far current height is from target height
+
     private Vector3 CurrentTargetPos; // position target is at this frame
     private float currentTargetOffset = 0;
 
@@ -303,10 +305,17 @@ public class NewCamera : MonoBehaviour
         float newGround = controller.currentGround.groundHeight + vTargetOffset.y;
         lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
 
-        currentHeight += Clamp(0, float.PositiveInfinity, (Target.y - lastGround) - currentMaxJumpHeight);
-        currentHeight -= Clamp(0, float.PositiveInfinity, lastGround - Target.y);
+        currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight));
+
+        if (Mode == CameraMode.Low)
+        {
+            //currentHeight -= Clamp()
+        }
+        //currentHeight -= Clamp(Time.deltaTime, lastGround - Target.y, 0f) * 0.5f;
 
         TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
+
+        heightOffset = currentHeight - (transform.position.y - Player.transform.position.y); // store how far height is from currentHeight
 
         Vector3 prevPos = transform.position; // store position pre-move in case of collision
 
