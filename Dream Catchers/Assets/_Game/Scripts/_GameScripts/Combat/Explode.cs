@@ -3,11 +3,11 @@ using System.Collections;
 
 public class Explode : MonoBehaviour {
 
-    public GameObject splintersPrefab;
+    public GameObject SplinterPrefab;
 
     void OnDestroy()
     {
-        Instantiate(splintersPrefab, transform.position, transform.rotation);
+        Instantiate(SplinterPrefab, transform.position, transform.rotation);
     }
 
 }
