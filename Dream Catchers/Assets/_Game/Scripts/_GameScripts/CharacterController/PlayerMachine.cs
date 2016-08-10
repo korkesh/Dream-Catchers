@@ -906,7 +906,7 @@ public class PlayerMachine : SuperStateMachine {
     void Fall_SuperUpdate()
     {
         // dive condition
-        if (input.Current.DiveInput)
+        if (input.Current.DiveInput && !diving)
         {
             currentState = PlayerStates.Dive;
             return;
