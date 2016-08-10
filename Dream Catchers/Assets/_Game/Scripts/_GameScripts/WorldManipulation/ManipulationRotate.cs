@@ -29,15 +29,26 @@ public class ManipulationRotate : ManipulationScript
     public override void changeState(ManipulationManager.WORLD_STATE state)
     {
         currentObjectState = state;
+        PlaySound sound = GetComponent<PlaySound>();
+
 
         // Rotate object to the given position over the given time duration
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM)
         {
             objectTransform.DORotate(rotateDream, Duration);
+            if (sound)
+            {
+                gameObject.SendMessage("Play");
+            }
+            
         }
         else
         {
             objectTransform.DORotate(rotateNightmare, Duration);
+            if (sound)
+            {
+                gameObject.SendMessage("PlayAlt");
+            }
         }
     }
 }
