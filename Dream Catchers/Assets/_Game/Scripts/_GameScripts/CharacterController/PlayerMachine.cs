@@ -75,7 +75,7 @@ public class PlayerMachine : SuperStateMachine {
     private float maxAirSpeed = 8.5f;
     public float JumpAcceleration = 5.0f;
     public float JumpHoldAcceleration = 10.0f;
-    public float JumpHoldTime = 0.5f; // amount of time holding jump button extends height after initial press
+    public float JumpTime = 0.5f; // amount of time holding jump button extends height after initial press
     public float MinJumpHeight = 1.75f;
     public float MaxJumpHeight = 3.0f;
     public float DoubleJumpHeight = 2.0f;
@@ -86,7 +86,7 @@ public class PlayerMachine : SuperStateMachine {
 
     // Physics
     public float Gravity = 25.0f;
-    public float DiveGravity = 28.0f;
+    public float DiveGravity = 29.0f;
     public float GroundFriction = 10.0f;
 
     //----------------------------------------------
@@ -560,15 +560,15 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        if (JumpTimer + Time.deltaTime < JumpHoldTime)
+        if (JumpTimer + Time.deltaTime < JumpTime)
         {
             moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
             JumpTimer += Time.deltaTime;
         }
-        else if (JumpTimer < JumpHoldTime)
+        else if (JumpTimer < JumpTime)
         {
-            moveDirection += controller.up * (JumpHoldTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
-            JumpTimer = JumpHoldTime;
+            moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+            JumpTimer = JumpTime;
         }
 
 
@@ -701,15 +701,15 @@ public class PlayerMachine : SuperStateMachine {
 
         //if (jumpHold)
         {
-            if (JumpTimer + Time.deltaTime < JumpHoldTime)
+            if (JumpTimer + Time.deltaTime < JumpTime)
             {
                 moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
                 JumpTimer += Time.deltaTime;
             }
-            else if (JumpTimer < JumpHoldTime)
+            else if (JumpTimer < JumpTime)
             {
-                moveDirection += controller.up * (JumpHoldTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
-                JumpTimer = JumpHoldTime;
+                moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+                JumpTimer = JumpTime;
             }
         }
 
@@ -940,6 +940,11 @@ public class PlayerMachine : SuperStateMachine {
 
     void Dive_EnterState()
     {
+        if (ground)
+        {
+            JumpTimer = JumpTime;
+        }
+
         ground = false;
         diving = true;
 
@@ -956,7 +961,7 @@ public class PlayerMachine : SuperStateMachine {
         {
             moveDirection = transform.forward * MaxDiveSpeed;
 
-            if (verticalMoveDirection.y > 1f || Mathf.Approximately(0f, verticalMoveDirection.y))
+            if (verticalMoveDirection.y > 1.55f || Mathf.Approximately(0f, verticalMoveDirection.y))
             {
                 moveDirection.y += DiveJumpForce;
             }
@@ -964,7 +969,8 @@ public class PlayerMachine : SuperStateMachine {
             speed = MaxDiveSpeed;
         }
 
-        controller.feet.offset = 1f;
+        controller.feet.offset = 0.75f;
+        Debug.Log("start dive");
     }
 
     void Dive_SuperUpdate()
@@ -1004,6 +1010,18 @@ public class PlayerMachine : SuperStateMachine {
         // gravity
         verticalMoveDirection -= controller.up * DiveGravity * Time.deltaTime;
         moveDirection += verticalMoveDirection;
+
+        // upward movement if transitioned from dive state
+        if (JumpTimer + Time.deltaTime < JumpTime)
+        {
+            moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+            JumpTimer += Time.deltaTime;
+        }
+        else if (JumpTimer < JumpTime)
+        {
+            moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+            JumpTimer = JumpTime;
+        }
     }
 
     void Dive_ExitState()
