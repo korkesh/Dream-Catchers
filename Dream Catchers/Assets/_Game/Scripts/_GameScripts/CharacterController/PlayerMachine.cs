@@ -86,7 +86,7 @@ public class PlayerMachine : SuperStateMachine {
 
     // Physics
     public float Gravity = 25.0f;
-    public float DiveGravity = 32.0f;
+    public float DiveGravity = 28.0f;
     public float GroundFriction = 10.0f;
 
     //----------------------------------------------
@@ -911,12 +911,6 @@ public class PlayerMachine : SuperStateMachine {
             currentState = PlayerStates.Dive;
             return;
         }
-
-        /*if (input.Current.AttackInput)
-        {
-            currentState = PlayerStates.GroundPound;
-            return;
-        }*/
 
         if (input.Current.JumpInput && !diving)
         {

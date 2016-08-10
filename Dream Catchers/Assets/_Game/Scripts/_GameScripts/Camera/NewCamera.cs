@@ -268,7 +268,10 @@ public class NewCamera : MonoBehaviour
         // store previous frame's displacement before updating
         PrevDispDir = BaseDisplacement.normalized;
 
-        Target = Player.transform.position + vTargetOffset; // base pos
+        // apply offset for varying player collision sphere heights
+        Vector3 sphereOffset = new Vector3(0f, controller.feet.offset - 0.5f, 0f);
+
+        Target = Player.transform.position + vTargetOffset + sphereOffset; // base pos
 
         // determine how aligned player forward is with displacement vector
         BaseDisplacement = (Player.transform.position - transform.position);
@@ -286,11 +289,11 @@ public class NewCamera : MonoBehaviour
             currentTargetOffset = Clamp(-lookDistance, lookDistance, currentTargetOffset + (Mathf.Sign(align * lookDistance - currentTargetOffset) * Time.deltaTime /* 0.5f */* Mathf.Abs(align * lookDistance - currentTargetOffset)));
         }
 
-        CurrentTargetPos = (Player.transform.position + vTargetOffset) + (currentTargetOffset * right);
+        CurrentTargetPos = (Player.transform.position + vTargetOffset + sphereOffset) + (currentTargetOffset * right);
 
         test1.transform.position = Target; // debug
         test2.transform.position = CurrentTargetPos;
-        Debug.DrawLine(Player.transform.position + vTargetOffset, Player.transform.position + vTargetOffset + right, Color.cyan);
+        Debug.DrawLine(Player.transform.position + vTargetOffset + sphereOffset, Player.transform.position + vTargetOffset + right, Color.cyan);
     }
 
 
