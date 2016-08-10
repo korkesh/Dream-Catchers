@@ -21,7 +21,7 @@ public class CheckPoints : MonoBehaviour
 
         if (useCurrentPos == true)
         {
-            position = this.transform.position;
+            position = this.transform.position + this.transform.forward;
         }
 
     }

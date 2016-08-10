@@ -259,6 +259,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\ConstantFollowPos.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HandScript.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HitMotion.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\IgnoreCollison.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\Stage4.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageOne.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDestroy.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\FreezeAI.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\GenericTrigger.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
