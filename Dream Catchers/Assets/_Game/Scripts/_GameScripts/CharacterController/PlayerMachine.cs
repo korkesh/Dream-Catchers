@@ -981,7 +981,6 @@ public class PlayerMachine : SuperStateMachine {
 
             if (verticalMoveDirection.y > 1f || Mathf.Approximately(0f, verticalMoveDirection.y))
             {
-                Debug.Log(verticalMoveDirection.y + " adfadfafa");
                 moveDirection.y += DiveJumpForce;
             }
 
