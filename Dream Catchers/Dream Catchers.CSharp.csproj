@@ -310,6 +310,8 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\RotateCollectible.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\CharacterCrush.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\DestroyExplosion.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\Explode.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HammerAttack.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HealthManager.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\KillFloor.cs" />
