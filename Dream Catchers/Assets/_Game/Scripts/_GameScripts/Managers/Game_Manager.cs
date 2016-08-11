@@ -64,7 +64,7 @@ public class Game_Manager : MonoBehaviour {
         //Sets this to not be destroyed when reloading scene
         //DontDestroyOnLoad(gameObject);
 
-         currentGameState = GameState.INTRO;
+         //currentGameState = GameState.INTRO;
        // NewGame(); // DEBUGGGGGG
     }
 

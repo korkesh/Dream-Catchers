@@ -29,7 +29,17 @@ public class PlayerInputController : MonoBehaviour
         {
             // Controls set via Unity Input Manager
             Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            Vector3 joy2Input = new Vector3(Input.GetAxis("Horizontal2"), 0, Input.GetAxis("Vertical2"));
+            Vector3 joy2Input = new Vector3(Input.GetAxis("Horizontal2"), 0, -Input.GetAxis("Vertical2"));
+
+            if (Input_Manager.instance != null && Input_Manager.instance.invertCameraX)
+            {
+                joy2Input.x = -joy2Input.x;
+            }
+
+            if(Input_Manager.instance != null && Input_Manager.instance.invertCameraY)
+            {
+                joy2Input.z = -joy2Input.z;
+            }
 
             bool attackInput = Input.GetButtonDown("Attack");
 
@@ -63,6 +73,11 @@ public class PlayerInputController : MonoBehaviour
                 
                 moveBuffer = false          
             };
+        }
+        else
+        {
+            Current = new PlayerInput();
+            gameObject.GetComponent<PlayerMachine>().speed = 0;
         }
 
         if (Input_Manager.instance.useBuffer)

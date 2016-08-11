@@ -38,9 +38,6 @@ public class BossClown : MonoBehaviour {
         }
 	}
 
-
-
-
     void OnCollisionEnter(Collision collision)
     {
        if(collision.gameObject.tag == "Ball" && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
@@ -68,7 +65,7 @@ public class BossClown : MonoBehaviour {
     void OnDestroy()
     {
         GameObject lc = GameObject.Find("LevelComplete");
-        if(lc != null)
+        if (lc != null && Health <= 0)
         {
             UI_Manager.instance.ShowMenu(lc.GetComponent<Menu>());
         }

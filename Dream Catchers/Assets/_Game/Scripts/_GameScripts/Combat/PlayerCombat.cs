@@ -13,6 +13,7 @@ public class PlayerCombat : MonoBehaviour
     //public GameObject groundPoundCollider;
     public GameObject weaponParentObject;
     public GameObject weaponBackParentObject;
+
     public bool attacking;
     public bool damage;
 

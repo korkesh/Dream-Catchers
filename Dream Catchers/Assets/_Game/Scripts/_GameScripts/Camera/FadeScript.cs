@@ -35,6 +35,12 @@ public class FadeScript : MonoBehaviour {
                                                                         : ManipulationManager.WORLD_STATE.DREAM;
                 }
 
+                // BAD CODING PRACTICE, SHOULD BE TAGGED
+                if(cameraToSwap.gameObject.name == "Main Camera (Default)")
+                {
+                    Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
+                }
+
                 cameraToSwap.SetActive(true);
                 gameObject.SetActive(false);
             }

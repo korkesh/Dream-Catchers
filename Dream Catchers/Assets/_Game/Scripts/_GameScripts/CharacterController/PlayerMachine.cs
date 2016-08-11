@@ -47,7 +47,7 @@ public class PlayerMachine : SuperStateMachine {
     public float maxSpeedTime = 5; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
     private float maxAirSpeedTime = 1f; // amount of time it takes to go from 0 x/z speed to max in the air
     [SerializeField]
-    private float speed = 0; // current run speed
+    public float speed = 0; // current run speed
     [SerializeField]
     private float xSpeed = 0; // current left/right speed
     public float RunSpeed = 0.65f;
@@ -56,6 +56,7 @@ public class PlayerMachine : SuperStateMachine {
     public float TurnRadius = 4.0f;
     private float skidTimer = 0;
     public float skidTime = 0.5f; // time in seconds skid state lasts for if not broken by jump/fall
+    private float runTimer = 0f;
 
     // Diving
     public float MaxDiveSpeed;
@@ -78,6 +79,8 @@ public class PlayerMachine : SuperStateMachine {
     public float DoubleJumpHeight = 2.0f;
     public float JumpTimer = 0;
     public Vector3 LastGroundPos { get; private set; } // position character was at last frame they were grounded
+
+    public bool jumping = false; // set to true in active jump states (not fall/dive etc)
 
     // Physics
     public float Gravity = 25.0f;
@@ -212,7 +215,7 @@ public class PlayerMachine : SuperStateMachine {
         // This is run regardless of what state you're in
 
         // Allow Attacks only when on ground and upon attack input
-        if (input.Current.AttackInput && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER) && Character_Manager.instance.toggleHammer)
+        if (input.Current.AttackInput && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER) && Character_Manager.instance.toggleHammer && !currentState.Equals(PlayerStates.Dive) && !currentState.Equals(PlayerStates.Slide))
         {
             gameObject.GetComponent<PlayerCombat>().BeginAttack();
             idleTimer = 0;
@@ -370,11 +373,12 @@ public class PlayerMachine : SuperStateMachine {
 
     void Run_EnterState()
     {
-        //gameObject.GetComponent<Animator>().SetBool("Running", true);
+        runTimer = 0f;
     }
 
     void Run_SuperUpdate()
     {
+        runTimer += Time.deltaTime;
         // Dont allow attack and then jump
         if (input.Current.JumpInput && !gameObject.GetComponent<PlayerCombat>().damage)
         {
@@ -408,7 +412,7 @@ public class PlayerMachine : SuperStateMachine {
             transform.forward = ((moveDirection.normalized * old_ratio) + (localMovement * new_ratio)).normalized;
 
             // skid if input is >90 degrees of current facing direction
-            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, localMovement).normalized).y > 0.49f)
+            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, localMovement).normalized).y > 0.49f && runTimer > 0.15f)
             {
                 currentState = PlayerStates.Skid;
                 transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, localMovement);
@@ -458,6 +462,9 @@ public class PlayerMachine : SuperStateMachine {
     void Run_ExitState()
     {
         gameObject.GetComponent<Animator>().SetBool("Running", false);
+        gameObject.GetComponent<Animator>().SetBool("Walking", false);
+
+        runTimer = 0f;
     }
 
     void Skid_EnterState()
@@ -518,6 +525,7 @@ public class PlayerMachine : SuperStateMachine {
     //----------------------------------------------
     void SkidJump_EnterState()
     {
+        jumping = true;
         JumpTimer = 0;
 
         gameObject.GetComponent<Animator>().SetBool("Jumping", true);
@@ -635,6 +643,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void SkidJump_ExitState()
     {
+        jumping = false;
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
         input.toggleJump = false;
         //jumpHold = false;
@@ -643,6 +652,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_EnterState()
     {
+        jumping = true;
         ground = false;
 
         JumpTimer = 0;
@@ -787,6 +797,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_ExitState()
     {
+        jumping = false;
+
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
         input.toggleJump = false;
     }
@@ -797,6 +809,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_EnterState()
     {
+        jumping = true;
 
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", true);
 
@@ -889,6 +902,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_ExitState()
     {
+        jumping = false;
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
         input.toggleJump = false;
     }
