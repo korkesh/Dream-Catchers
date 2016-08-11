@@ -45,7 +45,7 @@ public class PlayerMachine : SuperStateMachine {
     public float RunAcceleration = 10.0f;
 
     public float maxSpeedTime = 5; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
-    private float maxAirSpeedTime = 0.5f; // amount of time it takes to go from 0 x/z speed to max in the air
+    private float maxAirSpeedTime = 2f; // amount of time it takes to go from 0 x/z speed to max in the air
     [SerializeField]
     public float speed = 0; // current run speed
     [SerializeField]
@@ -86,6 +86,7 @@ public class PlayerMachine : SuperStateMachine {
 
     // Physics
     public float Gravity = 25.0f;
+    public float DiveGravity = 26.0f;
     public float GroundFriction = 10.0f;
 
     //----------------------------------------------
@@ -316,9 +317,7 @@ public class PlayerMachine : SuperStateMachine {
         float new_ratio = 0.9f * Time.deltaTime * maxSpeedTime;
         float old_ratio = 1 - new_ratio;
 
-        speed = (speed * old_ratio) - (speed * new_ratio);
-        if (speed < 0)
-            speed = 0;
+        speed = clampF(0f, float.PositiveInfinity, (speed * old_ratio) - (speed * new_ratio));
 
         moveDirection = transform.forward * speed;
 
@@ -531,14 +530,19 @@ public class PlayerMachine : SuperStateMachine {
         jumping = true;
         JumpTimer = 0;
 
+        ground = false;
+
         gameObject.GetComponent<Animator>().SetBool("Jumping", true);
 
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
-        moveDirection = new Vector3(localMovement.x, 0, localMovement.z);
-        transform.forward = moveDirection;
-
+        if (localMovement != Vector3.zero)
+        {
+            moveDirection = new Vector3(localMovement.x, 0, localMovement.z);
+            transform.forward = moveDirection;
+        }
+        
         float magnitude = input.Current.MoveInput.magnitude;
         if (magnitude > 0.9f)
         {
@@ -691,20 +695,17 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // transition to double jump
+        // double jump condition
         if (input.Current.JumpInput && input.toggleJump != true)
         {
             currentState = PlayerStates.DoubleJump;
             return;
         }
 
-        // if holding jump button and not at max jump height, raise movement vector
-        //if (!input.Current.JumpHold)
-        //{
-        //    jumpHold = false;
-        //}
+        
 
 
+        // move player up against gravity for 0.5 seconds
         if (JumpTimer + Time.deltaTime < JumpTime)
         {
             moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
@@ -715,16 +716,17 @@ public class PlayerMachine : SuperStateMachine {
             moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
             JumpTimer = JumpTime;
         }
-        
+
 
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
+        // landing condition
         if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
         {
             moveDirection = planarMoveDirection;
             currentState = PlayerStates.Idle;
-            return;            
+            return;
         }
 
         // X/Z movement
@@ -758,20 +760,29 @@ public class PlayerMachine : SuperStateMachine {
 
             float desiredSpeed = magnitude * speedCoefficient * MaxRunSpeed;
 
-            new_ratio = 0.9f * Time.deltaTime * 0.1f; // maxAirSpeedTime;
+            new_ratio = 0.9f * Time.deltaTime * 10f; // maxAirSpeedTime;
             old_ratio = 1.0f - new_ratio;
 
-            speed = (speed * new_ratio) + (desiredSpeed * old_ratio);
+            speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
             Debug.Log(speed);
             moveDirection = transform.forward * speed;
         }
         else
         {
             // slow to stop
-            moveDirection = Vector3.zero;
+            new_ratio = 0.9f * Time.deltaTime * 5f;
+            old_ratio = 1.0f - new_ratio;
+
+            speed = clampF(0f, float.PositiveInfinity, (speed * old_ratio) - (speed * new_ratio));
+
+            moveDirection = transform.forward * speed;
+
+            // slow to stop
+            //moveDirection = Vector3.zero;
         }
         
 
+        // Y Movement
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
         moveDirection += verticalMoveDirection;
 
@@ -995,12 +1006,13 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection += transform.right * xSpeed;
 
         // gravity
-        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+        verticalMoveDirection -= controller.up * (Gravity + 1.75f) * Time.deltaTime;
         moveDirection += verticalMoveDirection;
 
         // upward movement if transitioned from dive state
         if (JumpTimer + Time.deltaTime < JumpTime)
         {
+            Debug.Log("moving up");
             moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
             JumpTimer += Time.deltaTime;
         }

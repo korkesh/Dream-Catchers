@@ -170,8 +170,8 @@ public class NewCamera : MonoBehaviour
                     }
                     else
                     {
-                        currentHeight = hHeightAir;
-                        currentAngle = hAngleAir + xRotationOffset + floorArc;
+                        currentHeight = hHeightGround;//Air;
+                        currentAngle = hAngleGround;//Air + xRotationOffset + floorArc;
                         xRotationOffset = 0;
                     }
 
@@ -190,8 +190,8 @@ public class NewCamera : MonoBehaviour
                     }
                     else
                     {
-                        currentHeight = lHeightAir;
-                        currentAngle = lAngleAir;
+                        currentHeight = lHeightGround;//Air;
+                        currentAngle = lAngleGround;//Air;
                         xRotationOffset = 0;
                     }
 
