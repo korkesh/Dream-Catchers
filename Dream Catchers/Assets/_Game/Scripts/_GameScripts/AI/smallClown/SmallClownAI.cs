@@ -90,7 +90,7 @@ public class SmallClownAI : MonoBehaviour {
                     attackDelayTime -= Time.deltaTime;
                     if (attackDelayTime <= 0)
                     {
-                        if (Vector3.Distance(Player.transform.position, transform.position) <= attackRadius)
+                        if (Vector3.Distance(Player.transform.position, transform.position) <= attackRadius && currentAttack == null)
                         {
                             Attack();
                         }
