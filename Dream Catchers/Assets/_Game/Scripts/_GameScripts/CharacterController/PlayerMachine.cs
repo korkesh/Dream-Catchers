@@ -86,7 +86,6 @@ public class PlayerMachine : SuperStateMachine {
 
     // Physics
     public float Gravity = 25.0f;
-    public float DiveGravity = 29.0f;
     public float GroundFriction = 10.0f;
 
     //----------------------------------------------
@@ -416,7 +415,7 @@ public class PlayerMachine : SuperStateMachine {
             transform.forward = ((moveDirection.normalized * old_ratio) + (localMovement * new_ratio)).normalized;
 
             // skid if input is >90 degrees of current facing direction
-            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, localMovement).normalized).y > 0.49f && runTimer > 0.15f)
+            if (Vector3.Cross(Math3d.ProjectVectorOnPlane(controller.up, transform.right).normalized, Math3d.ProjectVectorOnPlane(controller.up, localMovement).normalized).y > 0.49f && runTimer > 0.25f)
             {
                 currentState = PlayerStates.Skid;
                 transform.forward = Math3d.ProjectVectorOnPlane(Vector3.up, localMovement);
@@ -940,9 +939,21 @@ public class PlayerMachine : SuperStateMachine {
 
     void Dive_EnterState()
     {
+        controller.DisableClamping();
+        controller.DisableSlopeLimit();
+
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+
         if (ground)
         {
-            JumpTimer = JumpTime;
+            JumpTimer = JumpTime; // prevent jump timer from ticking in ground dive (raises character upward)     
+            moveDirection = transform.forward * MaxDiveSpeed;
+            moveDirection.y += DiveJumpForce;
+        }
+        else
+        {
+            // entering dive from airstate provides additive forward speed, not static
+            moveDirection += transform.forward * clampF(0f, MaxDiveSpeed - planarMoveDirection.magnitude, (MaxDiveSpeed - maxAirSpeed) * 2.85f);
         }
 
         ground = false;
@@ -950,27 +961,21 @@ public class PlayerMachine : SuperStateMachine {
 
         gameObject.GetComponent<Animator>().SetBool("Diving", true);
 
-        controller.DisableClamping();
-        controller.DisableSlopeLimit();
-
-        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
-        // static properties from ground (run state)
-        //if (ground)
-        {
-            moveDirection = transform.forward * MaxDiveSpeed;
+        speed = planarMoveDirection.magnitude;
 
-            if (verticalMoveDirection.y > 1.55f || Mathf.Approximately(0f, verticalMoveDirection.y))
-            {
-                moveDirection.y += DiveJumpForce;
-            }
+        //moveDirection = transform.forward * MaxDiveSpeed;
 
-            speed = MaxDiveSpeed;
-        }
+        //if (verticalMoveDirection.y > 1.55f || Mathf.Approximately(0f, verticalMoveDirection.y))
+        //{
+        //    moveDirection.y += DiveJumpForce;
+        //}
 
-        controller.feet.offset = 0.75f;
-        Debug.Log("start dive");
+        //speed = MaxDiveSpeed;
+
+        //controller.feet.offset = 0.75f;
     }
 
     void Dive_SuperUpdate()
@@ -981,7 +986,6 @@ public class PlayerMachine : SuperStateMachine {
         // landing on ground transition
         if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
         {
-            Debug.Log("grounded");
             moveDirection = planarMoveDirection;
             currentState = PlayerStates.Slide;
             return;
@@ -1000,15 +1004,17 @@ public class PlayerMachine : SuperStateMachine {
             magnitude = 1f;
         }
 
-        float desiredRightSpeed = Vector3.Cross(transform.forward, localMovement).y * MaxDiveSpeed * magnitude * 0.5f;
+        float desiredRightSpeed = Vector3.Cross(transform.forward, localMovement).y * MaxDiveSpeed * magnitude * 0.85f;
+        float desiredForwardSpeed = Vector3.Cross(localMovement, transform.right).y * MaxDiveSpeed * magnitude * 0.85f;
 
         xSpeed = (xSpeed * old_ratio) + (desiredRightSpeed * new_ratio);
+        speed = clampF(-MaxDiveSpeed, MaxDiveSpeed, (speed * old_ratio) + (desiredForwardSpeed * new_ratio));
 
         moveDirection = transform.forward * speed;
         moveDirection += transform.right * xSpeed;
 
         // gravity
-        verticalMoveDirection -= controller.up * DiveGravity * Time.deltaTime;
+        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
         moveDirection += verticalMoveDirection;
 
         // upward movement if transitioned from dive state

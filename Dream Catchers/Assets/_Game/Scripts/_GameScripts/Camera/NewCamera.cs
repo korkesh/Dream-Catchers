@@ -132,10 +132,10 @@ public class NewCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        CheckLock(); // checks if the camera is "locked" (directly above player)
         UpdateMode();
-        ManualRotation();
 
-        //UpdateTarget();
+        ManualRotation();
 
         UpdateActiveVariables();
         UpdateHeight();
@@ -145,8 +145,6 @@ public class NewCamera : MonoBehaviour
 
         UpdateVectors();
         UpdateRotation();
-
-        //UpdateTarget();
 
         ManualLook();
         CheckOcclusion();
@@ -311,12 +309,11 @@ public class NewCamera : MonoBehaviour
         {
             //currentHeight -= Clamp()
         }
-        //currentHeight -= Clamp(Time.deltaTime, lastGround - Target.y, 0f) * 0.5f;
+        currentHeight -= Clamp(0f, Time.deltaTime, lastGround - Target.y) * 0.5f;
 
         TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
 
         heightOffset = currentHeight - (transform.position.y - Player.transform.position.y); // store how far height is from currentHeight
-
         Vector3 prevPos = transform.position; // store position pre-move in case of collision
 
         //if (TargetPos.y > transform.position.y)
@@ -527,6 +524,16 @@ public class NewCamera : MonoBehaviour
         }
     }
 
+
+    void CheckLock()
+    {
+        if (Mathf.Abs(transform.position.x - Player.transform.position.x) < 0.1f && Mathf.Abs(transform.position.z - Player.transform.position.z) < 0.1f)
+        {
+            transform.position = Player.transform.position;
+            transform.position -= Player.transform.forward * currentFollowDistance;
+            transform.position += Vector3.up * currentHeight;
+        }
+    }
 
     // resets camera to behind hunter immediately
     public void Reset()
