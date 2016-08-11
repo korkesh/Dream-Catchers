@@ -32,7 +32,9 @@ public class SmallClownAI : MonoBehaviour {
     public float speedOfRotation;
     bool jumping;
     float airTime;
+    ManipulationManager.WORLD_STATE curState;
 
+    public Animator anim;
 
     //================================
     // Methods
@@ -53,6 +55,7 @@ public class SmallClownAI : MonoBehaviour {
         index = 0;
         reverse = false;
         airTime = 1;
+        curState = ManipulationManager.WORLD_STATE.DREAM;
 	}
 	
 	// Update is called once per frame
@@ -73,6 +76,14 @@ public class SmallClownAI : MonoBehaviour {
             //bock does nothing in dream
             if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
             {
+                if (anim != null )
+                {
+                    if(curState != ManipulationManager.WORLD_STATE.NIGHTMARE)
+                    {
+                        anim.SetTrigger("Idle");
+                        curState = ManipulationManager.WORLD_STATE.NIGHTMARE;
+                    }
+                }
                 //enemy waits a bit throws a ball waits some more then jumps to new spot .. repeat
                 //rigidB.constraints = RigidbodyConstraints.None;
                 //rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
@@ -117,7 +128,15 @@ public class SmallClownAI : MonoBehaviour {
             }
             else
             {
+                if (anim != null)
+                {
 
+                    if (curState != ManipulationManager.WORLD_STATE.DREAM)
+                    {
+                        anim.SetTrigger("Closed");
+                        curState = ManipulationManager.WORLD_STATE.DREAM;
+                    }
+                }
                 readyingAttack = true;
                 attackDelayTime = 0.5f;
                 moveDelayTime = DelayToMove;
@@ -158,6 +177,10 @@ public class SmallClownAI : MonoBehaviour {
         }
         Rigidbody rocketClone = rocket.GetComponent<Rigidbody>();
         rocketClone.velocity = Jump(Player.transform.position, LuanchAngle,LaunchPoint.transform);
+        //if (anim != null)
+        //{
+        //        anim.SetTrigger("Attack");
+        //}
     }
 
     //destroys ball 
