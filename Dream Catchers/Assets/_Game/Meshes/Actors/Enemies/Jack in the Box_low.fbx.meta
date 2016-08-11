@@ -34,6 +34,7 @@ ModelImporter:
     7400002: Armature|Jack Closed
     7400004: Armature|Jack in the Box
     7400006: Jack in the Box |Jack Closed
+    7400008: secondIdle
     9500000: //RootNode
     13700000: 'Jack in the Box '
     13700002: Jack in the Box Clown
@@ -58,7 +59,257 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Armature|Jack Attack
+      takeName: Armature|Jack Attack
+      firstFrame: 0
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Box
+        weight: 1
+      - path: Armature/Box/Box_end
+        weight: 1
+      - path: Armature/Jack
+        weight: 1
+      - path: Armature/Jack/Jack_end
+        weight: 1
+      - path: Armature/Lid
+        weight: 1
+      - path: Armature/Lid/Lid_end
+        weight: 1
+      - path: 'Jack in the Box '
+        weight: 1
+      - path: Jack in the Box Clown
+        weight: 1
+      - path: Jack in the Box Lid
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Jack Closed
+      takeName: Armature|Jack Closed
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Box
+        weight: 1
+      - path: Armature/Box/Box_end
+        weight: 1
+      - path: Armature/Jack
+        weight: 1
+      - path: Armature/Jack/Jack_end
+        weight: 1
+      - path: Armature/Lid
+        weight: 1
+      - path: Armature/Lid/Lid_end
+        weight: 1
+      - path: 'Jack in the Box '
+        weight: 1
+      - path: Jack in the Box Clown
+        weight: 1
+      - path: Jack in the Box Lid
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Jack in the Box
+      takeName: Armature|Jack in the Box
+      firstFrame: 0
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Box
+        weight: 1
+      - path: Armature/Box/Box_end
+        weight: 1
+      - path: Armature/Jack
+        weight: 1
+      - path: Armature/Jack/Jack_end
+        weight: 1
+      - path: Armature/Lid
+        weight: 1
+      - path: Armature/Lid/Lid_end
+        weight: 1
+      - path: 'Jack in the Box '
+        weight: 1
+      - path: Jack in the Box Clown
+        weight: 1
+      - path: Jack in the Box Lid
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Jack in the Box |Jack Closed
+      takeName: Jack in the Box |Jack Closed
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Box
+        weight: 1
+      - path: Armature/Box/Box_end
+        weight: 1
+      - path: Armature/Jack
+        weight: 1
+      - path: Armature/Jack/Jack_end
+        weight: 1
+      - path: Armature/Lid
+        weight: 1
+      - path: Armature/Lid/Lid_end
+        weight: 1
+      - path: 'Jack in the Box '
+        weight: 1
+      - path: Jack in the Box Clown
+        weight: 1
+      - path: Jack in the Box Lid
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: secondIdle
+      takeName: Armature|Jack in the Box
+      firstFrame: 9.9
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Box
+        weight: 1
+      - path: Armature/Box/Box_end
+        weight: 1
+      - path: Armature/Jack
+        weight: 1
+      - path: Armature/Jack/Jack_end
+        weight: 1
+      - path: Armature/Lid
+        weight: 1
+      - path: Armature/Lid/Lid_end
+        weight: 1
+      - path: 'Jack in the Box '
+        weight: 1
+      - path: Jack in the Box Clown
+        weight: 1
+      - path: Jack in the Box Lid
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
