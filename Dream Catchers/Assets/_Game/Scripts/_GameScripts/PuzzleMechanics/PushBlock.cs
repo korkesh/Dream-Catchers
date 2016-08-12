@@ -37,8 +37,16 @@ public class PushBlock : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
+        //If the box is moving and collides with the wall, stop the rolling sound and play a thud
+        if (gameObject.GetComponent<Rigidbody>().velocity.magnitude < 0.01f && GetComponent<AudioSource>().isPlaying)
+        {
+            GetComponent<AudioSource>().Stop();
+            gameObject.SendMessage("PlayAlt");
+
+        }
         if(gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
         {
+
             return;
         }
 
@@ -61,12 +69,14 @@ public class PushBlock : MonoBehaviour {
         }
     }
 
+
     /// <summary>
     /// Pushes a box in the direction the character is facing by the pushpower amount over pushtime seconds.
     /// The box will not be pushed if the character comes at it from an angle.
     /// </summary>
     public void Push()
     {
+
         if (gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
         {
             return;
@@ -100,6 +110,8 @@ public class PushBlock : MonoBehaviour {
         pushTo = new Vector3(pushDir.x * pushDistance, 0, pushDir.z * pushDistance);
 
         gameObject.GetComponent<Rigidbody>().velocity = pushTo / pushTime;
+
+        gameObject.SendMessage("Play");
 
     }
 }

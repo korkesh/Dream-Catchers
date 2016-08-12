@@ -71,6 +71,8 @@ public class ManipulationBouncePad : ManipulationScript
             player.GetComponent<PlayerMachine>().MinJumpHeight = bounceMinHeight;
             player.GetComponent<PlayerMachine>().JumpAcceleration = bounceAcceleration;
 
+            gameObject.SendMessage("Play");
+
             if (bouncePadAnim != null)
             {
                 bouncePadAnim.SetTrigger("Bounce");

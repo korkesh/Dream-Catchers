@@ -25,13 +25,15 @@ public class HealthManager : MonoBehaviour {
         if(currentHealth <= 0)
         {
             spawns = true;
-
-            Explode explode = gameObject.GetComponent<Explode>();
-            if(explode)
+            if (GetComponent<PlaySound>())
             {
-                explode.explosion();
+                PlaySound sound = GetComponent<PlaySound>();
+                if (sound.correspondingSound)
+                {
+                    GameObject soundObj = Instantiate(sound.correspondingSound);
+                    Destroy(soundObj, 1);
+                }
             }
-
             Destroy(gameObject);
         }
 	}

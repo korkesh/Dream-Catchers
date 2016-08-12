@@ -37,6 +37,7 @@ public class BalloonRun2 : BaseState {
         {
             Debug.Log("error no animator");
         }
+
     }
 
 
@@ -67,6 +68,7 @@ public class BalloonRun2 : BaseState {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("BalloonAnimalRun") == false)
             {
                 anim.SetTrigger("Run");
+                gameObject.SendMessage("Play");
             }
         }
         else

@@ -25,6 +25,9 @@ public class PlayerCombat : MonoBehaviour
     private PlayerMachine machine;
     private PlayerInputController input;
 
+
+    public AudioClip damageSound;
+
     // Use this for initialization
     void Start()
     {
@@ -119,6 +122,8 @@ public class PlayerCombat : MonoBehaviour
     {
         gameObject.GetComponent<Collider>().enabled = false;
         StartCoroutine(DamageEnd());
+
+        GetComponent<AudioSource>().PlayOneShot(damageSound);
     }
 
     // Turn off invincibility

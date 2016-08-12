@@ -33,7 +33,7 @@ public class CheckPoints : MonoBehaviour
             Level_Manager.Instance.newCheckPoint(position, transform.rotation.eulerAngles, SceneManager.GetActiveScene().name);
             Level_Manager.Instance.checkPointContinue = true;
             lightbulb.enabled = true;
-
+            gameObject.SendMessage("Play");
         }
 
     }

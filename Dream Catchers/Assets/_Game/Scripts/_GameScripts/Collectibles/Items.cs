@@ -82,7 +82,17 @@ public class Items : MonoBehaviour {
             {
                 PlayerPrefs.SetInt(key, 1);
             }
-            
+
+            if (GetComponent<PlaySound>())
+            {
+                PlaySound sound = GetComponent<PlaySound>();
+                if (sound.correspondingSound)
+                {
+                    GameObject soundObj = Instantiate(sound.correspondingSound);
+                    Destroy(soundObj, 1);
+                }
+            }
+
             Destroy(gameObject);
         }
     }
