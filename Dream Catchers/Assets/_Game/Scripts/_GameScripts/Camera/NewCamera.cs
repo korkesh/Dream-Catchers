@@ -109,6 +109,7 @@ public class NewCamera : MonoBehaviour
     // *** Debug ***
     public GameObject test1;
     public GameObject test2;
+    private bool toggle360 = true;
 
 
     void Start()
@@ -158,6 +159,12 @@ public class NewCamera : MonoBehaviour
         CheckOcclusion();
 
         UpdateTarget();
+
+        // debug:
+        if ((Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.C)) || (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.X)))
+        {
+            toggle360 = !toggle360;
+        }
     }
 
 
@@ -234,7 +241,7 @@ public class NewCamera : MonoBehaviour
             rotate = false;
             RaycastHit hit;
 
-            if (input.Current.LTrigger > 0.25f || input.Current.RTrigger > 0.25f)
+            if (input.Current.LTrigger > 0.2f || input.Current.RTrigger > 0.2f)
             {
                 rotate = true;
                 if (currentRotateSpeed < 6f)
@@ -319,12 +326,7 @@ public class NewCamera : MonoBehaviour
         lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
 
         currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight));
-
-        if (Mode == CameraMode.Low)
-        {
-            //currentHeight -= Clamp()
-        }
-        currentHeight -= Clamp(0f, Time.deltaTime, lastGround - Target.y) * 0.5f;
+        currentHeight -= Clamp(0f, Time.deltaTime, lastGround - Target.y);
 
         TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
 
@@ -416,9 +418,9 @@ public class NewCamera : MonoBehaviour
         Root.y = lastGround + currentHeight;
 
         // manual look rotation around x-axis
-        if (Mathf.Abs(input.Current.Joy2Input.x) < 0.25f)
+        if (Mathf.Abs(input.Current.Joy2Input.x) < 0.2f || toggle360)
         {
-            if (Mathf.Abs(input.Current.Joy2Input.z) > 0.25f && machine.ground)
+            if (Mathf.Abs(input.Current.Joy2Input.z) > 0.45f && machine.ground)
             {
                 // rotation
                 xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);

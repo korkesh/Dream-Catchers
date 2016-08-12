@@ -535,10 +535,12 @@ public class PlayerMachine : SuperStateMachine {
         jumping = true;
         JumpTimer = 0;
 
+        hasDoubleJump = false;
+
         ground = false;
 
-        gameObject.GetComponent<Animator>().SetBool("Jumping", true);
-
+        gameObject.GetComponent<Animator>().SetBool("DoubleJump", true);
+    
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
@@ -568,10 +570,11 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // double jump condition
-        if (input.Current.JumpInput && hasDoubleJump)
+        // fall condition
+        if (finishDoubleJump)
         {
-            currentState = PlayerStates.DoubleJump;
+            finishDoubleJump = false;
+            currentState = PlayerStates.Fall;
             return;
         }
 
@@ -660,7 +663,7 @@ public class PlayerMachine : SuperStateMachine {
     void SkidJump_ExitState()
     {
         jumping = false;
-        gameObject.GetComponent<Animator>().SetBool("Jumping", false);
+        gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
     }
 
 
@@ -924,10 +927,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void FinishDoubleJump()
     {
-        Debug.Log("Finish double jump");
         finishDoubleJump = true;
-        //gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
-        //gameObject.GetComponent<Animator>().SetBool("Falling", true);
     }
 
     //----------------------------------------------
@@ -1158,6 +1158,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Slide_EnterState()
     {
+        diving = false; // if the player falls off an edge in slide state they can dive again, but not out of roll
+
         gameObject.GetComponent<Animator>().SetBool("Sliding", true);
 
         slideTimer = 0f;
@@ -1242,6 +1244,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Roll_EnterState()
     {
+        diving = true;
         speed = rollSpeed;
 
         gameObject.GetComponent<Animator>().SetBool("Rolling", true);
