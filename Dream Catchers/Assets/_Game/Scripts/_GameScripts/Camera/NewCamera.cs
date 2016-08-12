@@ -96,6 +96,8 @@ public class NewCamera : MonoBehaviour
 
     private bool autoRotating; // whether the camera is currently in autorotate mode
 
+    bool collision = false; // set to true each frame if any collision occurred (prevents target updating/jitter)
+
     //==========================================
     // Smoothing Coefficients
     //==========================================
@@ -138,8 +140,12 @@ public class NewCamera : MonoBehaviour
         ManualRotation();
 
         UpdateActiveVariables();
-        UpdateHeight();
-        ConstrainDistance();
+
+        if ((!collision && floorArc == 0f) || Math3d.ProjectVectorOnPlane(controller.up, (Player.transform.position + vTargetOffset) - transform.position).magnitude > currentFollowDistance)
+        {
+            UpdateHeight();
+            ConstrainDistance();
+        }
 
         UpdateTarget();
 
@@ -147,6 +153,8 @@ public class NewCamera : MonoBehaviour
         UpdateRotation();
 
         ManualLook();
+
+        collision = false;
         CheckOcclusion();
 
         UpdateTarget();
@@ -283,7 +291,7 @@ public class NewCamera : MonoBehaviour
         Vector3 right = Vector3.Cross(Vector3.up, BaseDisplacement.normalized);
         Target += (right * align * lookDistance);
 
-        // smoothly move target left/right in ground state
+        // smoothly move target left/right in ground state or with occlusion avoidance active
         if (machine.ground && !machine.jumping)
         {
             currentTargetOffset = Clamp(-lookDistance, lookDistance, currentTargetOffset + (Mathf.Sign(align * lookDistance - currentTargetOffset) * Time.deltaTime /* 0.5f */* Mathf.Abs(align * lookDistance - currentTargetOffset)));
@@ -387,36 +395,8 @@ public class NewCamera : MonoBehaviour
             }
         }
 
-        // x - axis rotation: 
-        // TODO: look further downward
-        // in air states, rotate down further if player goes below viewport threshold
-        //if (machine.moveDirection.y < -17.5f)
-        //{
-        //    Vector3 DisplacementDir = (Target - transform.position).normalized;
-        //    if (DisplacementDir.y < transform.forward.y)// - 0.25f)//0.225f)
-        //    {
-        //        if (Vector3.Cross(transform.forward, DisplacementDir).magnitude > 0.2f)
-        //        {
-        //            //Debug.Log("changing angle");
-        //            angleOffset = Mathf.Max(angleOffset, Vector3.Angle(transform.forward, DisplacementDir));
-        //        }
-        //    }
-        //}
-
         // TODO: fix rotation smoothening
         transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle + angleOffset - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed, transform.eulerAngles.y, transform.eulerAngles.z);
-    }
-
-
-    // checks for first collision point along ray between start/end TODO: raycast ignore layer to get wall hits thru obstacles
-    bool CheckCollision(Vector3 Start, Vector3 End, out RaycastHit hit)
-    {
-        if (Physics.Raycast(Start, (End - Start).normalized, out hit, (End - Start).magnitude))
-        {
-            return true;
-        }
-
-        return false;
     }
 
 
@@ -465,12 +445,18 @@ public class NewCamera : MonoBehaviour
         {
             if (hit.transform.gameObject.tag == "Wall")
             {
+                collision = true;
+                floorArc = 0f;
                 transform.position = new Vector3(hit.point.x, /*transform.position*/hit.point.y, hit.point.z);//hit.point;
-                UpdateTarget();
-                UpdateRotation();
+                //UpdateTarget();
+                //UpdateRotation();
             }
         }
 
+        if (collision)
+        {
+            return;
+        }
 
         // Floor Occlusion
         // get root position (pre look interpolation)
@@ -485,20 +471,19 @@ public class NewCamera : MonoBehaviour
         transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
 
         float prevFloorArc = floorArc;
-        bool col = false; // set to true if a floor was obstructing us this frame
 
         if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
         {
             if (hit.transform.gameObject.tag == "Floor")
             {
-                col = true;
+                collision = true;
                 xRotationOffset = 0f;
                 floorArc = Clamp(0f, 60f, floorArc + Time.deltaTime * 32f);
             }
         }
 
         // if no collision, try to rotate back
-        if (!col)
+        if (!collision)
         {
             floorArc = Clamp(0f, 60f, floorArc - Time.deltaTime * 32f);
 
@@ -510,10 +495,11 @@ public class NewCamera : MonoBehaviour
 
 
         // if there wasn't a collision at the beginning of the frame and there is now, revert
-        if (!col && CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+        if (!collision && CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
         {
             if (hit.transform.gameObject.tag == "Floor")
             {
+                collision = false;
                 floorArc = prevFloorArc;
 
                 Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
@@ -525,6 +511,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // resets camera to behind player instantly if it's stuck directly above them
     void CheckLock()
     {
         if (Mathf.Abs(transform.position.x - Player.transform.position.x) < 0.1f && Mathf.Abs(transform.position.z - Player.transform.position.z) < 0.1f)
@@ -533,6 +520,18 @@ public class NewCamera : MonoBehaviour
             transform.position -= Player.transform.forward * currentFollowDistance;
             transform.position += Vector3.up * currentHeight;
         }
+    }
+
+
+    // checks for first collision point along ray between start/end TODO: raycast ignore layer to get wall hits thru obstacles
+    bool CheckCollision(Vector3 Start, Vector3 End, out RaycastHit hit)
+    {
+        if (Physics.Raycast(Start, (End - Start).normalized, out hit, (End - Start).magnitude))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     // resets camera to behind hunter immediately
@@ -557,32 +556,4 @@ public class NewCamera : MonoBehaviour
         return val;
     }
 
-
-    //// autorotates 1/8 circle, faster than stick
-    //IEnumerator AutoRotate(float dir)
-    //{
-    //    for (int i = 0; i < 20; i++)
-    //    {
-    //        // rotate set amount until collision or finish
-    //        rotate = true;
-    //        transform.RotateAround(Player.transform.position, controller.up, (45 / 20) * dir);
-
-    //        // if rotation caused a collision revert
-    //        RaycastHit hit;
-    //        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
-    //        {
-    //            if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
-    //            {
-    //                transform.RotateAround(Player.transform.position, controller.up, 0.05f * rotateSpeed * -dir);
-    //                rotate = false;
-    //                autoRotating = false;
-    //                yield break;
-    //            }
-    //        }
-
-    //        yield return new WaitForSeconds(0.0025f);
-    //    }
-
-    //    autoRotating = false;
-    //}
 }
