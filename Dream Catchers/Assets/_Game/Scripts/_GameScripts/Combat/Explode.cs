@@ -5,7 +5,7 @@ public class Explode : MonoBehaviour {
 
     public GameObject SplinterPrefab;
 
-    void OnDestroy()
+    public void explosion()
     {
         Instantiate(SplinterPrefab, transform.position, transform.rotation);
     }

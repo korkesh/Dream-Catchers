@@ -25,6 +25,13 @@ public class HealthManager : MonoBehaviour {
         if(currentHealth <= 0)
         {
             spawns = true;
+
+            Explode explode = gameObject.GetComponent<Explode>();
+            if(explode)
+            {
+                explode.explosion();
+            }
+
             Destroy(gameObject);
         }
 	}

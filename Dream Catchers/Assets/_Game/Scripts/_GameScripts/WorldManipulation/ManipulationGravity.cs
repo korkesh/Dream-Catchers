@@ -33,7 +33,6 @@ public class ManipulationGravity : ManipulationScript {
     {
         // Set the default world state
         currentManipType = MANIPULATION_TYPE.OTHER;
-
     }
 
     void FixedUpdate()
