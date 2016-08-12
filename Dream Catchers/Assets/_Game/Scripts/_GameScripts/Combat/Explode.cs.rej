@@ -1,0 +1,26 @@
+diff a/Dream Catchers/Assets/_Game/Scripts/_GameScripts/Combat/Explode.cs b/Dream Catchers/Assets/_Game/Scripts/_GameScripts/Combat/Explode.cs	(rejected hunks)
+@@ -4,10 +4,23 @@
+ public class Explode : MonoBehaviour {
+ 
+     public GameObject SplinterPrefab;
++    public HealthManager HM;
+ 
+     public void explosion()
+     {
+-        Instantiate(SplinterPrefab, transform.position, transform.rotation);
++        if(HM == null)
++        {
++           HM = this.GetComponent<HealthManager>();
++        }
++
++        if(HM != null)
++        {
++            if(HM.currentHealth <= 0)
++            {
++                Instantiate(SplinterPrefab, transform.position, transform.rotation);
++            }
++        }
++        
+     }
+ 
+ }
