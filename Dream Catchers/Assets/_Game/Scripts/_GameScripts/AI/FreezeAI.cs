@@ -22,7 +22,7 @@ public class FreezeAI : MonoBehaviour {
                 enemyCollider = this.GetComponent<Collider>();
             }
 
-            if(Game_Manager.instance.currentGameState != Game_Manager.GameState.PLAY)
+            if(Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.PLAY)
             {
                 AIFSM.enabled = false;
                 enemyCollider.enabled = false;

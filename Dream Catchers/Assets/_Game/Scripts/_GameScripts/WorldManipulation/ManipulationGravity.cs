@@ -22,6 +22,7 @@ public class ManipulationGravity : ManipulationScript {
     public float maxDist;
     public float minDist;
     public float timeToFloat;
+    public float minY;
 
     public bool floatInDream;
     public bool floatInNightmare;
@@ -96,6 +97,10 @@ public class ManipulationGravity : ManipulationScript {
         {
             // Move by offset distance
             Vector3 toMove = new Vector3(transform.position.x, transform.position.y + (minDist - hit.distance), transform.position.z);
+            if(toMove.y < minY)
+            {
+                toMove.y = minY;
+            }
             transform.DOMove(toMove, timeToFloat);
         }
     }
