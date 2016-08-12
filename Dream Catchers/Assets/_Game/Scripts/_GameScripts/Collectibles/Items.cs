@@ -70,6 +70,9 @@ public class Items : MonoBehaviour {
             }
             else
             {
+                Game_Manager.instance.changeGameState(Game_Manager.GameState.CINEMATIC);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("Celebrate");
+
                 Character_Manager.Instance.CollectMemoryFrag();
 
             }
