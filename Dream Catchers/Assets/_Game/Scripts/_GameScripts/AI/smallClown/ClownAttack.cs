@@ -316,6 +316,9 @@ public class ClownAttack : MonoBehaviour {
     {
         if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && exploded == false)
         {
+            GetComponent<AudioSource>().Stop();
+            gameObject.SendMessage("PlayAlt");
+
             //Destroy(this.gameObject);
             spCollider.enabled = false;
             rigidB.useGravity = false;

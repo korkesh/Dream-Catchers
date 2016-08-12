@@ -38,12 +38,12 @@ public class PushBlock : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         //If the box is moving and collides with the wall, stop the rolling sound and play a thud
-        if (gameObject.GetComponent<Rigidbody>().velocity.magnitude < 0.01f && GetComponent<AudioSource>().isPlaying)
+        if (gameObject.GetComponent<Rigidbody>().velocity.magnitude < 0.1f && GetComponent<AudioSource>().isPlaying)
         {
             GetComponent<AudioSource>().Stop();
-            gameObject.SendMessage("PlayAlt");
-
+            //gameObject.SendMessage("PlayAlt");
         }
+
         if(gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
         {
 

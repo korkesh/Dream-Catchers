@@ -33,7 +33,10 @@ public class ManipulationScale : ManipulationScript {
         // Scale object to the given position over the given time duration
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM)
         {
-            gameObject.SendMessage("Play");
+            if(gameObject.GetComponent<AudioSource>())
+            {
+                gameObject.SendMessage("Play");
+            }
             objectTransform.DOScale(scaleDream, scaleDuration);
             if(isBoundry)
             {
@@ -41,8 +44,11 @@ public class ManipulationScale : ManipulationScript {
             }
         }
         else
-        {
-            gameObject.SendMessage("PlayAlt");
+        {            
+            if (gameObject.GetComponent<AudioSource>())
+            {
+                gameObject.SendMessage("PlayAlt");
+            }
             objectTransform.DOScale(scaleNightmare, scaleDuration);
         }
     }

@@ -22,6 +22,8 @@ public class Items : MonoBehaviour {
     public Type type;
     public string Scene;
     public Level_Manager.Levels Level;
+    public GameObject sound;
+
     [HideInInspector]
     public string key;
     //================================
@@ -60,6 +62,9 @@ public class Items : MonoBehaviour {
         {
             if(type == Type.COLLECTIBLE)
             {
+                GameObject soundObject = Instantiate(sound, transform.position, transform.rotation) as GameObject;
+                Destroy(soundObject, soundObject.GetComponent<AudioSource>().clip.length);
+
                 Character_Manager.Instance.CollectOtherCollectible();
                 Level_Manager.Instance.updateLevelTickets(this);
                 

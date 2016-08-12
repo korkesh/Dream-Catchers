@@ -17,8 +17,10 @@ public class UIText : MonoBehaviour {
             InGameStats igs = GameObject.FindObjectOfType<InGameStats>();
             if (igs != null)
             {
-                igs.ShowTextInBox(sentence, time); 
-            } 
+                igs.ShowTextInBox(sentence, time);
+                gameObject.SendMessage("Play");
+
+            }
         }
     }
 }

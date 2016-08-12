@@ -9,6 +9,11 @@ public class PlaySound : MonoBehaviour {
     public GameObject soundCollider;
     public bool collide;
 
+    void Start()
+    {
+
+    }
+
     void Play()
     {
         GetComponent<AudioSource>().PlayOneShot(sound);
@@ -24,7 +29,9 @@ public class PlaySound : MonoBehaviour {
     void OnCollisionEnter(Collision other)
     {
         if (collide)
+        {
             Play();
+        }
 
     }
 
