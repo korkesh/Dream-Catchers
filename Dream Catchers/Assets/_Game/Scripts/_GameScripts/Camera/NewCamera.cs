@@ -173,7 +173,7 @@ public class NewCamera : MonoBehaviour
                     if (!machine.jumping)
                     {
                         currentHeight = hHeightGround;
-                        currentAngle = hAngleGround + xRotationOffset;
+                        currentAngle = hAngleGround + xRotationOffset + floorArc;
                         angleOffset = 0;
                     }
                     else
@@ -282,6 +282,7 @@ public class NewCamera : MonoBehaviour
         Target = Player.transform.position + vTargetOffset + sphereOffset; // base pos
 
         // determine how aligned player forward is with displacement vector
+
         BaseDisplacement = (Player.transform.position - transform.position);
         BaseDisplacement.y = 0;
 
@@ -289,7 +290,13 @@ public class NewCamera : MonoBehaviour
 
         // local right is inconsistent as camera looks ahead of player, so use cross of up/cam-player dir as constant right
         Vector3 right = Vector3.Cross(Vector3.up, BaseDisplacement.normalized);
+
         Target += (right * align * lookDistance);
+
+        if (collision || floorArc > 0f)
+        { // focus on character origin when in a collision state
+            align = 0f;
+        }
 
         // smoothly move target left/right in ground state or with occlusion avoidance active
         if (machine.ground && !machine.jumping)
@@ -359,6 +366,7 @@ public class NewCamera : MonoBehaviour
 
     void ConstrainDistance()
     {
+        Debug.Log("constrain");
         // follow player via their movement direction if rotation hasn't been manipulated this frame
         if (!rotate)
         {
@@ -439,24 +447,7 @@ public class NewCamera : MonoBehaviour
 
     void CheckOcclusion()
     {
-        // Wall Occlusion
         RaycastHit hit = new RaycastHit();
-        if (CheckCollision(Player.transform.position + vTargetOffset * 0.2f, transform.position, out hit))
-        {
-            if (hit.transform.gameObject.tag == "Wall")
-            {
-                collision = true;
-                floorArc = 0f;
-                transform.position = new Vector3(hit.point.x, /*transform.position*/hit.point.y, hit.point.z);//hit.point;
-                //UpdateTarget();
-                //UpdateRotation();
-            }
-        }
-
-        if (collision)
-        {
-            return;
-        }
 
         // Floor Occlusion
         // get root position (pre look interpolation)
@@ -472,40 +463,78 @@ public class NewCamera : MonoBehaviour
 
         float prevFloorArc = floorArc;
 
-        if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+        for (int i = 0; i < 32; i++)
         {
-            if (hit.transform.gameObject.tag == "Floor")
+            if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
             {
-                collision = true;
-                xRotationOffset = 0f;
-                floorArc = Clamp(0f, 60f, floorArc + Time.deltaTime * 32f);
+                if (hit.transform.gameObject.tag == "Floor")
+                {
+                    collision = true;
+                    xRotationOffset = 0f;
+                    floorArc = Clamp(0f, 60f, floorArc + Time.deltaTime * 4f);
+
+                    Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+                    Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+
+                    transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                break;
             }
         }
 
         // if no collision, try to rotate back
         if (!collision)
         {
-            floorArc = Clamp(0f, 60f, floorArc - Time.deltaTime * 32f);
-
-            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-
-            transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
-        }
-
-
-        // if there wasn't a collision at the beginning of the frame and there is now, revert
-        if (!collision && CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
-        {
-            if (hit.transform.gameObject.tag == "Floor")
+            for (int i = 0; i < 32; i++)
             {
-                collision = false;
-                floorArc = prevFloorArc;
+                if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+                {
+                    if (hit.transform.gameObject.tag == "Floor")
+                    {
+                        break;
+                    }
+                }
+
+                floorArc = Clamp(0f, 60f, floorArc - Time.deltaTime * 4f);
 
                 Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
                 Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
 
                 transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+            }
+        }
+
+
+        // if there wasn't a collision at the beginning of the frame and there is now, revert
+        //if (!collision && CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+        //{
+        //    if (hit.transform.gameObject.tag == "Floor")
+        //    {
+        //        floorArc = prevFloorArc;
+
+        //        Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+        //        Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+
+        //        transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+        //    }
+        //}
+
+
+        // Wall Occlusion   
+        if (CheckCollision(Player.transform.position + vTargetOffset * 0.2f, transform.position, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Wall")
+            {
+                collision = true;
+                transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
             }
         }
     }
