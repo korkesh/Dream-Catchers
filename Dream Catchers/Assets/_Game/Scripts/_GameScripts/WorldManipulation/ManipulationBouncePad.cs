@@ -10,6 +10,7 @@ using System.Collections;
 public class ManipulationBouncePad : ManipulationScript
 {
     public GameObject player; // The player to act upon
+    private PlayerMachine machine;
 
     public Animator bouncePadAnim;
 
@@ -33,9 +34,10 @@ public class ManipulationBouncePad : ManipulationScript
         // Set the default world state
         currentManipType = MANIPULATION_TYPE.OTHER;
         player = GameObject.FindGameObjectWithTag("Player");
-        originalMaxHeight = player.GetComponent<PlayerMachine>().MaxJumpHeight;
-        originalMinHeight = player.GetComponent<PlayerMachine>().MinJumpHeight;
-        originalAcceleration = player.GetComponent<PlayerMachine>().JumpAcceleration;
+        machine = player.GetComponent<PlayerMachine>();
+        originalMaxHeight = machine.MaxJumpHeight;
+        originalMinHeight = machine.MinJumpHeight;
+        originalAcceleration = machine.JumpAcceleration;
 
         setBounce();
     }
@@ -67,9 +69,9 @@ public class ManipulationBouncePad : ManipulationScript
     {
         if (bounceObject && other.gameObject == player)
         {
-            player.GetComponent<PlayerMachine>().MaxJumpHeight = bounceMaxHeight;
-            player.GetComponent<PlayerMachine>().MinJumpHeight = bounceMinHeight;
-            player.GetComponent<PlayerMachine>().JumpAcceleration = bounceAcceleration;
+            machine.MaxJumpHeight = bounceMaxHeight;
+            machine.MinJumpHeight = bounceMinHeight;
+            machine.JumpAcceleration = bounceAcceleration;
 
             if (bouncePadAnim != null)
             {
@@ -82,12 +84,12 @@ public class ManipulationBouncePad : ManipulationScript
     {
         if(bounceObject && other.gameObject == player)
         {
-            player.GetComponent<PlayerMachine>().MaxJumpHeight = bounceMaxHeight;
-            player.GetComponent<PlayerMachine>().MinJumpHeight = bounceMinHeight;
-            player.GetComponent<PlayerMachine>().JumpAcceleration = bounceAcceleration;
+            machine.MaxJumpHeight = bounceMaxHeight;
+            machine.MinJumpHeight = bounceMinHeight;
+            machine.JumpAcceleration = bounceAcceleration;
 
             PlayerInputController inputScript = other.gameObject.GetComponent<PlayerInputController>();
-            inputScript.toggleJump = true;
+            machine.hasDoubleJump = true;
 
             StartCoroutine(ResetJump());
         }
@@ -97,18 +99,18 @@ public class ManipulationBouncePad : ManipulationScript
     {
         yield return new WaitForSeconds(jumpReset);
 
-        player.GetComponent<PlayerMachine>().MaxJumpHeight = originalMaxHeight;
-        player.GetComponent<PlayerMachine>().MinJumpHeight = originalMinHeight;
-        player.GetComponent<PlayerMachine>().JumpAcceleration = originalAcceleration;
+        machine.MaxJumpHeight = originalMaxHeight;
+        machine.MinJumpHeight = originalMinHeight;
+        machine.JumpAcceleration = originalAcceleration;
     }
 
     /*public void OnTriggerExit(Collider other)
     {
         if (bounceObject && other.gameObject == player)
         {
-            player.GetComponent<PlayerMachine>().MaxJumpHeight = originalMaxHeight;
-            player.GetComponent<PlayerMachine>().MinJumpHeight = originalMinHeight;
-            player.GetComponent<PlayerMachine>().JumpAcceleration = originalAcceleration;
+            machine.MaxJumpHeight = originalMaxHeight;
+            machine.MinJumpHeight = originalMinHeight;
+            machine.JumpAcceleration = originalAcceleration;
         }
     }*/
 

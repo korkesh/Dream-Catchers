@@ -84,6 +84,8 @@ public class PlayerMachine : SuperStateMachine {
     public Vector3 LastGroundPos { get; private set; } // position character was at last frame they were grounded
 
     public bool jumping = false; // set to true in active jump states (not fall/dive etc)
+    private bool finishDoubleJump = false;
+    public bool hasDoubleJump = true;
 
     // Physics
     public float Gravity = 25.0f;
@@ -275,6 +277,7 @@ public class PlayerMachine : SuperStateMachine {
     void Idle_EnterState()
     {
         diving = false;
+        hasDoubleJump = true;
 
         controller.EnableSlopeLimit();
         controller.EnableClamping();
@@ -286,6 +289,7 @@ public class PlayerMachine : SuperStateMachine {
             speed = 0;
             gameObject.GetComponent<Animator>().SetBool("Walking", false);
             gameObject.GetComponent<Animator>().SetBool("Running", false);
+            gameObject.GetComponent<Animator>().SetBool("Falling", false);
         }
     }
 
@@ -565,7 +569,7 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // double jump condition
-        if (input.Current.JumpInput && input.toggleJump != true)
+        if (input.Current.JumpInput && hasDoubleJump)
         {
             currentState = PlayerStates.DoubleJump;
             return;
@@ -626,7 +630,7 @@ public class PlayerMachine : SuperStateMachine {
 
             float desiredSpeed = magnitude * speedCoefficient * MaxRunSpeed;
 
-            new_ratio = 0.9f * Time.deltaTime * 10f;
+            new_ratio = 0.9f * Time.deltaTime * 6.75f;
             old_ratio = 1.0f - new_ratio;
 
             speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
@@ -636,7 +640,7 @@ public class PlayerMachine : SuperStateMachine {
         else
         {
             // slow to stop
-            new_ratio = 0.9f * Time.deltaTime * 5f;
+            new_ratio = 0.9f * Time.deltaTime * 2.75f;
             old_ratio = 1.0f - new_ratio;
 
             speed = clampF(0f, float.PositiveInfinity, (speed * old_ratio) - (speed * new_ratio));
@@ -657,7 +661,6 @@ public class PlayerMachine : SuperStateMachine {
     {
         jumping = false;
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
-        input.toggleJump = false;
     }
 
 
@@ -701,7 +704,7 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // double jump condition
-        if (input.Current.JumpInput && input.toggleJump != true)
+        if (input.Current.JumpInput && hasDoubleJump)
         {
             currentState = PlayerStates.DoubleJump;
             return;
@@ -763,17 +766,16 @@ public class PlayerMachine : SuperStateMachine {
 
             float desiredSpeed = magnitude * speedCoefficient * MaxRunSpeed;
 
-            new_ratio = 0.9f * Time.deltaTime * 10f;
+            new_ratio = 0.9f * Time.deltaTime * 6.75f;
             old_ratio = 1.0f - new_ratio;
 
             speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
-            Debug.Log(speed);
             moveDirection = transform.forward * speed;
         }
         else
         {
             // slow to stop
-            new_ratio = 0.9f * Time.deltaTime * 5f;
+            new_ratio = 0.9f * Time.deltaTime * 2.75f;
             old_ratio = 1.0f - new_ratio;
 
             speed = clampF(0f, float.PositiveInfinity, (speed * old_ratio) - (speed * new_ratio));
@@ -795,7 +797,6 @@ public class PlayerMachine : SuperStateMachine {
         jumping = false;
 
         gameObject.GetComponent<Animator>().SetBool("Jumping", false);
-        input.toggleJump = false;
     }
 
     //----------------------------------------------
@@ -804,6 +805,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void DoubleJump_EnterState()
     {
+        hasDoubleJump = false;
         jumping = true;
 
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", true);
@@ -824,8 +826,135 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
+        // fall condition
+        if (finishDoubleJump)
+        {
+            Debug.Log("transitioning from DJ to fall");
+            finishDoubleJump = false;
+            currentState = PlayerStates.Fall;
+            return;
+        }
+
+        // move player up against gravity for 0.5 seconds
+        if (JumpTimer + Time.deltaTime < JumpTime)
+        {
+            moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+            JumpTimer += Time.deltaTime;
+        }
+        else if (JumpTimer < JumpTime)
+        {
+            moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+            JumpTimer = JumpTime;
+        }
+
+
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
+        // landing condition
+        if (Vector3.Angle(verticalMoveDirection, controller.up) > 90 && AcquiringGround())
+        {
+            moveDirection = planarMoveDirection;
+            currentState = PlayerStates.Idle;
+            return;
+        }
+
+        // X/Z movement
+        float new_ratio;
+        float old_ratio;
+
+        if (input.Current.MoveInput != Vector3.zero)
+        {
+            // ROTATION:
+            new_ratio = 0.9f * Time.deltaTime * AirTurnSpeed;
+            old_ratio = 1.0f - new_ratio;
+
+            // hack: turn a tiny bit manually to avoid 180 degree lock
+            if (Vector3.Cross(transform.right, localMovement).y > 0.988f)
+            {
+                transform.forward = Quaternion.AngleAxis(1, controller.up) * transform.forward;
+            }
+
+            transform.forward = ((transform.forward * old_ratio).normalized + (localMovement * new_ratio)).normalized;
+
+            // SPEED:
+            float cross = Vector3.Cross(localMovement, transform.right).y; // speed is a function of how aligned the input direction is with the player forward vector
+            float speedCoefficient = (cross - -1) / (1 - -1); // normalize cross 0..1
+
+            // get desired speed
+            float magnitude = input.Current.MoveInput.magnitude;
+            if (magnitude > 0.9f)
+            {
+                magnitude = 1f;
+            }
+
+            float desiredSpeed = magnitude * speedCoefficient * MaxRunSpeed;
+
+            new_ratio = 0.9f * Time.deltaTime * 6.75f;
+            old_ratio = 1.0f - new_ratio;
+
+            speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
+            moveDirection = transform.forward * speed;
+        }
+        else
+        {
+            // slow to stop
+            new_ratio = 0.9f * Time.deltaTime * 2.75f;
+            old_ratio = 1.0f - new_ratio;
+
+            speed = clampF(0f, float.PositiveInfinity, (speed * old_ratio) - (speed * new_ratio));
+
+            moveDirection = transform.forward * speed;
+        }
+
+
+        // Y Movement
+        verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+        moveDirection += verticalMoveDirection;
+
+        planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        speed = planarMoveDirection.magnitude;
+    }
+
+    void DoubleJump_ExitState()
+    {
+        jumping = false;
+        gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
+    }
+
+    void FinishDoubleJump()
+    {
+        Debug.Log("Finish double jump");
+        finishDoubleJump = true;
+        //gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
+        //gameObject.GetComponent<Animator>().SetBool("Falling", true);
+    }
+
+    //----------------------------------------------
+    // Falling
+    //----------------------------------------------
+
+    void Fall_EnterState()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Falling", true);
+
+        controller.DisableClamping();
+        controller.DisableSlopeLimit();
+
+        // moveDirection = trueVelocity;
+    }
+
+    void Fall_SuperUpdate()
+    {
+        // dive condition
+        if (input.Current.DiveInput && !diving)
+        {
+            currentState = PlayerStates.Dive;
+            return;
+        }
+
         // double jump condition
-        if (input.Current.JumpInput && input.toggleJump != true)
+        if (input.Current.JumpInput && hasDoubleJump)
         {
             currentState = PlayerStates.DoubleJump;
             return;
@@ -887,17 +1016,16 @@ public class PlayerMachine : SuperStateMachine {
 
             float desiredSpeed = magnitude * speedCoefficient * MaxRunSpeed;
 
-            new_ratio = 0.9f * Time.deltaTime * 10f;
+            new_ratio = 0.9f * Time.deltaTime * 6.75f;
             old_ratio = 1.0f - new_ratio;
 
             speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
-            Debug.Log(speed);
             moveDirection = transform.forward * speed;
         }
         else
         {
             // slow to stop
-            new_ratio = 0.9f * Time.deltaTime * 5f;
+            new_ratio = 0.9f * Time.deltaTime * 2.75f;
             old_ratio = 1.0f - new_ratio;
 
             speed = clampF(0f, float.PositiveInfinity, (speed * old_ratio) - (speed * new_ratio));
@@ -912,52 +1040,6 @@ public class PlayerMachine : SuperStateMachine {
 
         planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
         speed = planarMoveDirection.magnitude;
-    }
-
-    void DoubleJump_ExitState()
-    {
-        jumping = false;
-        gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
-        input.toggleJump = false;
-    }
-
-    //----------------------------------------------
-    // Falling
-    //----------------------------------------------
-
-    void Fall_EnterState()
-    {
-        gameObject.GetComponent<Animator>().SetBool("Falling", true);
-
-        controller.DisableClamping();
-        controller.DisableSlopeLimit();
-
-        // moveDirection = trueVelocity;
-    }
-
-    void Fall_SuperUpdate()
-    {
-        // dive condition
-        if (input.Current.DiveInput && !diving)
-        {
-            currentState = PlayerStates.Dive;
-            return;
-        }
-
-        if (input.Current.JumpInput && !diving)
-        {
-            currentState = PlayerStates.DoubleJump;
-            return;
-        }
-
-        if (AcquiringGround())
-        {
-            moveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
-            currentState = PlayerStates.Idle;
-            return;
-        }
-
-        moveDirection -= controller.up * Gravity * Time.deltaTime;
     }
 
     void Fall_ExitState()
@@ -975,6 +1057,8 @@ public class PlayerMachine : SuperStateMachine {
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
+        hasDoubleJump = false;
+
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
 
         if (ground)
@@ -986,7 +1070,7 @@ public class PlayerMachine : SuperStateMachine {
         else
         {
             // entering dive from airstate provides additive forward speed, not static
-            moveDirection += transform.forward * clampF(0f, MaxDiveSpeed - planarMoveDirection.magnitude, (MaxDiveSpeed - maxAirSpeed) * 2.85f);
+            moveDirection += transform.forward * clampF(0f, MaxDiveSpeed - planarMoveDirection.magnitude, (MaxDiveSpeed - maxAirSpeed) * 1.25f);
         }
 
         ground = false;

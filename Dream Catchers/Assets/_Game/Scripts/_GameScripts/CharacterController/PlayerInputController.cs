@@ -12,8 +12,6 @@ public class PlayerInputController : MonoBehaviour
 
     public PlayerInput Current;
 
-    public bool toggleJump;
-
     public float moveBufferTimer = 0;
 
 	// Use this for initialization
@@ -43,7 +41,7 @@ public class PlayerInputController : MonoBehaviour
 
             bool attackInput = Input.GetButtonDown("Attack");
 
-            bool jumpInput = Input.GetButtonDown("Jump") || toggleJump;
+            bool jumpInput = Input.GetButtonDown("Jump");
             bool jumpHold = Input.GetButton("Jump");
             bool rButton = Input.GetButtonDown("R");
             bool diveInput = Input.GetButtonDown("Dive");
