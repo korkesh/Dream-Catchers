@@ -39,6 +39,7 @@ public class NewCamera : MonoBehaviour
     //==========================================
     // Constraints:
     //==========================================
+    [SerializeField]
     private float lastGround; // y value of ground either previously stood on or currently slightly above
 
     // y movement thresholds. approximately height of regular jump in high mode, lower to compensate for low mode
@@ -325,7 +326,7 @@ public class NewCamera : MonoBehaviour
         lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
 
         currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight)); // move up
-        currentHeight -= Clamp(0f, float.PositiveInfinity, lastGround - Target.y); // move down
+        //currentHeight -= Clamp(0f, float.PositiveInfinity, lastGround - Target.y); // move down
 
         TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
 
