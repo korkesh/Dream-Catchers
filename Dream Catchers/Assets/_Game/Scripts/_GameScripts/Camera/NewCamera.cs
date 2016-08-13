@@ -130,6 +130,11 @@ public class NewCamera : MonoBehaviour
 
         BaseDisplacement = (Player.transform.position - transform.position);
         BaseDisplacement.y = 0;
+
+        lastGround = controller.currentGround.groundHeight + vTargetOffset.y;
+
+        UpdateActiveVariables();
+        transform.eulerAngles = new Vector3(currentAngle + angleOffset, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
 
@@ -157,6 +162,11 @@ public class NewCamera : MonoBehaviour
 
         collision = false;
         CheckOcclusion();
+
+        if ((!collision && floorArc == 0f) || Math3d.ProjectVectorOnPlane(controller.up, (Player.transform.position + vTargetOffset) - transform.position).magnitude > currentFollowDistance)
+        {
+            UpdateHeight();
+        }
 
         UpdateTarget();
 
@@ -336,7 +346,7 @@ public class NewCamera : MonoBehaviour
         //if (TargetPos.y > transform.position.y)
         {
             // upward movement should be essentially snapped
-            transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime);
         }
         //else
         {
@@ -404,7 +414,7 @@ public class NewCamera : MonoBehaviour
             }
         }
 
-        // TODO: fix rotation smoothening
+        // x-axis rotation
         transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle + angleOffset - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
@@ -538,7 +548,7 @@ public class NewCamera : MonoBehaviour
             if (hit.transform.gameObject.tag == "Wall")
             {
                 collision = true;
-                transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                transform.position = new Vector3(hit.point.x, Mathf.Min(Target.y + currentHeight, hit.point.y), hit.point.z);
             }
         }
     }

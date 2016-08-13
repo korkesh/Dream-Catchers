@@ -104,11 +104,6 @@ public class PlayerMachine : SuperStateMachine {
 
     public Vector3 localMovement { get; private set; } // call localMovement at beginning of frame once
 
-    //----------------------------------------------
-    // Debug Inspector Fields:
-    //----------------------------------------------
-    // debug controller swap:
-    bool controllerTechnical = false;
 
     //================================
     // Methods
@@ -686,6 +681,10 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
 
+        // add external y velocity for elevators
+        float externalY = clampF(0f, float.PositiveInfinity, ((transform.position - prevPos) / Time.deltaTime).y) * 0.5f;
+        moveDirection += controller.up * externalY;
+
         // cap jump speed
         if (moveDirection.y > VerticalSpeedCap)
         {
@@ -839,7 +838,6 @@ public class PlayerMachine : SuperStateMachine {
         // fall condition
         if (finishDoubleJump)
         {
-            Debug.Log("transitioning from DJ to fall");
             finishDoubleJump = false;
             currentState = PlayerStates.Fall;
             return;
@@ -1089,7 +1087,7 @@ public class PlayerMachine : SuperStateMachine {
             if (planarMoveDirection.magnitude < (MaxDiveSpeed - maxAirSpeed) * 2f)
             {
                 moveDirection -= planarMoveDirection;
-                planarMoveDirection = planarMoveDirection.normalized * (MaxDiveSpeed - maxAirSpeed) * 2f;
+                planarMoveDirection = planarMoveDirection.normalized * (MaxDiveSpeed - maxAirSpeed) * 2.2f; // minimum dive planar speed
                 moveDirection += planarMoveDirection;
             }
         }
@@ -1103,17 +1101,6 @@ public class PlayerMachine : SuperStateMachine {
         Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
         speed = planarMoveDirection.magnitude;
-
-        //moveDirection = transform.forward * MaxDiveSpeed;
-
-        //if (verticalMoveDirection.y > 1.55f || Mathf.Approximately(0f, verticalMoveDirection.y))
-        //{
-        //    moveDirection.y += DiveJumpForce;
-        //}
-
-        //speed = MaxDiveSpeed;
-
-        //controller.feet.offset = 0.75f;
     }
 
     void Dive_SuperUpdate()

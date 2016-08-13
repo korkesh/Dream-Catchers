@@ -329,7 +329,7 @@ public class SuperCharacterController : MonoBehaviour
     {
         float groundAngle = Vector3.Angle(groundNormal, up) * Mathf.Deg2Rad;
 
-        Vector3 secondaryOrigin = transform.position + up * Tolerance * 8;
+        Vector3 secondaryOrigin = transform.position + up * Tolerance * 12f;
 
         if (!Mathf.Approximately(groundAngle, 0))
         {
@@ -346,7 +346,7 @@ public class SuperCharacterController : MonoBehaviour
         if (Physics.Raycast(secondaryOrigin, down, out hit, Mathf.Infinity, Walkable))
         {
             // Remove the tolerance from the distance travelled
-            hit.distance -= Tolerance * 8;
+            hit.distance -= Tolerance * 12f;
 
             return true;
         }
@@ -600,7 +600,7 @@ public class SuperCharacterController : MonoBehaviour
             Vector3 up = controller.up;
             Vector3 down = -up;
 
-            Vector3 o = origin + (up * Tolerance * 8);
+            Vector3 o = origin + (up * Tolerance * 12f);
 
             // Reduce our radius by Tolerance squared to avoid failing the SphereCast due to clipping with walls
             float smallerRadius = controller.radius - (Tolerance * Tolerance);
@@ -912,7 +912,7 @@ public class SuperCharacterController : MonoBehaviour
         {
             float groundAngle = Vector3.Angle(groundNormal, controller.up) * Mathf.Deg2Rad;
 
-            Vector3 secondaryOrigin = controller.transform.position + controller.up * Tolerance * 8;
+            Vector3 secondaryOrigin = controller.transform.position + controller.up * Tolerance * 12f;
 
             if (!Mathf.Approximately(groundAngle, 0))
             {
@@ -929,7 +929,7 @@ public class SuperCharacterController : MonoBehaviour
             if (Physics.Raycast(secondaryOrigin, controller.down, out hit, Mathf.Infinity, walkable))
             {
                 // Remove the tolerance from the distance travelled
-                hit.distance -= Tolerance * 8;
+                hit.distance -= Tolerance * 12f;
 
                 return true;
             }
