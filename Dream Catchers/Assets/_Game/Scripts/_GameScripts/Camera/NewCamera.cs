@@ -163,9 +163,9 @@ public class NewCamera : MonoBehaviour
         collision = false;
         CheckOcclusion();
 
-        if ((!collision && floorArc == 0f) || Math3d.ProjectVectorOnPlane(controller.up, (Player.transform.position + vTargetOffset) - transform.position).magnitude > currentFollowDistance)
+        if (!collision && floorArc == 0f)
         {
-            UpdateHeight();
+            //UpdateHeight();
         }
 
         UpdateTarget();
@@ -333,36 +333,27 @@ public class NewCamera : MonoBehaviour
     {
         // update anchor height based on most recent ground height
         float newGround = controller.currentGround.groundHeight + vTargetOffset.y;
-        lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
 
-        currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight)); // move up
-        //currentHeight -= Clamp(0f, float.PositiveInfinity, lastGround - Target.y); // move down
-
-        TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
-
-        //heightOffset = currentHeight - (transform.position.y - Player.transform.position.y); // store how far height is from currentHeight
-        //Vector3 prevPos = transform.position; // store position pre-move in case of collision
-
-        //if (TargetPos.y > transform.position.y)
+        if (newGround > lastGround)
         {
-            // upward movement should be essentially snapped
-            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime);
+            lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
         }
-        //else
+        else
         {
-            // downward movement is slower, rotating downward to keep player in view
-            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, Clamp(0f, maxDownSpeed, (TargetPos - transform.position).magnitude * smoothVertical * 0.25f * Time.deltaTime));
+            lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed * 0.18f;
         }
 
-        // if moved into a floor/ceiling, revert movement
-        //RaycastHit hit = new RaycastHit();
-        //if (CheckCollision(Player.transform.position, transform.position, out hit))
-        //{
-        //    if (hit.transform.gameObject.tag == "Floor")
-        //    {
-        //        transform.position = prevPos;
-        //    }
-        //}
+        currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight)); // move up by amount player exceeds threshold
+
+        // apply rotation offset to keep player in view
+        if (newGround < lastGround)
+        {
+            currentAngle += Clamp(0f, 60f, (lastGround - newGround) * 4f);
+        }
+        else if (Target.y < lastGround)
+        {
+            currentAngle += Clamp(0f, 60f, (lastGround - Target.y) * 4f);
+        }
     }
 
 
