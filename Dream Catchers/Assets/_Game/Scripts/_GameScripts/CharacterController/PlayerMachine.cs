@@ -76,7 +76,7 @@ public class PlayerMachine : SuperStateMachine {
     private float maxAirSpeed = 8.5f;
     public float JumpAcceleration = 5.0f;
     public float JumpHoldAcceleration = 10.0f;
-    public float JumpTime = 0.5f; // amount of time holding jump button extends height after initial press
+    public float JumpTime = 0.3f; // amount of time holding jump button extends height after initial press
     public float MinJumpHeight = 1.75f;
     public float MaxJumpHeight = 3.0f;
     public float DoubleJumpHeight = 2.0f;
@@ -88,8 +88,8 @@ public class PlayerMachine : SuperStateMachine {
     public bool hasDoubleJump = true;
 
     // Physics
-    public float Gravity = 25.0f;
-    public float DiveGravity = 26.0f;
+    public float Gravity = 60.0f;
+    public float DiveGravity = 39.0f;
     public float GroundFriction = 10.0f;
 
     //----------------------------------------------
@@ -715,14 +715,21 @@ public class PlayerMachine : SuperStateMachine {
 
 
         // move player up against gravity for 0.5 seconds
-        if (JumpTimer + Time.deltaTime < JumpTime)
+        if (input.Current.JumpHold)
         {
-            moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
-            JumpTimer += Time.deltaTime;
+            if (JumpTimer + Time.deltaTime < JumpTime)
+            {
+                moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+                JumpTimer += Time.deltaTime;
+            }
+            else if (JumpTimer < JumpTime)
+            {
+                moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+                JumpTimer = JumpTime;
+            }
         }
-        else if (JumpTimer < JumpTime)
+        else
         {
-            moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
             JumpTimer = JumpTime;
         }
 
@@ -1077,6 +1084,14 @@ public class PlayerMachine : SuperStateMachine {
         {
             // entering dive from airstate provides additive forward speed, not static
             moveDirection += transform.forward * clampF(0f, MaxDiveSpeed - planarMoveDirection.magnitude, (MaxDiveSpeed - maxAirSpeed) * 1.25f);
+
+            planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+            if (planarMoveDirection.magnitude < (MaxDiveSpeed - maxAirSpeed) * 2f)
+            {
+                moveDirection -= planarMoveDirection;
+                planarMoveDirection = planarMoveDirection.normalized * (MaxDiveSpeed - maxAirSpeed) * 2f;
+                moveDirection += planarMoveDirection;
+            }
         }
 
         ground = false;
@@ -1140,15 +1155,22 @@ public class PlayerMachine : SuperStateMachine {
         verticalMoveDirection -= controller.up * (Gravity + 1.75f) * Time.deltaTime;
         moveDirection += verticalMoveDirection;
 
-        // upward movement if transitioned from dive state
-        if (JumpTimer + Time.deltaTime < JumpTime)
+        if (input.Current.JumpHold)
         {
-            moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
-            JumpTimer += Time.deltaTime;
+            // upward movement if transitioned from dive state
+            if (JumpTimer + Time.deltaTime < JumpTime)
+            {
+                moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+                JumpTimer += Time.deltaTime;
+            }
+            else if (JumpTimer < JumpTime)
+            {
+                moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
+                JumpTimer = JumpTime;
+            }
         }
-        else if (JumpTimer < JumpTime)
+        else
         {
-            moveDirection += controller.up * (JumpTime - JumpTimer) * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
             JumpTimer = JumpTime;
         }
     }
