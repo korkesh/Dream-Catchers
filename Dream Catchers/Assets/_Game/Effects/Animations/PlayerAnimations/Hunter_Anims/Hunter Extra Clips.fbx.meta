@@ -405,7 +405,7 @@ ModelImporter:
       name: Second Jump New
       takeName: Second Jump
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 22
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -424,7 +424,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.7001586
+        functionName: FinishDoubleJump
+        data: 
+        objectReferenceParameter: {fileID: 133226, guid: a7edb574eab0dea44aba8426e721b7bf,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
