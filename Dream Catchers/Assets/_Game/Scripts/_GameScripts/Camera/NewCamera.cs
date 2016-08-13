@@ -163,11 +163,6 @@ public class NewCamera : MonoBehaviour
         collision = false;
         CheckOcclusion();
 
-        if (!collision && floorArc == 0f)
-        {
-            //UpdateHeight();
-        }
-
         UpdateTarget();
 
         // debug:
@@ -196,7 +191,7 @@ public class NewCamera : MonoBehaviour
                     else
                     {
                         currentHeight = hHeightGround;//Air;
-                        currentAngle = hAngleGround;//Air + xRotationOffset + floorArc;
+                        currentAngle = hAngleGround + floorArc;//Air + floorArc;
                         xRotationOffset = 0;
                     }
 
@@ -340,7 +335,7 @@ public class NewCamera : MonoBehaviour
         }
         else
         {
-            lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed * 0.18f;
+            lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed * 0.2f;
         }
 
         currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight)); // move up by amount player exceeds threshold
@@ -348,7 +343,7 @@ public class NewCamera : MonoBehaviour
         // apply rotation offset to keep player in view
         if (newGround < lastGround)
         {
-            currentAngle += Clamp(0f, 60f, (lastGround - newGround) * 4f);
+            currentAngle += Clamp(0f, 60f, Mathf.Max((lastGround - newGround) * 4f, (lastGround - Target.y) * 4f));
         }
         else if (Target.y < lastGround)
         {
