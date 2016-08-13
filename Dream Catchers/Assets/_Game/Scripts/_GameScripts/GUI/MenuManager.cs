@@ -60,6 +60,16 @@ public class MenuManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Show Credits 
+    /// </summary>
+    public void ShowCredits()
+    {
+        Game_Manager.instance.ChangeScene("Credits");
+        Game_Manager.instance.currentGameState = Game_Manager.GameState.MENU;
+
+    }
+
+    /// <summary>
     /// Exit Game
     /// </summary>
     public void ExitGame()
