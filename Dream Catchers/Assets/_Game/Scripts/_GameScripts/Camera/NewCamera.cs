@@ -41,8 +41,6 @@ public class NewCamera : MonoBehaviour
     //==========================================
     private float lastGround; // y value of ground either previously stood on or currently slightly above
 
-    public float lastGroundSpeed; // speed at which camera moves up/down when lastGround is changed
-
     // y movement thresholds. approximately height of regular jump in high mode, lower to compensate for low mode
     public float hMaxJumpHeight;
     public float lMaxJumpHeight;
@@ -104,6 +102,7 @@ public class NewCamera : MonoBehaviour
     public float smoothFollow;
     public float smoothVertical;
     public float rotateSpeed;
+    public float lastGroundSpeed; // speed at which camera moves up/down when lastGround is changed
 
 
     // *** Debug ***
@@ -206,7 +205,7 @@ public class NewCamera : MonoBehaviour
                     else
                     {
                         currentHeight = lHeightGround;//Air;
-                        currentAngle = lAngleGround;//Air;
+                        currentAngle = lAngleGround + floorArc;//Air;
                         xRotationOffset = 0;
                     }
 
@@ -325,13 +324,13 @@ public class NewCamera : MonoBehaviour
         float newGround = controller.currentGround.groundHeight + vTargetOffset.y;
         lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
 
-        currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight));
-        currentHeight -= Clamp(0f, Time.deltaTime, lastGround - Target.y);
+        currentHeight += Clamp(0f, float.PositiveInfinity, ((Target.y - lastGround) - currentMaxJumpHeight)); // move up
+        currentHeight -= Clamp(0f, float.PositiveInfinity, lastGround - Target.y); // move down
 
         TargetPos = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
 
-        heightOffset = currentHeight - (transform.position.y - Player.transform.position.y); // store how far height is from currentHeight
-        Vector3 prevPos = transform.position; // store position pre-move in case of collision
+        //heightOffset = currentHeight - (transform.position.y - Player.transform.position.y); // store how far height is from currentHeight
+        //Vector3 prevPos = transform.position; // store position pre-move in case of collision
 
         //if (TargetPos.y > transform.position.y)
         {
@@ -341,18 +340,18 @@ public class NewCamera : MonoBehaviour
         //else
         {
             // downward movement is slower, rotating downward to keep player in view
-            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, Clamp(0, maxDownSpeed, (TargetPos - transform.position).magnitude * smoothVertical * Time.deltaTime));
+            //transform.position = Vector3.MoveTowards(transform.position, TargetPos, Clamp(0f, maxDownSpeed, (TargetPos - transform.position).magnitude * smoothVertical * 0.25f * Time.deltaTime));
         }
 
         // if moved into a floor/ceiling, revert movement
-        RaycastHit hit = new RaycastHit();
-        if (CheckCollision(Player.transform.position, transform.position, out hit))
-        {
-            if (hit.transform.gameObject.tag == "Floor")
-            {
-                transform.position = prevPos;
-            }
-        }
+        //RaycastHit hit = new RaycastHit();
+        //if (CheckCollision(Player.transform.position, transform.position, out hit))
+        //{
+        //    if (hit.transform.gameObject.tag == "Floor")
+        //    {
+        //        transform.position = prevPos;
+        //    }
+        //}
     }
 
 
@@ -368,7 +367,6 @@ public class NewCamera : MonoBehaviour
 
     void ConstrainDistance()
     {
-        Debug.Log("constrain");
         // follow player via their movement direction if rotation hasn't been manipulated this frame
         if (!rotate)
         {
@@ -450,75 +448,88 @@ public class NewCamera : MonoBehaviour
     void CheckOcclusion()
     {
         RaycastHit hit = new RaycastHit();
+        Vector3 Disp;
+        Vector3 Root;
 
-        // Floor Occlusion
         // get root position (pre look interpolation)
-        Vector3 Root = Player.transform.position;
+        Root = Player.transform.position;
         Root -= (BaseDisplacement.normalized * currentFollowDistance);
         Root.y = lastGround + currentHeight;
 
-        // rotate
-        Vector3 Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-        Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-
-        transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
-
-        float prevFloorArc = floorArc;
-
-        for (int i = 0; i < 24; i++)
+        // Floor Occlusion
+        if (!machine.ground || machine.jumping)
         {
-            if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+            // smoothly reduce floorArc toward 0 in air states
+            floorArc -= floorArc * Time.deltaTime * 0.15f;
+
+            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+            transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+        }
+        else
+        {
+            // rotate
+            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+
+            transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+
+            float prevFloorArc = floorArc;
+
+            for (int i = 0; i < 24; i++)
             {
-                if (hit.transform.gameObject.tag == "Floor")
+                if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
                 {
-                    collision = true;
-                    xRotationOffset = 0f;
-                    floorArc = Clamp(0f, 60f, floorArc + Time.deltaTime * 4f);
+                    if (hit.transform.gameObject.tag == "Floor")
+                    {
+                        collision = true;
+                        xRotationOffset = 0f;
+                        floorArc = Clamp(0f, 60f, floorArc + Time.deltaTime * 2f);
 
-                    Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-                    Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-                    transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+                        Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+                        Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+                        transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
 
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 else
                 {
                     break;
                 }
             }
-            else
+
+            // if no collision, try to rotate back
+            if (!collision)
             {
-                break;
-            }
-        }
-
-        // if no collision, try to rotate back
-        if (!collision)
-        {
-            for (int i = 0; i < 24; i++)
-            {
-                prevFloorArc = floorArc;
-                floorArc = Clamp(0f, 60f, floorArc - Time.deltaTime * 4f);
-
-                Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-                Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-                transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
-
-                if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+                for (int i = 0; i < 24; i++)
                 {
-                    if (hit.transform.gameObject.tag == "Floor")
+                    prevFloorArc = floorArc;
+                    floorArc = Clamp(0f, 60f, floorArc - Time.deltaTime * 2f);
+
+                    Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+                    Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+                    transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+
+                    if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
                     {
-                        floorArc = prevFloorArc; // stops alternating jitter
+                        if (hit.transform.gameObject.tag == "Floor")
+                        {
+                            floorArc = prevFloorArc; // stops alternating jitter
 
-                        Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-                        Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-                        transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+                            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+                            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+                            transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
         }
-
 
         // Wall Occlusion   
         if (CheckCollision(Player.transform.position + vTargetOffset * 0.2f, transform.position, out hit))

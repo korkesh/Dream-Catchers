@@ -1059,6 +1059,12 @@ public class PlayerMachine : SuperStateMachine {
 
         hasDoubleJump = false;
 
+        if (!input.Current.JumpHold)
+        {
+            JumpTimer = JumpTime;
+            moveDirection.y = clampF(float.NegativeInfinity, 0f, moveDirection.y);
+        }
+
         Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
 
         if (ground)
@@ -1137,7 +1143,6 @@ public class PlayerMachine : SuperStateMachine {
         // upward movement if transitioned from dive state
         if (JumpTimer + Time.deltaTime < JumpTime)
         {
-            Debug.Log("moving up");
             moveDirection += controller.up * Time.deltaTime * (JumpHoldAcceleration * (JumpTimer - 1) * -1);
             JumpTimer += Time.deltaTime;
         }
