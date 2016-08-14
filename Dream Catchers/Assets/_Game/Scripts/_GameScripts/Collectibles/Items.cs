@@ -73,13 +73,17 @@ public class Items : MonoBehaviour {
             {
                 Character_Manager.instance.heal(1);
             }
-            else
+            else // Fragment
             {
-                Game_Manager.instance.changeGameState(Game_Manager.GameState.CINEMATIC);
+                // Play celebration & turn off mesh/collider
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("Celebrate");
+                StartCoroutine(SceneChange());
+
+                gameObject.GetComponent<MeshRenderer>().enabled = false;
+                gameObject.GetComponent<Collider>().enabled = false;
 
                 Character_Manager.Instance.CollectMemoryFrag();
-
+                return;
             }
 
             //keeps health drops from not spawning
@@ -108,6 +112,7 @@ public class Items : MonoBehaviour {
         if (type == Type.FRAGEMENT)
         {
             key = gameObject.name.ToString();
+            return;
         }
 
 
@@ -128,5 +133,12 @@ public class Items : MonoBehaviour {
             }
 
         }
+    }
+
+    public IEnumerator SceneChange()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        gameObject.GetComponent<TriggerScene>().SceneChange(gameObject.GetComponent<TriggerScene>().enterSwitch);
     }
 }
