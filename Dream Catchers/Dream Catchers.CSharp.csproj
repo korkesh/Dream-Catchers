@@ -329,6 +329,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\PauseMenu.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\RechargeAnimation.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ShowMenu.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\SpawnSound.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempMessageInto.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />

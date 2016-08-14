@@ -31,6 +31,7 @@ public class ManipulationPopIn : ManipulationScript {
     // Manipulation Properties
     public bool isDreamPlatform = false;
     public bool isNightmarePlatform = false;
+    public bool playSound = false;
 
     // Use this for initialization
     void Start()
@@ -51,6 +52,18 @@ public class ManipulationPopIn : ManipulationScript {
         changeModel();
 
         togglePlatform();
+
+        if (playSound && gameObject.GetComponent<AudioSource>())
+        {
+            if(state == ManipulationManager.WORLD_STATE.DREAM) // Nightmare -> Dream
+            {
+                gameObject.SendMessage("PlayDream");
+            }
+            else
+            {
+                gameObject.SendMessage("PlayNightmare");
+            }
+        }
     }
 
     void changeTexture()
