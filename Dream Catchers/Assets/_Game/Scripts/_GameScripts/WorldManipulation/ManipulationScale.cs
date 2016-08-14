@@ -15,6 +15,8 @@ public class ManipulationScale : ManipulationScript {
     public Vector3 scaleNightmare;
 
     public float scaleDuration;
+    public float collisionDuration = 0.8f;
+
     public bool isBoundry;
     public Collider boundry;
 
@@ -57,7 +59,7 @@ public class ManipulationScale : ManipulationScript {
     {
         boundry.enabled = !boundry.enabled;
 
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(collisionDuration);
 
         boundry.enabled = !boundry.enabled;
 
