@@ -1,8 +1,8 @@
 ﻿///===================================================================================
-/// Author: Matt (Combat states) & Connor (All Non-combat states; primary contributer)
+/// Author: Matt (Combat states) & Connor (All Non-combat states; primary contributor)
 /// Purpose: Loosely based on a third party script with significant modifications
 ///          This script handles all movement logic for the player including
-///          idle, walking, running, jumping and combat states. 
+///          idle, walking, running, jumping, diving and combat states. 
 ///==================================================================================
 ///
 using UnityEngine;
@@ -22,11 +22,9 @@ public class PlayerMachine : SuperStateMachine {
     // Controllers and States
     //----------------------------------------------
 
-    // Add more states by comma separating them
     public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13 };
 
     private SuperCharacterController controller;
-    private RootCamera cam; // Main Player Follow Camera
     private PlayerInputController input; // Input Controller
 
     public Vector3 prevPos;
@@ -115,11 +113,8 @@ public class PlayerMachine : SuperStateMachine {
 
     void Start ()
     {
-        cam = Camera.main.GetComponent<RootCamera>();
-
-        input = gameObject.GetComponent<PlayerInputController>();
-
-        // Grab the controller object from our object
+        // Get other controller component references
+        input = gameObject.GetComponent<PlayerInputController>();    
         controller = gameObject.GetComponent<SuperCharacterController>();
 		
 		// Our character's current facing direction, planar to the ground
@@ -147,15 +142,13 @@ public class PlayerMachine : SuperStateMachine {
         return ground;
     }
 
+    // not used; for mario galaxy physics
     public void RotateGravity(Vector3 up)
     {
         lookDirection = Quaternion.FromToRotation(transform.up, up) * lookDirection;
     }
 
-    /// <summary>
-    /// Constructs a vector representing our movement local to our lookDirection, which is
-    /// controlled by the camera
-    /// </summary>
+    // Constructs a vector representing our movement relative to the camera
     private Vector3 LocalMovement()
     {
         Vector3 right = Vector3.Cross(controller.up, lookDirection);
@@ -181,12 +174,6 @@ public class PlayerMachine : SuperStateMachine {
         return Mathf.Sqrt(2 * jumpHeight * gravity);
     }
 
-    /*void Update () {
-	 * Update is normally run once on every frame update. We won't be using it
-     * in this case, since the SuperCharacterController component sends a callback Update 
-     * called SuperUpdate. SuperUpdate is recieved by the SuperStateMachine, and then fires
-     * further callbacks depending on the state
-	}*/
 
     //================================
     // State Machine
@@ -207,12 +194,8 @@ public class PlayerMachine : SuperStateMachine {
             LastGroundPos = transform.position;
         }
 
-        // Rotate out facing direction horizontally based on mouse input
-        //lookDirection = Quaternion.AngleAxis(input.Current.MouseInput.x, controller.up) * lookDirection;
+        // planar forward vector of camera, for relativity calculations
         lookDirection = Math3d.ProjectVectorOnPlane(controller.up, Camera.main.transform.forward);
-
-        // Put any code in here you want to run BEFORE the state's update function.
-        // This is run regardless of what state you're in
 
         // Allow Attacks only when on ground and upon attack input
         if (input.Current.AttackInput && (Game_Manager.instance != null && Game_Manager.instance.currentGameState != Game_Manager.GameState.GAMEOVER) && Character_Manager.instance.toggleHammer && !currentState.Equals(PlayerStates.Dive) && !currentState.Equals(PlayerStates.Slide))
@@ -240,25 +223,24 @@ public class PlayerMachine : SuperStateMachine {
 
     protected override void LateGlobalSuperUpdate()
     {
-        // Put any code in here you want to run AFTER the state's update function.
-        // This is run regardless of what state you're in
-
         // Move the player by our velocity every frame
-        prevPos = transform.position;
+        prevPos = transform.position; // store previous frame's position for velocity calculations
 
+        // limit vertical speed
         if (moveDirection.y < VerticalSpeedCapDown)
         {
             moveDirection.y = VerticalSpeedCapDown;
         }
 
-        transform.position += moveDirection * Time.deltaTime;    
+        transform.position += moveDirection * Time.deltaTime; // move
     }
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     // 
     // MOVEMENT STATES
     //
-    // Author/modifier: Conor MacKeigan
+    // Author: Conor MacKeigan
+    // Summary: A few pieces of the original controller are rehashed here, but almost all original code has been ripped out and replaced with custom behaviour specific to our game.
     //
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -266,9 +248,7 @@ public class PlayerMachine : SuperStateMachine {
     // Idle
     //----------------------------------------------
 
-    // Below are the three state functions. Each one is called based on the name of the state,
-    // so when currentState = Idle, we call Idle_EnterState. If currentState = Jump, we call
-    // Jump_SuperUpdate()
+    // As the first called state, Idle functions as a transition state from all other states because of the PlayerState switch/return hierarchy
     void Idle_EnterState()
     {
         diving = false;
@@ -301,12 +281,14 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
+        // fall condition
         if (!MaintainingGround())
         {
             currentState = PlayerStates.Fall;
             return;
         }
 
+        // run condition
         if (input.Current.MoveInput != Vector3.zero)
         {
             currentState = PlayerStates.Run;
@@ -341,7 +323,6 @@ public class PlayerMachine : SuperStateMachine {
         }
         
 
-
         // ANIMATION:
         if (speed / MaxRunSpeed > 0.5f)
         {
@@ -373,6 +354,7 @@ public class PlayerMachine : SuperStateMachine {
     // Running
     //----------------------------------------------
 
+    // Run state handles all stick-driven movement while on the ground
     void Run_EnterState()
     {
         runTimer = 0f;
@@ -469,6 +451,8 @@ public class PlayerMachine : SuperStateMachine {
         runTimer = 0f;
     }
 
+
+    // skid state is triggered by attempting to turn 180 degrees while at or near full speed as a means of regulating momentum
     void Skid_EnterState()
     {
         skidTimer = 0;
@@ -482,8 +466,6 @@ public class PlayerMachine : SuperStateMachine {
     void Skid_SuperUpdate()
     {
         skidTimer += Time.deltaTime;
-
-        //transform.forward = localMovement;
 
         // when in skid state slow to a stop
         float new_ratio = 0.9f * Time.deltaTime * maxSpeedTime;
@@ -509,22 +491,18 @@ public class PlayerMachine : SuperStateMachine {
         }
     }
 
-    void Skid_ExitState()
-    {
-
-    }
 
     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     // 
     // AIR CONTROL STATES
     //
-    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-    
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
 
     //----------------------------------------------
     // Jumping
     //----------------------------------------------
+
+    // Skid jump is essentially an "auto-double jump" triggered by jumping while in skid state (SM64 homage)
     void SkidJump_EnterState()
     {
         jumping = true;
@@ -661,6 +639,7 @@ public class PlayerMachine : SuperStateMachine {
     }
 
 
+    // Regular jump state entered by pressing the jump button on the ground. Extendable height by holding jump input
     void Jump_EnterState()
     {
         gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
@@ -813,9 +792,9 @@ public class PlayerMachine : SuperStateMachine {
     // Double Jump
     //----------------------------------------------
 
+    // Double jump is triggered by pressing the jump button in the air. Cannot be entered from roll-fall aerial state.
     void DoubleJump_EnterState()
     {
-
         gameObject.SendMessage("PlayAlt", SendMessageOptions.DontRequireReceiver);
 
         hasDoubleJump = false;
@@ -934,6 +913,7 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", false);
     }
 
+    // Animator event telling us the double jump animation is finished and can transition to fall animation
     void FinishDoubleJump()
     {
         finishDoubleJump = true;
@@ -943,14 +923,13 @@ public class PlayerMachine : SuperStateMachine {
     // Falling
     //----------------------------------------------
 
+    // Fall state handles vertical movement from walking/falling off of geometry, double jump finish and roll finish
     void Fall_EnterState()
     {
         gameObject.GetComponent<Animator>().SetBool("Falling", true);
 
         controller.DisableClamping();
         controller.DisableSlopeLimit();
-
-        // moveDirection = trueVelocity;
     }
 
     void Fall_SuperUpdate()
@@ -1061,6 +1040,7 @@ public class PlayerMachine : SuperStateMachine {
     //  Dive Related States
     //--------------------------------------------------
 
+    // Dive states provide the bulk of movement-driven gameplay. Can be entered from any state except for combat and Idle, with different properties in the air
     void Dive_EnterState()
     {
         controller.DisableClamping();
@@ -1174,6 +1154,7 @@ public class PlayerMachine : SuperStateMachine {
     }
 
 
+    // Slide state is entered when the player hits the ground from dive state. Speed is linearly slowed to a stop.
     void Slide_EnterState()
     {
         diving = false; // if the player falls off an edge in slide state they can dive again, but not out of roll
@@ -1249,6 +1230,7 @@ public class PlayerMachine : SuperStateMachine {
     }
 
 
+    // currently unused (animation problems): stand up sequence from reaching 0 velocity during slide state
     void StandUp_EnterState()
     {
         gameObject.GetComponent<Animator>().SetBool("StandUp", true);
@@ -1260,6 +1242,7 @@ public class PlayerMachine : SuperStateMachine {
     }
 
 
+    // Roll state is triggered by pressing either jump or dive input during slide state. Primary means of maintaing dive momentum.
     void Roll_EnterState()
     {
         diving = true;
@@ -1342,8 +1325,12 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // Apply friction to slow us to a halt
-        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+        if (!ground || jumping)
+        {
+            Vector3 verticalMoveDirection = Vector3.zero;
+            verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+            moveDirection += verticalMoveDirection;
+        }
     }
 
     void Damage_ExitState()
@@ -1392,6 +1379,7 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Dead", false);
     }
 
+    // Mathf.Clamp doesn't seem to work?
     float clampF(float min, float max, float val)
     {
         if (val < min)

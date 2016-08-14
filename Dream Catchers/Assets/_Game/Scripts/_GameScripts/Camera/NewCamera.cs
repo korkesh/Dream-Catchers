@@ -106,11 +106,6 @@ public class NewCamera : MonoBehaviour
     public float lastGroundSpeed; // speed at which camera moves up/down when lastGround is changed
 
 
-    // *** Debug ***
-    public GameObject test1;
-    public GameObject test2;
-
-
     void Start()
     {
         transform.eulerAngles = Vector3.zero;
@@ -140,29 +135,31 @@ public class NewCamera : MonoBehaviour
     void LateUpdate()
     {
         CheckLock(); // checks if the camera is "locked" (directly above player)
-        UpdateMode();
+        UpdateMode(); // updates between high/low mode
 
-        ManualRotation();
+        ManualRotation(); // right stick-driven arc around player
 
-        UpdateActiveVariables();
+        UpdateActiveVariables(); // updates variables such as follow distance, height and angle based on mode and other interactions
 
+        // do not update distance/height during collision unless planar forward distance threshold is exceeded
         if ((!collision && floorArc == 0f) || Math3d.ProjectVectorOnPlane(controller.up, (Player.transform.position + vTargetOffset) - transform.position).magnitude > currentFollowDistance)
         {
-            UpdateHeight();
-            ConstrainDistance();
+            UpdateHeight(); // updates height variables based on player position
+            ConstrainDistance(); // planar forward player follow
         }
 
-        UpdateTarget();
+        UpdateTarget(); // updates the view target, telling the camera what to focus on and facilitating look ahead features
 
-        UpdateVectors();
-        UpdateRotation();
+        UpdateVectors(); // update displacement vectors for calculations
+        UpdateRotation(); // update automatic camera rotation to keep Target in center of X-axis and modifies X-axis rotation for fall tracking
 
-        ManualLook();
+        ManualLook(); // right-stick driven up/down rotation
 
+        // Occlusion avoidance for floors and walls
         collision = false;
         CheckOcclusion();
 
-        UpdateTarget();
+        UpdateTarget(); // update target again to smoothen changes since previous update
     }
 
 
@@ -214,6 +211,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // R-button mode swap
     void UpdateMode()
     {
         // change modes if player pressed R
@@ -231,6 +229,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // Arcs camera position around player driven by right-stick input
     void ManualRotation()
     {
         // manual x control (rotate around player pivot)
@@ -276,6 +275,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // updates position of tracking target
     void UpdateTarget()
     {
         // store previous frame's displacement before updating
@@ -310,13 +310,10 @@ public class NewCamera : MonoBehaviour
         }
 
         CurrentTargetPos = (Player.transform.position + vTargetOffset + sphereOffset) + (currentTargetOffset * right);
-
-        test1.transform.position = Target; // debug
-        test2.transform.position = CurrentTargetPos;
-        Debug.DrawLine(Player.transform.position + vTargetOffset + sphereOffset, Player.transform.position + vTargetOffset + right, Color.cyan);
     }
 
 
+    // updates currentHeight and lastGround variables
     void UpdateHeight()
     {
         // update anchor height based on most recent ground height
@@ -345,6 +342,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // updates displacement between the tracking target and the camera
     void UpdateVectors()
     {
         PlayerRoot.x = CurrentTargetPos.x;
@@ -355,6 +353,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // follows the player across forward plane
     void ConstrainDistance()
     {
         // follow player via their movement direction if rotation hasn't been manipulated this frame
@@ -373,6 +372,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // automatic rotation updating to keep player on screen at all times
     void UpdateRotation()
     {
         // y-axis rotation to look at player
@@ -398,6 +398,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // right stick-driven up/down look (gradually reverted by player movement if not held)
     void ManualLook()
     {
         // get root position (pre look interpolation)
@@ -430,6 +431,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
+    // avoid wall and floor obstructions
     void CheckOcclusion()
     {
         RaycastHit hit = new RaycastHit();
@@ -524,7 +526,7 @@ public class NewCamera : MonoBehaviour
                 collision = true;
                 transform.position = new Vector3(hit.point.x, Mathf.Min(Target.y + currentHeight, hit.point.y), hit.point.z);
 
-                currentHeight = 
+                //currentHeight = 
             }
         }
     }
