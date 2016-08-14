@@ -574,7 +574,10 @@ public class NewCamera : MonoBehaviour
             }
             else
             {
-                CurrentObstruction.enabled = true; // switched obstructions, restore the last one
+                if(CurrentObstruction)
+                {
+                    CurrentObstruction.enabled = true; // switched obstructions, restore the last one
+                }
             }
         }
         else if (CurrentObstruction != null)
