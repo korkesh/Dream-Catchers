@@ -221,9 +221,9 @@ public class PlayerMachine : SuperStateMachine {
         }
     }
 
+    // Move the player by our velocity every frame
     protected override void LateGlobalSuperUpdate()
     {
-        // Move the player by our velocity every frame
         prevPos = transform.position; // store previous frame's position for velocity calculations
 
         // limit vertical speed
@@ -318,7 +318,7 @@ public class PlayerMachine : SuperStateMachine {
             else if (idleTimer >= 10f)
             {
                 gameObject.GetComponent<Animator>().SetBool("Idle2", false);
-                idleTimer = 0; // reset timer, completed full cycle
+                idleTimer = 0; // completed full cycle, reset timer
             }
         }
         
@@ -354,7 +354,7 @@ public class PlayerMachine : SuperStateMachine {
     // Running
     //----------------------------------------------
 
-    // Run state handles all stick-driven movement while on the ground
+    // Run state handles all stick-driven movement and all deceleration while on the ground
     void Run_EnterState()
     {
         runTimer = 0f;
@@ -452,7 +452,7 @@ public class PlayerMachine : SuperStateMachine {
     }
 
 
-    // skid state is triggered by attempting to turn 180 degrees while at or near full speed as a means of regulating momentum
+    // skid state is triggered by attempting to turn 180 degrees while at or near full speed, as a means of regulating momentum
     void Skid_EnterState()
     {
         skidTimer = 0;

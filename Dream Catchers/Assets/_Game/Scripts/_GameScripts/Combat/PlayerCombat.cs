@@ -22,9 +22,6 @@ public class PlayerCombat : MonoBehaviour
     public float colliderLength;
     public float iframes;
 
-    private PlayerMachine machine;
-    private PlayerInputController input;
-
 
     public AudioClip damageSound;
 
@@ -33,10 +30,6 @@ public class PlayerCombat : MonoBehaviour
     {
         damage = false;
         weaponCollider.SetActive(false);
-        //groundPoundCollider.SetActive(false);
-
-        machine = GameObject.FindWithTag("Player").GetComponent<PlayerMachine>();
-        input = GameObject.FindWithTag("Player").GetComponent<PlayerInputController>();
     }
 
     // Update is called once per frame

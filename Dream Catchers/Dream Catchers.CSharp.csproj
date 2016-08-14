@@ -80,6 +80,7 @@
     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\DynamicTextureTiling.cs" />
     <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\MeshData.cs" />
     <Compile Include="Assets\CameraSwap.cs" />
+    <Compile Include="Assets\DefaultMode.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
     <Compile Include="Assets\DestroyObject.cs" />

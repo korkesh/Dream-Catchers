@@ -3,6 +3,18 @@ using System.Collections;
 
 
 // Author: Conor MacKeigan
+// Description: Camera behaviour catered to a 3D Platformer.
+//              Focuses on keeping the view ahead of the player clear to minimize manual input and avoid blind jumps on whims.
+//              Emphasizes landing vantage and a sense of vertical spacial awareness by rising quickly and lowering slowly, rotating to keep the player in view.
+//              Behaviour is consistent and the camera will always correct itself out if it ever gets confused or stuck in an odd position.
+//              Wall occlusion avoidance is somewhat abrupt in places, but it's a complex problem for this model combined with exceedingly narrow and
+//              boxy level passages, leaving it out of scope due to time constraints. Mario 64's camera used the 1/8 circle rotation as a means of circumventing
+//              complex wall behaviour, whereas this camera gives the player full rotation control via the right stick, while other platformers with full camera
+//              control generally have their levels built around such challenges. Similarly, floor occlusion due to abundantly large floor "stairs" is mostly
+//              smooth but becomes a bit disoriented with enough opposing forces, though the effects will always balance out when the player leaves the occlusion.
+//              Otherwise the camera maintains very smooth and intuitive movement at all times.
+
+[RequireComponent(typeof(DefaultMode))]
 public class NewCamera : MonoBehaviour
 {
     //===========================================
@@ -74,6 +86,8 @@ public class NewCamera : MonoBehaviour
     //=========================================
     // Active Variables
     //=========================================
+    private Vector3 Root;
+
     private float currentFollowDistance;
     private float currentHeight; // current height above player offset
     private float currentAngle; // current x rotation
@@ -92,7 +106,9 @@ public class NewCamera : MonoBehaviour
     [SerializeField]
     private float floorArc = 0; // amount of arc rotation applied to see above floors
 
-    bool collision = false; // set to true each frame if any collision occurred (prevents target updating/jitter)
+    private bool collision = false; // set to true each frame if any collision occurred (prevents target updating/jitter)
+    Vector3 CollisionTarget;
+    private float collisionDistance = 0; // amount of distance required to cover to reach collision point (normalized 0..1)
 
     //==========================================
     // Smoothing Coefficients
@@ -105,9 +121,9 @@ public class NewCamera : MonoBehaviour
 
     void Start()
     {
-        transform.eulerAngles = Vector3.zero;
+        UpdateMode(GetComponent<DefaultMode>().mode);
 
-        Mode = CameraMode.Low;
+        transform.eulerAngles = Vector3.zero;
 
         Player = GameObject.FindGameObjectWithTag("Player"); // Character_Manager.Instance.Character;
 
@@ -128,6 +144,10 @@ public class NewCamera : MonoBehaviour
         transform.eulerAngles = new Vector3(currentAngle + angleOffset, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
+    void Awake()
+    {
+        UpdateMode(GetComponent<DefaultMode>().mode); // camera starts in high/low mode depending on level
+    }
 
     void LateUpdate()
     {
@@ -152,9 +172,13 @@ public class NewCamera : MonoBehaviour
 
         ManualLook(); // right-stick driven up/down rotation
 
+        UpdateRoot(); // updates root position
+
         // Occlusion avoidance for floors and walls
         collision = false;
         CheckOcclusion();
+
+        CollisionMovement();
 
         UpdateTarget(); // update target again to smoothen changes since previous update
     }
@@ -222,6 +246,19 @@ public class NewCamera : MonoBehaviour
             {
                 Mode = CameraMode.High;
             }
+        }
+    }
+
+    // Automatic mode set
+    public void UpdateMode(string mode)
+    {
+        if (mode == "High")
+        {
+            Mode = CameraMode.High;
+        }
+        else if (mode == "Low")
+        {
+            Mode = CameraMode.Low;
         }
     }
 
@@ -410,92 +447,105 @@ public class NewCamera : MonoBehaviour
     }
 
 
-    // avoid wall and floor obstructions
-    void CheckOcclusion()
+    void UpdateRoot()
     {
-        RaycastHit hit = new RaycastHit();
-        Vector3 Disp;
-        Vector3 Root;
-
         // get root position (pre look interpolation)
         Root = Player.transform.position;
         Root -= (BaseDisplacement.normalized * currentFollowDistance);
         Root.y = lastGround + currentHeight;
 
-        // Floor Occlusion
-        if (!machine.ground || machine.jumping)
-        {
-            // smoothly reduce floorArc toward 0 in air states
-            floorArc -= floorArc * Time.deltaTime * 0.15f;
+        // update pos to root
+        Vector3 Disp = Root - (Player.transform.position + vTargetOffset);
+        transform.position = (Player.transform.position + vTargetOffset) + Disp;
+    }
 
-            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-            transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
-        }
-        else
-        {
-            // rotate
-            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
 
-            transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+    // avoid wall and floor obstructions
+    void CheckOcclusion()
+    {
+        RaycastHit hit = new RaycastHit();
+        //Vector3 Disp;
+        //Vector3 Root;
 
-            float prevFloorArc = floorArc;
+        //// get root position (pre look interpolation)
+        //Root = Player.transform.position;
+        //Root -= (BaseDisplacement.normalized * currentFollowDistance);
+        //Root.y = lastGround + currentHeight;
 
-            for (int i = 0; i < 24; i++)
-            {
-                if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
-                {
-                    if (hit.transform.gameObject.tag == "Floor")
-                    {
-                        collision = true;
-                        xRotationOffset = 0f;
-                        floorArc = Clamp(0f, 60f, floorArc + Time.deltaTime * 2f);
+        //// Floor Occlusion
+        //if (!machine.ground || machine.jumping)
+        //{
+        //    // smoothly reduce floorArc toward 0 in air states
+        //    floorArc -= floorArc * Time.deltaTime * 0.15f;
 
-                        Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-                        Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-                        transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+        //    Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+        //    Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+        //    transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+        //}
+        //else
+        //{
+        //    // rotate
+        //    Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+        //    Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
 
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
+        //    transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
 
-            // if no collision, try to rotate back
-            if (!collision)
-            {
-                for (int i = 0; i < 24; i++)
-                {
-                    prevFloorArc = floorArc;
-                    floorArc = Clamp(0f, 60f, floorArc - Time.deltaTime * 2f);
+        //    float prevFloorArc = floorArc;
 
-                    Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-                    Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-                    transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+        //    for (int i = 0; i < 24; i++)
+        //    {
+        //        if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+        //        {
+        //            if (hit.transform.gameObject.tag == "Floor")
+        //            {
+        //                collision = true;
+        //                xRotationOffset = 0f;
+        //                floorArc = Clamp(0f, 60f, floorArc + Time.deltaTime * 2f);
 
-                    if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
-                    {
-                        if (hit.transform.gameObject.tag == "Floor")
-                        {
-                            floorArc = prevFloorArc; // stops alternating jitter
+        //                Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+        //                Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+        //                transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
 
-                            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
-                            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
-                            transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+        //            }
+        //            else
+        //            {
+        //                break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            break;
+        //        }
+        //    }
 
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        //    // if no collision, try to rotate back
+        //    if (!collision)
+        //    {
+        //        for (int i = 0; i < 24; i++)
+        //        {
+        //            prevFloorArc = floorArc;
+        //            floorArc = Clamp(0f, 60f, floorArc - Time.deltaTime * 2f);
+
+        //            Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+        //            Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+        //            //transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+
+        //            if (CheckCollision(transform.position, Player.transform.position + vTargetOffset * 0.2f, out hit))
+        //            {
+        //                if (hit.transform.gameObject.tag == "Floor")
+        //                {
+        //                    floorArc = prevFloorArc; // stops alternating jitter
+
+        //                    Disp = Root - (Player.transform.position + vTargetOffset * 0.2f);
+        //                    Disp = Quaternion.AngleAxis(floorArc, Vector3.Cross(Vector3.up, BaseDisplacement.normalized)) * Disp;
+        //                    transform.position = (Player.transform.position + vTargetOffset * 0.2f) + Disp;
+
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         // Wall Occlusion   
         if (CheckCollision(Player.transform.position + vTargetOffset * 0.2f, transform.position, out hit))
@@ -503,11 +553,41 @@ public class NewCamera : MonoBehaviour
             if (hit.transform.gameObject.tag == "Wall")
             {
                 collision = true;
-                transform.position = new Vector3(hit.point.x, Mathf.Min(Target.y + currentHeight, hit.point.y), hit.point.z);
-
-                //currentHeight = 
+                CollisionTarget = hit.point;
+                //transform.position = new Vector3(hit.point.x, Mathf.Min(Target.y + currentHeight, hit.point.y), hit.point.z);
             }
         }
+    }
+
+
+    void CollisionMovement()
+    {
+        if (collision)
+        {
+            if (collisionDistance < 0.5f)
+            {
+                collisionDistance = Clamp(0f, 1f, collisionDistance + Time.deltaTime * 4f);
+            }
+            else
+            {
+                collisionDistance = Clamp(0f, 1f, collisionDistance + ((1f - collisionDistance) * (Time.deltaTime * 16f)));
+            }
+
+            transform.position += (CollisionTarget - transform.position) * collisionDistance;
+        }
+        else
+        {
+            if (collisionDistance > 0.5f)
+            {
+                collisionDistance = Clamp(0f, 1f, collisionDistance - Time.deltaTime * 4f);
+            }
+            else
+            {
+                collisionDistance = Clamp(0f, 1f, collisionDistance - (collisionDistance * Time.deltaTime * 16f));
+            }
+        }
+
+        
     }
 
 
