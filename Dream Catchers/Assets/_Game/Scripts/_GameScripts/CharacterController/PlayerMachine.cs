@@ -76,7 +76,6 @@ public class PlayerMachine : SuperStateMachine {
     public float JumpHoldAcceleration = 10.0f;
     public float JumpTime = 0.3f; // amount of time holding jump button extends height after initial press
     public float MinJumpHeight = 1.75f;
-    public float MaxJumpHeight = 3.0f;
     public float DoubleJumpHeight = 2.0f;
     public float JumpTimer = 0f;
     public Vector3 LastGroundPos { get; private set; } // position character was at last frame they were grounded
@@ -128,11 +127,6 @@ public class PlayerMachine : SuperStateMachine {
         // Set our currentState to idle on startup unless gameover is set
         gameObject.GetComponent<Animator>().SetBool("Dead", false);
         currentState = PlayerStates.Idle;
-
-        // store jump constraints for modification during trampoline bounce
-        originalMaxHeight = MaxJumpHeight;
-        originalMinHeight = MinJumpHeight;
-        originalAcceleration = JumpAcceleration;
     }
 
     //----------------------------------------------
@@ -1389,21 +1383,22 @@ public class PlayerMachine : SuperStateMachine {
     //---------------------------------------------
     // Trampoline Bounce:
     //---------------------------------------------
-    public void Bounce(float maxJump, float minJump, float jumpAccel)
+    public void Bounce()
     {
-        currentState = PlayerStates.Bounce;
+        if (currentState.Equals(PlayerStates.Roll))
+        {
+            return;
+        }
 
-        MaxJumpHeight = maxJump;
-        MinJumpHeight = minJump;
-        JumpAcceleration = jumpAccel;
+        currentState = PlayerStates.Bounce;
     }
 
     void Bounce_EnterState()
     {
-        transform.Translate(Vector3.up); // immediately exiting states due to intersecting with trampoline collider (controller uses raycasts so doesn't care if trigger)
+        transform.Translate(Vector3.up * 0.15f); // prevents immediately exiting states due to intersecting with trampoline collider (controller uses raycasts so doesn't care if trigger)
         Jump_EnterState();
 
-        moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
+        moveDirection += controller.up * CalculateJumpSpeed(15f, Gravity);
     }
 
     void Bounce_SuperUpdate()
@@ -1413,10 +1408,6 @@ public class PlayerMachine : SuperStateMachine {
 
     void Bounce_ExitState()
     {
-        MaxJumpHeight = originalMaxHeight;
-        MinJumpHeight = originalMinHeight;
-        JumpAcceleration = originalAcceleration;
-
         Jump_ExitState();
     }
 

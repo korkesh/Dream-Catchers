@@ -6,13 +6,9 @@ using System.Collections;
 // Description: Camera behaviour catered to a 3D Platformer.
 //              Focuses on keeping the view ahead of the player clear to minimize manual input and avoid blind jumps on whims.
 //              Emphasizes landing vantage and a sense of vertical spacial awareness by rising quickly and lowering slowly, rotating to keep the player in view.
-//              Behaviour is consistent and the camera will always correct itself out if it ever gets confused or stuck in an odd position.
-//              Wall occlusion avoidance is somewhat abrupt in places, but it's a complex problem for this model combined with exceedingly narrow and
-//              boxy level passages, leaving it out of scope due to time constraints. Mario 64's camera used the 1/8 circle rotation as a means of circumventing
-//              complex wall behaviour, whereas this camera gives the player full rotation control via the right stick, while other platformers with full camera
-//              control generally have their levels built around such challenges. Similarly, floor occlusion due to abundantly large floor "stairs" is mostly
-//              smooth but becomes a bit disoriented with enough opposing forces, though the effects will always balance out when the player leaves the occlusion.
-//              Otherwise the camera maintains very smooth and intuitive movement at all times.
+//              Behaviour is consistent and the camera will always correct itself out if it ever gets confused or stuck in an odd position (which shouldn't happen naturally).
+//              Wall collisions are handled by quickly moving to the point of intersection from the player to the camera, which are very common due to boxy levels + 360 control.
+//              Obstructions such as floors between the player and camera are not rendered.
 
 [RequireComponent(typeof(DefaultMode))]
 public class NewCamera : MonoBehaviour
@@ -77,7 +73,6 @@ public class NewCamera : MonoBehaviour
     public float hAngleAir;
     public float lAngleGround; // = ~10~
     public float lAngleAir;
-    private float angleOffset = 0; // offset applied to static x angle
 
     // Jump state variables
     private Vector3 JumpOrigin; // position at which player left the ground
@@ -143,7 +138,7 @@ public class NewCamera : MonoBehaviour
         lastGround = controller.currentGround.groundHeight + vTargetOffset.y;
 
         UpdateActiveVariables();
-        transform.eulerAngles = new Vector3(currentAngle + angleOffset, transform.eulerAngles.y, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(currentAngle, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
     void Awake()
@@ -160,12 +155,12 @@ public class NewCamera : MonoBehaviour
 
         UpdateActiveVariables(); // updates variables such as follow distance, height and angle based on mode and other interactions
 
-        // do not update distance/height during collision unless planar forward distance threshold is exceeded
-        if ((!collision && floorArc == 0f) || Math3d.ProjectVectorOnPlane(controller.up, (Player.transform.position + vTargetOffset) - transform.position).magnitude > currentFollowDistance)
-        {
-            
+        // do not apply follow distance during collision unless planar forward distance threshold is exceeded
+        if (!collision || Math3d.ProjectVectorOnPlane(controller.up, (Player.transform.position + vTargetOffset) - transform.position).magnitude > currentFollowDistance)
+        {  
             ConstrainDistance(); // planar forward player follow
         }
+
         UpdateHeight(); // updates height variables based on player position
         UpdateTarget(); // updates the view target, telling the camera what to focus on and facilitating look ahead features
 
@@ -199,13 +194,12 @@ public class NewCamera : MonoBehaviour
                     {
                         currentHeight = hHeightGround;
                         currentAngle = hAngleGround + xRotationOffset + floorArc;
-                        angleOffset = 0;
                     }
                     else
                     {
                         currentHeight = hHeightGround;//Air;
                         currentAngle = hAngleGround + floorArc;//Air + floorArc;
-                        xRotationOffset = 0;
+                        xRotationOffset = 0f;
                     }
 
                     return;
@@ -219,13 +213,12 @@ public class NewCamera : MonoBehaviour
                     {
                         currentHeight = lHeightGround;
                         currentAngle = lAngleGround + xRotationOffset + floorArc;
-                        angleOffset = 0;
                     }
                     else
                     {
                         currentHeight = lHeightGround;//Air;
                         currentAngle = lAngleGround + floorArc;//Air;
-                        xRotationOffset = 0;
+                        xRotationOffset = 0f;
                     }
 
                     return;
@@ -259,6 +252,10 @@ public class NewCamera : MonoBehaviour
             Mode = CameraMode.High;
         }
         else if (mode == "Low")
+        {
+            Mode = CameraMode.Low;
+        }
+        else
         {
             Mode = CameraMode.Low;
         }
@@ -349,6 +346,8 @@ public class NewCamera : MonoBehaviour
         // update anchor height based on most recent ground height
         float newGround = controller.currentGround.groundHeight + vTargetOffset.y;
 
+
+        
         if (newGround > lastGround)
         {
             lastGround += (newGround - lastGround) * Time.deltaTime * lastGroundSpeed;
@@ -367,7 +366,8 @@ public class NewCamera : MonoBehaviour
         }
         else if (Target.y < lastGround)
         {
-            currentAngle += Clamp(0f, 60f, (lastGround - Target.y) * 4f);
+            //currentAngle += Clamp(0f, 60f, (lastGround - Target.y) * 4f);
+            currentAngle += Clamp(0f, 60f, Mathf.Max((lastGround - newGround) * 4f, (lastGround - Target.y) * 4f));
         }
     }
 
@@ -424,7 +424,7 @@ public class NewCamera : MonoBehaviour
         }
 
         // x-axis rotation
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle + angleOffset - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed, transform.eulerAngles.y, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x + (currentAngle - transform.eulerAngles.x) * Time.deltaTime * rotateSpeed, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
 
@@ -480,14 +480,58 @@ public class NewCamera : MonoBehaviour
                     CollisionTarget.y = (Player.transform.position.y + vTargetOffset.y) + currentHeight;
                 }
 
+                // Turn mesh renderer on/off
                 if (CurrentObstruction == null)
                 {
                     CurrentObstruction = hit.transform.gameObject.GetComponent<MeshRenderer>();
 
-                    if (CurrentObstruction)
+                    if (CurrentObstruction == null)
                     {
-                        CurrentObstruction.enabled = false;
-                    }                  
+                        // some mesh renderers are parents of their colliders so iterate through all parents
+                        Transform t = hit.transform;
+                        while (t.parent != null)
+                        {
+                            t = t.parent;
+                            CurrentObstruction = t.GetComponent<MeshRenderer>();
+
+                            if (CurrentObstruction != null)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (CurrentObstruction != null)
+                {
+                    CurrentObstruction.enabled = false;
+                }
+            }
+            else if (hit.transform.gameObject.tag == "Floor")
+            {
+                // Turn mesh renderer on/off
+                if (CurrentObstruction == null)
+                {
+                    CurrentObstruction = hit.transform.gameObject.GetComponent<MeshRenderer>();
+
+                    if (CurrentObstruction == null)
+                    {
+                        // some mesh renderers are parents of their colliders so iterate through all parents
+                        Transform t = hit.transform;
+                        while (t.parent != null)
+                        {
+                            t = t.parent;
+                            CurrentObstruction = t.GetComponent<MeshRenderer>();
+
+                            if (CurrentObstruction != null)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (CurrentObstruction != null)
+                {
+                    CurrentObstruction.enabled = false;
                 }
             }
             else if (CurrentObstruction != null)

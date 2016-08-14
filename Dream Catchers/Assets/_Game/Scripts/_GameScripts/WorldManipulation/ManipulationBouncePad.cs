@@ -14,6 +14,7 @@ public class ManipulationBouncePad : ManipulationScript
 
     public Animator bouncePadAnim;
 
+    // note: bounce values not used atm as trampoline is only bounce case so it's hard-coded. could easily make modular if we wanted multiple bounce types but w.e
     public float bounceMaxHeight;
     public float bounceMinHeight;
     public float bounceAcceleration;
@@ -22,9 +23,6 @@ public class ManipulationBouncePad : ManipulationScript
     public bool bounceInNightmare;
 
     private bool bounceObject;
-    private float originalMaxHeight;
-    private float originalMinHeight;
-    private float originalAcceleration;
 
     private float jumpReset = 0.5f;
 
@@ -35,9 +33,6 @@ public class ManipulationBouncePad : ManipulationScript
         currentManipType = MANIPULATION_TYPE.OTHER;
         player = GameObject.FindGameObjectWithTag("Player");
         machine = player.GetComponent<PlayerMachine>();
-        originalMaxHeight = machine.MaxJumpHeight;
-        originalMinHeight = machine.MinJumpHeight;
-        originalAcceleration = machine.JumpAcceleration;
 
         setBounce();
     }
@@ -69,7 +64,23 @@ public class ManipulationBouncePad : ManipulationScript
     {
         if (bounceObject && other.gameObject == player)
         {
-            machine.Bounce(bounceMaxHeight, bounceMinHeight, bounceAcceleration);
+            machine.Bounce();
+
+            gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
+
+            if (bouncePadAnim != null)
+            {
+                bouncePadAnim.SetTrigger("Bounce");
+            }
+        }
+    }
+
+    // for the case of standing inside the nightmare trampoline and then switching states
+    public void OnTriggerStay(Collider other)
+    {
+        if (bounceObject && other.gameObject == player)
+        {
+            machine.Bounce();
 
             gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
 
