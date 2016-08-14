@@ -1082,8 +1082,6 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Diving", true);
 
         planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
-        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
-
         speed = planarMoveDirection.magnitude;
     }
 

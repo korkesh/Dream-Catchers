@@ -89,11 +89,8 @@ public class NewCamera : MonoBehaviour
     private float xRotationOffset = 0; // player manipulation value to x axis rotation
 
     private float currentRotateSpeed = 0; // speed at which camera is rotating around y axis (accelerates)
-    private float currentFloorOffset = 0; // offset for floor obstruction
     [SerializeField]
     private float floorArc = 0; // amount of arc rotation applied to see above floors
-
-    private bool autoRotating; // whether the camera is currently in autorotate mode
 
     bool collision = false; // set to true each frame if any collision occurred (prevents target updating/jitter)
 
@@ -233,45 +230,39 @@ public class NewCamera : MonoBehaviour
     void ManualRotation()
     {
         // manual x control (rotate around player pivot)
-        if (!autoRotating)
+        rotate = false;
+        RaycastHit hit;
+
+        if (input.Current.LTrigger > 0.2f || input.Current.RTrigger > 0.2f)
         {
-            rotate = false;
-            RaycastHit hit;
-
-            if (input.Current.LTrigger > 0.2f || input.Current.RTrigger > 0.2f)
+            rotate = true;
+            if (currentRotateSpeed < 6f)
             {
-                rotate = true;
-                if (currentRotateSpeed < 6f)
-                {
-                    currentRotateSpeed = 6f;
-                }
-
-                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
+                currentRotateSpeed = 6f;
             }
-            else if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)//&& machine.ground)
-            {
-                rotate = true;
-                transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * input.Current.Joy2Input.x);
 
-                // if rotation caused a collision revert
-                if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
-                {
-                    if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
-                    {
-                        //transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
-                        //rotate = false;
-                    }
-                }
-            }
-            else
+            transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
+        }
+        else if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)//&& machine.ground)
+        {
+            rotate = true;
+            transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * input.Current.Joy2Input.x);
+
+            // if rotation caused a collision revert
+            if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
             {
-                currentRotateSpeed = 0;// Clamp(0, float.PositiveInfinity, currentRotateSpeed + (0f - currentRotateSpeed) * Time.deltaTime * 4);
+                if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
+                {
+                    //transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
+                    //rotate = false;
+                }
             }
         }
         else
         {
-            rotate = true;
+            currentRotateSpeed = 0;// Clamp(0, float.PositiveInfinity, currentRotateSpeed + (0f - currentRotateSpeed) * Time.deltaTime * 4);
         }
+        
     }
 
 
@@ -415,18 +406,6 @@ public class NewCamera : MonoBehaviour
         else
         { // move toward default if moving and no manipulation input
             xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * machine.moveDirection.magnitude * 0.25f;
-        }
-        
-
-        // normalize xRotationOffset 0-1
-        float norm = 0f;
-        if (xRotationOffset < 0f)
-        {
-            norm = (xRotationOffset - 0f) / (-15f - 0f);
-        }
-        else if (xRotationOffset > 0f)
-        {
-            norm = (xRotationOffset - 0f) / (25 - 0f);
         }
     }
 

@@ -18,7 +18,6 @@ public class BossCamera : MonoBehaviour
     // Private variables
     private GameObject Player;
 
-    private Vector3 Target;
     private Vector3 CurrentTargetPos;
     private float currentTargetOffset = 0;
 
@@ -62,8 +61,6 @@ public class BossCamera : MonoBehaviour
 
         float align = Vector3.Cross(DisplacementDir, Player.transform.forward).y;
         Vector3 right = Vector3.Cross(Vector3.up, DisplacementDir);
-
-        Target = Player.transform.position + right * lookDistance;
 
         // smoothly move target left/right in ground state
         if (Player.GetComponent<PlayerMachine>().ground) // todo: cleanup
