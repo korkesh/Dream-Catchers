@@ -110,6 +110,8 @@ public class NewCamera : MonoBehaviour
     Vector3 CollisionTarget;
     private float collisionDistance = 0; // amount of distance required to cover to reach collision point (normalized 0..1)
 
+    private GameObject CurrentObstruction = null; // store current wall we are hitting to turn off / on its mesh
+
     //==========================================
     // Smoothing Coefficients
     //==========================================
@@ -460,10 +462,37 @@ public class NewCamera : MonoBehaviour
     }
 
 
-    // avoid wall and floor obstructions
+    // avoid wall obstructions
     void CheckOcclusion()
     {
         RaycastHit hit = new RaycastHit();
+
+        // Wall Occlusion   
+        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Wall")
+            {
+                collision = true;
+                CollisionTarget = hit.point;
+
+                if (CurrentObstruction == null)
+                {
+                    CurrentObstruction = hit.transform.gameObject;
+                    CurrentObstruction.GetComponent<MeshRenderer>().enabled = false;
+                }
+            }
+            else if (CurrentObstruction != null)
+            {
+                CurrentObstruction.GetComponent<MeshRenderer>().enabled = true;
+                CurrentObstruction = null;
+            }
+        }
+        else if (CurrentObstruction != null)
+        {
+            CurrentObstruction.GetComponent<MeshRenderer>().enabled = true;
+            CurrentObstruction = null;
+        }
+
         //Vector3 Disp;
         //Vector3 Root;
 
@@ -546,17 +575,6 @@ public class NewCamera : MonoBehaviour
         //        }
         //    }
         //}
-
-        // Wall Occlusion   
-        if (CheckCollision(Player.transform.position + vTargetOffset * 0.2f, transform.position, out hit))
-        {
-            if (hit.transform.gameObject.tag == "Wall")
-            {
-                collision = true;
-                CollisionTarget = hit.point;
-                //transform.position = new Vector3(hit.point.x, Mathf.Min(Target.y + currentHeight, hit.point.y), hit.point.z);
-            }
-        }
     }
 
 
