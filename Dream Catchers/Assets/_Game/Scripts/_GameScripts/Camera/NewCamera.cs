@@ -496,14 +496,33 @@ public class NewCamera : MonoBehaviour
 
                             if (CurrentObstruction != null)
                             {
+                                CurrentObstruction.enabled = false;
                                 break;
                             }
                         }
                     }
                 }
-                if (CurrentObstruction != null)
+                else if (CurrentObstruction != null)
                 {
+                    MeshRenderer r = hit.transform.GetComponent<MeshRenderer>();
+
+                    if (r != null)
+                    {
+                        if (r.gameObject.Equals(CurrentObstruction.gameObject))
+                        {
+                            CurrentObstruction.enabled = false; // same obstruction; continue not rendering it
+                        }
+                        else
+                        {
+                            CurrentObstruction.enabled = true; // switched obstructions, restore the last one
+                            CurrentObstruction = r;
+                        }
+                    }
                     CurrentObstruction.enabled = false;
+                }
+                else
+                {
+                    CurrentObstruction.enabled = true; // switched obstructions, restore the last one
                 }
             }
             else if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "Platform")
@@ -524,6 +543,7 @@ public class NewCamera : MonoBehaviour
 
                             if (CurrentObstruction != null)
                             {
+                                CurrentObstruction.enabled = false;
                                 break;
                             }
                         }
@@ -536,8 +556,25 @@ public class NewCamera : MonoBehaviour
             }
             else if (CurrentObstruction != null)
             {
-                CurrentObstruction.enabled = true;
-                CurrentObstruction = null;
+                MeshRenderer r = hit.transform.GetComponent<MeshRenderer>();
+
+                if (r != null)
+                {
+                    if (r.gameObject.Equals(CurrentObstruction.gameObject))
+                    {
+                        CurrentObstruction.enabled = false; // same obstruction; continue not rendering it
+                    }
+                    else
+                    {
+                        CurrentObstruction.enabled = true; // switched obstructions, restore the last one
+                        CurrentObstruction = r;
+                    }
+                }
+                CurrentObstruction.enabled = false;
+            }
+            else
+            {
+                CurrentObstruction.enabled = true; // switched obstructions, restore the last one
             }
         }
         else if (CurrentObstruction != null)
