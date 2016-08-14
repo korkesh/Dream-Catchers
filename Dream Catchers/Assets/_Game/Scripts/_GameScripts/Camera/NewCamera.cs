@@ -688,13 +688,20 @@ public class NewCamera : MonoBehaviour
         }
         else
         {
-            if (collisionDistance > 0.5f)
+            if ((CollisionTarget - transform.position).magnitude > 1f)
             {
-                collisionDistance = Clamp(0f, 1f, collisionDistance - Time.deltaTime * 8f);
+                if (collisionDistance > 0.5f)
+                {
+                    collisionDistance = Clamp(0f, 1f, collisionDistance - Time.deltaTime * 8f);
+                }
+                else
+                {
+                    collisionDistance = Clamp(0f, 1f, collisionDistance - (collisionDistance * Time.deltaTime * 32f));
+                }
             }
             else
             {
-                collisionDistance = Clamp(0f, 1f, collisionDistance - (collisionDistance * Time.deltaTime * 32f));
+                collisionDistance = 0f;
             }
 
             transform.position += (CollisionTarget - transform.position) * collisionDistance;
