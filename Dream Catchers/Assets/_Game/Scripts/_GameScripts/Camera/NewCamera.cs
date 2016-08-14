@@ -243,7 +243,7 @@ public class NewCamera : MonoBehaviour
             }
         }
     }
-
+    
     // Automatic mode set
     public void UpdateMode(string mode)
     {
@@ -506,7 +506,7 @@ public class NewCamera : MonoBehaviour
                     CurrentObstruction.enabled = false;
                 }
             }
-            else if (hit.transform.gameObject.tag == "Floor")
+            else if (hit.transform.gameObject.tag == "Floor" || hit.transform.gameObject.tag == "Platform")
             {
                 // Turn mesh renderer on/off
                 if (CurrentObstruction == null)
