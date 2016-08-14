@@ -5,9 +5,9 @@ using System.Collections;
 // Author: Conor MacKeigan
 // Description: Camera behaviour catered to a 3D Platformer.
 //              Focuses on keeping the view ahead of the player clear to minimize manual input and avoid blind jumps on whims.
-//              Emphasizes landing vantage and a sense of vertical spacial awareness by rising quickly and lowering slowly, rotating to keep the player in view.
+//              Emphasizes landing vantage and a sense of vertical spacial awareness by rising quickly and lowering slowly while rotating to keep the player in view.
 //              Behaviour is consistent and the camera will always correct itself out if it ever gets confused or stuck in an odd position (which shouldn't happen naturally).
-//              Wall collisions are handled by quickly moving to the point of intersection from the player to the camera, which are very common due to boxy levels + 360 control.
+//              Wall collisions are handled by quickly moving to the point of intersection from the player to the camera, which are very common due to boxy levels.
 //              Obstructions such as floors between the player and camera are not rendered.
 
 [RequireComponent(typeof(DefaultMode))]
@@ -688,14 +688,23 @@ public class NewCamera : MonoBehaviour
         }
         else
         {
-            if (collisionDistance > 0.5f)
+            if ((CollisionTarget - transform.position).magnitude > 1f)
             {
-                collisionDistance = Clamp(0f, 1f, collisionDistance - Time.deltaTime * 4f);
+                if (collisionDistance > 0.5f)
+                {
+                    collisionDistance = Clamp(0f, 1f, collisionDistance - Time.deltaTime * 4f);
+                }
+                else
+                {
+                    collisionDistance = Clamp(0f, 1f, collisionDistance - (collisionDistance * Time.deltaTime * 16f));
+                }
             }
             else
             {
-                collisionDistance = Clamp(0f, 1f, collisionDistance - (collisionDistance * Time.deltaTime * 16f));
+                collisionDistance = 0f;
             }
+
+            transform.position += (CollisionTarget - transform.position) * collisionDistance;
         }
 
         
