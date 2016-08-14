@@ -692,11 +692,11 @@ public class NewCamera : MonoBehaviour
             {
                 if (collisionDistance > 0.5f)
                 {
-                    collisionDistance = Clamp(0f, 1f, collisionDistance - Time.deltaTime * 8f);
+                    collisionDistance = Clamp(0f, 1f, collisionDistance - Time.deltaTime * 4f);
                 }
                 else
                 {
-                    collisionDistance = Clamp(0f, 1f, collisionDistance - (collisionDistance * Time.deltaTime * 32f));
+                    collisionDistance = Clamp(0f, 1f, collisionDistance - (collisionDistance * Time.deltaTime * 16f));
                 }
             }
             else

@@ -666,7 +666,7 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
 
         // add external y velocity for elevators
-        float externalY = clampF(0f, float.PositiveInfinity, ((transform.position - prevPos) / Time.deltaTime).y) * 0.5f;
+        float externalY = clampF(0f, float.PositiveInfinity, ((transform.position - prevPos) / Time.deltaTime).y) * 0.35f;
         moveDirection += controller.up * externalY;
 
         // cap jump speed
