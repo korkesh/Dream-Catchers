@@ -110,7 +110,7 @@ public class NewCamera : MonoBehaviour
     Vector3 CollisionTarget;
     private float collisionDistance = 0; // amount of distance required to cover to reach collision point (normalized 0..1)
 
-    private GameObject CurrentObstruction = null; // store current wall we are hitting to turn off / on its mesh
+    private MeshRenderer CurrentObstruction = null; // store current wall we are hitting to turn off / on its mesh
 
     //==========================================
     // Smoothing Coefficients
@@ -163,10 +163,10 @@ public class NewCamera : MonoBehaviour
         // do not update distance/height during collision unless planar forward distance threshold is exceeded
         if ((!collision && floorArc == 0f) || Math3d.ProjectVectorOnPlane(controller.up, (Player.transform.position + vTargetOffset) - transform.position).magnitude > currentFollowDistance)
         {
-            UpdateHeight(); // updates height variables based on player position
+            
             ConstrainDistance(); // planar forward player follow
         }
-
+        UpdateHeight(); // updates height variables based on player position
         UpdateTarget(); // updates the view target, telling the camera what to focus on and facilitating look ahead features
 
         UpdateVectors(); // update displacement vectors for calculations
@@ -475,21 +475,30 @@ public class NewCamera : MonoBehaviour
                 collision = true;
                 CollisionTarget = hit.point;
 
+                if (CollisionTarget.y - (Player.transform.position.y + vTargetOffset.y) > currentHeight)
+                { // prevents camera height from getting stuck on the wall while the player moves down on an elevator
+                    CollisionTarget.y = (Player.transform.position.y + vTargetOffset.y) + currentHeight;
+                }
+
                 if (CurrentObstruction == null)
                 {
-                    CurrentObstruction = hit.transform.gameObject;
-                    CurrentObstruction.GetComponent<MeshRenderer>().enabled = false;
+                    CurrentObstruction = hit.transform.gameObject.GetComponent<MeshRenderer>();
+
+                    if (CurrentObstruction)
+                    {
+                        CurrentObstruction.enabled = false;
+                    }                  
                 }
             }
             else if (CurrentObstruction != null)
             {
-                CurrentObstruction.GetComponent<MeshRenderer>().enabled = true;
+                CurrentObstruction.enabled = true;
                 CurrentObstruction = null;
             }
         }
         else if (CurrentObstruction != null)
         {
-            CurrentObstruction.GetComponent<MeshRenderer>().enabled = true;
+            CurrentObstruction.enabled = true;
             CurrentObstruction = null;
         }
 

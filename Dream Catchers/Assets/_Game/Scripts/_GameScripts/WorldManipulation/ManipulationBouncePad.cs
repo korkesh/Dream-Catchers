@@ -69,11 +69,9 @@ public class ManipulationBouncePad : ManipulationScript
     {
         if (bounceObject && other.gameObject == player)
         {
-            machine.MaxJumpHeight = bounceMaxHeight;
-            machine.MinJumpHeight = bounceMinHeight;
-            machine.JumpAcceleration = bounceAcceleration;
+            machine.Bounce(bounceMaxHeight, bounceMinHeight, bounceAcceleration);
 
-            gameObject.SendMessage("Play");
+            gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
 
             if (bouncePadAnim != null)
             {
@@ -81,39 +79,4 @@ public class ManipulationBouncePad : ManipulationScript
             }
         }
     }
-
-    public void OnTriggerStay(Collider other)
-    {
-        if(bounceObject && other.gameObject == player)
-        {
-            machine.MaxJumpHeight = bounceMaxHeight;
-            machine.MinJumpHeight = bounceMinHeight;
-            machine.JumpAcceleration = bounceAcceleration;
-
-            PlayerInputController inputScript = other.gameObject.GetComponent<PlayerInputController>();
-            machine.hasDoubleJump = true;
-
-            StartCoroutine(ResetJump());
-        }
-    }
-
-    public IEnumerator ResetJump()
-    {
-        yield return new WaitForSeconds(jumpReset);
-
-        machine.MaxJumpHeight = originalMaxHeight;
-        machine.MinJumpHeight = originalMinHeight;
-        machine.JumpAcceleration = originalAcceleration;
-    }
-
-    /*public void OnTriggerExit(Collider other)
-    {
-        if (bounceObject && other.gameObject == player)
-        {
-            machine.MaxJumpHeight = originalMaxHeight;
-            machine.MinJumpHeight = originalMinHeight;
-            machine.JumpAcceleration = originalAcceleration;
-        }
-    }*/
-
 }

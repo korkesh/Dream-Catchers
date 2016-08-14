@@ -22,7 +22,7 @@ public class PlayerMachine : SuperStateMachine {
     // Controllers and States
     //----------------------------------------------
 
-    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13 };
+    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13, Bounce = 14 };
 
     private SuperCharacterController controller;
     private PlayerInputController input; // Input Controller
@@ -85,6 +85,11 @@ public class PlayerMachine : SuperStateMachine {
     private bool finishDoubleJump = false;
     public bool hasDoubleJump = true;
 
+    // Bouncing
+    private float originalMaxHeight;
+    private float originalMinHeight;
+    private float originalAcceleration;
+
     // Physics
     public float Gravity = 60.0f;
     public float DiveGravity = 39.0f;
@@ -111,18 +116,23 @@ public class PlayerMachine : SuperStateMachine {
     // Initialization
     //----------------------------------------------
 
-    void Start ()
+    void Start()
     {
         // Get other controller component references
-        input = gameObject.GetComponent<PlayerInputController>();    
+        input = gameObject.GetComponent<PlayerInputController>();
         controller = gameObject.GetComponent<SuperCharacterController>();
-		
-		// Our character's current facing direction, planar to the ground
+
+        // Our character's current facing direction, planar to the ground
         lookDirection = transform.forward;
 
         // Set our currentState to idle on startup unless gameover is set
         gameObject.GetComponent<Animator>().SetBool("Dead", false);
         currentState = PlayerStates.Idle;
+
+        // store jump constraints for modification during trampoline bounce
+        originalMaxHeight = MaxJumpHeight;
+        originalMinHeight = MinJumpHeight;
+        originalAcceleration = JumpAcceleration;
     }
 
     //----------------------------------------------
@@ -205,7 +215,7 @@ public class PlayerMachine : SuperStateMachine {
         }
 
         // Prevent all movement once dead
-        if ((Character_Manager.instance != null && Character_Manager.instance.isDead) 
+        if ((Character_Manager.instance != null && Character_Manager.instance.isDead)
             && (Game_Manager.instance != null && Game_Manager.instance.currentGameState == Game_Manager.GameState.GAMEOVER)
             && !currentState.Equals(PlayerStates.Dead))
         {
@@ -303,7 +313,7 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection = transform.forward * speed;
 
-        if(idleTimer >= 5f && prevIdle < 5f)
+        if (idleTimer >= 5f && prevIdle < 5f)
         {
             gameObject.GetComponent<Animator>().SetBool("Idle1", true);
         }
@@ -321,7 +331,7 @@ public class PlayerMachine : SuperStateMachine {
                 idleTimer = 0; // completed full cycle, reset timer
             }
         }
-        
+
 
         // ANIMATION:
         if (speed / MaxRunSpeed > 0.5f)
@@ -349,7 +359,7 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Idle2", false);
     }
 
-  
+
     //----------------------------------------------
     // Running
     //----------------------------------------------
@@ -440,7 +450,7 @@ public class PlayerMachine : SuperStateMachine {
         {
             currentState = PlayerStates.Idle;
         }
-        
+
     }
 
     void Run_ExitState()
@@ -513,7 +523,7 @@ public class PlayerMachine : SuperStateMachine {
         ground = false;
 
         gameObject.GetComponent<Animator>().SetBool("DoubleJump", true);
-    
+
         controller.DisableClamping();
         controller.DisableSlopeLimit();
 
@@ -522,7 +532,7 @@ public class PlayerMachine : SuperStateMachine {
             moveDirection = new Vector3(localMovement.x, 0, localMovement.z);
             transform.forward = moveDirection;
         }
-        
+
         float magnitude = input.Current.MoveInput.magnitude;
         if (magnitude > 0.9f)
         {
@@ -741,7 +751,7 @@ public class PlayerMachine : SuperStateMachine {
             }
 
             transform.forward = ((transform.forward * old_ratio).normalized + (localMovement * new_ratio)).normalized;
-         
+
             // SPEED:
             float cross = Vector3.Cross(localMovement, transform.right).y; // speed is a function of how aligned the input direction is with the player forward vector
             float speedCoefficient = (cross - -1) / (1 - -1); // normalize cross 0..1
@@ -771,7 +781,7 @@ public class PlayerMachine : SuperStateMachine {
 
             moveDirection = transform.forward * speed;
         }
-        
+
 
         // Y Movement
         verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
@@ -1177,7 +1187,7 @@ public class PlayerMachine : SuperStateMachine {
 
         // transition to roll condition
         if (input.Current.DiveInput || input.Current.JumpInput)
-        {           
+        {
             rollSpeed = Math3d.ProjectVectorOnPlane(controller.up, moveDirection).magnitude;
 
             currentState = PlayerStates.Roll;
@@ -1317,7 +1327,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Damage_SuperUpdate()
     {
-        if(Character_Manager.Instance != null && !Character_Manager.Instance.invincible)
+        if (Character_Manager.Instance != null && !Character_Manager.Instance.invincible)
         {
             currentState = PlayerStates.Idle;
             return;
@@ -1356,12 +1366,11 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
 
         gameObject.GetComponent<Animator>().SetBool("Dead", true);
-
     }
 
     void Dead_SuperUpdate()
     {
-        if(!Character_Manager.instance.isDead)
+        if (!Character_Manager.instance.isDead)
         {
             UI_Manager.instance.GameOver();
             currentState = PlayerStates.Idle;
@@ -1376,6 +1385,41 @@ public class PlayerMachine : SuperStateMachine {
     {
         gameObject.GetComponent<Animator>().SetBool("Dead", false);
     }
+
+    //---------------------------------------------
+    // Trampoline Bounce:
+    //---------------------------------------------
+    public void Bounce(float maxJump, float minJump, float jumpAccel)
+    {
+        currentState = PlayerStates.Bounce;
+
+        MaxJumpHeight = maxJump;
+        MinJumpHeight = minJump;
+        JumpAcceleration = jumpAccel;
+    }
+
+    void Bounce_EnterState()
+    {
+        transform.Translate(Vector3.up); // immediately exiting states due to intersecting with trampoline collider (controller uses raycasts so doesn't care if trigger)
+        Jump_EnterState();
+
+        moveDirection += controller.up * CalculateJumpSpeed(MinJumpHeight, Gravity);
+    }
+
+    void Bounce_SuperUpdate()
+    {
+        Fall_SuperUpdate();
+    }
+
+    void Bounce_ExitState()
+    {
+        MaxJumpHeight = originalMaxHeight;
+        MinJumpHeight = originalMinHeight;
+        JumpAcceleration = originalAcceleration;
+
+        Jump_ExitState();
+    }
+
 
     // Mathf.Clamp doesn't seem to work?
     float clampF(float min, float max, float val)
