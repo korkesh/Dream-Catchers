@@ -13,6 +13,9 @@ public class Audio_Manager : Singleton<Audio_Manager>
     public AudioSource DreamBGM;
     public AudioSource NightmareBGM;
 
+    public float volume = 1.0f;
+    public float bgm = 1.0f;
+
     void Awake()
     {
         //Check if instance already exists
@@ -32,17 +35,15 @@ public class Audio_Manager : Singleton<Audio_Manager>
         //DontDestroyOnLoad(gameObject);
     }
 
-
-
-	// Use this for initialization
-	void Start ()
+    public void setVolume(float v)
     {
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        volume = v;
+        gameObject.GetComponent<AudioSource>().Play();
+        AudioListener.volume = v;
+    }
+
+    public void setBGM(float v)
     {
-	
-	}
+        bgm = v;
+    }
 }
