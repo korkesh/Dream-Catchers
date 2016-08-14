@@ -28,10 +28,6 @@ public class BalloonFloatToStart2 : BaseState {
         rigidB = this.gameObject.GetComponent<Rigidbody>();
         StartPos = this.transform.position + new Vector3(radiusOfCircle, 0, 0);
         anim = this.gameObject.GetComponentInChildren<Animator>();
-        if (anim == null)
-        {
-            Debug.Log("error no animator");
-        }
     }
 
     //-----------------

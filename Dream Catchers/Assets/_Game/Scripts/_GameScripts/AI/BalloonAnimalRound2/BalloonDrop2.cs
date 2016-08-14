@@ -34,10 +34,6 @@ public class BalloonDrop2 : BaseState {
         rigidB = this.gameObject.GetComponent<Rigidbody>();
         Navmesh = this.GetComponent<NavMeshAgent>();
         anim = this.gameObject.GetComponentInChildren<Animator>();
-        if (anim == null)
-        {
-            Debug.Log("error no animator");
-        }
     }
 
     //-----------------

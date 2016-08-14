@@ -15,9 +15,5 @@ public class Confetti : MonoBehaviour {
             }
 
         }
-        else
-        {
-            Debug.Log("no HM");
-        }  
     }
 }

@@ -70,7 +70,7 @@ public class BallSpawner : MonoBehaviour {
 
     public void Spawn()
     {
-        gameObject.SendMessage("Play");
+        gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
         if (currentAttack != null)
             return;
         GameObject rocket = (GameObject)Instantiate(Ballprefab, this.transform.position, this.transform.rotation);

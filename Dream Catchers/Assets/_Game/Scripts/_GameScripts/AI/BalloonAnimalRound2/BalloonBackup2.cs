@@ -32,10 +32,6 @@ public class BalloonBackup2 : BaseState {
         fsm = this.gameObject.GetComponent<FSM>();
         anim = this.gameObject.GetComponentInChildren<Animator>();
         Player = GameObject.FindGameObjectWithTag("Player");
-        if (anim == null)
-        {
-            Debug.Log("error no animator");
-        }
     }
 
 

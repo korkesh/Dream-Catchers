@@ -29,7 +29,6 @@ public class EnterDamage : MonoBehaviour {
             {
                 d.DealDamage();
                 hit = true;
-                //Debug.Log("Deal Dam");
             }
             else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "BossHand")
             {
@@ -60,11 +59,8 @@ public class EnterDamage : MonoBehaviour {
             if (other.gameObject.tag == "Player")
             {
                 time -= Time.deltaTime;
-                //Debug.Log(Time.deltaTime);
-                //Debug.Log("time is :" + time);
                 if (time <= 0)
                 {
-                    //Debug.Log("WTF");
                     d.DealDamage();
                     time = Timer;
                 }

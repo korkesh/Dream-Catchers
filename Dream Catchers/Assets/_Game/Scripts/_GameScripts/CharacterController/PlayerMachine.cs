@@ -632,7 +632,6 @@ public class PlayerMachine : SuperStateMachine {
             old_ratio = 1.0f - new_ratio;
 
             speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
-            Debug.Log(speed);
             moveDirection = transform.forward * speed;
         }
         else
@@ -664,8 +663,7 @@ public class PlayerMachine : SuperStateMachine {
 
     void Jump_EnterState()
     {
-
-        gameObject.SendMessage("Play");
+        gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
 
         jumping = true;
         ground = false;
@@ -818,7 +816,7 @@ public class PlayerMachine : SuperStateMachine {
     void DoubleJump_EnterState()
     {
 
-        gameObject.SendMessage("PlayAlt");
+        gameObject.SendMessage("PlayAlt", SendMessageOptions.DontRequireReceiver);
 
         hasDoubleJump = false;
         jumping = true;
@@ -1318,47 +1316,9 @@ public class PlayerMachine : SuperStateMachine {
     // animation event function
     public void FinishRoll()
     {
-        Debug.Log("finish roll");
         currentState = PlayerStates.Fall;
     }
 
-
-    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // 
-    // COMBAT STATES
-    //
-    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-    //----------------------------------------------
-    // Ground Pound [DISABLED]
-    //----------------------------------------------
-
-    /*void GroundPound_EnterState()
-    {
-        Debug.Log("Entering Pound State");
-
-        gameObject.GetComponent<PlayerCombat>().BeginPound();
-    }
-
-    void GroundPound_SuperUpdate()
-    {
-        if (AcquiringGround())
-        {
-            moveDirection = Math3d.ProjectVectorOnPlane(controller.up, Vector3.zero);
-            if(!gameObject.GetComponent<Animator>().GetBool("GroundPound"))
-            {
-                currentState = PlayerStates.Idle;
-            }
-            return;
-        }
-
-        moveDirection -= controller.up * GroundPoundSpeed * Time.deltaTime;
-    }
-
-    void GroundPound_ExitState()
-    {
-        Debug.Log("Leaving Pound State");
-    }*/
 
     //----------------------------------------------
     // Take Damage

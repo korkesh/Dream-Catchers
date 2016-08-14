@@ -31,7 +31,6 @@ public class StageThree : Stages {
         if (Bc.RightHand == null && Bc.LeftHand == null)
         {
             Bc.currentStage = NextStage;
-           // Debug.Log("Done");
         }
         else if(Bc.RightHand == null)
         {
@@ -90,7 +89,6 @@ public class StageThree : Stages {
             if(rotation == 3)
             {
                 int rand = Random.Range(0, 4);
-                Debug.Log(rand);
                 index = rand * 3;
                 rotation = 0;
             }
@@ -99,8 +97,6 @@ public class StageThree : Stages {
                 index++;
             }
 
-            Debug.Log("the index" + index);
-            Debug.Log("the value " + AttackPattern[index]);
             if(AttackPattern[index] == 0)
             {
                 Hand.ThrowBall();

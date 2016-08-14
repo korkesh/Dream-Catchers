@@ -185,13 +185,11 @@ public class ClownAttack : MonoBehaviour {
                 clown.SendMessage(Nightmaremessagetosend, SendMessageOptions.DontRequireReceiver);
             }
 
-            //Debug.Log(collision.gameObject.tag);
             if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "JackInTheBox")
             {
                 HealthManager Health = collision.gameObject.GetComponent<HealthManager>();
                 if(Health != null)
                 {
-                    //Debug.Log("TakeDamage");
                     Health.TakeDamage(damage.Damage);
                 }
             }

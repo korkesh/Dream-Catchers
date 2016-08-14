@@ -164,7 +164,6 @@ public class BalloonAttack_State : BaseState {
         float sin = Mathf.Sin(2 * a);
         float div = dist * Physics.gravity.magnitude / sin;
         float vel = Mathf.Sqrt(div);
-        Debug.Log(vel * dir.normalized);
         return vel * dir.normalized;
  }
 }

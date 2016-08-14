@@ -18,7 +18,7 @@ public class UIText : MonoBehaviour {
             if (igs != null)
             {
                 igs.ShowTextInBox(sentence, time);
-                gameObject.SendMessage("Play");
+                gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
 
             }
         }

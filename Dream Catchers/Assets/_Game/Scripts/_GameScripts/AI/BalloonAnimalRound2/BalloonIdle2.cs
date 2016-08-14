@@ -36,10 +36,6 @@ public class BalloonIdle2 : BaseState {
         //get fsm
         fsm = this.gameObject.GetComponent<FSM>();
         anim = this.gameObject.GetComponentInChildren<Animator>();
-        if(anim == null)
-        {
-            Debug.Log("error no animator");
-        }
         timeCounterVertical = 0;
         timeCounterHorizontal = 0;
         StartPos = this.transform.position + new Vector3(radiusOfCircle, 0, 0);

@@ -31,10 +31,6 @@ public class BalloonAttack2 : BaseState {
         Player = GameObject.FindGameObjectWithTag("Player");
         damage = GetComponent<DamageDealer>();
         anim = this.gameObject.GetComponentInChildren<Animator>();
-        if (anim == null)
-        {
-            Debug.Log("error no animator");
-        }
     }
 
 

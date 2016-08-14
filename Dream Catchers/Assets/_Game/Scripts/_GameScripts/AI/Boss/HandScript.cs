@@ -263,10 +263,8 @@ public class HandScript : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit " + other.gameObject.name);
        if(other.gameObject.tag == "Player")
        {
-           Debug.Log("hunter");
            //isAttacking == true && 
            Damage.DealDamage();
        }else if(other.gameObject.name == "DamageTrigger" && attack == Mode.SMACK && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)

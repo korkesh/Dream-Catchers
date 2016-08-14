@@ -109,7 +109,6 @@ public class NewCamera : MonoBehaviour
     // *** Debug ***
     public GameObject test1;
     public GameObject test2;
-    private bool toggle360 = true;
 
 
     void Start()
@@ -164,12 +163,6 @@ public class NewCamera : MonoBehaviour
         CheckOcclusion();
 
         UpdateTarget();
-
-        // debug:
-        if ((Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.C)) || (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.X)))
-        {
-            toggle360 = !toggle360;
-        }
     }
 
 
@@ -413,18 +406,16 @@ public class NewCamera : MonoBehaviour
         Root.y = lastGround + currentHeight;
 
         // manual look rotation around x-axis
-        if (Mathf.Abs(input.Current.Joy2Input.x) < 0.2f || toggle360)
+        if (Mathf.Abs(input.Current.Joy2Input.z) > 0.45f && machine.ground)
         {
-            if (Mathf.Abs(input.Current.Joy2Input.z) > 0.45f && machine.ground)
-            {
-                // rotation
-                xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
-            }
-            else
-            { // move toward default if moving and no manipulation input
-                xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * machine.moveDirection.magnitude * 0.25f;
-            }
+            // rotation
+            xRotationOffset = Clamp(-15f, 25f, xRotationOffset + input.Current.Joy2Input.z * Time.deltaTime * rotateSpeed * 10f);
         }
+        else
+        { // move toward default if moving and no manipulation input
+            xRotationOffset += (0f - xRotationOffset) * Time.deltaTime * machine.moveDirection.magnitude * 0.25f;
+        }
+        
 
         // normalize xRotationOffset 0-1
         float norm = 0f;
@@ -436,9 +427,6 @@ public class NewCamera : MonoBehaviour
         {
             norm = (xRotationOffset - 0f) / (25 - 0f);
         }
-
-
-        //transform.position = Vector3.MoveTowards(Root, Player.transform.position, (Root - Player.transform.position).magnitude * norm);
     }
 
 
@@ -535,6 +523,8 @@ public class NewCamera : MonoBehaviour
             {
                 collision = true;
                 transform.position = new Vector3(hit.point.x, Mathf.Min(Target.y + currentHeight, hit.point.y), hit.point.z);
+
+                currentHeight = 
             }
         }
     }

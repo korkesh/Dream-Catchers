@@ -8,14 +8,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class LimitVelocity : MonoBehaviour {
+public class LimitVelocity : MonoBehaviour
+{
 
     public Vector3 maxVelocity; // Upper-Bound Velocities
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    // Use this for initialization
+    void Start()
+    {
+
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -25,8 +27,7 @@ public class LimitVelocity : MonoBehaviour {
         // Clamp X velocity
         if (Mathf.Abs(pm.moveDirection.x) > maxVelocity.x)
         {
-            Debug.Log("Slow DOWN! (X) " + pm.moveDirection.x);
-            if(pm.moveDirection.x > 0)
+            if (pm.moveDirection.x > 0)
             {
                 pm.moveDirection.x = maxVelocity.x;
             }
@@ -39,7 +40,6 @@ public class LimitVelocity : MonoBehaviour {
         // Clamp Y Velocity
         if (Mathf.Abs(pm.moveDirection.y) > maxVelocity.y)
         {
-            Debug.Log("Slow DOWN! (Y) " + pm.moveDirection.y);
             if (pm.moveDirection.y > 0)
             {
                 pm.moveDirection.y = maxVelocity.y;
@@ -53,7 +53,6 @@ public class LimitVelocity : MonoBehaviour {
         // Clamp Z Velocity
         if (Mathf.Abs(pm.moveDirection.z) > maxVelocity.z)
         {
-            Debug.Log("Slow DOWN! (Z) " + pm.moveDirection.z);
             if (pm.moveDirection.z > 0)
             {
                 pm.moveDirection.z = maxVelocity.z;
@@ -62,6 +61,6 @@ public class LimitVelocity : MonoBehaviour {
             {
                 pm.moveDirection.z = -maxVelocity.z;
             }
-        }      
+        }
     }
 }

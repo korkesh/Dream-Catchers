@@ -33,10 +33,6 @@ public class BalloonRun2 : BaseState {
         Player = GameObject.FindGameObjectWithTag("Player");
         anim = this.gameObject.GetComponentInChildren<Animator>();
         NavAgent = this.GetComponent<NavMeshAgent>();
-        if (anim == null)
-        {
-            Debug.Log("error no animator");
-        }
 
     }
 
@@ -68,7 +64,7 @@ public class BalloonRun2 : BaseState {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("BalloonAnimalRun") == false)
             {
                 anim.SetTrigger("Run");
-                gameObject.SendMessage("Play");
+                gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
             }
         }
         else
