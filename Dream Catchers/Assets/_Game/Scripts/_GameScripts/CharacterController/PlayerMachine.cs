@@ -236,6 +236,12 @@ public class PlayerMachine : SuperStateMachine {
             moveDirection.y = VerticalSpeedCapDown;
         }
 
+        // pause bug guard
+        if (float.IsNaN(moveDirection.x) || float.IsNaN(moveDirection.y) || float.IsNaN(moveDirection.z))
+        {
+            return;
+        }
+
         transform.position += moveDirection * Time.deltaTime; // move
     }
 
@@ -252,7 +258,7 @@ public class PlayerMachine : SuperStateMachine {
     // Idle
     //----------------------------------------------
 
-    // As the first called state, Idle functions as a transition state from all other states because of the PlayerState switch/return hierarchy
+    // As the first called state, Idle functions as a transition state from all other states because of the PlayerState changestate/return hierarchy
     void Idle_EnterState()
     {
         diving = false;
@@ -307,6 +313,9 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection = transform.forward * speed;
 
+        // Animation:
+
+        // Idle Anims
         if (idleTimer >= 5f && prevIdle < 5f)
         {
             gameObject.GetComponent<Animator>().SetBool("Idle1", true);
@@ -322,12 +331,12 @@ public class PlayerMachine : SuperStateMachine {
             else if (idleTimer >= 10f)
             {
                 gameObject.GetComponent<Animator>().SetBool("Idle2", false);
-                idleTimer = 0; // completed full cycle, reset timer
+                idleTimer = 0f; // completed full cycle, reset timer
             }
         }
 
 
-        // ANIMATION:
+        // running anims for transition
         if (speed / MaxRunSpeed > 0.5f)
         {
             gameObject.GetComponent<Animator>().SetBool("Running", true);
@@ -1317,6 +1326,7 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Damage", true);
 
         moveDirection = Vector3.zero;
+        moveDirection -= transform.forward
     }
 
     void Damage_SuperUpdate()
@@ -1326,6 +1336,9 @@ public class PlayerMachine : SuperStateMachine {
             currentState = PlayerStates.Idle;
             return;
         }
+
+        // knockback friction
+
 
         if (!ground || jumping)
         {
