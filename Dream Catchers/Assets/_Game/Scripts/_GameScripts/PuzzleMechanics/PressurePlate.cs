@@ -27,6 +27,10 @@ public class PressurePlate : MonoBehaviour {
     public Vector3 PressedPos;
     public Vector3 DePressedPos;
 
+    //added bool for spawning balls
+    public bool ballspawns;
+    public bool DontsendMessageOnExit;
+
     float timer;
 
     void Start()
@@ -96,7 +100,11 @@ public class PressurePlate : MonoBehaviour {
             destinationPos = DePressedPos;
 
             activated = false;
-            ObjectToTrigger.SendMessage(TriggerFunctionCall);
+            if(DontsendMessageOnExit == false)
+            {
+                ObjectToTrigger.SendMessage(TriggerFunctionCall);
+            }
+            
         }
     }
 
@@ -109,6 +117,31 @@ public class PressurePlate : MonoBehaviour {
 
         activated = false;
         ObjectToTrigger.SendMessage(TriggerFunctionCall);
+    }
+
+
+    //added this take out if doenst work or causes problems
+    void OnTriggerStay(Collider other)
+    {
+        if( ballspawns == true )
+        {
+            foreach (string s in WeightedObjectTag)
+            {
+                if (activated == true && (other.tag == s))
+                {
+                    BallSpawner BS = ObjectToTrigger.GetComponent<BallSpawner>();
+                    if (BS != null)
+                    {
+                        if (BS.currentAttack == null)
+                        {
+                            BS.Spawn();
+                        }
+                    }
+                }
+            }
+        }
+
+        
     }
 
 }
