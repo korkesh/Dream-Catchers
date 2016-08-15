@@ -76,7 +76,9 @@ public class Items : MonoBehaviour {
             else // Fragment
             {
                 // Play celebration & turn off mesh/collider
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>().SetTrigger("Celebrate");
+                GameObject Player = GameObject.FindGameObjectWithTag("Player");
+                Player.GetComponent<Animator>().SetTrigger("Celebrate");
+                Player.GetComponent<PlayerMachine>().Celebrate();
                 StartCoroutine(SceneChange());
 
                 gameObject.GetComponent<MeshRenderer>().enabled = false;

@@ -68,14 +68,13 @@ public class NewCamera : MonoBehaviour
 
     public float maxDownSpeed;
 
-    // Static angles
-    public float hAngleGround; // = ~15~
+    // Static base angles
+    public float hAngleGround;
     public float hAngleAir;
-    public float lAngleGround; // = ~10~
+    public float lAngleGround;
     public float lAngleAir;
 
     // Jump state variables
-    private Vector3 JumpOrigin; // position at which player left the ground
     private Vector3 JumpDisplacement; // displacement vector on frame player left ground
 
     //=========================================
@@ -711,8 +710,6 @@ public class NewCamera : MonoBehaviour
 
             transform.position += (CollisionTarget - transform.position) * collisionDistance;
         }
-
-        
     }
 
 

@@ -22,7 +22,7 @@ public class PlayerMachine : SuperStateMachine {
     // Controllers and States
     //----------------------------------------------
 
-    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13, Bounce = 14 };
+    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13, Bounce = 14, Celebrate = 15 };
 
     private SuperCharacterController controller;
     private PlayerInputController input; // Input Controller
@@ -1165,7 +1165,7 @@ public class PlayerMachine : SuperStateMachine {
     }
 
 
-    // Slide state is entered when the player hits the ground from dive state. Speed is linearly slowed to a stop.
+    // Slide state is entered when the player hits the ground from dive state. Speed is slowed to a stop.
     void Slide_EnterState()
     {
         diving = false; // if the player falls off an edge in slide state they can dive again, but not out of roll
@@ -1213,7 +1213,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // steering (fixed rotation amount)
+        // steering (linear rotation)
         if (localMovement != Vector3.zero)
         {
             Vector3 Cross = Vector3.Cross(transform.forward, localMovement);
@@ -1326,7 +1326,7 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Damage", true);
 
         moveDirection = Vector3.zero;
-        moveDirection -= transform.forward;
+        moveDirection -= transform.forward * 3f;
     }
 
     void Damage_SuperUpdate()
@@ -1337,14 +1337,16 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // knockback friction
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
+        // knockback friction
+        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, Vector3.zero, Time.deltaTime * 2f);
 
         if (!ground || jumping)
         {
-            Vector3 verticalMoveDirection = Vector3.zero;
             verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
-            moveDirection += verticalMoveDirection;
+            moveDirection = planarMoveDirection + verticalMoveDirection;
         }
     }
 
@@ -1424,6 +1426,32 @@ public class PlayerMachine : SuperStateMachine {
         Jump_ExitState();
     }
 
+
+    // calls celebrate state on player
+    public void Celebrate()
+    {
+        currentState = PlayerStates.Celebrate;
+    }
+
+    void Celebrate_EnterState()
+    {
+        moveDirection = Vector3.zero;
+    }
+
+    void Celebrate_SuperUpdate()
+    {
+        // fall to ground if grabbed fragment in air
+        if (!ground && !AcquiringGround())
+        {
+            // gravity
+            moveDirection -= controller.up * Gravity * Time.deltaTime;
+        }
+        else
+        {
+            moveDirection = Vector3.zero;
+        }
+
+    }
 
     // Mathf.Clamp doesn't seem to work?
     float clampF(float min, float max, float val)
