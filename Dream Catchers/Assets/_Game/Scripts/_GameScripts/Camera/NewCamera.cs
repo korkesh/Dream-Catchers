@@ -144,6 +144,11 @@ public class NewCamera : MonoBehaviour
     void Awake()
     {
         UpdateMode(GetComponent<DefaultMode>().mode); // camera starts in high/low mode depending on level
+
+        // update audio manager references
+        AudioSource[] sources = GetComponents<AudioSource>();
+        Audio_Manager.Instance.DreamBGM = sources[0];
+        Audio_Manager.Instance.NightmareBGM = sources[1];
     }
 
     void LateUpdate()
