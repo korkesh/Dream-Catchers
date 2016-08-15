@@ -8,7 +8,7 @@ public class hunterOnAwake : MonoBehaviour {
        if(Level_Manager.Instance.checkPointContinue == true)
        {
             Character_Manager.instance.GoTocheckPoint();
-            Camera.main.GetComponent<NewCamera>().Reset();
+            //Camera.main.GetComponent<NewCamera>().Reset();
             Level_Manager.Instance.checkPointContinue = false;
        }
     }
