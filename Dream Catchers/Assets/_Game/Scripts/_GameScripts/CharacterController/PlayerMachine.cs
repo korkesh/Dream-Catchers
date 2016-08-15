@@ -1315,8 +1315,8 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
 
         gameObject.GetComponent<Animator>().SetBool("Damage", true);
-        //gameObject.GetComponent<Animator>().applyRootMotion = true;
 
+        moveDirection = Vector3.zero;
     }
 
     void Damage_SuperUpdate()
