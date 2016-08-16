@@ -1337,16 +1337,21 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
-        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+        //Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        //Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
 
-        // knockback friction
-        planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, Vector3.zero, Time.deltaTime * 2f);
+        //// knockback friction
+        //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, Vector3.zero, Time.deltaTime * 2f);
 
-        if (!ground || jumping)
+        if ((!ground || jumping) && (!AcquiringGround() && !MaintainingGround()))
         {
-            verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
-            moveDirection = planarMoveDirection + verticalMoveDirection;
+            moveDirection -= controller.up * Gravity * Time.deltaTime;
+            //verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+            //moveDirection = planarMoveDirection + verticalMoveDirection;
+        }
+        else
+        {
+            moveDirection.y = 0f;
         }
     }
 
@@ -1375,6 +1380,9 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
 
         gameObject.GetComponent<Animator>().SetBool("Dead", true);
+
+        moveDirection.x = 0f;
+        moveDirection.z = 0f;
     }
 
     void Dead_SuperUpdate()
@@ -1386,8 +1394,16 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // Apply friction to slow us to a halt
-        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+        if ((!ground || jumping) && (!AcquiringGround() && !MaintainingGround()))
+        {
+            moveDirection -= controller.up * Gravity * Time.deltaTime;
+            //verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+            //moveDirection = planarMoveDirection + verticalMoveDirection;
+        }
+        else
+        {
+            moveDirection.y = 0f;
+        }
     }
 
     void Dead_ExitState()
@@ -1450,7 +1466,6 @@ public class PlayerMachine : SuperStateMachine {
         {
             moveDirection = Vector3.zero;
         }
-
     }
 
     // Mathf.Clamp doesn't seem to work?
