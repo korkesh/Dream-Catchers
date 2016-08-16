@@ -1343,7 +1343,7 @@ public class PlayerMachine : SuperStateMachine {
         //// knockback friction
         //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, Vector3.zero, Time.deltaTime * 2f);
 
-        if ((!ground || jumping) && (!AcquiringGround() || !MaintainingGround()))
+        if ((!ground || jumping) && (!AcquiringGround() && !MaintainingGround()))
         {
             moveDirection -= controller.up * Gravity * Time.deltaTime;
             //verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
