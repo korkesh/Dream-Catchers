@@ -4,7 +4,7 @@ using System.Collections;
 
 // Author: Conor MacKeigan
 // Description: Camera behaviour catered to a 3D Platformer.
-//              Focuses on keeping the view ahead of the player clear to minimize manual input and avoid blind jumps on whims.
+//              Focuses on keeping the view ahead of the player clear to minimize manual input and minimize blind jumps on whims.
 //              Emphasizes landing vantage and a sense of vertical spacial awareness by rising quickly and lowering slowly while rotating to keep the player in view.
 //              Behaviour is consistent and the camera will always correct itself out if it ever gets confused or stuck in an odd position (which shouldn't happen naturally).
 //              Wall collisions are handled by quickly moving to the point of intersection from the player to the camera, which are very common due to boxy levels.
@@ -104,7 +104,7 @@ public class NewCamera : MonoBehaviour
     Vector3 CollisionTarget;
     private float collisionDistance = 0; // amount of distance required to cover to reach collision point (normalized 0..1)
 
-    private MeshRenderer CurrentObstruction = null; // store current wall we are hitting to turn off / on its mesh
+    private  MeshRenderer CurrentObstruction = null; // store current wall we are hitting to turn off / on its mesh
 
     //==========================================
     // Smoothing Coefficients
@@ -266,7 +266,7 @@ public class NewCamera : MonoBehaviour
     }
 
 
-    // Arcs camera position around player driven by right-stick input
+    // Arcs camera position around player driven by right-stick input or triggers
     void ManualRotation()
     {
         // manual x control (rotate around player pivot)
@@ -276,31 +276,18 @@ public class NewCamera : MonoBehaviour
         if (input.Current.LTrigger > 0.2f || input.Current.RTrigger > 0.2f)
         {
             rotate = true;
-            if (currentRotateSpeed < 6f)
-            {
-                currentRotateSpeed = 6f;
-            }
+            currentRotateSpeed = Clamp(6f, float.PositiveInfinity, currentRotateSpeed);
 
             transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * (input.Current.LTrigger * -1f + input.Current.RTrigger));
         }
-        else if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)//&& machine.ground)
+        else if (Mathf.Abs(input.Current.Joy2Input.x) > 0.25f)
         {
             rotate = true;
             transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * rotateSpeed * Mathf.Max(Mathf.Min(18, currentRotateSpeed += Time.deltaTime * 32f), 8f) * input.Current.Joy2Input.x);
-
-            // if rotation caused a collision revert
-            if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
-            {
-                if (hit.transform.gameObject.tag == "Wall" || hit.transform.gameObject.tag == "Floor")
-                {
-                    //transform.RotateAround(Player.transform.position, controller.up, Time.deltaTime * -rotateSpeed * Mathf.Min(16, currentRotateSpeed += Time.deltaTime * 32) * input.Current.Joy2Input.x);
-                    //rotate = false;
-                }
-            }
         }
         else
         {
-            currentRotateSpeed = 0;// Clamp(0, float.PositiveInfinity, currentRotateSpeed + (0f - currentRotateSpeed) * Time.deltaTime * 4);
+            currentRotateSpeed = 0f;
         }
         
     }
@@ -335,9 +322,9 @@ public class NewCamera : MonoBehaviour
         }
 
         // smoothly move target left/right in ground state or with occlusion avoidance active
-        if (machine.ground && !machine.jumping)
+        if ((machine.ground && !machine.jumping) || collision)
         {
-            currentTargetOffset = Clamp(-lookDistance, lookDistance, currentTargetOffset + (Mathf.Sign(align * lookDistance - currentTargetOffset) * Time.deltaTime /* 0.5f */* Mathf.Abs(align * lookDistance - currentTargetOffset)));
+            currentTargetOffset = Clamp(-lookDistance, lookDistance, currentTargetOffset + (Mathf.Sign(align * lookDistance - currentTargetOffset) * Time.deltaTime * Mathf.Abs(align * lookDistance - currentTargetOffset)));
         }
 
         CurrentTargetPos = (Player.transform.position + vTargetOffset + sphereOffset) + (currentTargetOffset * right);
@@ -556,6 +543,19 @@ public class NewCamera : MonoBehaviour
                 if (CurrentObstruction != null)
                 {
                     CurrentObstruction.enabled = false;
+
+                    // hacky quick fix stuff: if parent is a "FloorParent", turn off all siblings too
+                    if (CurrentObstruction.transform.parent != null)
+                    {
+                        if (CurrentObstruction.transform.parent.gameObject.tag == "FloorParent")
+                        {
+                            MeshRenderer[] mrs = CurrentObstruction.transform.parent.GetComponentsInChildren<MeshRenderer>();
+                            foreach (MeshRenderer mr in mrs)
+                            {
+                                mr.enabled = false;
+                            }
+                        }
+                    }
                 }
             }
             else if (CurrentObstruction != null)
@@ -571,6 +571,21 @@ public class NewCamera : MonoBehaviour
                     else
                     {
                         CurrentObstruction.enabled = true; // switched obstructions, restore the last one
+
+                        // hacky re-enabling of multiple floors
+                        if (CurrentObstruction.transform.parent != null)
+                        {
+                            if (CurrentObstruction.transform.parent.gameObject.tag == "FloorParent")
+                            {
+                                MeshRenderer[] mrs = CurrentObstruction.transform.parent.GetComponentsInChildren<MeshRenderer>();
+
+                                foreach (MeshRenderer mr in mrs)
+                                {
+                                    mr.enabled = true;
+                                }
+                            }
+                        }
+
                         CurrentObstruction = r;
                     }
                 }
@@ -581,12 +596,41 @@ public class NewCamera : MonoBehaviour
                 if(CurrentObstruction)
                 {
                     CurrentObstruction.enabled = true; // switched obstructions, restore the last one
+
+                    // hacky re-enabling of multiple floors
+                    if (CurrentObstruction.transform.parent != null)
+                    {
+                        if (CurrentObstruction.transform.parent.gameObject.tag == "FloorParent")
+                        {
+                            MeshRenderer[] mrs = CurrentObstruction.transform.parent.GetComponentsInChildren<MeshRenderer>();
+
+                            foreach (MeshRenderer mr in mrs)
+                            {
+                                mr.enabled = true;
+                            }
+                        }
+                    }
                 }
             }
         }
         else if (CurrentObstruction != null)
         {
             CurrentObstruction.enabled = true;
+
+            // hacky re-enabling of multiple floors
+            if (CurrentObstruction.transform.parent != null)
+            {
+                if (CurrentObstruction.transform.parent.gameObject.tag == "FloorParent")
+                {
+                    MeshRenderer[] mrs = CurrentObstruction.transform.parent.GetComponentsInChildren<MeshRenderer>();
+
+                    foreach (MeshRenderer mr in mrs)
+                    {
+                        mr.enabled = true;
+                    }
+                }
+            }
+
             CurrentObstruction = null;
         }
 
