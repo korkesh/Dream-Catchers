@@ -27,6 +27,6 @@ public class TimePause : MonoBehaviour {
 
     public void unPause()
     {
-        Time.timeScale = UI_Manager.instance.timePlaceHolder;
+        //Time.timeScale = UI_Manager.instance.timePlaceHolder;
     }
 }

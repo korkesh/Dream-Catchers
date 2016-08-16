@@ -14,6 +14,8 @@ public class PlayerInputController : MonoBehaviour
 
     public float moveBufferTimer = 0;
 
+    public bool locked = false;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -23,7 +25,7 @@ public class PlayerInputController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if(Game_Manager.instance == null || Game_Manager.instance.isPlaying())
+        if((Game_Manager.instance == null || Game_Manager.instance.isPlaying()) && !locked)
         {
             // Controls set via Unity Input Manager
             Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -75,7 +77,7 @@ public class PlayerInputController : MonoBehaviour
         else
         {
             Current = new PlayerInput();
-            gameObject.GetComponent<PlayerMachine>().speed = 0;
+            //gameObject.GetComponent<PlayerMachine>().speed = 0;
         }
 
         if (Input_Manager.instance.useBuffer)

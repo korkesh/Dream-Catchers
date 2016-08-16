@@ -22,7 +22,7 @@ public class PlayerMachine : SuperStateMachine {
     // Controllers and States
     //----------------------------------------------
 
-    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13, Bounce = 14 };
+    public enum PlayerStates { Idle = 0, Walk = 1, Run = 2, Jump = 3, DoubleJump = 4, Fall = 5, Damage = 6, Dead = 7, Skid = 8, SkidJump = 9, Dive = 10, Slide = 11, Roll = 12, StandUp = 13, Bounce = 14, Celebrate = 15 };
 
     private SuperCharacterController controller;
     private PlayerInputController input; // Input Controller
@@ -236,6 +236,12 @@ public class PlayerMachine : SuperStateMachine {
             moveDirection.y = VerticalSpeedCapDown;
         }
 
+        // pause bug guard
+        if (float.IsNaN(moveDirection.x) || float.IsNaN(moveDirection.y) || float.IsNaN(moveDirection.z))
+        {
+            return;
+        }
+
         transform.position += moveDirection * Time.deltaTime; // move
     }
 
@@ -252,7 +258,7 @@ public class PlayerMachine : SuperStateMachine {
     // Idle
     //----------------------------------------------
 
-    // As the first called state, Idle functions as a transition state from all other states because of the PlayerState switch/return hierarchy
+    // As the first called state, Idle functions as a transition state from all other states because of the PlayerState changestate/return hierarchy
     void Idle_EnterState()
     {
         diving = false;
@@ -307,6 +313,9 @@ public class PlayerMachine : SuperStateMachine {
 
         moveDirection = transform.forward * speed;
 
+        // Animation:
+
+        // Idle Anims
         if (idleTimer >= 5f && prevIdle < 5f)
         {
             gameObject.GetComponent<Animator>().SetBool("Idle1", true);
@@ -322,12 +331,12 @@ public class PlayerMachine : SuperStateMachine {
             else if (idleTimer >= 10f)
             {
                 gameObject.GetComponent<Animator>().SetBool("Idle2", false);
-                idleTimer = 0; // completed full cycle, reset timer
+                idleTimer = 0f; // completed full cycle, reset timer
             }
         }
 
 
-        // ANIMATION:
+        // running anims for transition
         if (speed / MaxRunSpeed > 0.5f)
         {
             gameObject.GetComponent<Animator>().SetBool("Running", true);
@@ -1156,7 +1165,7 @@ public class PlayerMachine : SuperStateMachine {
     }
 
 
-    // Slide state is entered when the player hits the ground from dive state. Speed is linearly slowed to a stop.
+    // Slide state is entered when the player hits the ground from dive state. Speed is slowed to a stop.
     void Slide_EnterState()
     {
         diving = false; // if the player falls off an edge in slide state they can dive again, but not out of roll
@@ -1204,7 +1213,7 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // steering (fixed rotation amount)
+        // steering (linear rotation)
         if (localMovement != Vector3.zero)
         {
             Vector3 Cross = Vector3.Cross(transform.forward, localMovement);
@@ -1317,6 +1326,7 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Damage", true);
 
         moveDirection = Vector3.zero;
+        moveDirection -= transform.forward * 3f;
     }
 
     void Damage_SuperUpdate()
@@ -1327,11 +1337,21 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        if (!ground || jumping)
+        //Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        //Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
+        //// knockback friction
+        //planarMoveDirection = Vector3.MoveTowards(planarMoveDirection, Vector3.zero, Time.deltaTime * 2f);
+
+        if ((!ground || jumping) && (!AcquiringGround() && !MaintainingGround()))
         {
-            Vector3 verticalMoveDirection = Vector3.zero;
-            verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
-            moveDirection += verticalMoveDirection;
+            moveDirection -= controller.up * Gravity * Time.deltaTime;
+            //verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+            //moveDirection = planarMoveDirection + verticalMoveDirection;
+        }
+        else
+        {
+            moveDirection.y = 0f;
         }
     }
 
@@ -1360,6 +1380,9 @@ public class PlayerMachine : SuperStateMachine {
         controller.EnableClamping();
 
         gameObject.GetComponent<Animator>().SetBool("Dead", true);
+
+        moveDirection.x = 0f;
+        moveDirection.z = 0f;
     }
 
     void Dead_SuperUpdate()
@@ -1371,8 +1394,16 @@ public class PlayerMachine : SuperStateMachine {
             return;
         }
 
-        // Apply friction to slow us to a halt
-        moveDirection = Vector3.MoveTowards(moveDirection, Vector3.zero, GroundFriction * Time.deltaTime);
+        if ((!ground || jumping) && (!AcquiringGround() && !MaintainingGround()))
+        {
+            moveDirection -= controller.up * Gravity * Time.deltaTime;
+            //verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+            //moveDirection = planarMoveDirection + verticalMoveDirection;
+        }
+        else
+        {
+            moveDirection.y = 0f;
+        }
     }
 
     void Dead_ExitState()
@@ -1409,6 +1440,48 @@ public class PlayerMachine : SuperStateMachine {
     void Bounce_ExitState()
     {
         Jump_ExitState();
+    }
+
+
+    // calls celebrate state on player
+    public void Celebrate()
+    {
+        currentState = PlayerStates.Celebrate;
+    }
+
+    void Celebrate_EnterState()
+    {
+        moveDirection = Vector3.zero;
+    }
+
+    void Celebrate_SuperUpdate()
+    {
+        // fall to ground if grabbed fragment in air
+        if (!ground && !AcquiringGround())
+        {
+            // gravity
+            moveDirection -= controller.up * Gravity * Time.deltaTime;
+        }
+        else
+        {
+            moveDirection = Vector3.zero;
+        }
+    }
+
+
+    public void LockInput()
+    {
+        input.locked = true;
+    }
+
+    public void UnlockInput()
+    {
+        input.locked = false;
+    }
+
+    public void PauseUnlock()
+    {
+        Invoke("UnlockInput", 0.05f);
     }
 
 

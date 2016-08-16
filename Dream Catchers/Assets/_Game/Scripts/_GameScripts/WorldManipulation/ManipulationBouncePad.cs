@@ -24,8 +24,6 @@ public class ManipulationBouncePad : ManipulationScript
 
     private bool bounceObject;
 
-    private float jumpReset = 0.5f;
-
     // Use this for initialization
     void Start()
     {
