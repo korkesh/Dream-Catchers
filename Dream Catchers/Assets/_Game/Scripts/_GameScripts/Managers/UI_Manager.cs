@@ -97,6 +97,8 @@ public class UI_Manager : MonoBehaviour {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PAUSE);
             ShowMenu(Pause);
             timePlaceHolder = Time.timeScale;
+            GameObject.FindWithTag("Player").GetComponent<PlayerMachine>().LockInput();
+            GameObject.FindWithTag("Player").GetComponent<PlayerMachine>().PauseUnlock();
             Time.timeScale = 0;
 
 
@@ -104,9 +106,8 @@ public class UI_Manager : MonoBehaviour {
         else if (((Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.P)) && Game_Manager.instance.isPaused() && CurrentMenu != LevelComplete && CurrentMenu != GameOverScreen))
         {
             Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
-            ShowMenu(Stats);
+            ShowMenu(Stats);      
             Time.timeScale = timePlaceHolder;
-
         }
 
         /*if(Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)

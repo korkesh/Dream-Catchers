@@ -1468,6 +1468,23 @@ public class PlayerMachine : SuperStateMachine {
         }
     }
 
+
+    public void LockInput()
+    {
+        input.locked = true;
+    }
+
+    public void UnlockInput()
+    {
+        input.locked = false;
+    }
+
+    public void PauseUnlock()
+    {
+        Invoke("UnlockInput", 0.05f);
+    }
+
+
     // Mathf.Clamp doesn't seem to work?
     float clampF(float min, float max, float val)
     {
