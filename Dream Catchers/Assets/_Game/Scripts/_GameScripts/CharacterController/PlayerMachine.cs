@@ -1451,20 +1451,48 @@ public class PlayerMachine : SuperStateMachine {
 
     void Celebrate_EnterState()
     {
-        moveDirection = Vector3.zero;
     }
 
     void Celebrate_SuperUpdate()
     {
+        Vector3 planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
+        Vector3 verticalMoveDirection = moveDirection - planarMoveDirection;
+
+        // MOVEMENT:
+        float new_ratio;
+        float old_ratio;
+
+        if (localMovement != Vector3.zero)
+        {
+            transform.forward = localMovement;
+        }
+
+        // SPEED:
+        // get desired speed
+        float desiredSpeed = (float)Math.Round(clampF(0f, 1f, input.Current.MoveInput.magnitude) * MaxRunSpeed, 2);
+
+        new_ratio = 0.9f * Time.deltaTime * maxSpeedTime;
+        old_ratio = 1 - new_ratio;
+
+        speed = (speed * old_ratio) + (desiredSpeed * new_ratio);
+
+        if (speed > MaxRunSpeed)
+        {
+            speed = MaxRunSpeed;
+        }
+
+        moveDirection = transform.forward * speed;
+
         // fall to ground if grabbed fragment in air
         if (!ground && !AcquiringGround())
         {
             // gravity
-            moveDirection -= controller.up * Gravity * Time.deltaTime;
+            verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+            moveDirection += verticalMoveDirection;
         }
         else
         {
-            moveDirection = Vector3.zero;
+            moveDirection.y = 0f;
         }
     }
 
