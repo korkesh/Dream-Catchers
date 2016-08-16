@@ -1345,13 +1345,20 @@ public class PlayerMachine : SuperStateMachine {
 
         if ((!ground || jumping) && (!AcquiringGround() && !MaintainingGround()))
         {
-            moveDirection -= controller.up * Gravity * Time.deltaTime;
+            moveDirection -= Vector3.up * Gravity * Time.deltaTime;
             //verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
             //moveDirection = planarMoveDirection + verticalMoveDirection;
         }
         else
         {
-            moveDirection.y = 0f;
+            if (!AcquiringGround() && !MaintainingGround())
+            {
+                moveDirection -= Vector3.up * Gravity * Time.deltaTime;
+            }
+            else
+            {
+                moveDirection.y = 0f;
+            }
         }
     }
 
