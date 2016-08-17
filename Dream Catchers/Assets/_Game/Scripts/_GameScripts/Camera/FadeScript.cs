@@ -41,11 +41,11 @@ public class FadeScript : MonoBehaviour {
         {
             if (so.intensity > 0.68f)
             {
-                so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime * 0.4f));
+                so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime * 0.5f));
             }
             else if (so.intensity > 0.3f)
             {
-                so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime * 0.6f));
+                so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime * 0.7f));
             }
             else
             {
