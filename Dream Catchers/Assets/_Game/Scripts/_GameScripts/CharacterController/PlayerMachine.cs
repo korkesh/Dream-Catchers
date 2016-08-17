@@ -1476,15 +1476,24 @@ public class PlayerMachine : SuperStateMachine {
         moveDirection = transform.forward * speed;
 
         // fall to ground if grabbed fragment in air
-        if (!ground && !AcquiringGround())
+        if (!ground && !AcquiringGround() && !MaintainingGround())
         {
             // gravity
-            verticalMoveDirection -= controller.up * Gravity * Time.deltaTime;
+            verticalMoveDirection -= controller.up * Gravity * 0.6f * Time.deltaTime;
             moveDirection += verticalMoveDirection;
         }
         else
         {
-            moveDirection.y = 0f;
+            if (!AcquiringGround() && !MaintainingGround())
+            {
+                moveDirection.y = 0f;
+            }
+            else
+            {
+                // gravity
+                verticalMoveDirection -= controller.up * Gravity * 0.6f * Time.deltaTime;
+                moveDirection += verticalMoveDirection;
+            }
         }
     }
 
