@@ -30,7 +30,7 @@ public class ManipulationSpeed : ManipulationScript
 
         PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
         //playerOriginalWalkSpeed = controllerScript.WalkSpeed;
-        playerOriginalRunSpeed = controllerScript.RunSpeed;
+        //playerOriginalRunSpeed = controllerScript.RunSpeed;
 
 
     }
@@ -49,7 +49,7 @@ public class ManipulationSpeed : ManipulationScript
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
             //controllerScript.WalkSpeed = slowSpeed;
-            controllerScript.RunSpeed = slowSpeed;
+            //controllerScript.RunSpeed = slowSpeed;
 
         }
         else if (other.gameObject == player &&
@@ -58,14 +58,14 @@ public class ManipulationSpeed : ManipulationScript
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
             //controllerScript.WalkSpeed = increaseSpeed;
-            controllerScript.RunSpeed = increaseSpeed;
+            //controllerScript.RunSpeed = increaseSpeed;
 
         }
         else
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
             //controllerScript.WalkSpeed = playerOriginalWalkSpeed;
-            controllerScript.RunSpeed = playerOriginalRunSpeed;
+            //controllerScript.RunSpeed = playerOriginalRunSpeed;
 
         }
     }
@@ -77,7 +77,7 @@ public class ManipulationSpeed : ManipulationScript
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
             //controllerScript.WalkSpeed = playerOriginalWalkSpeed;
-            controllerScript.RunSpeed = playerOriginalRunSpeed;
+            //controllerScript.RunSpeed = playerOriginalRunSpeed;
         }
     }
 }

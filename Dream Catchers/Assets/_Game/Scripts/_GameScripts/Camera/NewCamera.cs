@@ -271,7 +271,6 @@ public class NewCamera : MonoBehaviour
     {
         // manual x control (rotate around player pivot)
         rotate = false;
-        RaycastHit hit;
 
         if (input.Current.LTrigger > 0.2f || input.Current.RTrigger > 0.2f)
         {

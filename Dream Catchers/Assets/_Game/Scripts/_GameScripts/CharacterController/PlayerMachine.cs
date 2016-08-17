@@ -30,69 +30,54 @@ public class PlayerMachine : SuperStateMachine {
     public Vector3 prevPos;
     public Vector3 Displacement; // displacement this frame
 
-    public bool ground;// { get; private set; }
+    public bool ground { get; private set; }
 
     private float rollSpeed; // planar speed of current roll sequence
 
+    private bool diving = false; // controls dive state (prevents double jumping out of dive-fall)
+
     //----------------------------------------------
-    // Editor Fields
+    // Editor Fields and Parameters
     //----------------------------------------------
 
     // Movement
-    public float WalkAcceleration = 30.0f;
-    public float RunAcceleration = 10.0f;
-
-    public float maxSpeedTime = 5f; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
+    public float maxSpeedTime = 4f; // amount of time it takes to go from idle to max speed (1 = 1s, 10 = 0.1s)
     private float maxAirSpeedTime = 1f; // amount of time it takes to go from 0 x/z speed to max in the air
-    [SerializeField]
-    public float speed = 0f; // current run speed
-    [SerializeField]
+    private float speed = 0f; // current run speed
     private float xSpeed = 0f; // current left/right speed
-    public float RunSpeed = 0.65f;
-    public float RunTurnSpeed = 10.0f;
+    public float RunTurnSpeed = 8.5f;
     public float MaxRunSpeed = 8.0f;
-    public float TurnRadius = 4.0f;
+    public float skidTime = 0.25f; // time in seconds skid state lasts for if not broken by jump/fall
     private float skidTimer = 0f;
-    public float skidTime = 0.5f; // time in seconds skid state lasts for if not broken by jump/fall
     private float runTimer = 0f;
 
     // Diving
-    public float MaxDiveSpeed;
-    public float DiveJumpForce;
+    public float MaxDiveSpeed = 12.25f;
+    public float DiveJumpForce = 6f;
 
     private float slideTimer = 0f;
     public float slideFriction; // time in seconds for bellyside to end
-    public float slideTurnSpeed = 500f;
-
-    private bool diving = false; // controls dive state (prevents double jumping out of dive-fall)
-
+    public float slideTurnSpeed = 42.5f;
+  
     // Jumping
-    public float VerticalSpeedCap = 10.0f;
+    public float VerticalSpeedCap = 27.0f;
     public float VerticalSpeedCapDown = -30.0f;
-    public float AirTurnSpeed = 10.0f;
-    public float AirAcceleration = 3.0f;
-    private float maxAirSpeed = 8.5f;
-    public float JumpAcceleration = 5.0f;
-    public float JumpHoldAcceleration = 10.0f;
+    public float AirTurnSpeed = 14.0f;
+    public float MaxAirSpeed = 8.5f;
+    public float JumpHoldAcceleration = 20.0f;
     public float JumpTime = 0.3f; // amount of time holding jump button extends height after initial press
-    public float MinJumpHeight = 1.75f;
+    public float MinJumpHeight = 1.0f;
     public float DoubleJumpHeight = 2.0f;
-    public float JumpTimer = 0f;
+    private float JumpTimer = 0f;
     public Vector3 LastGroundPos { get; private set; } // position character was at last frame they were grounded
 
-    public bool jumping = false; // set to true in active jump states (not fall/dive etc)
+    public bool jumping { get; private set; } // set to true in active jump states (not fall/dive etc)
     private bool finishDoubleJump = false;
-    public bool hasDoubleJump = true;
-
-    // Bouncing
-    private float originalMaxHeight;
-    private float originalMinHeight;
-    private float originalAcceleration;
+    private bool hasDoubleJump = true;
 
     // Physics
-    public float Gravity = 60.0f;
-    public float DiveGravity = 39.0f;
-    public float GroundFriction = 10.0f;
+    public float Gravity = 25.0f;
+    public float DiveGravity = 26.0f;
 
     //----------------------------------------------
     // Functional Parameters
@@ -1078,13 +1063,13 @@ public class PlayerMachine : SuperStateMachine {
         else
         {
             // entering dive from airstate provides additive forward speed, not static
-            moveDirection += transform.forward * clampF(0f, MaxDiveSpeed - planarMoveDirection.magnitude, (MaxDiveSpeed - maxAirSpeed) * 1.25f);
+            moveDirection += transform.forward * clampF(0f, MaxDiveSpeed - planarMoveDirection.magnitude, (MaxDiveSpeed - MaxAirSpeed) * 1.25f);
 
             planarMoveDirection = Math3d.ProjectVectorOnPlane(controller.up, moveDirection);
-            if (planarMoveDirection.magnitude < (MaxDiveSpeed - maxAirSpeed) * 2f)
+            if (planarMoveDirection.magnitude < (MaxDiveSpeed - MaxAirSpeed) * 2f)
             {
                 moveDirection -= planarMoveDirection;
-                planarMoveDirection = planarMoveDirection.normalized * (MaxDiveSpeed - maxAirSpeed) * 2.2f; // minimum dive planar speed
+                planarMoveDirection = planarMoveDirection.normalized * (MaxDiveSpeed - MaxAirSpeed) * 2.2f; // minimum dive planar speed
                 moveDirection += planarMoveDirection;
             }
         }
