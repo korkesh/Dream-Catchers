@@ -25,7 +25,6 @@ public class FadeScript : MonoBehaviour {
     {
         if (fadeOut)
         {
-            Debug.Log("fading out");
             so.intensity = Mathf.Lerp(so.intensity, 1.0f, (Time.deltaTime * 3f) / fadeTime);
 
             if(so.intensity >= 0.97f)
