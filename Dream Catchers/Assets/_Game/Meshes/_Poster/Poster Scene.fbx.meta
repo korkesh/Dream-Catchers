@@ -1,0 +1,191 @@
+fileFormatVersion: 2
+guid: 2c29b839c1411d443ad8c673bcab7618
+timeCreated: 1470865571
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Base.000
+    100002: Base.002
+    100004: Cage Box 1.000
+    100006: Cage Box 1.001
+    100008: Cage Box 1.002
+    100010: Cage Box 1.003
+    100012: Cage Box 1.014
+    100014: Cage Box 2.002
+    100016: Cube.001
+    100018: Cylinder.001
+    100020: DREAM HAMMER
+    100022: Ferris Wheel
+    100024: Head
+    100026: Hunter Mesh
+    100028: Left eye
+    100030: Left Hand
+    100032: Plane.000
+    100034: //RootNode
+    100036: Right eye
+    100038: Right Hand
+    100040: Safe
+    100042: Wooden Platform Small
+    400000: Base.000
+    400002: Base.002
+    400004: Cage Box 1.000
+    400006: Cage Box 1.001
+    400008: Cage Box 1.002
+    400010: Cage Box 1.003
+    400012: Cage Box 1.014
+    400014: Cage Box 2.002
+    400016: Cube.001
+    400018: Cylinder.001
+    400020: DREAM HAMMER
+    400022: Ferris Wheel
+    400024: Head
+    400026: Hunter Mesh
+    400028: Left eye
+    400030: Left Hand
+    400032: Plane.000
+    400034: //RootNode
+    400036: Right eye
+    400038: Right Hand
+    400040: Safe
+    400042: Wooden Platform Small
+    2300000: Base.000
+    2300002: Base.002
+    2300004: Cage Box 1.000
+    2300006: Cage Box 1.001
+    2300008: Cage Box 1.002
+    2300010: Cage Box 1.003
+    2300012: Cage Box 1.014
+    2300014: Cage Box 2.002
+    2300016: Cube.001
+    2300018: Cylinder.001
+    2300020: DREAM HAMMER
+    2300022: Ferris Wheel
+    2300024: Head
+    2300026: Hunter Mesh
+    2300028: Left eye
+    2300030: Left Hand
+    2300032: Plane.000
+    2300034: Right eye
+    2300036: Right Hand
+    2300038: Safe
+    2300040: Wooden Platform Small
+    3300000: Base.000
+    3300002: Base.002
+    3300004: Cage Box 1.000
+    3300006: Cage Box 1.001
+    3300008: Cage Box 1.002
+    3300010: Cage Box 1.003
+    3300012: Cage Box 1.014
+    3300014: Cage Box 2.002
+    3300016: Cube.001
+    3300018: Cylinder.001
+    3300020: DREAM HAMMER
+    3300022: Ferris Wheel
+    3300024: Head
+    3300026: Hunter Mesh
+    3300028: Left eye
+    3300030: Left Hand
+    3300032: Plane.000
+    3300034: Right eye
+    3300036: Right Hand
+    3300038: Safe
+    3300040: Wooden Platform Small
+    4300000: Plane.000
+    4300002: Cage Box 1.003
+    4300004: Cage Box 1.002
+    4300006: Cylinder.001
+    4300008: Ferris Wheel
+    4300010: Cage Box 1.001
+    4300012: Cage Box 1.000
+    4300014: Cage Box 1.014
+    4300016: Cube.001
+    4300018: Safe
+    4300020: Base.000
+    4300022: Base.002
+    4300024: Cage Box 2.002
+    4300026: Left Hand
+    4300028: Right Hand
+    4300030: Head
+    4300032: Left eye
+    4300034: Right eye
+    4300036: Wooden Platform Small
+    4300038: DREAM HAMMER
+    4300040: Hunter Mesh
+    7400000: Hunter Mesh|Hunter Mesh.001|Celebration|Celebration
+    7400002: Hunter Mesh|Hunter Mesh.001|Death|Death
+    7400004: Hunter Mesh|Hunter Mesh.001|Idle1|Idle1
+    7400006: Hunter Mesh|Hunter Mesh.001|Idle2|Idle2
+    7400008: Hunter Mesh|Hunter Mesh.001|Jump|Jump
+    7400010: Hunter Mesh|Hunter Mesh.001|Run|Run
+    7400012: Hunter Mesh|Hunter Mesh.001|Second Jump|Second Jump
+    7400014: Hunter Mesh|Hunter Mesh.001|SwingDown|SwingDown
+    7400016: Hunter Mesh|Hunter Mesh.001|SwingSide|SwingSide
+    7400018: Hunter Mesh|Hunter Mesh.001|Taking Damage|Taking Damage
+    7400020: Hunter Mesh|Hunter Mesh.001|Walk|Walk
+    7400022: Hunter Mesh|Idle1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
