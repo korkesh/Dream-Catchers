@@ -25,7 +25,7 @@ public class FadeScript : MonoBehaviour {
     {
         if (fadeOut)
         {
-            so.intensity = Mathf.Lerp(so.intensity, 1.0f, (Time.deltaTime * 3f) / fadeTime);
+            so.intensity = Clamp(0f, 1f, so.intensity + Mathf.Lerp(0f, 1f, Time.deltaTime));// / fadeTime);
 
             if(so.intensity >= 0.97f)
             {
@@ -39,7 +39,7 @@ public class FadeScript : MonoBehaviour {
         }
         else if (fadeIn)
         {
-            so.intensity = Mathf.Lerp(so.intensity, 0.0f, Time.deltaTime / fadeTime);
+            so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime));// / fadeTime);
         }
     }
 
@@ -69,5 +69,14 @@ public class FadeScript : MonoBehaviour {
 
         fadeIn = false;
         fadeOut = true;
+    }
+
+    float Clamp(float min, float max, float val)
+    {
+        if (val < min)
+            return min;
+        else if (val > max)
+            return max;
+        return val;
     }
 }
