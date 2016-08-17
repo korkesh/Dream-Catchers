@@ -138,6 +138,16 @@ public class NewCamera : MonoBehaviour
 
         UpdateActiveVariables();
         transform.eulerAngles = new Vector3(currentAngle, transform.eulerAngles.y, transform.eulerAngles.z);
+
+        RaycastHit hit;
+        if (CheckCollision(Player.transform.position + vTargetOffset, transform.position, out hit))
+        {
+            if (hit.transform.gameObject.tag == "Wall")
+            {
+                collisionDistance = 1f;
+                transform.position = hit.point;
+            }
+        }
     }
 
     void Awake()
@@ -335,8 +345,6 @@ public class NewCamera : MonoBehaviour
     {
         // update anchor height based on most recent ground height
         float newGround = controller.currentGround.groundHeight + vTargetOffset.y;
-
-
         
         if (newGround > lastGround)
         {

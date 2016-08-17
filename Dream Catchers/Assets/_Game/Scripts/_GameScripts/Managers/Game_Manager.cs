@@ -225,9 +225,8 @@ public class Game_Manager : MonoBehaviour {
 
     public void ChangeScene(string scene)
     {
-        SceneManager.LoadScene(scene);
+        SceneManager.LoadScene(scene);       
     }
-
 
     public void QuitGame()
     {
