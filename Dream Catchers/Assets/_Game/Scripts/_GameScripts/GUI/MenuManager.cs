@@ -27,7 +27,7 @@ public class MenuManager : MonoBehaviour {
     {
         Game_Manager.instance.ChangeScene(sceneToLoad);
         Game_Manager.instance.currentGameState = Game_Manager.GameState.INTRO;
-        UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
+        UI_Manager.instance.ShowMenu(GameObject.Find("Blank").GetComponent<Menu>());
         Game_Manager.instance.NewGame();
     }
 

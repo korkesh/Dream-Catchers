@@ -38,6 +38,12 @@ public class TempMessageInto : MonoBehaviour {
             Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.TUTORIAL;
             PlayerPrefs.SetString("CurrentLevel", "Tutorial");
             Game_Manager.instance.currentGameState = Game_Manager.GameState.CINEMATIC;
+            UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
+            GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
         }
     }
+
+
+
+   
 }

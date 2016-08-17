@@ -549,8 +549,24 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.6825938
+        functionName: TurnOffCollider
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.74821424
         functionName: ReturnToTempPos
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: TurnOnCollider
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
           type: 3}
