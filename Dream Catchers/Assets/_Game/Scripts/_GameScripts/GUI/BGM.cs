@@ -4,6 +4,9 @@ using System.Collections;
 public class BGM : MonoBehaviour {
 
     public AudioSource audio;
+    public AudioSource audioDream;
+    public AudioSource audioNightmare;
+
     float bgmVolume = 1.0f;
 
 	// Use this for initialization
@@ -17,5 +20,11 @@ public class BGM : MonoBehaviour {
     {
         bgmVolume = Audio_Manager.Instance.bgm;
         audio.volume = bgmVolume;
+
+        if(audioDream && audioNightmare)
+        {
+            audioDream.volume = bgmVolume;
+            audioNightmare.volume = bgmVolume;
+        }
     }
 }

@@ -1311,7 +1311,7 @@ public class PlayerMachine : SuperStateMachine {
         gameObject.GetComponent<Animator>().SetBool("Damage", true);
 
         moveDirection = Vector3.zero;
-        moveDirection -= transform.forward * 3f;
+        moveDirection -= transform.forward * 1f;
     }
 
     void Damage_SuperUpdate()
