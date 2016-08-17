@@ -165,7 +165,7 @@ public class SplineInterpolator : MonoBehaviour
                 // Check for properties on node
                 if (mNodes[mCurrentIdx].toggleCamera) // Swap Cameras
                 {
-                    gameObject.GetComponent<FadeScript>().FadeOut(mNodes[mCurrentIdx].cameraToSwap, mNodes[mCurrentIdx].toggleState);
+                    gameObject.GetComponent<FadeScript>().FadeOut(/*mNodes[mCurrentIdx].cameraToSwap, mNodes[mCurrentIdx].toggleState*/);
 
                     return;
 

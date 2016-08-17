@@ -44,6 +44,39 @@ public class TriggerScene : MonoBehaviour
             Level_Manager.Instance.LevelComplete(Level_Manager.Instance.CurrentLevel);
         }
 
+        FadeScript fade = Camera.main.GetComponent<FadeScript>();
+        if (fade == null)
+        {
+            SwitchScene(tos);
+        }
+        else
+        {
+            
+
+            switch (tos)
+            {
+                case TypeOfSwitch.AdditiveLoad:
+                    SwitchAdditive();
+                    break;
+                case TypeOfSwitch.CompleteSwitch:
+                    fade.FadeOut();
+                    Invoke("SwitchComplete", fade.fadeTime + 1f);
+                    break;
+                case TypeOfSwitch.Unload:
+                    SwitchUnload();
+                    break;
+            }
+        }
+
+        if (saveScene == true)
+        {
+            PlayerPrefs.SetString("CurrentLevel", SceneName);
+        }
+    }
+
+    // auto scene switch if fade was null
+    void SwitchScene(TypeOfSwitch tos)
+    {
         switch (tos)
         {
             case TypeOfSwitch.AdditiveLoad:
@@ -58,11 +91,23 @@ public class TriggerScene : MonoBehaviour
                 SceneManager.UnloadScene(SceneName);
                 break;
         }
+    }
 
-        if (saveScene == true)
-        {
-            PlayerPrefs.SetString("CurrentLevel", SceneName);
-        }
+    void SwitchAdditive()
+    {
+        SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+    }
+
+    void SwitchComplete()
+    {
+        SceneManager.LoadScene(SceneName);
+        Level_Manager.Instance.checkPointContinue = false;
+        setCurrentLevel();
+    }
+
+    void SwitchUnload()
+    {
+        SceneManager.UnloadScene(SceneName);
     }
 
     public void setCurrentLevel()

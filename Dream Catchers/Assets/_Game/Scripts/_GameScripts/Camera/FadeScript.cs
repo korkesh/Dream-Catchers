@@ -10,21 +10,23 @@ public class FadeScript : MonoBehaviour {
     bool fadeIn = false;
     bool fadeOut = false;
 
-    GameObject cameraToSwap;
     bool toggle;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         so = gameObject.GetComponent<ScreenOverlay>();
 
         FadeIn();
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         if (fadeOut)
         {
-            so.intensity = Mathf.Lerp(so.intensity, 1.0f, Time.deltaTime / fadeTime);
+            Debug.Log("fading out");
+            so.intensity = Mathf.Lerp(so.intensity, 1.0f, (Time.deltaTime * 3f) / fadeTime);
 
             if(so.intensity >= 0.97f)
             {
@@ -34,15 +36,6 @@ public class FadeScript : MonoBehaviour {
                                                                         ? ManipulationManager.WORLD_STATE.NIGHTMARE
                                                                         : ManipulationManager.WORLD_STATE.DREAM;
                 }
-
-                // BAD CODING PRACTICE, SHOULD BE TAGGED
-                if(cameraToSwap.gameObject.name == "Main Camera (Default)")
-                {
-                    Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
-                }
-
-                cameraToSwap.SetActive(true);
-                gameObject.SetActive(false);
             }
         }
         else if (fadeIn)
@@ -64,17 +57,16 @@ public class FadeScript : MonoBehaviour {
         fadeOut = false;
     }
 
-    public void FadeOut(GameObject cam, bool t)
+    public void FadeOut()
     {
         if (fadeOut)
         {
             return;
         }
 
-        cameraToSwap = cam;
-        toggle = t;
+        //toggle = t;
 
-        so.intensity = 0.0f;
+        so.intensity = 0f;
 
         fadeIn = false;
         fadeOut = true;
