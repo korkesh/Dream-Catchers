@@ -259,6 +259,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BallSpawner.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\ConstantFollowPos.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\EyeTracking.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HandScript.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HitMotion.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\IgnoreCollison.cs" />
