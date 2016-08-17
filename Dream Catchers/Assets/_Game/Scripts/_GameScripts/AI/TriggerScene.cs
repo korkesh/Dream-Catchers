@@ -69,7 +69,7 @@ public class TriggerScene : MonoBehaviour
     {
         switch (SceneName)
         {
-            case "Hub":
+            case "HubWorld":
                 {
                     Level_Manager.Instance.CurrentLevel = Level_Manager.Levels.HUB;
                     break;
