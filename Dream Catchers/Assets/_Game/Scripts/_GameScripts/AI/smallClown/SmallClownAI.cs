@@ -35,6 +35,7 @@ public class SmallClownAI : MonoBehaviour {
     ManipulationManager.WORLD_STATE curState;
 
     public Animator anim;
+    public BoxCollider triggerArea;
 
     //================================
     // Methods
@@ -91,6 +92,23 @@ public class SmallClownAI : MonoBehaviour {
                 WatchPlayer();
                 if (readyingAttack == true)
                 {
+                    if(triggerArea != null)
+                    {
+                         if(!triggerArea.bounds.Contains(Player.transform.position) )
+                         {
+                             attackDelayTime -= Time.deltaTime;
+                             if (attackDelayTime <= 0)
+                             {
+                                 if (Vector3.Distance(Player.transform.position, transform.position) <= attackRadius && currentAttack == null)
+                                 {
+                                     Attack();
+                                 }
+                                 readyingAttack = false;
+                                 attackDelayTime = DelayToAttack;
+                             }
+                         }
+                    }
+                   
                     //if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
                     //{
                     //    rigidB.constraints = RigidbodyConstraints.FreezeAll;
@@ -98,16 +116,9 @@ public class SmallClownAI : MonoBehaviour {
                     //}
                     //if (rigidB.velocity.y == 0)
                     //{
-                    attackDelayTime -= Time.deltaTime;
-                    if (attackDelayTime <= 0)
-                    {
-                        if (Vector3.Distance(Player.transform.position, transform.position) <= attackRadius && currentAttack == null)
-                        {
-                            Attack();
-                        }
-                        readyingAttack = false;
-                        attackDelayTime = DelayToAttack;
-                    }
+
+                    
+                   
                     //}
 
                 }
@@ -189,6 +200,9 @@ public class SmallClownAI : MonoBehaviour {
         if(currentAttack != null)
         {
             Destroy(currentAttack.gameObject);
+            readyingAttack = true;
+            attackDelayTime = 0.5f;
+            moveDelayTime = DelayToMove;
         }
     }
 
@@ -274,5 +288,31 @@ public class SmallClownAI : MonoBehaviour {
         {
             rigidB.constraints = RigidbodyConstraints.FreezeAll;
         }
+
+        if (collisionInfo.gameObject.tag == "Player" && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+        {
+            Character_Manager.instance.takeDamage(1);
+            readyingAttack = false;
+        }
+    }
+
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player" && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+        {
+            Character_Manager.instance.takeDamage(1);
+            readyingAttack = false;
+        }
+
+    }
+
+    void OnCollisionExit(Collision collisionInfo)
+    {
+        if (collisionInfo.gameObject.tag == "Player")
+        {
+            readyingAttack = false;
+        }
+
     }
 }

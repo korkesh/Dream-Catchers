@@ -16,5 +16,13 @@ public class ActivateDialogTrigger : MonoBehaviour
         }
         
     }
+
+    public void sendthemessage(string m)
+    {
+        if (flC != null)
+        {
+            flC.SendFungusMessage(m);
+        }
+    }
 }
      

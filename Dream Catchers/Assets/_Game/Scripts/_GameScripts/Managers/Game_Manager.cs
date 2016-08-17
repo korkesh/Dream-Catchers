@@ -167,7 +167,8 @@ public class Game_Manager : MonoBehaviour {
                 {
                    // Debug.Log("Entering: Play");
 
-                    if(currentGameState != GameState.PAUSE)
+                    //text box fix
+                    if(currentGameState != GameState.PAUSE && currentGameState != GameState.CINEMATIC)
                     {
                         ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
                     }

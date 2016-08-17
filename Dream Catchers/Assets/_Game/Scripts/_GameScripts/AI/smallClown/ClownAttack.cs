@@ -72,7 +72,7 @@ public class ClownAttack : MonoBehaviour {
         {
             if(exploded == false)
             {
-                if(particlesDream != null && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
+                if(particlesDream != null && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM && hitBack == false)
                 {
                     exploded = true;
                     spCollider.enabled = false;
@@ -88,11 +88,11 @@ public class ClownAttack : MonoBehaviour {
                     GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
                     ex.transform.parent = this.transform;
                     ex.SetActive(true);
-                    timer = 1;
+                    timer = 0.5f;
                     rigidB.constraints = RigidbodyConstraints.FreezeAll;
 
                 }
-                else if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
+                else if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE && hitBack == false)
                 {
                     exploded = true;
                     spCollider.enabled = false;
@@ -108,11 +108,15 @@ public class ClownAttack : MonoBehaviour {
                     GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
                     ex.transform.parent = this.transform;
                     ex.SetActive(true);
-                    timer = 1;
+                    timer = 0.5f;
                     rigidB.constraints = RigidbodyConstraints.FreezeAll;
                 }
             }
-            else
+            else if( hitBack == false)
+            {
+                Destroy(this.gameObject);
+
+            }else if(exploded == true)
             {
                 Destroy(this.gameObject);
             }
@@ -140,6 +144,56 @@ public class ClownAttack : MonoBehaviour {
         }
 	
 	}
+
+    public void detroyBall()
+    {
+        if (exploded == false)
+        {
+            if (particlesDream != null && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM && hitBack == false)
+            {
+                exploded = true;
+                spCollider.enabled = false;
+                rigidB.useGravity = false;
+                if (NightmareBall != null)
+                {
+                    Destroy(NightmareBall);
+                }
+                if (DreamBall != null)
+                {
+                    Destroy(DreamBall);
+                }
+                GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
+                ex.transform.parent = this.transform;
+                ex.SetActive(true);
+                timer = 1;
+                rigidB.constraints = RigidbodyConstraints.FreezeAll;
+
+            }
+            else if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE && hitBack == false)
+            {
+                exploded = true;
+                spCollider.enabled = false;
+                rigidB.useGravity = false;
+                if (NightmareBall != null)
+                {
+                    Destroy(NightmareBall);
+                }
+                if (DreamBall != null)
+                {
+                    Destroy(DreamBall);
+                }
+                GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
+                ex.transform.parent = this.transform;
+                ex.SetActive(true);
+                timer = 1;
+                rigidB.constraints = RigidbodyConstraints.FreezeAll;
+            }
+        }
+        else if (hitBack == false)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     public Vector3 Jump(Vector3 target, float angle, Transform current)
     {
@@ -207,12 +261,12 @@ public class ClownAttack : MonoBehaviour {
         }
         else if (currentState == ManipulationManager.WORLD_STATE.DREAM)
         {
-            if(collision.gameObject.name == clown.name)
-            {
-                //clown.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            }
+            //if(collision.gameObject.name == clown.name)
+            //{
+            //    //clown.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            //}
 
-            if (collision.gameObject.tag == "BossHand" || collision.gameObject.tag == "BossHead")
+            if (collision.gameObject.tag == "BossHand" || collision.gameObject.tag == "BossHead" || (collision.gameObject.tag == "JackInTheBox" && hitBack == true))
              {
 
                  spCollider.enabled = false;
@@ -291,21 +345,25 @@ public class ClownAttack : MonoBehaviour {
     //checks if the enemy is within your sight when u hit the ball back using dot product
     bool EnemyInCone()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 inFrontofPlayer = player.transform.position + player.transform.forward;
-        Vector2 infrontNoy = Vector2.zero;
-        infrontNoy.x = inFrontofPlayer.x;
-        infrontNoy.y = inFrontofPlayer.z;
-        Vector2 enemyNoy = Vector2.zero;
-        enemyNoy.x = clown.transform.position.x;
-        enemyNoy.y = clown.transform.position.z;
-        infrontNoy.Normalize();
-        enemyNoy.Normalize();
-        float angle = Vector2.Dot(infrontNoy, enemyNoy);
-        if(angle > (1-sightRadius))
+        if(clown!= null)
         {
-            return true;
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            Vector3 inFrontofPlayer = player.transform.position + player.transform.forward;
+            Vector2 infrontNoy = Vector2.zero;
+            infrontNoy.x = inFrontofPlayer.x;
+            infrontNoy.y = inFrontofPlayer.z;
+            Vector2 enemyNoy = Vector2.zero;
+            enemyNoy.x = clown.transform.position.x;
+            enemyNoy.y = clown.transform.position.z;
+            infrontNoy.Normalize();
+            enemyNoy.Normalize();
+            float angle = Vector2.Dot(infrontNoy, enemyNoy);
+            if (angle > (1 - sightRadius))
+            {
+                return true;
+            }
         }
+        
         return false;
     }
 

@@ -14,6 +14,7 @@ public class BallSpawner : MonoBehaviour {
     public float LocalScale;
     public string HammerTargetMessage;
     public string NightmareTargetMessage;
+    public bool SpawnIfExits;
 
     public enum Type
     {
@@ -71,8 +72,18 @@ public class BallSpawner : MonoBehaviour {
     public void Spawn()
     {
         gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
-        if (currentAttack != null)
+        if (currentAttack != null && SpawnIfExits == false)
+        {
             return;
+        }else if(currentAttack != null)
+        {
+            ClownAttack CA = currentAttack.GetComponent<ClownAttack>();
+            if(CA != null)
+            {
+                CA.detroyBall();
+            }
+        }
+            
         GameObject rocket = (GameObject)Instantiate(Ballprefab, this.transform.position, this.transform.rotation);
         currentAttack = rocket;
         rocket.transform.localScale = rocket.transform.localScale * LocalScale;

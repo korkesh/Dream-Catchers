@@ -10,19 +10,21 @@ using UnityEngine.SceneManagement;
 public class CheckPoints : MonoBehaviour
 {
 
-    public Vector3 position;
-    public bool useCurrentPos;
+   // public Vector3 position;
+   // public bool useCurrentPos;
     public string LevelName;
     public Light lightbulb;
+    public GameObject SpawnSpot;
+    public BoxCollider BC;
 
     // Use this for initialization
     void Start()
     {
 
-        if (useCurrentPos == true)
-        {
-            position = this.transform.position + this.transform.forward;
-        }
+        //if (useCurrentPos == true)
+        //{
+        //    position = this.transform.position + this.transform.forward;
+        //}
 
     }
 
@@ -30,9 +32,14 @@ public class CheckPoints : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Level_Manager.Instance.newCheckPoint(position, transform.rotation.eulerAngles, SceneManager.GetActiveScene().name);
+          
+            Level_Manager.Instance.newCheckPoint(SpawnSpot.transform.position, SpawnSpot.transform.rotation.eulerAngles, SceneManager.GetActiveScene().name);
             Level_Manager.Instance.checkPointContinue = true;
             lightbulb.enabled = true;
+            if(BC != null)
+            {
+                BC.enabled = false;
+            }
             gameObject.SendMessage("Play", SendMessageOptions.DontRequireReceiver);
         }
 
