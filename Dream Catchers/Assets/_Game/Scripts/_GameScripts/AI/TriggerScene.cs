@@ -60,7 +60,7 @@ public class TriggerScene : MonoBehaviour
                     break;
                 case TypeOfSwitch.CompleteSwitch:
                     fade.FadeOut();
-                    Invoke("SwitchComplete", fade.fadeTime);
+                    Invoke("SwitchComplete", 1f);
                     break;
                 case TypeOfSwitch.Unload:
                     SwitchUnload();

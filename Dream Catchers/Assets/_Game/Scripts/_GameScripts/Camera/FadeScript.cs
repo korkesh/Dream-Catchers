@@ -4,7 +4,7 @@ using UnityStandardAssets.ImageEffects;
 
 public class FadeScript : MonoBehaviour {
 
-    public float fadeTime = 0.5f;
+    //public float fadeTime = 0.5f;
 
     ScreenOverlay so;
     bool fadeIn = false;
@@ -25,7 +25,7 @@ public class FadeScript : MonoBehaviour {
     {
         if (fadeOut)
         {
-            so.intensity = Clamp(0f, 1f, so.intensity + Mathf.Lerp(0f, 1f, Time.deltaTime));// / fadeTime);
+            so.intensity = Clamp(0f, 1f, so.intensity + Mathf.Lerp(0f, 1f, Time.deltaTime));
 
             if(so.intensity >= 0.97f)
             {
@@ -39,7 +39,18 @@ public class FadeScript : MonoBehaviour {
         }
         else if (fadeIn)
         {
-            so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime));// / fadeTime);
+            if (so.intensity > 0.68f)
+            {
+                so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime * 0.4f));
+            }
+            else if (so.intensity > 0.3f)
+            {
+                so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime * 0.6f));
+            }
+            else
+            {
+                so.intensity = Clamp(0f, 1f, so.intensity - Mathf.Lerp(0f, 1f, Time.deltaTime * 0.9f));
+            }
         }
     }
 
