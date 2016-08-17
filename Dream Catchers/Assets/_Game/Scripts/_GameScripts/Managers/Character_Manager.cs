@@ -103,6 +103,7 @@ public class Character_Manager : Singleton<Character_Manager>
     public void ActivateHammer()
     {
         toggleHammer = true;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCombat>().weaponBackParentObject.SetActive(true);
     }
 
     public void DeActivateHammer()
