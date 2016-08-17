@@ -116,7 +116,7 @@ public class PlayerCombat : MonoBehaviour
         gameObject.GetComponent<Collider>().enabled = false;
         StartCoroutine(DamageEnd());
 
-        GetComponent<AudioSource>().PlayOneShot(damageSound);
+        gameObject.SendMessage("PlayAlt2");
     }
 
     // Turn off invincibility
