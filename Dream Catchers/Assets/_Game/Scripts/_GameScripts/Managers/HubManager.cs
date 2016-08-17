@@ -95,6 +95,8 @@ public class HubManager : MonoBehaviour {
 
     public IEnumerator BossOpen(string door)
     {
+        ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.NIGHTMARE;
+
         yield return new WaitForSeconds(5.0f);
 
         BossDoor.GetComponent<LowerDoor>().OpenDoor();
