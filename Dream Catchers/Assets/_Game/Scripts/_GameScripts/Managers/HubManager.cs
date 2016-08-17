@@ -4,9 +4,6 @@ using System.Collections;
 public class HubManager : MonoBehaviour {
 
     public GameObject mainCamera;
-    public GameObject tutorialCamera;
-    public GameObject level1Camera;
-    public GameObject level2Camera;
     public GameObject bossCamera;
 
     public GameObject TutorialDoor;
@@ -86,9 +83,6 @@ public class HubManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(1.0f);
 
-        tutorialCamera.SetActive(false);
-        level1Camera.SetActive(false);
-        level2Camera.SetActive(false);
         bossCamera.SetActive(false);
         Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
     }
@@ -103,9 +97,6 @@ public class HubManager : MonoBehaviour {
 
         yield return new WaitForSeconds(10.0f);
 
-        tutorialCamera.SetActive(false);
-        level1Camera.SetActive(false);
-        level2Camera.SetActive(false);
         bossCamera.SetActive(false);
         Game_Manager.instance.changeGameState(Game_Manager.GameState.PLAY);
     }
