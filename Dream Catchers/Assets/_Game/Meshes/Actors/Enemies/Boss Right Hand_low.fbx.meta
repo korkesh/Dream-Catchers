@@ -541,6 +541,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.66211605
+        functionName: TurnOffCollider
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.66964287
         functionName: SpeedUpAnim
         data: 
@@ -551,6 +559,14 @@ ModelImporter:
         messageOptions: 0
       - time: 0.74896264
         functionName: ReturnToTempPos
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.99658704
+        functionName: TurnOnCollider
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 0a8f7cac836f0a1419a161c7762d6c8d,
           type: 3}
