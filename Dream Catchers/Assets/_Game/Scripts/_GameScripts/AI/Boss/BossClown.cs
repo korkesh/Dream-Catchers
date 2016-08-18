@@ -16,6 +16,9 @@ public class BossClown : MonoBehaviour {
     public bool inDanger;
     public GameObject inComingBall;
 
+
+    public GameObject Particles;
+
 	// Use this for initialization
 	void Start () {
 
@@ -52,6 +55,7 @@ public class BossClown : MonoBehaviour {
         Health -= 1;
         if(Health <= 0)
         {
+            cueParticles();
             Destroy(this.transform.parent.gameObject);
         }
     }
@@ -62,11 +66,21 @@ public class BossClown : MonoBehaviour {
         inComingBall = ball;
     }
 
+    public void cueParticles()
+    {
+        if (Particles != null)
+        {
+            Particles.transform.parent = null;
+            Particles.SetActive(true);
+        }
+    }
+
     void OnDestroy()
     {
         GameObject lc = GameObject.Find("LevelComplete");
         if (lc != null && Health <= 0)
         {
+           
             UI_Manager.instance.ShowMenu(lc.GetComponent<Menu>());
         }
     }
