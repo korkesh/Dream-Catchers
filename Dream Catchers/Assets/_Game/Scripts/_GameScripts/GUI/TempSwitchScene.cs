@@ -17,6 +17,7 @@ public class TempSwitchScene : MonoBehaviour {
     public string NextScene;
     public Menu MainMenu;
     public Menu InGameUI;
+    public Menu Blank;
 
 
     //================================
@@ -34,6 +35,12 @@ public class TempSwitchScene : MonoBehaviour {
     {
         Game_Manager.instance.NewGame();
         SceneManager.LoadScene(NextScene);
+    }
+
+
+    public void OpenBlank()
+    {
+        UI_Manager.instance.ShowMenu(Blank);
     }
 
 

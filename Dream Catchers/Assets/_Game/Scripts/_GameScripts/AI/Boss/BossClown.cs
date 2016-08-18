@@ -18,6 +18,7 @@ public class BossClown : MonoBehaviour {
 
 
     public GameObject Particles;
+    public PlaySound playsound;
 
 	// Use this for initialization
 	void Start () {
@@ -53,6 +54,7 @@ public class BossClown : MonoBehaviour {
     public void TakeDamage()
     {
         Health -= 1;
+        playsound.PlayTheSound();
         if(Health <= 0)
         {
             cueParticles();

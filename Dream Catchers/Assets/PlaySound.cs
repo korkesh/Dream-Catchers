@@ -45,6 +45,11 @@ public class PlaySound : MonoBehaviour {
 
     }
 
+    public void PlayTheSound()
+    {
+        Play();
+    }
+
     void OnCollisionEnter(Collision other)
     {
         if (collide)
