@@ -27,12 +27,6 @@ public class ManipulationSpeed : ManipulationScript
     void Start()
     {
         currentManipType = MANIPULATION_TYPE.OTHER;
-
-        PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-        //playerOriginalWalkSpeed = controllerScript.WalkSpeed;
-        //playerOriginalRunSpeed = controllerScript.RunSpeed;
-
-
     }
 
     public override void changeState(ManipulationManager.WORLD_STATE state)
@@ -48,25 +42,16 @@ public class ManipulationSpeed : ManipulationScript
             || (slowInDream && currentObjectState == ManipulationManager.WORLD_STATE.DREAM)))
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-            //controllerScript.WalkSpeed = slowSpeed;
-            //controllerScript.RunSpeed = slowSpeed;
-
         }
         else if (other.gameObject == player &&
             ((quickenInNightmare && currentObjectState == ManipulationManager.WORLD_STATE.NIGHTMARE)
             || (quickenInDream && currentObjectState == ManipulationManager.WORLD_STATE.DREAM)))
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-            //controllerScript.WalkSpeed = increaseSpeed;
-            //controllerScript.RunSpeed = increaseSpeed;
-
         }
         else
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-            //controllerScript.WalkSpeed = playerOriginalWalkSpeed;
-            //controllerScript.RunSpeed = playerOriginalRunSpeed;
-
         }
     }
 
@@ -76,8 +61,6 @@ public class ManipulationSpeed : ManipulationScript
         if (other.gameObject == player)
         {
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
-            //controllerScript.WalkSpeed = playerOriginalWalkSpeed;
-            //controllerScript.RunSpeed = playerOriginalRunSpeed;
         }
     }
 }

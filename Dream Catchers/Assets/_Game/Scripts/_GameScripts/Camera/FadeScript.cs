@@ -10,8 +10,6 @@ public class FadeScript : MonoBehaviour {
     bool fadeIn = false;
     bool fadeOut = false;
 
-    bool toggle;
-
     // Use this for initialization
     void Start()
     {
@@ -26,16 +24,6 @@ public class FadeScript : MonoBehaviour {
         if (fadeOut)
         {
             so.intensity = Clamp(0f, 1f, so.intensity + Mathf.Lerp(0f, 1f, Time.deltaTime));
-
-            if(so.intensity >= 0.97f)
-            {
-                if(toggle)
-                {
-                    ManipulationManager.instance.currentWorldState = (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
-                                                                        ? ManipulationManager.WORLD_STATE.NIGHTMARE
-                                                                        : ManipulationManager.WORLD_STATE.DREAM;
-                }
-            }
         }
         else if (fadeIn)
         {
