@@ -278,6 +278,7 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\GenericTrigger.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SkyBoxStay.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TextBoxChangeGameState.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerOnDestroy.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\TriggerScene.cs" />
