@@ -141,6 +141,7 @@ public class Items : MonoBehaviour {
     {
         yield return new WaitForSeconds(3.0f);
 
+        ManipulationManager.instance.currentWorldState = ManipulationManager.WORLD_STATE.DREAM;
         gameObject.GetComponent<TriggerScene>().SceneChange(gameObject.GetComponent<TriggerScene>().enterSwitch);
     }
 }

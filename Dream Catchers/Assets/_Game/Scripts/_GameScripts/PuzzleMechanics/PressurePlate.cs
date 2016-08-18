@@ -120,7 +120,7 @@ public class PressurePlate : MonoBehaviour {
     }
 
 
-    //added this take out if doenst work or causes problems
+    //One off functionality for the case of ball spawners triggered by a plate
     void OnTriggerStay(Collider other)
     {
         if( ballspawns == true )

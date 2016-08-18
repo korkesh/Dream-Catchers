@@ -1,14 +1,8 @@
 ﻿///=====================================================================================
 /// Author: Matt
-/// Purpose: Pushes a block along the ground based on a calculated velocity
-///======================================================================================
-
-using UnityEngine;
-///=====================================================================================
-/// Author: Matt
 /// Purpose: Handles changes in lighting upon world swap
 ///======================================================================================
-
+using UnityEngine;
 using System.Collections;
 
 public class ManipulationLight : ManipulationScript
