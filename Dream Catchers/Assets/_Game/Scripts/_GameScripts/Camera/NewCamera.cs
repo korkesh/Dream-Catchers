@@ -146,6 +146,7 @@ public class NewCamera : MonoBehaviour
             {
                 collisionDistance = 1f;
                 transform.position = hit.point;
+                collision = true;
             }
         }
     }
@@ -790,6 +791,8 @@ public class NewCamera : MonoBehaviour
     // resets camera to behind hunter immediately
     public void Reset()
     {
+        lastGround = controller.currentGround.groundHeight + vTargetOffset.y;
+
         transform.position = Player.transform.position;
         transform.position -= (BaseDisplacement.normalized * currentFollowDistance);
         transform.position = new Vector3(transform.position.x, lastGround + currentHeight, transform.position.z);
