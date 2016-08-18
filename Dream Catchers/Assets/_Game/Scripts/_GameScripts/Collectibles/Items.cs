@@ -83,7 +83,7 @@ public class Items : MonoBehaviour {
 
                 gameObject.GetComponent<MeshRenderer>().enabled = false;
                 gameObject.GetComponent<Collider>().enabled = false;
-
+                PlayerPrefs.SetInt(key, 1);
                 Character_Manager.Instance.CollectMemoryFrag();
                 return;
             }
