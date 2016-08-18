@@ -8,6 +8,7 @@ public class ObjectSendMessage : MonoBehaviour {
     public List<string> messages;
     public bool deleteThis;
 
+    //semd message on enter
     void OnTriggerEnter(Collider other)
     {
        if(Object != null)

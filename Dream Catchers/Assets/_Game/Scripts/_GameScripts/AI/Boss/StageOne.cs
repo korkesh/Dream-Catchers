@@ -17,14 +17,14 @@ public class StageOne : Stages {
 
     public override void Play()
     {
-        //time -= Time.deltaTime;
+        //next stage after one hit
         if(beginHealth != Bc.Health)
         {
             Bc.currentStage = NextStage;
             return;
         }
 
-
+        //throw ball
         if (Bc.RightHand.attack == HandScript.Mode.NONE && Bc.LeftHand.attack == HandScript.Mode.NONE)
         {
             if(Bc.hunterOnRight == true)
@@ -36,20 +36,6 @@ public class StageOne : Stages {
                 Bc.LeftHand.ThrowBall();
             }
         }
-
-        //if(time <= 0)
-        //{
-        //    time = timeBetweenThrows;
-        //    if(RightHand == false)
-        //    {
-        //        Bc.RightHand.ThrowBall();
-        //        RightHand = true;
-        //    }else
-        //    {
-        //        Bc.LeftHand.ThrowBall();
-        //        RightHand = false;
-        //    }
-        //}
     }
 	
 }

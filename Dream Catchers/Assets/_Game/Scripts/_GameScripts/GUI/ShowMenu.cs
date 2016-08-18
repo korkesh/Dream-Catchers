@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+//shows a menu
 public class ShowMenu : MonoBehaviour {
 
     public string menuName;
@@ -44,8 +46,4 @@ public class ShowMenu : MonoBehaviour {
         }
     }
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

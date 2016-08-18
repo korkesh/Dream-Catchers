@@ -20,16 +20,15 @@ public class BossClown : MonoBehaviour {
     public GameObject Particles;
     public PlaySound playsound;
 
-	// Use this for initialization
-	void Start () {
-
-
-	}
+	
 	
 	// Update is called once per frame
 	void Update () {
 
+        //plays current stage
         currentStage.Play();
+
+        //checks if there is a ball coming
         if(inComingBall == null)
         {
             inDanger = false;
@@ -42,6 +41,7 @@ public class BossClown : MonoBehaviour {
         }
 	}
 
+    //take damage if hit by bomb
     void OnCollisionEnter(Collision collision)
     {
        if(collision.gameObject.tag == "Ball" && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
@@ -50,7 +50,7 @@ public class BossClown : MonoBehaviour {
        }
     }
    
-
+    //take damage and play sound
     public void TakeDamage()
     {
         Health -= 1;
@@ -62,11 +62,15 @@ public class BossClown : MonoBehaviour {
         }
     }
 
+
+
     public void Block(GameObject ball)
     {
         inDanger = true;
         inComingBall = ball;
     }
+
+    //activates particles
 
     public void cueParticles()
     {
@@ -76,6 +80,8 @@ public class BossClown : MonoBehaviour {
             Particles.SetActive(true);
         }
     }
+
+    //if dead change scene
 
     void OnDestroy()
     {

@@ -28,6 +28,7 @@ public class StageThree : Stages {
 
     public override void Play()
     {
+        //one hit next stage
         if (Bc.RightHand == null && Bc.LeftHand == null)
         {
             Bc.currentStage = NextStage;
@@ -75,6 +76,7 @@ public class StageThree : Stages {
 
     }
 
+    //choose an attack based on number
     public void chooseAttack(HandScript Hand, bool bothHands)
     {
 

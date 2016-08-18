@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SkyBoxStay : MonoBehaviour {
 
+    //main menu .. keep the sky box from changing
+
     bool foundIt;
     GameObject mainCamera;
     public Material skyboxNightmare;

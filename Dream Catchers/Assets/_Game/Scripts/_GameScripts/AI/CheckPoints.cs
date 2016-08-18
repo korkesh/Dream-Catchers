@@ -21,13 +21,9 @@ public class CheckPoints : MonoBehaviour
     void Start()
     {
 
-        //if (useCurrentPos == true)
-        //{
-        //    position = this.transform.position + this.transform.forward;
-        //}
-
     }
 
+    //save chcke point
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")

@@ -86,8 +86,6 @@ public class SmallClownAI : MonoBehaviour {
                     }
                 }
                 //enemy waits a bit throws a ball waits some more then jumps to new spot .. repeat
-                //rigidB.constraints = RigidbodyConstraints.None;
-                //rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 rigidB.useGravity = true;
                 WatchPlayer();
                 if (readyingAttack == true)
@@ -109,17 +107,7 @@ public class SmallClownAI : MonoBehaviour {
                          }
                     }
                    
-                    //if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
-                    //{
-                    //    rigidB.constraints = RigidbodyConstraints.FreezeAll;
-                    //    //rigidB.useGravity = false;
-                    //}
-                    //if (rigidB.velocity.y == 0)
-                    //{
-
-                    
-                   
-                    //}
+              
 
                 }
                 else
@@ -151,12 +139,7 @@ public class SmallClownAI : MonoBehaviour {
                 readyingAttack = true;
                 attackDelayTime = 0.5f;
                 moveDelayTime = DelayToMove;
-                //rigidB.constraints = RigidbodyConstraints.FreezeAll;
-                ////if (rigidB.detectCollisions == true && rigidB.velocity.y <= 0.1 && rigidB.velocity.y >= -0.1)
-                ////{
-                ////    rigidB.constraints = RigidbodyConstraints.FreezeAll;
-                ////    rigidB.useGravity = false;
-                ////}
+        
             }
         }
         
@@ -168,8 +151,7 @@ public class SmallClownAI : MonoBehaviour {
     void OnDisable()
     {
         readyingAttack = true;
-        //moveDelayTime = DelayToMove;
-        //attackDelayTime = DelayToAttack;
+     
     }
 
 

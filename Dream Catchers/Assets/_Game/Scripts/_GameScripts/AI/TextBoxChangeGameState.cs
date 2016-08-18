@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TextBoxChangeGameState : MonoBehaviour {
 
-
+    //script to change game states for text boxes
     public void PLayGame()
     {
         Game_Manager.instance.PlayGame();

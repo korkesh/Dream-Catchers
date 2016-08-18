@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
+//controlling the pause menu
 public class PauseMenu : MonoBehaviour {
 
     public Text numTickets;
@@ -26,7 +27,7 @@ public class PauseMenu : MonoBehaviour {
         open = false;
 	}
 	
-	// Update is called once per frame
+	// makes sure the right ticket count and fragments appear on pause
 	void Update () {
 	
         if(menu.IsOpen == true && open == false)
@@ -109,7 +110,7 @@ public class PauseMenu : MonoBehaviour {
 
 	}
 
-
+    //shows all info
     public void showAll()
     {
         open = true;

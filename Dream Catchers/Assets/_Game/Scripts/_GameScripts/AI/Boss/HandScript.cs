@@ -4,6 +4,8 @@ using DG.Tweening;
 
 public class HandScript : MonoBehaviour {
 
+
+    //all modes
     public enum Mode
     {
         THROW,
@@ -15,6 +17,7 @@ public class HandScript : MonoBehaviour {
         CHARGE,
         NONE
     }
+
    public  Mode attack;
    public Collider Col;
 
@@ -73,8 +76,6 @@ public class HandScript : MonoBehaviour {
                     attack = Mode.NONE;
                 }
                 break;
-            case Mode.SWIPE:
-                break;
             case Mode.HOVER:
                 smackFollowTime -= Time.deltaTime;
                 if(smackFollowTime <= 0)
@@ -88,35 +89,32 @@ public class HandScript : MonoBehaviour {
                     transform.position = Vector3.MoveTowards(this.transform.position, follow, 9 * Time.deltaTime);
                 }
                 break;
-            case Mode.BLOCK:
-                break;
-            case Mode.NONE:
-                break;
             default:
                 break;
         }
 
-        if (isAttacking == true)
-        {
-            //ThrowBall();
-            //Block();
-            ChargeSmackDown();
-            //Swipe();
-            isAttacking = false;
-        }else if (returnSpot == true)
-        {
-            BlockReturn();
-            returnSpot = false;
-        }
+        //if (isAttacking == true)
+        //{
+        //    //ThrowBall();
+        //    //Block();
+        //    ChargeSmackDown();
+        //    //Swipe();
+        //    isAttacking = false;
+        //}else if (returnSpot == true)
+        //{
+        //    BlockReturn();
+        //    returnSpot = false;
+        //}
 	}
 
-
+    //spawn the ball
     public void ThrowBall()
     {
         attack = Mode.THROW;
         spawner.Spawn();
     }
 
+    //start the spike
     public void Swipe()
     {
         attack = Mode.SWIPE;
@@ -124,70 +122,38 @@ public class HandScript : MonoBehaviour {
         SwipeSequence();
     }
 
+    //swipe sequence
     public void SwipeSequence()
     {
-        //TweenCallback CallBack;
         
         Sequence swipeSequence = DOTween.Sequence();
         tempPos = this.transform.position;
-
-        //tempRot = this.transform.rotation.eulerAngles;
-        //swipeSequence.Append(transform.DOMove(startSwipePos.transform.position, durationFirstSectionSwipe, false)).Append(transform.DOPunchPosition(transform.forward*0.1f,durationSecondSectionSwipe,50,0.5f,false)).AppendInterval(SwipeWait).Append(transform.DOMove(endSwipePos.transform.position, durationThirdSectionSwipe, false)).Append(transform.DOMove(tempPos, durationForthSectionSwipe, false)).OnComplete(() =>
-        //{
-        //    attack = Mode.NONE;
-        //});
-        //swipeSequence.Insert(0, transform.DORotate(rotationSwipe, 0.5f));
-        //swipeSequence.Insert(durationFirstSectionSwipe + durationSecondSectionSwipe + durationThirdSectionSwipe+ SwipeWait, transform.DORotate(tempRot, 0.5f));
 
         swipeSequence.Append(transform.DOMove(startSwipePos.transform.position, durationFirstSectionSwipe, false)).AppendInterval(SwipeWait).Append(transform.DOMove(endSwipePos.transform.position, durationForthSectionSwipe, false));
         
     }
 
+
+    //start the charge smack
     public void ChargeSmackDown()
     {
         attack = Mode.CHARGE;
         tempPos = this.transform.position;
         anim.SetTrigger("RotateToSlam");
 
-
-
-        //follow = hunter.transform.position;
-        //follow.y = HoverY;
-        //Sequence ChargeSmackDown = DOTween.Sequence();
-        //tempPos = this.transform.position;
-        //tempRot = this.transform.rotation.eulerAngles;
-        //ChargeSmackDown.Append(transform.DOMove(startSmackPos.transform.position, durationFirstSectionChargeSmack, false)).Append(transform.DOMove(follow, durationSecondSectionChargeSmack, false)).OnComplete(() =>
-        //{
-        //    attack = Mode.HOVER;
-        //});
-        //ChargeSmackDown.Insert(durationFirstSectionChargeSmack, transform.DORotate(rotationSmack, durationSecondSectionChargeSmack));
-
-
-        //SmackDown.Insert(durationFirstSectionSwipe + durationSecondSectionSwipe, transform.DORotate(tempRot, 0.5f));
-        //.Append(transform.DOMove(tempPos, durationThirdSectionSmack, false));
-
-
     }
 
+
+    //start smack down
     public void SmackDown()
     {
         attack = Mode.SMACK;
         smackFollowTime = smackFollow;
         anim.SetTrigger("Slam");
 
-
-        //follow = hunter.transform.position;
-        //follow.y = aboveGroound;
-        //Sequence SmackDown = DOTween.Sequence();
-        //SmackDown.Append(transform.DOPunchPosition(transform.forward * 0.3f, durationSecondSectionSwipe, 50, 0.5f, false)).Append(transform.DOMove(follow, durationFirstSectionSmack, false)).Append(transform.DOMove(tempPos, durationSecondSectionSmack, false)).OnComplete(() =>
-        //{
-        //    attack = Mode.NONE;
-        //    smackFollowTime = smackFollow;
-        //});
-        //SmackDown.Insert(durationFirstSectionSmack + durationSecondSectionSmack + durationSecondSectionSwipe, transform.DORotate(tempRot, 0.5f));
     }
 
-
+    //go to block
     public void Block()
     {
         attack = Mode.BLOCK;
@@ -200,12 +166,10 @@ public class HandScript : MonoBehaviour {
         Sequence BlockIt = DOTween.Sequence();
         BlockIt.Append(transform.DOMove(blockSpot.transform.position, 0.5f, false));
         BlockIt.Insert(0, transform.DORotate(rotationBlock, 0.5f));
-        
-        //Sequence BlockIt = DOTween.Sequence();
-        //BlockIt.Append(transform.DOMove(blockSpot.transform.position, 0.5f, false));
-        //BlockIt.Insert(0, transform.DORotate(rotationBlock, 0.5f));
+
     }
 
+    //back to resting pos
     public void BlockReturn()
     {
         attack = Mode.UNBLOCK;
@@ -261,6 +225,8 @@ public class HandScript : MonoBehaviour {
         Col.enabled = true;
     }
 
+    //check hitting the player or dammage trigger
+
     void OnTriggerEnter(Collider other)
     {
        if(other.gameObject.tag == "Player")
@@ -277,6 +243,7 @@ public class HandScript : MonoBehaviour {
        }
     }
 
+    //check hitting the ball
     void OnCollisionEnter(Collision collision)
     {
 
@@ -295,6 +262,8 @@ public class HandScript : MonoBehaviour {
         }
     }
 
+
+    //death particles
     void OnDestroy()
     {
         HealthManager HM = this.GetComponent<HealthManager>();
