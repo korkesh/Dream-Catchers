@@ -63,6 +63,8 @@ public class TempSwitchScene : MonoBehaviour {
             Game_Manager.instance.ChangeScene(PlayerPrefs.GetString("CurrentLevel"));
             UI_Manager.instance.ShowMenu(GameObject.FindGameObjectWithTag("InGameUI").GetComponent<Menu>());
             //Game_Manager.instance.PlayGame();
+            //I CAHNGES THIS
+
             Level_Manager.Instance.ContinueLevel();
             GameObject.FindGameObjectWithTag("InGameUI").GetComponent<InGameStats>().updateFragments();
             Character_Manager.instance.GoTocheckPoint();
