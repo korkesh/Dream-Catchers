@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿///=====================================================================================
+/// Author: Matt
+/// Purpose: Prevent a stack of boxes from falling on the characters head if a low 
+/// box is destroyed
+///======================================================================================
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 

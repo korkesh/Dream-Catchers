@@ -1,9 +1,11 @@
 ﻿///=====================================================================================
 /// Author: Matt
-/// Purpose: Adjusts characters speed in world swap when entering object
+/// Purpose: Adjusts characters speed in world swap when entering object 
 ///======================================================================================
 
-using UnityEngine;
+//[No longer used]
+
+/*using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Collider))]
@@ -63,4 +65,4 @@ public class ManipulationSpeed : ManipulationScript
             PlayerMachine controllerScript = player.GetComponent<PlayerMachine>();
         }
     }
-}
+}*/

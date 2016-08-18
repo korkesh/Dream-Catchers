@@ -7,7 +7,7 @@ public class BGM : MonoBehaviour {
     public AudioSource audioDream;
     public AudioSource audioNightmare;
 
-    float bgmVolume = 1.0f;
+    float bgmVolume = 1.0f; 
 
 	// Use this for initialization
 	void Start () {

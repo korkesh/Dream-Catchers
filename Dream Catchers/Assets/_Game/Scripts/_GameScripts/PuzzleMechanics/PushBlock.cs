@@ -28,12 +28,6 @@ public class PushBlock : MonoBehaviour {
         pushTo = Vector3.zero;
     }
 
-    void FixedUpdate()
-    {
-        //gameObject.GetComponent<Rigidbody>().velocity = pushTo / Time.deltaTime;
-
-        //gameObject.GetComponent<Rigidbody>().MovePosition(pushTo * (Time.time - savedTime));
-    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -41,7 +35,6 @@ public class PushBlock : MonoBehaviour {
         if (gameObject.GetComponent<Rigidbody>().velocity.magnitude < 0.1f && GetComponent<AudioSource>().isPlaying)
         {
             GetComponent<AudioSource>().Stop();
-            //gameObject.SendMessage("PlayAlt");
         }
 
         if(gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)

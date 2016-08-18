@@ -1,6 +1,7 @@
 ﻿///=====================================================================================
 /// Author: Matt
-/// Purpose: Handles changes in gravity on an object upon world swap
+/// Purpose: Handles changes in gravity on an object upon world swap; seen in 
+/// floating balloons
 ///======================================================================================
 
 using UnityEngine;
