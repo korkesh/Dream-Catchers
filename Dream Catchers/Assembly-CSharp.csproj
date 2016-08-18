@@ -50,6 +50,7 @@
      <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\DynamicTextureTiling.cs" />
      <Compile Include="Assets\AutoTextureTilingTool\Scripts\AutoTiling\MeshData.cs" />
      <Compile Include="Assets\CameraSwap.cs" />
+     <Compile Include="Assets\DefaultMode.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
      <Compile Include="Assets\DestroyObject.cs" />
@@ -225,7 +226,9 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BallSpawner.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\BossClown.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\ConstantFollowPos.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\EyeTracking.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HandScript.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\HitMotion.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\IgnoreCollison.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\Stage4.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\StageOne.cs" />
@@ -234,9 +237,11 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\Stages.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\Boss\SwipePoints.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\DetachParticle.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDestroy.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\FreezeAI.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\GenericTrigger.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\SceneScript.cs" />
@@ -255,6 +260,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\BaseState.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\DamageDealer.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\balloonAnimal\FSM.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\correctLevel.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\hunterOnAwake.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\ClownAttack.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\smallClown\LaunchMovement.cs" />
@@ -277,10 +283,13 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\Items.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Collectibles\RotateCollectible.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\CharacterCrush.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\DestroyExplosion.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\Explode.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HammerAttack.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\HealthManager.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\KillFloor.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\Combat\PlayerCombat.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\BGM.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ControllerFocus.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\InGameStats.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\MainMenuControl.cs" />
@@ -289,6 +298,7 @@
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\PauseMenu.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\RechargeAnimation.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\ShowMenu.cs" />
+     <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\SpawnSound.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempGUi.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempMessageInto.cs" />
      <Compile Include="Assets\_Game\Scripts\_GameScripts\GUI\TempSwitchScene.cs" />
@@ -405,7 +415,6 @@
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
-     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Diffuse.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
      <None Include="Assets\Fungus\Thirdparty\LeanTween\ReadMe.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
@@ -415,13 +424,10 @@
      <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
      <None Include="Assets\Fungus\LICENSE.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
-     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Cell-Bump.shader" />
      <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShader-No Outline.shader" />
      <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
-     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CelShaderV2.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfField34.shader" />
-     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\Temp.shader" />
      <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\README.txt" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
@@ -429,7 +435,6 @@
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
-     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShaderWithRamp.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
      <None Include="Assets\_Game\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
