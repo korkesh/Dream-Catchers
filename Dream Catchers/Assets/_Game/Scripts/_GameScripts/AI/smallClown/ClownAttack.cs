@@ -72,63 +72,11 @@ public class ClownAttack : MonoBehaviour {
         if (timer <= 0)
         {
             detroyBall();
-            //// if it hasn't exploded yet
-            //if(exploded == false && hitBack == false)
-            //{
-            //    SpawnParticles();
-            //    ////timer has run out in dream, destroy ball and play dream particles
-            //    //if(particlesDream != null && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM && hitBack == false)
-            //    //{
-            //    //    exploded = true;
-            //    //    spCollider.enabled = false;
-            //    //    rigidB.useGravity = false;
-            //    //    if(NightmareBall != null )
-            //    //    {
-            //    //        Destroy(NightmareBall);
-            //    //    }
-            //    //    if(DreamBall != null)
-            //    //    {
-            //    //        Destroy(DreamBall);
-            //    //    }
-            //    //    GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
-            //    //    ex.transform.parent = this.transform;
-            //    //    ex.SetActive(true);
-            //    //    timer = 0.5f;
-            //    //    rigidB.constraints = RigidbodyConstraints.FreezeAll;
-
-            //    //}
-            //    //else if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE && hitBack == false)
-            //    //{
-            //    //    exploded = true;
-            //    //    spCollider.enabled = false;
-            //    //    rigidB.useGravity = false;
-            //    //    if (NightmareBall != null)
-            //    //    {
-            //    //        Destroy(NightmareBall);
-            //    //    }
-            //    //    if (DreamBall != null)
-            //    //    {
-            //    //        Destroy(DreamBall);
-            //    //    }
-            //    //    GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
-            //    //    ex.transform.parent = this.transform;
-            //    //    ex.SetActive(true);
-            //    //    timer = 0.5f;
-            //    //    rigidB.constraints = RigidbodyConstraints.FreezeAll;
-            //    //}
-            ////}
-            ////else if( hitBack == false)
-            ////{
-            ////    SpawnParticles();
-            ////    //Destroy(this.gameObject);
-
-            //}else if(exploded == true)
-            //{
-            //    Destroy(this.gameObject);
-            //}
+            
             
         }
 
+        //switch to a bouncy physics material if in dream
         if( currentState != ManipulationManager.instance.currentWorldState)
         {
             if(ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM)
@@ -151,57 +99,8 @@ public class ClownAttack : MonoBehaviour {
         if (exploded == false && hitBack == false)
         {
 
-            //if (hitBack == false)
-            //{
                 SpawnParticles();
-            //}
-            //    if (particlesDream != null && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.DREAM && hitBack == false)
-            //    {
-            //        SpawnParticles();
-            //        //exploded = true;
-            //        //spCollider.enabled = false;
-            //        //rigidB.useGravity = false;
-            //        //if (NightmareBall != null)
-            //        //{
-            //        //    Destroy(NightmareBall);
-            //        //}
-            //        //if (DreamBall != null)
-            //        //{
-            //        //    Destroy(DreamBall);
-            //        //}
-            //        //GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
-            //        //ex.transform.parent = this.transform;
-            //        //ex.SetActive(true);
-            //        //timer = 0.5f;
-            //        //rigidB.constraints = RigidbodyConstraints.FreezeAll;
-
-            //    }
-            //    else if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE && hitBack == false)
-            //    {
-            //        SpawnParticles();
-            //        //exploded = true;
-            //        //spCollider.enabled = false;
-            //        //rigidB.useGravity = false;
-            //        //if (NightmareBall != null)
-            //        //{
-            //        //    Destroy(NightmareBall);
-            //        //}
-            //        //if (DreamBall != null)
-            //        //{
-            //        //    Destroy(DreamBall);
-            //        //}
-            //        //GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
-            //        //ex.transform.parent = this.transform;
-            //        //ex.SetActive(true);
-            //        //timer = 0.5f;
-            //        //rigidB.constraints = RigidbodyConstraints.FreezeAll;
-            //    }
-            //}
-            //else if (hitBack == false)
-            //{
-            //    Destroy(this.gameObject);
-            //}
-
+           
         }
         else if(exploded == true)
         {
@@ -210,6 +109,7 @@ public class ClownAttack : MonoBehaviour {
             //remove this if uncomment
     }
 
+    //from online
     public Vector3 Jump(Vector3 target, float angle, Transform current)
     {
         Vector3 dir = target - current.position;  // get target direction
@@ -233,6 +133,7 @@ public class ClownAttack : MonoBehaviour {
     //checksa if the bomb should explode, deal damage or bouncy back
     void OnCollisionEnter(Collision collision)
     {
+        //if exploded wait before destroying
         if(exploded == true)
         {
             wait -= Time.deltaTime;
@@ -243,6 +144,7 @@ public class ClownAttack : MonoBehaviour {
             return;
         }
 
+        //check collisions
         if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && collision.gameObject.name != "Launch" && exploded == false)
         {
             if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Hammer")
@@ -265,15 +167,7 @@ public class ClownAttack : MonoBehaviour {
             }
 
             SpawnParticles();
-            //spCollider.enabled = false;
-            //rigidB.useGravity = false;
-            //exploded = true;
-            //Destroy(NightmareBall);
-            //Destroy(DreamBall);
-            //GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
-            //ex.transform.parent = this.transform;
-            //ex.SetActive(true);
-            //rigidB.constraints = RigidbodyConstraints.FreezeAll;
+            
 
         }
         else if (currentState == ManipulationManager.WORLD_STATE.DREAM)
@@ -284,24 +178,7 @@ public class ClownAttack : MonoBehaviour {
              {
 
                  SpawnParticles();
-                // spCollider.enabled = false;
-                // rigidB.useGravity = false;
-                // exploded = true;
-                // Destroy(NightmareBall);
-                // Destroy(DreamBall);
-                //if(particlesDream != null)
-                //{
-                //    GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
-                //    ex.transform.parent = this.transform;
-                //    ex.SetActive(true);
-                //}
-                //else
-                //{
-                //    GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
-                //    ex.transform.parent = this.transform;
-                //    ex.SetActive(true);
-                //}
-                
+
              }
 
             if(collision.gameObject.tag == "Hammer" && hitBack == false)
@@ -345,8 +222,8 @@ public class ClownAttack : MonoBehaviour {
                         }
                         else
                         {
-
-                            Destroy(this.gameObject);
+                            SpawnParticles();
+                           // Destroy(this.gameObject);
                         }
                     }
                 }
@@ -361,17 +238,17 @@ public class ClownAttack : MonoBehaviour {
         if(clown!= null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            Vector3 inFrontofPlayer = player.transform.position + player.transform.forward;
+            Vector3 inFrontofPlayer = player.transform.forward; 
             Vector2 infrontNoy = Vector2.zero;
             infrontNoy.x = inFrontofPlayer.x;
             infrontNoy.y = inFrontofPlayer.z;
             Vector2 enemyNoy = Vector2.zero;
-            enemyNoy.x = clown.transform.position.x;
-            enemyNoy.y = clown.transform.position.z;
+            enemyNoy.x = clown.transform.position.x-player.transform.position.x;
+            enemyNoy.y = clown.transform.position.z - player.transform.position.z;
             infrontNoy.Normalize();
             enemyNoy.Normalize();
             float angle = Vector2.Dot(infrontNoy, enemyNoy);
-            if (angle > (1 - sightRadius))
+            if (angle > (1 - sightRadius/90))
             {
                 return true;
             }
@@ -387,20 +264,12 @@ public class ClownAttack : MonoBehaviour {
         {
             GetComponent<AudioSource>().Stop();
             gameObject.SendMessage("PlayAlt");
-
-            //Destroy(this.gameObject);
-            spCollider.enabled = false;
-            rigidB.useGravity = false;
-            exploded = true;
-            Destroy(NightmareBall);
-            Destroy(DreamBall);
-            GameObject ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
-            ex.transform.parent = this.transform;
-            ex.SetActive(true);
-            rigidB.constraints = RigidbodyConstraints.FreezeAll;
+            SpawnParticles();
+            
         }
     }
 
+    //spawn correct particles
     public void SpawnParticles()
     {
         exploded = true;
