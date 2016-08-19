@@ -13,6 +13,7 @@ public class Stage4 : Stages
         time = timeBetween;
 	}
 
+    //throw ball
     public override void Play()
     {
         time -= Time.deltaTime;

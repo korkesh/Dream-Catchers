@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class FreezeAI : MonoBehaviour {
 
     public FSM AIFSM;
@@ -30,8 +31,8 @@ public class FreezeAI : MonoBehaviour {
         }
 
 	}
-	
-	// Update is called once per frame
+
+    //was used to stop ai in cinematic mode
 	void Update () {
 
         if((Game_Manager.instance.currentGameState != Game_Manager.GameState.PLAY) && AIFSM.enabled == true)

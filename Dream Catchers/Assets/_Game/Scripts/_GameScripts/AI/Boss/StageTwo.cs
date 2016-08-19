@@ -25,12 +25,13 @@ public class StageTwo : Stages {
 	
 	public override void Play()
     {
+        //if hit once go to next stage
         if(Bc.Health <= (beginHealth-healthDifference))
         {
             Bc.currentStage = NextStage;
         }
 
-
+        //if not throwing ball swipe
         if(Bc.RightHand.attack == HandScript.Mode.NONE && Bc.LeftHand.attack == HandScript.Mode.NONE)
         {
             if(throwBall == false)
@@ -62,38 +63,5 @@ public class StageTwo : Stages {
                }
             }
         }
-
-        //if(AttackTime >= waitOnSwipe)
-        //{
-        //    AttackTime = 0;
-        //    RightHand = !RightHand;
-        //    throwBall = false;
-        //}
-
-        //if(RightHand == true)
-        //{
-        //   if(AttackTime == 0)
-        //   {
-        //       Bc.RightHand.Swipe();
-        //   }else if(AttackTime > waitOnThrow && throwBall == false)
-        //   {
-        //       Bc.LeftHand.ThrowBall();
-        //       throwBall = true;
-        //   }
-        //   AttackTime += Time.deltaTime;
-        //}
-        //else
-        //{
-        //    if (AttackTime == 0)
-        //    {
-        //        Bc.LeftHand.Swipe();
-        //    }
-        //    else if (AttackTime > waitOnThrow && throwBall == false)
-        //    {
-        //        Bc.RightHand.ThrowBall();
-        //        throwBall = true;
-        //    }
-        //    AttackTime += Time.deltaTime;
-        //}
     }
 }

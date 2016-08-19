@@ -6,7 +6,7 @@ public class correctLevel : MonoBehaviour {
     public Level_Manager.Levels level;
     public bool play;
 
-	// Use this for initialization
+	// tells what level it is
 	void Start () {
 
         Level_Manager.Instance.CurrentLevel = level;
@@ -16,9 +16,5 @@ public class correctLevel : MonoBehaviour {
         }
 
 	}
-	
-    //// Update is called once per frame
-    //void Update () {
-	
-    //}
+
 }

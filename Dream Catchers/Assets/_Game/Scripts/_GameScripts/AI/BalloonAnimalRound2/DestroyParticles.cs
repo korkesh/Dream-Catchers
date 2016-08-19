@@ -5,16 +5,7 @@ public class DestroyParticles : MonoBehaviour {
 
      public ParticleSystem PS;
 	
-	// Update is called once per frame
-    //void Update () {
-	
-    //    if(PS.IsAlive() == false)
-    //    {
-    //        Destroy(this.gameObject);
-    //    }
-    //}
-
-
+    // destroy particles system after the lifetime is up
     void Awake()
      {
          Destroy(this.gameObject, PS.startLifetime);

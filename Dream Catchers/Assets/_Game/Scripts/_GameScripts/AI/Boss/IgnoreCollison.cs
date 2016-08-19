@@ -9,7 +9,7 @@ public class IgnoreCollison : MonoBehaviour {
     public Collider thisColiider;
     //GameObject avoiding;
 
-	// Use this for initialization
+	// avoids colliders
 	void Awake () {
 
         if(thisColiider != null)

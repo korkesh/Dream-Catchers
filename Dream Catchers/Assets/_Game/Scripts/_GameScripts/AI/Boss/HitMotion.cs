@@ -18,20 +18,9 @@ public class HitMotion : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //if (DOTween.IsTweening(Head.transform) == false)
-        //{
-        //    Idle();
-        //}
-
 	}
 
-    //public void Idle()
-    //{
-    //    Sequence idle = DOTween.Sequence();
-    //    idle.Append(Head.transform.DOShakePosition(10,new Vector3(0,0.5f,0),1,5,false));
-    //}
-
-
+    //moving boss head up and down
     public void UP()
     {
         Sequence goingUp = DOTween.Sequence();

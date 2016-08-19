@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
+//going to be used for the main menu with continue but we took continue out
 public class MainMenuControl : MonoBehaviour {
 
     public Button cont;
@@ -21,6 +23,7 @@ public class MainMenuControl : MonoBehaviour {
 
         if(PlayerPrefs.GetFloat("Save") == 1)
         {
+            //creates proper links btwn the ui buttons
             cont.gameObject.SetActive(true);
             Navigation customNavCont = new Navigation();
             customNavCont.mode = Navigation.Mode.Explicit;

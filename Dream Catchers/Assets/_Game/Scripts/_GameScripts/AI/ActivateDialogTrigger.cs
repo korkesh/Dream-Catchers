@@ -4,7 +4,7 @@ using Fungus;
 
 public class ActivateDialogTrigger : MonoBehaviour
 {
-
+    //sending messages to flowchart
     public Flowchart flC;
     public string message;
 

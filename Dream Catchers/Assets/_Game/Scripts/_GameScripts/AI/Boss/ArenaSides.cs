@@ -7,7 +7,7 @@ public class ArenaSides : MonoBehaviour {
     public bool rightSide;
     public BossClown Bc;
 
-
+    //collider to check which side the areana hunter is on
     void OnTriggerEnter(Collider other)
     {
        if(other.gameObject == Hunter && Bc != null)
