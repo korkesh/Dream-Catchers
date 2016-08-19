@@ -92,19 +92,6 @@ public class HandScript : MonoBehaviour {
             default:
                 break;
         }
-
-        //if (isAttacking == true)
-        //{
-        //    //ThrowBall();
-        //    //Block();
-        //    ChargeSmackDown();
-        //    //Swipe();
-        //    isAttacking = false;
-        //}else if (returnSpot == true)
-        //{
-        //    BlockReturn();
-        //    returnSpot = false;
-        //}
 	}
 
     //spawn the ball
@@ -128,7 +115,6 @@ public class HandScript : MonoBehaviour {
         
         Sequence swipeSequence = DOTween.Sequence();
         tempPos = this.transform.position;
-
         swipeSequence.Append(transform.DOMove(startSwipePos.transform.position, durationFirstSectionSwipe, false)).AppendInterval(SwipeWait).Append(transform.DOMove(endSwipePos.transform.position, durationForthSectionSwipe, false));
         
     }

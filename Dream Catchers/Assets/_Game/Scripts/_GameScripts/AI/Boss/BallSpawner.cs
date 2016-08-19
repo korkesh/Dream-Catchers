@@ -88,6 +88,7 @@ public class BallSpawner : MonoBehaviour {
         
     }
 
+    //gotten from online http://answers.unity3d.com/questions/148399/shooting-a-cannonball.html
     public Vector3 Jump(Vector3 target, float angle, Transform current)
     {
         Vector3 dir = target - current.position;  // get target direction
