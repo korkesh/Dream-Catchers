@@ -25,7 +25,8 @@ public class InGameStats : MonoBehaviour {
     public Text textbox;
     bool showingText;
     float textTimer;
-
+    public GameObject switcherUI;
+    bool gainedSwitch;
 
     //-----------------
     // UI 
@@ -71,7 +72,7 @@ public class InGameStats : MonoBehaviour {
         timeCollUI = TimeofCollectibleUI;
         //updateFragments();
         state = Game_Manager.instance.currentGameState;
-        
+        gainedSwitch = false;
        
 	}
 
@@ -91,6 +92,20 @@ public class InGameStats : MonoBehaviour {
             }
         }
 
+        if(ManipulationManager.instance.manipGained == true && gainedSwitch == false)
+        {
+            if(switcherUI != null)
+            {
+                switcherUI.SetActive(true);
+                gainedSwitch = true;
+            }
+
+        }
+        else if (switcherUI != null && ManipulationManager.instance.manipGained == false && gainedSwitch == true)
+        {
+            switcherUI.SetActive(false);
+            gainedSwitch = false;
+        }
         //if (Game_Manager.instance.currentGameState == Game_Manager.GameState.PAUSE)
         //{
         //    //ShowCollect();

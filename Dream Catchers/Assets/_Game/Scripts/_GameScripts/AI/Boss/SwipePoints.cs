@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//not used anymore
 public class SwipePoints : MonoBehaviour {
 
     public enum Direction

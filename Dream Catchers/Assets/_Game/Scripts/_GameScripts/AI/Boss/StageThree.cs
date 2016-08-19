@@ -6,24 +6,22 @@ public class StageThree : Stages {
     public bool RightHand;
     int beginHealth;
     public int healthDifference;
-    public int ball;
-    public int swipe;
-    public int smack;
+    
 
     public int[] AttackPattern;
-    int index;
+    public int index;
     int rotation;
 
 
 	// Use this for initialization
 	void Start () {
 
-        ball = 0;
-        swipe = 0;
-        smack = 0;
-        rotation = 3;
-
-
+        rotation = 0;
+        index--;
+        if(index < 0)
+        {
+            index = 0;
+        }
 	}
 
     public override void Play()
@@ -93,6 +91,7 @@ public class StageThree : Stages {
                 int rand = Random.Range(0, 4);
                 index = rand * 3;
                 rotation = 0;
+
             }
             else
             {
@@ -113,41 +112,7 @@ public class StageThree : Stages {
             }
 
             rotation++;
-            //if(ball == 0)
-            //{
-            //    Hand.ThrowBall();
-            //    ball++;
-
-            //}else
-            //{
-            //    if(swipe >= ball + 3 && smack >= ball + 3)
-            //    {
-            //        Hand.ThrowBall();
-            //        ball++;
-
-            //    }else
-            //    {
-            //        float rand = Random.Range(0, 30);
-            //        if (rand <= 10)
-            //        {
-                        
-            //            Hand.ThrowBall();
-            //            ball++;
-            //        }
-            //        else if (rand <= 20)
-            //        {
-                        
-            //            Hand.Swipe();
-            //            swipe++;
-            //        }
-            //        else
-            //        {
-                        
-            //            Hand.ChargeSmackDown();
-            //            smack++;
-            //        }
-            //    }
-            //}
+           
         }
 
     }

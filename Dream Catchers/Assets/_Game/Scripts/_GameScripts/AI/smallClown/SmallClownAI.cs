@@ -74,7 +74,7 @@ public class SmallClownAI : MonoBehaviour {
 
         if(Game_Manager.instance.currentGameState == Game_Manager.GameState.PLAY)
         {
-            //bock does nothing in dream
+            //block does nothing in dream
             if (ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
             {
                 if (anim != null )
@@ -92,6 +92,7 @@ public class SmallClownAI : MonoBehaviour {
                 {
                     if(triggerArea != null)
                     {
+                        //check if player is far enough away and not too close
                          if(!triggerArea.bounds.Contains(Player.transform.position) )
                          {
                              attackDelayTime -= Time.deltaTime;
@@ -127,6 +128,7 @@ public class SmallClownAI : MonoBehaviour {
             }
             else
             {
+                //setting correct animation
                 if (anim != null)
                 {
 
@@ -136,6 +138,8 @@ public class SmallClownAI : MonoBehaviour {
                         curState = ManipulationManager.WORLD_STATE.DREAM;
                     }
                 }
+
+                //resetting values
                 readyingAttack = true;
                 attackDelayTime = 0.5f;
                 moveDelayTime = DelayToMove;
@@ -170,10 +174,6 @@ public class SmallClownAI : MonoBehaviour {
         }
         Rigidbody rocketClone = rocket.GetComponent<Rigidbody>();
         rocketClone.velocity = Jump(Player.transform.position, LuanchAngle,LaunchPoint.transform);
-        //if (anim != null)
-        //{
-        //        anim.SetTrigger("Attack");
-        //}
     }
 
     //destroys ball 
@@ -192,11 +192,15 @@ public class SmallClownAI : MonoBehaviour {
     //movemt to next spot
     void move()
     {
+        //unfreezes rigidbody constraints except rotation
         rigidB.constraints = RigidbodyConstraints.None;
         rigidB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         jumping = true;
+        //find next spot to jump to 
         if(path.Count > 0)
         {
+
+            //loop means when at the end of the list the next jump spot will e at index 0, if not loop it will go backwards through the list once the end is reached
             if(loop == true)
             {
                 index++;
@@ -263,7 +267,7 @@ public class SmallClownAI : MonoBehaviour {
         transform.rotation = Quaternion.LookRotation(newDir);
     }
 
-
+    //keep from being pushed and dammage player
     void OnCollisionStay(Collision collisionInfo)
     {
         if (jumping == false && collisionInfo.gameObject.layer == LayerMask.NameToLayer("Level") || collisionInfo.gameObject.tag == "Switch")
@@ -278,7 +282,7 @@ public class SmallClownAI : MonoBehaviour {
         }
     }
 
-
+    //damage player
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player" && ManipulationManager.instance.currentWorldState == ManipulationManager.WORLD_STATE.NIGHTMARE)
