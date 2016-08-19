@@ -31,7 +31,7 @@ public class PushBlock : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        //If the box is moving and collides with the wall, stop the rolling sound and play a thud
+        //If the box is moving and collides with the wall, stop the rolling sound and stop sound
         if (gameObject.GetComponent<Rigidbody>().velocity.magnitude < 0.1f && GetComponent<AudioSource>().isPlaying)
         {
             GetComponent<AudioSource>().Stop();
@@ -39,7 +39,6 @@ public class PushBlock : MonoBehaviour {
 
         if(gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
         {
-
             return;
         }
 
@@ -69,12 +68,13 @@ public class PushBlock : MonoBehaviour {
     /// </summary>
     public void Push()
     {
-
+        // Disallow a second push when in motion
         if (gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1.0f)
         {
             return;
         }
 
+        // Disallow push if floating box
         if (gameObject.GetComponent<ManipulationGravity>() != null && gameObject.GetComponent<ManipulationGravity>().currentFloat != ManipulationGravity.FLOAT_STATE.NEUTRAL)
         {
             return;
@@ -84,7 +84,7 @@ public class PushBlock : MonoBehaviour {
         gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 
         // The direction the character is facing when colliding with the box
-        pushDir = transform.position - Player.transform.position; //Player.GetComponent<PlayerMachine>().facing.normalized;
+        pushDir = transform.position - Player.transform.position; 
         pushDir.y = 0;
 
         // If the character is not head on do not push
@@ -104,7 +104,7 @@ public class PushBlock : MonoBehaviour {
 
         gameObject.GetComponent<Rigidbody>().velocity = pushTo / pushTime;
 
-        gameObject.SendMessage("Play");
+        gameObject.SendMessage("Play"); // Sound effect
 
     }
 }

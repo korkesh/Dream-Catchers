@@ -89,6 +89,7 @@ public class ManipulationManager : MonoBehaviour
        
         mainCamera = Camera.main.gameObject;
 
+        // Dream Skybox and Music
         if (currentWorldState == WORLD_STATE.DREAM)
         {
             mainCamera.GetComponent<Skybox>().material = skyboxDream;
@@ -104,6 +105,7 @@ public class ManipulationManager : MonoBehaviour
             }
 
         }
+        // Nightmare Skybox and Music
         else
         {
             mainCamera.GetComponent<Skybox>().material = skyboxNightmare;
@@ -121,6 +123,7 @@ public class ManipulationManager : MonoBehaviour
         }
     }
 
+    // Toggle cooldown for manipulation mechanic
     IEnumerator toggleCooldown()
     {
         yield return new WaitForSeconds(manipulationCooldown);
@@ -129,6 +132,7 @@ public class ManipulationManager : MonoBehaviour
         onCooldown = false;
     }
 
+    // Toggle ability to manipulate world [One off for tutorial]
     public void giveManip()
     {
         manipGained = true;

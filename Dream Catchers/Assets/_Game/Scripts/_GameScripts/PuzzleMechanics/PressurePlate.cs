@@ -69,7 +69,6 @@ public class PressurePlate : MonoBehaviour {
 
                 activated = true;
                 ObjectToTrigger.SendMessage(TriggerFunctionCall);
-                //gameObject.SendMessage("Play");
                 if(!objectsOnSwitch.Contains(other.tag))
                 {
                     objectsOnSwitch.Add(other.tag);
@@ -120,7 +119,7 @@ public class PressurePlate : MonoBehaviour {
     }
 
 
-    //One off functionality for the case of ball spawners triggered by a plate
+    // One off functionality for the case of ball spawners triggered by a plate
     void OnTriggerStay(Collider other)
     {
         if( ballspawns == true )

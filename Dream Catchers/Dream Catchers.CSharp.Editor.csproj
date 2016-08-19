@@ -202,8 +202,6 @@
     <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\Editor\Editor.ReorderableList.xml" />
     <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\LICENSE.txt" />
     <None Include="Assets\Fungus\Thirdparty\Reorderable List Field\README.txt" />
-    <None Include="Assets\TSF\Shaders\TSF.shader" />
-    <None Include="Assets\TSF\Shaders\TSFOutline.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShader-No Outline.shader" />
     <None Include="Assets\_Game\Scripts\_GameScripts\Shaders\CellShader.shader" />
     <None Include="Assets\_Game\Scripts\_ThirdParty\CharacterController\README.txt" />

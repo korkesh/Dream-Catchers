@@ -20,14 +20,16 @@ public class ManipulationGravity : ManipulationScript {
 
     public FLOAT_STATE currentFloat = FLOAT_STATE.DOWN;
 
-    public float maxDist;
-    public float minDist;
-    public float timeToFloat;
-    public float minY;
+    public float maxDist; // Max height to float
+    public float minDist; // Min height to float
+    public float timeToFloat; // Time it takes to float between min/max
+    public float minY; // Min Y posistion
 
+    // Toggle which state to float in
     public bool floatInDream;
     public bool floatInNightmare;
 
+    // Is a pushblock as well
     public bool isPushBlock;
 
     // Use this for initialization
@@ -39,8 +41,10 @@ public class ManipulationGravity : ManipulationScript {
 
     void FixedUpdate()
     {
+        // Handle cases where the object has finished moving from either up or down state
         if (gameObject.GetComponent<Rigidbody>().velocity == Vector3.zero)
         {
+            // If push block as well, set proper rigidbody
             if (gameObject.tag == "PushBlock")
             {
                 gameObject.GetComponent<Rigidbody>().useGravity = false;
@@ -62,7 +66,7 @@ public class ManipulationGravity : ManipulationScript {
         }
     }
 
-    // TODO: Combine into a single function
+    // Float box upwards
     void FloatUp()
     {
         Vector3 dir = new Vector3(0, -1, 0);
@@ -78,11 +82,11 @@ public class ManipulationGravity : ManipulationScript {
         {
             // Move by offset distance
             Vector3 toMove = new Vector3(transform.position.x, transform.position.y + (maxDist - hit.distance), transform.position.z);
-            transform.DOMove(toMove, timeToFloat);
+            transform.DOMove(toMove, timeToFloat); // Move box using tween
         }
     }
 
-
+    // Float box downwards
     void FloatDown()
     {
         Vector3 dir = new Vector3(0, -1, 0);
@@ -102,10 +106,11 @@ public class ManipulationGravity : ManipulationScript {
             {
                 toMove.y = minY;
             }
-            transform.DOMove(toMove, timeToFloat);
+            transform.DOMove(toMove, timeToFloat); // Move box using tween
         }
     }
 
+    // Set the box state based on world state
     public override void changeState(ManipulationManager.WORLD_STATE state)
     {
         currentObjectState = state;
@@ -115,24 +120,22 @@ public class ManipulationGravity : ManipulationScript {
         if (currentObjectState == ManipulationManager.WORLD_STATE.DREAM && floatInDream)
         {
             currentFloat = FLOAT_STATE.UP;
-            //gameObject.GetComponent<Rigidbody>().useGravity = false;
         }
         else if (currentObjectState == ManipulationManager.WORLD_STATE.NIGHTMARE && floatInNightmare)
         {
             currentFloat = FLOAT_STATE.UP;
-            //gameObject.GetComponent<Rigidbody>().useGravity = false;
         }
         else
         {
             currentFloat = FLOAT_STATE.DOWN;
-            //gameObject.GetComponent<Rigidbody>().useGravity = true;
         }
 
     }
 
+    // Box has hit the floor or another object
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player") // Prevent character from being crushed
         {
             if (currentFloat == FLOAT_STATE.DOWN)
             {
@@ -145,7 +148,7 @@ public class ManipulationGravity : ManipulationScript {
         DOTween.Kill(transform);
     }
 
-
+    // Box has hit left floor or another object
     void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
