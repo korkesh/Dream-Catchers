@@ -272,8 +272,8 @@
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\CheckPoints.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\DetachParticle.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnemySpawn.cs" />
-    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDEstroy.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDamage.cs" />
+    <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\EnterDestroy.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\FreezeAI.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\GenericTrigger.cs" />
     <Compile Include="Assets\_Game\Scripts\_GameScripts\AI\ObjectSendMessage.cs" />
