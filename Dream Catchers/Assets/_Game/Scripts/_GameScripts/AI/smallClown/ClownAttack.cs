@@ -147,6 +147,7 @@ public class ClownAttack : MonoBehaviour {
         //check collisions
         if (currentState == ManipulationManager.WORLD_STATE.NIGHTMARE && collision.gameObject.name != "Launch" && exploded == false)
         {
+            //deal damage if necessary
             if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Hammer")
             {
                 damage.DealDamage();
@@ -186,6 +187,7 @@ public class ClownAttack : MonoBehaviour {
                 
                if(EnemyInCone() == true)
                {
+                   //send it back
                   hitBack = true;
                   rigidB.velocity = Jump(clown.transform.position + Vector3.up, LaunchAngle, transform);
                    if(Hammermessagetosend != "")
@@ -223,7 +225,7 @@ public class ClownAttack : MonoBehaviour {
                         else
                         {
                             SpawnParticles();
-                           // Destroy(this.gameObject);
+                           
                         }
                     }
                 }
@@ -240,14 +242,19 @@ public class ClownAttack : MonoBehaviour {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             Vector3 inFrontofPlayer = player.transform.forward; 
             Vector2 infrontNoy = Vector2.zero;
+            //get vector ignoring y of players forward
             infrontNoy.x = inFrontofPlayer.x;
             infrontNoy.y = inFrontofPlayer.z;
+            //get vector2 of vector from player to enemy ignoring y 
             Vector2 enemyNoy = Vector2.zero;
             enemyNoy.x = clown.transform.position.x-player.transform.position.x;
             enemyNoy.y = clown.transform.position.z - player.transform.position.z;
+            //notmalize both
             infrontNoy.Normalize();
             enemyNoy.Normalize();
+            //get dot
             float angle = Vector2.Dot(infrontNoy, enemyNoy);
+            //check angle
             if (angle > (1 - sightRadius/90))
             {
                 return true;
@@ -284,6 +291,8 @@ public class ClownAttack : MonoBehaviour {
         {
             Destroy(DreamBall);
         }
+
+        //spawn correct particles
         if(currentState == ManipulationManager.WORLD_STATE.DREAM)
         {
             if(particlesDream != null)
@@ -298,7 +307,7 @@ public class ClownAttack : MonoBehaviour {
                 ex = (GameObject)Instantiate(particles, this.transform.position, this.transform.rotation);
             }
         }
-        //GameObject ex = (GameObject)Instantiate(particlesDream, this.transform.position, this.transform.rotation);
+      
         if(ex != null)
         {
             ex.transform.parent = this.transform;

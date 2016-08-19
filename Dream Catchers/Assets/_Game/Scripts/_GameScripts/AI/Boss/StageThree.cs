@@ -26,13 +26,14 @@ public class StageThree : Stages {
 
     public override void Play()
     {
-        //one hit next stage
+        //once both hands are gone next stage
         if (Bc.RightHand == null && Bc.LeftHand == null)
         {
             Bc.currentStage = NextStage;
         }
         else if(Bc.RightHand == null)
         {
+            //if the right hand is gone, check if left needs to block , if not find an attack
             if(Danger(Bc.LeftHand,false) == false)
             {
                 chooseAttack(Bc.LeftHand,false);
@@ -40,6 +41,7 @@ public class StageThree : Stages {
 
         }else if(Bc.LeftHand == null)
         {
+            //if the left hand is gone, check if left needs to block , if not find an attack
             if (Danger(Bc.RightHand,false) == false)
             {
                 chooseAttack(Bc.RightHand, false);
@@ -47,6 +49,7 @@ public class StageThree : Stages {
 
         }else
         {
+            //check for the need to block 
             bool r = Danger(Bc.RightHand, true);
             bool l;
             if(r == false)
@@ -56,7 +59,7 @@ public class StageThree : Stages {
             {
                 l = false;
             }
-
+            //if no need to block choose an attack
             if(r == false && l == false)
             {
                 if (RightHand == true  && Bc.LeftHand.attack == HandScript.Mode.NONE)
@@ -117,6 +120,7 @@ public class StageThree : Stages {
 
     }
 
+    //check if theres an incoming ball or if the hand should move back to resting position if blocking
     public bool Danger(HandScript Hand, bool bothHands)
     {
         if(Bc.inDanger == false && Hand.attack == HandScript.Mode.BLOCK)
