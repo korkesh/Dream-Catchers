@@ -1,6 +1,9 @@
 # Dream-Catchers
 GDAP 2016 Capstone Project
 
+<b>Trailer:</b>
+https://www.youtube.com/watch?v=fFKvlTE_fsw
+
 <b>Play Intructions:</b>
 
 To run the game from the Unity Editor you must launch from the Intro scene found in the Scenes folder under 
